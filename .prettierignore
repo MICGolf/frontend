@@ -24,6 +24,5 @@ coverage/
 .DS_Store
 *.config.js
 
-
 # 패키지 관리
 package-lock.json
