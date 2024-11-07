@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
 
-export interface CommonLayoutProps {
+export interface UserLayoutProps {
   children: ReactNode;
 }
