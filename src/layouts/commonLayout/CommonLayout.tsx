@@ -1,12 +1,8 @@
-import { ReactNode } from 'react';
 import Header from './Header';
 import Footer from './Footer';
+import { CommonLayoutProps } from './types';
 
-interface Props {
-  children: ReactNode;
-}
-
-const CommonLayout = ({ children }: Props) => {
+const CommonLayout = ({ children }: CommonLayoutProps) => {
   return (
     <>
       <Header />
