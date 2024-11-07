@@ -1,8 +1,8 @@
 import Header from './Header';
 import Footer from './Footer';
-import { CommonLayoutProps } from './types';
+import { UserLayoutProps } from './types';
 
-const CommonLayout = ({ children }: CommonLayoutProps) => {
+const userLayout = ({ children }: UserLayoutProps) => {
   return (
     <>
       <Header />
@@ -12,4 +12,4 @@ const CommonLayout = ({ children }: CommonLayoutProps) => {
   );
 };
 
-export default CommonLayout;
+export default userLayout;
