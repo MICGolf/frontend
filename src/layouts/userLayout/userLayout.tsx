@@ -1,15 +1,17 @@
 import Header from './Header';
 import Footer from './Footer';
-import { UserLayoutProps } from './types';
+import { Outlet } from 'react-router-dom';
 
-const userLayout = ({ children }: UserLayoutProps) => {
+const UserLayout = () => {
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <main>
+        <Outlet />
+      </main>
       <Footer />
     </>
   );
 };
 
-export default userLayout;
+export default UserLayout;
