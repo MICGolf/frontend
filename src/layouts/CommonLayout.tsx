@@ -1,4 +1,6 @@
 import { ReactNode } from 'react';
+import Header from './Header';
+import Footer from './Footer';
 
 interface Props {
   children: ReactNode;
@@ -7,9 +9,9 @@ interface Props {
 const CommonLayout = ({ children }: Props) => {
   return (
     <>
-      <header></header>
+      <Header />
       <main>{children}</main>
-      <footer></footer>
+      <Footer />
     </>
   );
 };
