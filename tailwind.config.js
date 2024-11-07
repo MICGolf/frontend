@@ -9,9 +9,11 @@ export default {
       colors: {
         primary: "#000", // 메인 브랜드 색상
         secondary: "#fff", // 배경에 사용하는 중립 색상
-        // accent: "#FFD700", // 포인트 색상 (골드)
-        // textPrimary: "#333333", // 기본 텍스트 색상 (짙은 회색)
-        // textSecondary: "#777777", // 보조 텍스트 색상 (연한 회색)
+
+        gray100: "#F1F1F1",
+        gray300: "#CBCAC7",
+        gray500: "#B2B2B2",
+        gray700: "#7F7F7F"
       },
       fontSize: {
         xs: "0.75rem", // 12px
