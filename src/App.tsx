@@ -13,13 +13,19 @@ import AdminLoginPage from './pages/admin/AdminLoginPage';
 import DetailPage from './pages/shop/DetailPage';
 import CategoryPage from './pages/shop/CategoryPage';
 import CartPage from './pages/cart/CartPage';
+import PrivateRoute from './routes/PrivateRoute';
+import AdminRoute from './routes/AdminRoute';
 
 function App() {
   return (
     <Routes>
-      {/* 메인 */}
-      <Route path='/' element={<HomePage />} />
+      {/* PrivateRoute */}
+      {/* 마이페이지 */}
+      <Route element={<PrivateRoute />}>
+        <Route path='/mypage' element={<MyPage />} />
+      </Route>
 
+      {/* PublicRoute */}
       {/* 쇼핑 */}
       <Route path='/shop' element={<ShopPage />} />
       <Route path='/shop/:category' element={<CategoryPage />} />
@@ -35,15 +41,18 @@ function App() {
       <Route path='/signup/complete' element={<SignUpCompletePage />} />
       <Route path='/password-reset' element={<PasswordResetPage />} />
 
-      {/* 유저 */}
-      <Route path='/mypage' element={<MyPage />} />
-
-      {/* 관리자 */}
-      <Route path='/admin' element={<AdminPage />} />
-      <Route path='/admin/login' element={<AdminLoginPage />} />
-
       {/* 장바구니 */}
       <Route path='/cart' element={<CartPage />} />
+
+      {/* 메인 */}
+      <Route path='/' element={<HomePage />} />
+
+      {/* AdminRoute */}
+      {/* 관리자 */}
+      <Route element={<AdminRoute />}>
+        <Route path='/admin' element={<AdminPage />} />
+        <Route path='/admin/login' element={<AdminLoginPage />} />
+      </Route>
     </Routes>
   );
 }
