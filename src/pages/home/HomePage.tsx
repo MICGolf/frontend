@@ -3,14 +3,16 @@ import { useEffect, useState } from 'react';
 const HomePage = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
 
+  // FIX: 리렌더링이 너무 많이 발생함.. 하지만 이방법 밖에 없음..
   useEffect(() => {
     const handleScroll = () => {
       // 스크롤 진행도를 0~1 사이의 값으로 계산
       const scrolled = window.scrollY; // 스크롤된 높이
       const maxScroll = window.innerHeight; // 현재 스크롤 최대 높이
       const progress = Math.min(scrolled / maxScroll, 1);
-      console.log(progress);
+
       setScrollProgress(progress);
+      console.log(progress);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -19,7 +21,7 @@ const HomePage = () => {
 
   return (
     <>
-      <div className='relative min-h-[200vh]'>
+      <div className='relative min-h-[400vh]'>
         {/* 이미지 컨테이너 */}
         <div
           className='fixed left-0 top-0 w-full overflow-hidden'

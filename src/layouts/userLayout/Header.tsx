@@ -1,10 +1,10 @@
-import logoBlack from '@/assets/imgs/logo-black.svg';
+import logoBlack from '@/assets/imgs/logoBlack.svg';
 import { Link, useLocation } from 'react-router-dom';
 import cart from '@/assets/icons/cart.svg';
 import lens from '@/assets/icons/lens.svg';
 import like from '@/assets/icons/like.svg';
 import user from '@/assets/icons/user.svg';
-import arrowRight from '@/assets/icons/arrow-right.svg';
+import arrowRight from '@/assets/icons/arrowRight.svg';
 import { useEffect, useState } from 'react';
 
 const Header = () => {

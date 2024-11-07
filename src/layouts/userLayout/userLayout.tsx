@@ -6,7 +6,7 @@ const UserLayout = () => {
   return (
     <>
       <Header />
-      <main className='h-[200dvh]'>
+      <main>
         <Outlet />
       </main>
       <Footer />
