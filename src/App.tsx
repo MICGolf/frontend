@@ -10,7 +10,7 @@ import PasswordResetPage from './pages/auth/PasswordResetPage';
 import MyPage from './pages/mypage/MyPage';
 import AdminPage from './pages/admin/AdminPage';
 import AdminLoginPage from './pages/admin/AdminLoginPage';
-import DetailPage from './pages/shop/DetailPage';
+import DetailPage from './pages/shop/detailPage/DetailPage';
 import CategoryPage from './pages/shop/CategoryPage';
 import CartPage from './pages/cart/CartPage';
 import PrivateRoute from './routes/PrivateRoute';
