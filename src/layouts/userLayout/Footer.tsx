@@ -22,7 +22,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className='flex justify-between bg-black px-[130px] pb-[108px] pt-[50px] text-gray700'>
+    <footer className='flex w-full justify-between bg-black px-[130px] pb-[108px] pt-[50px] text-gray700'>
       <div>
         <div className='w-[220px] border-b border-white'>
           <img className='mb-6' src={logoWhite} alt='믹골프 로고' />

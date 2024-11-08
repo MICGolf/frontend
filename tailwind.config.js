@@ -11,6 +11,7 @@ export default {
         secondary: "#ffffff", // 배경에 사용하는 중립 색상
         accent: "#F77830", // 포인트 색상
         gray100: "#F1F1F1",
+        gray200: "#C5C5C5",
         gray300: "#CBCAC7",
         gray500: "#B2B2B2",
         gray700: "#7F7F7F",

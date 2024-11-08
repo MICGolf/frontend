@@ -4,18 +4,10 @@ import MultipleItems from './components/MultipleItems';
 const HomePage = () => {
   return (
     <>
-      <section className='relative'>
-        <div
-          className='fixed z-10 h-[100vh] w-full'
-          style={{
-            backgroundImage: `url(${imageSection1})`,
-            backgroundSize: 'cover',
-          }}
-        ></div>
-        <div className='absolute z-20 mt-[100vh] h-[100vh] w-full bg-white'></div>
+      <img className='fixed z-[-1] h-full w-full object-cover' src={imageSection1} />
 
-        {/* 컨텐츠 섹션 */}
-        <div className='mt-screen px-[130px]'>
+      <section className='h-[100vh] w-full'>
+        <div className='mt-[100vh] h-full bg-white px-[130px]'>
           <h1>Best Product</h1>
           <div>
             <MultipleItems />
