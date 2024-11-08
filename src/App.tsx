@@ -17,7 +17,7 @@ import PrivateRoute from './routes/PrivateRoute';
 import AdminRoute from './routes/AdminRoute';
 import NoticePage from './pages/notice/NoticePage';
 import AdminLayout from './layouts/adminLayout/AdminLayout';
-import UserLayout from './layouts/userLayout/UserLayout';
+import UserLayout from './layouts/userLayout/userLayout';
 
 function App() {
   return (
@@ -59,8 +59,36 @@ function App() {
         {/* 관리자 */}
         <Route path='/admin/login' element={<AdminLoginPage />} />
         <Route element={<AdminLayout />}>
-          <Route element={<AdminRoute />}>
-            <Route path='/admin' element={<AdminPage />} />
+          <Route path='/admin' element={<AdminRoute />}>
+            <Route path='product'>
+              <Route path='edit' element={<AdminPage />} />
+              <Route path='add' element={<AdminPage />} />
+            </Route>
+            <Route path='sale'>
+              <Route path='search' element={<AdminPage />} />
+              <Route path='payment' element={<AdminPage />} />
+              <Route path='ordering' element={<AdminPage />} />
+              <Route path='delivery' element={<AdminPage />} />
+              <Route path='cancel' element={<AdminPage />} />
+              <Route path='return' element={<AdminPage />} />
+              <Route path='exchange' element={<AdminPage />} />
+            </Route>
+            <Route path='inquiry' element={<AdminPage />} />
+            <Route path='review' element={<AdminPage />} />
+            <Route path='store'>
+              <Route path='logo' element={<AdminPage />} />
+              <Route path='banner' element={<AdminPage />} />
+              <Route path='bestitem' element={<AdminPage />} />
+              <Route path='newarrival' element={<AdminPage />} />
+              <Route path='mdschoice' element={<AdminPage />} />
+            </Route>
+            <Route path='event'>
+              <Route path='edit' element={<AdminPage />} />
+              <Route path='add' element={<AdminPage />} />
+            </Route>
+            <Route path='user' element={<AdminPage />} />
+            <Route path='statistics' element={<AdminPage />} />
+            <Route path='notification' element={<AdminPage />} />
           </Route>
         </Route>
       </Routes>

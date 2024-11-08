@@ -62,10 +62,10 @@ const sideBarMenu = [
     link: '/admin/notification',
   },
 ];
-
+// 68번 타입 정해야함
 export const SideBar = () => {
   const { handleSubmit, register } = useForm();
-  const handlerSubmit = (data) => console.log(data);
+  const handlerSubmit = (data: any) => console.log(data);
   const [selectMenu, setSelectMenu] = useState<number | null>(null);
 
   const toggleMenu = (index: number) => {
