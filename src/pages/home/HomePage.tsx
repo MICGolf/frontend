@@ -13,11 +13,18 @@ const HomePage = () => {
       ></img>
       <div className='z-20 mt-[100vh] w-full bg-white'>
         <div className='px-[130px] py-[100px]'>
-          <h1>Best Product</h1>
+          <h1 className='mb-[30px] px-2 text-4xl font-bold'>Best Product</h1>
+          <MultipleItems />
+        </div>
+        <div className='py-[100px]'>
+          <h1 className='mb-[30px] px-[138px] text-4xl font-bold'>Promotion</h1>
+          <div className='h-[470px] bg-gray100'></div>
+        </div>
+        <div className='px-[130px] py-[100px]'>
+          <h1 className='mb-[30px] px-2 text-4xl font-bold'>MD’s Choice</h1>
           <MultipleItems />
         </div>
       </div>
-      <div className='h-[400px] bg-slate-600'>1</div>
     </>
   );
 };
