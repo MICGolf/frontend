@@ -59,12 +59,12 @@ const Header = () => {
         </div>
         <div className='flex gap-[16px]'>
           <img className='cursor-pointer' src={lens} alt='검색' />
-          <Link to={'/mypage'}>
-            <img className='cursor-pointer' src={user} alt='마이페이지' />
-          </Link>
           <img className='cursor-pointer' src={like} alt='찜목록' />
           <Link to={'/cart'}>
             <img className='cursor-pointer' src={cart} alt='장바구니' />
+          </Link>
+          <Link to={'/mypage'}>
+            <img className='cursor-pointer' src={user} alt='마이페이지' />
           </Link>
         </div>
       </div>
