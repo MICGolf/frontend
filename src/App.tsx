@@ -7,7 +7,7 @@ import SignInPage from './pages/auth/SignInPage';
 import SignUpPage from './pages/auth/SignUpPage';
 import SignUpCompletePage from './pages/auth/SignUpCompletePage';
 import MyPage from './pages/mypage/MyPage';
-import AdminPage from './pages/admin/AdminPage';
+import AdminPage from './pages/admin/main/AdminPage';
 import AdminLoginPage from './pages/admin/AdminLoginPage';
 import DetailPage from './pages/shop/detailPage/DetailPage';
 import CategoryPage from './pages/shop/CategoryPage';
