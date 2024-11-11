@@ -2,8 +2,9 @@ import logoWhite from '@/assets/imgs/logoWhite.svg';
 import arrowDropDown from '@/assets/icons/arrowDropDown.svg';
 import arrowDropUp from '@/assets/icons/arrowDropUp.svg';
 import { Input } from '@/components/Input';
-import { useState } from 'react';
+import { useSidebarStorage } from '@/hooks/useSidebarStorage';
 import { useForm } from 'react-hook-form';
+import { Link, useLocation } from 'react-router-dom';
 
 const sideBarMenu = [
   {
@@ -66,12 +67,8 @@ const sideBarMenu = [
 export const SideBar = () => {
   const { handleSubmit, register } = useForm();
   const handlerSubmit = (data: any) => console.log(data);
-  const [selectMenu, setSelectMenu] = useState<number | null>(null);
-
-  const toggleMenu = (index: number) => {
-    setSelectMenu((prevIndex) => (prevIndex === index ? null : index));
-  };
-
+  const { selectMenu, toggleMenu } = useSidebarStorage();
+  const location = useLocation();
   return (
     <aside className='min-w-72 bg-primary py-8'>
       <div className='mb-11 flex content-center justify-center'>
@@ -92,36 +89,58 @@ export const SideBar = () => {
         />
         <Input type='text' defaultValue='' placeholder='입력 후 검색' formRegister={register('content')} />
       </form>
-      <ul className='mt-4 bg-gray-900 py-3'>
+      <ul className='mt-4 bg-neutral-800 py-3'>
         {sideBarMenu.map((menuItem, index) => {
           const isLastItem = index === sideBarMenu.length - 1;
           return (
             <li
               key={menuItem.title}
-              className={`mx-2 cursor-pointer px-2 py-3 ${isLastItem ? '' : 'border-b-2 border-gray-700'}`}
-              onClick={() => (menuItem.sibTitle ? toggleMenu(index) : null)}
+              className={`mx-2 cursor-pointer px-2 py-3 ${isLastItem ? '' : 'border-b-2 border-neutral-700'}`}
             >
-              <a href={menuItem.link} className='flex justify-between'>
-                {menuItem.title}{' '}
-                {menuItem.sibTitle ? (
-                  <img src={selectMenu === index ? arrowDropUp : arrowDropDown} alt='믹골프 로고' />
-                ) : (
-                  ''
-                )}
-              </a>
+              {menuItem.link ? (
+                <Link
+                  to={menuItem.link}
+                  className='flex justify-between'
+                  onClick={(e) => {
+                    if (menuItem.sibTitle) {
+                      e.preventDefault();
+                      toggleMenu(index);
+                    }
+                  }}
+                >
+                  {menuItem.title}
+                  {menuItem.sibTitle && (
+                    <img src={selectMenu === index ? arrowDropUp : arrowDropDown} alt='메뉴 화살표' />
+                  )}
+                </Link>
+              ) : (
+                <div className='flex justify-between' onClick={() => menuItem.sibTitle && toggleMenu(index)}>
+                  {menuItem.title}
+                  {menuItem.sibTitle && (
+                    <img src={selectMenu === index ? arrowDropUp : arrowDropDown} alt='메뉴 화살표' />
+                  )}
+                </div>
+              )}
               {menuItem.sibTitle && (
                 <ul
-                  className={`mt-1 transform overflow-hidden text-gray-300 transition-all duration-300 ${
+                  className={`mt-1 transform overflow-hidden text-neutral-300 transition-all duration-300 ${
                     selectMenu === index ? 'max-h-40 translate-y-0 opacity-100' : 'max-h-0 -translate-y-4 opacity-0'
                   }`}
                 >
-                  {menuItem.sibTitle.map((item, subIndex) => (
-                    <li key={`${index}-${subIndex}`} className='mx-2 px-1 py-2'>
-                      <a href={item.link} className='block'>
-                        {item.title}
-                      </a>
-                    </li>
-                  ))}
+                  {menuItem.sibTitle.map((item, subIndex) => {
+                    const isSubActive = item.link === location.pathname;
+
+                    return (
+                      <li
+                        key={`${index}-${subIndex}`}
+                        className={`block px-1 py-2 ${isSubActive ? 'font-bold text-blue-400' : ''}`}
+                      >
+                        <Link to={item.link} className='block'>
+                          {item.title}
+                        </Link>
+                      </li>
+                    );
+                  })}
                 </ul>
               )}
             </li>
