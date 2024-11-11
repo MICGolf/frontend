@@ -76,8 +76,8 @@ const SignUpPage = () => {
             <div className='flex'>
               <input
                 className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl'
-                type='text'
-                placeholder='이메일'
+                type='number'
+                placeholder='인증번호'
               />
               <button type='button' className='whitespace-nowrap bg-gray100 px-4 py-5 text-gray200'>
                 인증번호 전송

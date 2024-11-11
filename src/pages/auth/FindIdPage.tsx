@@ -56,12 +56,12 @@ const FindIdPage = () => {
             <button
               onClick={() => handleFindIdClick()}
               type='button'
-              className='bg-black px-4 py-3 text-white hover:opacity-70'
+              className='bg-black px-4 py-5 text-white hover:opacity-70'
             >
               아이디 찾기
             </button>
           )}
-          <Link to={'/auth/signin'} className='hover:bg-gray400 bg-gray100 px-4 py-3 text-center hover:opacity-70'>
+          <Link to={'/auth/signin'} className='hover:bg-gray400 bg-gray100 px-4 py-5 text-center hover:opacity-70'>
             로그인 이동
           </Link>
         </div>
