@@ -6,7 +6,7 @@ const PublicLayout = () => {
   return (
     <>
       <Header />
-      <main className='pt-[110px]'>
+      <main className='pt-[110px]' style={{ minHeight: 'calc(100dvh - 318px)' }}>
         <Outlet />
       </main>
       <Footer />
