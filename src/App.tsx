@@ -8,7 +8,7 @@ import SignUpPage from './pages/auth/SignUpPage';
 import SignUpCompletePage from './pages/auth/SignUpCompletePage';
 import PasswordResetPage from './pages/auth/PasswordResetPage';
 import MyPage from './pages/mypage/MyPage';
-import AdminPage from './pages/admin/AdminPage';
+import AdminPage from './pages/admin/main/AdminPage';
 import AdminLoginPage from './pages/admin/AdminLoginPage';
 import DetailPage from './pages/shop/detailPage/DetailPage';
 import CategoryPage from './pages/shop/CategoryPage';
