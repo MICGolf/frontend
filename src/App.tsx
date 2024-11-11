@@ -17,7 +17,7 @@ import PrivateRoute from './routes/PrivateRoute';
 import AdminRoute from './routes/AdminRoute';
 import NoticePage from './pages/notice/NoticePage';
 import AdminLayout from './layouts/adminLayout/AdminLayout';
-import UserLayout from './layouts/userLayout/UserLayout';
+import UserLayout from './layouts/userLayout/userLayout';
 
 function App() {
   return (
