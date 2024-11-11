@@ -18,7 +18,7 @@ const SignUpPage = () => {
   };
 
   const handleSignUpSubmit = () => {
-    navigate('/signup/complete', { replace: true });
+    navigate('/auth/signup/complete', { replace: true });
   };
 
   return (
@@ -67,7 +67,7 @@ const SignUpPage = () => {
             <input
               className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl'
               type='text'
-              placeholder='전화번호'
+              placeholder='전화번호 "-" 없이 입력'
             />
           </div>
           {/* step 3 */}

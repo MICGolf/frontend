@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/home/HomePage';
 import ShopPage from './pages/shop/ShopPage';
 import EventMainPage from './pages/event/EventMainPage';
@@ -6,7 +6,6 @@ import EventDetailPage from './pages/event/EventDetailPage';
 import SignInPage from './pages/auth/SignInPage';
 import SignUpPage from './pages/auth/SignUpPage';
 import SignUpCompletePage from './pages/auth/SignUpCompletePage';
-import PasswordResetPage from './pages/auth/PasswordResetPage';
 import MyPage from './pages/mypage/MyPage';
 import AdminPage from './pages/admin/AdminPage';
 import AdminLoginPage from './pages/admin/AdminLoginPage';
@@ -18,6 +17,8 @@ import AdminRoute from './routes/AdminRoute';
 import NoticePage from './pages/notice/NoticePage';
 import AdminLayout from './layouts/adminLayout/AdminLayout';
 import PublicLayout from './layouts/publicLayout/PublicLayout';
+import FindPwPage from './pages/auth/FindPwPage';
+import FindIdPage from './pages/auth/FindIdPage';
 
 function App() {
   return (
@@ -41,10 +42,12 @@ function App() {
           <Route path='/event/:id' element={<EventDetailPage />} />
 
           {/* 인증 */}
-          <Route path='/signin' element={<SignInPage />} />
-          <Route path='/signup' element={<SignUpPage />} />
-          <Route path='/signup/complete' element={<SignUpCompletePage />} />
-          <Route path='/password-reset' element={<PasswordResetPage />} />
+          <Route path='/auth' element={<Navigate to={'/auth/signin'} replace={true} />} />
+          <Route path='/auth/signin' element={<SignInPage />} />
+          <Route path='/auth/signup' element={<SignUpPage />} />
+          <Route path='/auth/signup/complete' element={<SignUpCompletePage />} />
+          <Route path='/auth/findPw' element={<FindPwPage />} />
+          <Route path='/auth/findId' element={<FindIdPage />} />
 
           {/* 장바구니 */}
           <Route path='/cart' element={<CartPage />} />

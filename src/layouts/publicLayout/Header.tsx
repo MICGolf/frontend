@@ -63,7 +63,7 @@ const Header = () => {
           <Link to={'/cart'}>
             <img className='cursor-pointer' src={cart} alt='장바구니' />
           </Link>
-          <Link to={'/mypage'}>
+          <Link to={'/auth/signin'}>
             <img className='cursor-pointer' src={user} alt='마이페이지' />
           </Link>
         </div>

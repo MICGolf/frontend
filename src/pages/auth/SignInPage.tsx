@@ -10,7 +10,7 @@ const SignInPage = () => {
   const handleSignUpClick = (type: SignUpType) => {
     switch (type) {
       case 'email': {
-        navigate('/signup');
+        navigate('/auth/signup');
         break;
       }
       case 'kakao': {
@@ -57,9 +57,9 @@ const SignInPage = () => {
           </div>
         </form>
         <div className='flex py-4 text-lg'>
-          <Link to={'/PasswordResetPage'}>아이디 찾기</Link>
+          <Link to={'/auth/findId'}>아이디 찾기</Link>
           <span>&nbsp;|&nbsp;</span>
-          <Link to={'/PasswordResetPage'}>비밀번호 찾기</Link>
+          <Link to={'/auth/findPw'}>비밀번호 찾기</Link>
         </div>
       </div>
 
