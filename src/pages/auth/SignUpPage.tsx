@@ -18,7 +18,7 @@ const SignUpPage = () => {
   };
 
   const handleSignUpSubmit = () => {
-    navigate('/signup/complete', { replace: true });
+    navigate('/auth/signup/complete', { replace: true });
   };
 
   return (
@@ -67,7 +67,7 @@ const SignUpPage = () => {
             <input
               className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl'
               type='text'
-              placeholder='전화번호'
+              placeholder='전화번호 "-" 없이 입력'
             />
           </div>
           {/* step 3 */}
@@ -76,8 +76,8 @@ const SignUpPage = () => {
             <div className='flex'>
               <input
                 className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl'
-                type='text'
-                placeholder='이메일'
+                type='number'
+                placeholder='인증번호'
               />
               <button type='button' className='whitespace-nowrap bg-gray100 px-4 py-5 text-gray200'>
                 인증번호 전송
@@ -114,7 +114,7 @@ const SignUpPage = () => {
               <input type='checkbox' />
               <p>전체 동의</p>
             </label>
-            <button className='w-full bg-black px-6 py-4 text-left text-2xl text-white' type='submit'>
+            <button className='w-full bg-black px-6 py-4 text-center text-2xl text-white' type='submit'>
               가입하기
             </button>
           </div>

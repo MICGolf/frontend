@@ -1,12 +1,12 @@
 import { user } from '@/assets/dummys/user';
-import signupCompleteCheck from '@/assets/icons/signupCompleteCheck.svg';
-import { Link, replace } from 'react-router-dom';
+import completeCheck from '@/assets/icons/completeCheck.svg';
+import { Link } from 'react-router-dom';
 
 const SignUpCompletePage = () => {
   return (
     <div>
       <div className='flex flex-col items-center justify-center gap-4 pt-[250px]'>
-        <img src={signupCompleteCheck} alt='로그인 성공 체크표시' />
+        <img src={completeCheck} alt='성공 체크 아이콘' />
         <div className='text-5xl font-[700]'>회원 가입이 완료 되었습니다.</div>
         <div className='flex flex-col items-center'>
           <p className='text-2xl'>{user.name}님의 회원가입을 축하합니다.</p>
