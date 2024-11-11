@@ -15,9 +15,9 @@ export default {
         gray300: "#CBCAC7",
         gray500: "#B2B2B2",
         gray700: "#7F7F7F",
-        blue700: '#0000FF', // 링크
-        success: '#008541',
-        error: '#FF6E66',
+        blue700: "#0000FF", // 링크
+        success: "#008541",
+        error: '#FF0E00',
       },
       fontFamily: {
         sans: ["Noto Sans KR", "Arial", "sans-serif"],
