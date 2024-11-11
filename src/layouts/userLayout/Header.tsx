@@ -5,11 +5,20 @@ import lens from '@/assets/icons/lens.svg';
 import like from '@/assets/icons/like.svg';
 import user from '@/assets/icons/user.svg';
 import arrowRight from '@/assets/icons/arrowRight.svg';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useHeaderStore } from '@/config/store';
 
 const Header = () => {
   const location = useLocation();
   const [headerBgColor, setHeaderBgColor] = useState<string>('transparent'); // 헤더 플래그
+  const headerRef = useRef<HTMLElement | null>(null);
+  const { setHeaderRef } = useHeaderStore();
+
+  useEffect(() => {
+    if (headerRef.current) {
+      setHeaderRef(headerRef.current);
+    }
+  }, []);
 
   // INFO: path 조건에 따라 헤더 배경색 변경
   useEffect(() => {
@@ -21,7 +30,10 @@ const Header = () => {
   }, [location.pathname]);
 
   return (
-    <header className={`fixed z-50 w-full shadow-lg ${headerBgColor === 'white' ? 'bg-gray100' : 'bg-transparent'}`}>
+    <header
+      ref={headerRef}
+      className={`fixed z-50 w-full shadow-lg ${headerBgColor === 'white' ? 'bg-gray100' : 'bg-transparent'}`}
+    >
       <div className='flex h-[40px] w-full cursor-pointer items-center justify-center bg-black text-center text-white'>
         믹골프 자사몰 신규 런칭 프로모션 진행중! 최대 80,000원 전품목 15% 할인중. 프로모션 상품 보러가기&nbsp;
         <span>

@@ -5,8 +5,9 @@ import logoWhite from '@/assets/imgs/logoWhite.svg';
 
 const Footer = () => {
   // INFO: 소셜 미디어 클릭 이벤트 링크 이동 핸들러
-  const handleClickSocialMedia = (socialMedia: string) => {
-    switch (socialMedia) {
+
+  const handleFooterLinkClick = (link: string) => {
+    switch (link) {
       case 'facebook':
         window.open('https://www.facebook.com/', '_blank');
         break;
@@ -16,13 +17,25 @@ const Footer = () => {
       case 'youtube':
         window.open('https://www.youtube.com/', '_blank');
         break;
+      case 'naver':
+        window.open('https://www.naver.com/', '_blank');
+        break;
+      case 'papatalabs':
+        window.open('https://papatalabs.com/', '_blank');
+        break;
+      case 'factory':
+        window.open('https://www.papatafactory.com/', '_blank');
+        break;
+      case 'micgolf':
+        window.open('https://www.thecartgolf.com/MICGOLF', '_blank');
+        break;
       default:
         break;
     }
   };
 
   return (
-    <footer className='flex w-full justify-between bg-black px-[130px] pb-[108px] pt-[50px] text-gray700'>
+    <footer className='flex justify-between bg-black px-[130px] pb-[108px] pt-[50px] text-gray700'>
       <div>
         <div className='w-[220px] border-b border-white'>
           <img className='mb-6' src={logoWhite} alt='믹골프 로고' />
@@ -31,19 +44,19 @@ const Footer = () => {
         <div className='flex'>
           <img
             className='cursor-pointer'
-            onClick={() => handleClickSocialMedia('facebook')}
+            onClick={() => handleFooterLinkClick('facebook')}
             src={facebook}
             alt='믹골프 페이스북'
           />
           <img
             className='cursor-pointer'
-            onClick={() => handleClickSocialMedia('instagram')}
+            onClick={() => handleFooterLinkClick('instagram')}
             src={instagram}
             alt='믹골프 인스타그램'
           />
           <img
             className='cursor-pointer'
-            onClick={() => handleClickSocialMedia('youtube')}
+            onClick={() => handleFooterLinkClick('youtube')}
             src={youtube}
             alt='믹골프 유튜브'
           />
@@ -53,10 +66,18 @@ const Footer = () => {
       <div className='mr-[160px] flex gap-[60px] text-sm'>
         <div className='flex flex-col gap-[6px]'>
           <h3 className='text-lg text-secondary'>Social Media</h3>
-          <p className='cursor-pointer'>Facebook</p>
-          <p className='cursor-pointer'>Instagram</p>
-          <p className='cursor-pointer'>Naver</p>
-          <p className='cursor-pointer'>Google</p>
+          <p onClick={() => handleFooterLinkClick('facebook')} className='cursor-pointer'>
+            Facebook
+          </p>
+          <p onClick={() => handleFooterLinkClick('instagram')} className='cursor-pointer'>
+            Instagram
+          </p>
+          <p onClick={() => handleFooterLinkClick('naver')} className='cursor-pointer'>
+            Naver
+          </p>
+          <p onClick={() => handleFooterLinkClick('google')} className='cursor-pointer'>
+            Google
+          </p>
         </div>
         <div className='flex flex-col gap-[6px]'>
           <h3 className='text-lg text-secondary'>Customer Service</h3>
@@ -66,10 +87,18 @@ const Footer = () => {
         </div>
         <div className='flex flex-col gap-[6px]'>
           <h3 className='text-lg text-secondary'>회사</h3>
-          <p className='cursor-pointer'>PATATALABS</p>
-          <p className='cursor-pointer'>FACTORY</p>
-          <p className='cursor-pointer'>MIC GOLF</p>
-          <p className='cursor-pointer'>채용정보</p>
+          <p onClick={() => handleFooterLinkClick('papatalabs')} className='cursor-pointer'>
+            PAPATALABS
+          </p>
+          <p onClick={() => handleFooterLinkClick('factory')} className='cursor-pointer'>
+            FACTORY
+          </p>
+          <p onClick={() => handleFooterLinkClick('micgolf')} className='cursor-pointer'>
+            MIC GOLF
+          </p>
+          <p onClick={() => handleFooterLinkClick('papatalabs')} className='cursor-pointer'>
+            채용정보
+          </p>
         </div>
         <div className='flex flex-col gap-[6px]'>
           <h3 className='text-lg text-secondary'>법적 고지 및 이용약관</h3>
