@@ -17,7 +17,8 @@ import PrivateRoute from './routes/PrivateRoute';
 import AdminRoute from './routes/AdminRoute';
 import NoticePage from './pages/notice/NoticePage';
 import AdminLayout from './layouts/adminLayout/AdminLayout';
-import UserLayout from './layouts/userLayout/userLayout';
+import PublicLayout from './layouts/publicLayout/PublicLayout';
+
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
       <Routes>
         {/* PrivateRoute */}
         {/* 마이페이지 */}
-        <Route element={<UserLayout />}>
+        <Route element={<PublicLayout />}>
           <Route element={<PrivateRoute />}>
             <Route path='/mypage' element={<MyPage />} />
           </Route>

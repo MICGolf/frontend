@@ -2,7 +2,7 @@ import Header from './Header';
 import Footer from './Footer';
 import { Outlet } from 'react-router-dom';
 
-const UserLayout = () => {
+const PublicLayout = () => {
   return (
     <>
       <Header />
@@ -14,4 +14,4 @@ const UserLayout = () => {
   );
 };
 
-export default UserLayout;
+export default PublicLayout;

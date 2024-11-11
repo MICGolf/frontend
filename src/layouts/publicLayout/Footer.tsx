@@ -1,6 +1,6 @@
 import facebook from '@/assets/icons/facebook.svg';
 import instagram from '@/assets/icons/instagram.svg';
-import youtube from '@/assets/icons/youtube.svg';
+import youtube from '@/assets/icons/youTube.svg';
 import logoWhite from '@/assets/imgs/logoWhite.svg';
 
 const Footer = () => {
