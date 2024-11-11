@@ -5,7 +5,6 @@ on:
     branches:
       - main
       - develop
-      - 'feature/minhyuk'
 
 jobs:
   deploy:
@@ -23,12 +22,6 @@ jobs:
         run: npm install
 
       - name: 빌드
-        env:
-          VITE_PUBLIC_BASE_URL: ${{ secrets.VITE_PUBLIC_BASE_URL }}
-          VITE_KAKAO_BASE_URL: ${{ secrets.VITE_KAKAO_BASE_URL }}
-          VITE_KAKAO_CLIENT_ID: ${{ secrets.VITE_KAKAO_CLIENT_ID }}
-          VITE_KAKAO_REDIRECT_URI: ${{ secrets.VITE_KAKAO_REDIRECT_URI }}
-          VITE_TOSS_CLIENTKEY: ${{ secrets.VITE_TOSS_CLIENTKEY }}
         run: npm run build
 
       - name: 빌드 파일 디버깅
@@ -46,19 +39,13 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: AWS S3 기존 파일 삭제
-        if:
-          github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' || github.ref ==
-          'refs/heads/feature/minhyuk'
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
         run: aws s3 rm --recursive s3://micgolf
 
       - name: AWS S3 빌드 파일 재배포
-        if:
-          github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' || github.ref ==
-          'refs/heads/feature/minhyuk'
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
         run: aws s3 cp ./dist s3://micgolf/ --recursive
 
       - name: Cloudfront 캐시 무효화
-        if:
-          github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' || github.ref ==
-          'refs/heads/feature/minhyuk'
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
         run: aws cloudfront create-invalidation --distribution-id E195L0YEFMREX0 --paths "/*"
