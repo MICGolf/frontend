@@ -13,3 +13,8 @@ export interface DetailData {
   colors: string[];
   images: Images[];
 }
+
+export interface UserData {
+  name: string;
+  email: string;
+}

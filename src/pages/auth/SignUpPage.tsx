@@ -1,6 +1,9 @@
+import { useNavigate } from 'react-router-dom';
 import { SignUpModalType } from './types';
 
 const SignUpPage = () => {
+  const navigate = useNavigate();
+
   const handleModalOpen = (type: SignUpModalType) => {
     switch (type) {
       case '개인정보': {
@@ -14,6 +17,10 @@ const SignUpPage = () => {
     }
   };
 
+  const handleSignUpSubmit = () => {
+    navigate('/signup/complete', { replace: true });
+  };
+
   return (
     <div className='mx-auto flex max-w-[700px] flex-col gap-[64px] py-[88px]'>
       {/* section 1 */}
@@ -21,7 +28,7 @@ const SignUpPage = () => {
 
       {/* section 2 */}
       <div>
-        <form className='flex flex-col gap-[64px]'>
+        <form onSubmit={() => handleSignUpSubmit()} className='flex flex-col gap-[64px]'>
           {/* step 1 */}
           <div className='flex flex-col gap-[10px]'>
             <div className='text-2xl'>회원 정보</div>
@@ -113,9 +120,6 @@ const SignUpPage = () => {
           </div>
         </form>
       </div>
-
-      {/* section 3 */}
-      <div className='border-t border-gray200 py-[78px] text-[30px]'></div>
     </div>
   );
 };
