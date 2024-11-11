@@ -114,7 +114,7 @@ const SignUpPage = () => {
               <input type='checkbox' />
               <p>전체 동의</p>
             </label>
-            <button className='w-full bg-black px-6 py-4 text-left text-2xl text-white' type='submit'>
+            <button className='w-full bg-black px-6 py-4 text-center text-2xl text-white' type='submit'>
               가입하기
             </button>
           </div>

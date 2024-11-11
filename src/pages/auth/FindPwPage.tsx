@@ -1,6 +1,6 @@
-import { client } from '@/api/client';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import comepleteCheck from '@/assets/icons/completeCheck.svg';
 
 interface UserInfo {
   name: string | null;
@@ -17,8 +17,8 @@ const FindPwPage = () => {
     phone: null,
     verifyCode: null,
   });
-  const [password, setPassword] = useState<string>('');
-  const navigate = useNavigate();
+  const [newPw, setNewPw] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
   const handleFindPwClick = async () => {
     // try {
@@ -41,9 +41,10 @@ const FindPwPage = () => {
   const handleChangePwClick = async () => {
     // if (isVerified) {
     //   try {
-    //     const response = await client.post('/api/auth/changePw', { password });
+    //     const response = await client.post('/api/auth/changePw', { newPw });
 
     //     if (response.status === 200) {
+    //       setIsSuccess(true);
     //       alert('비밀번호가 변경되었습니다');
     //     }
     //   } catch (error) {
@@ -52,14 +53,33 @@ const FindPwPage = () => {
     // }
 
     if (isVerified) {
-      navigate('/auth/signin', { replace: true });
-      alert('비밀번호가 변경되었습니다 다시 로그인해주세요.');
+      setIsSuccess(true);
     }
   };
 
   const handleVerifyCodeClick = () => {
     // TODO: 휴대폰 인증 번호 전송 로직
   };
+
+  if (isSuccess) {
+    return (
+      <>
+        <div className='mx-auto flex max-w-[700px] flex-col items-center gap-[64px] py-[88px]'>
+          <div className='flex flex-col items-center gap-4'>
+            <img src={comepleteCheck} alt='성공 체크 아이콘' />
+            <div className='text-5xl font-[500]'>비밀번호 변경이 완료되었습니다!</div>
+          </div>
+          <Link
+            to={'/auth/signin'}
+            replace={true}
+            className='w-full bg-black px-4 py-5 text-center text-2xl text-white hover:opacity-70'
+          >
+            로그인 이동
+          </Link>
+        </div>
+      </>
+    );
+  }
 
   return (
     <div className='mx-auto flex max-w-[700px] flex-col gap-[64px] py-[88px]'>
@@ -123,7 +143,7 @@ const FindPwPage = () => {
                 type='password'
                 placeholder='새 비밀번호를 입력하세요'
                 className='w-full border border-gray100 px-6 py-4 text-2xl'
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => setNewPw(e.target.value)}
               />
             </div>
           </div>
@@ -135,11 +155,14 @@ const FindPwPage = () => {
               <button
                 onClick={() => handleFindPwClick()}
                 type='button'
-                className='bg-black px-4 py-5 text-white hover:opacity-70'
+                className='bg-black px-4 py-5 text-2xl text-white hover:opacity-70'
               >
                 비밀번호 찾기
               </button>
-              <Link to={'/auth/signin'} className='hover:bg-gray400 bg-gray100 px-4 py-5 text-center hover:opacity-70'>
+              <Link
+                to={'/auth/signin'}
+                className='hover:bg-gray400 bg-gray100 px-4 py-5 text-center text-2xl hover:opacity-70'
+              >
                 로그인 이동
               </Link>
             </>
@@ -147,7 +170,7 @@ const FindPwPage = () => {
             <button
               onClick={() => handleChangePwClick()}
               type='button'
-              className='bg-black px-4 py-5 text-white hover:opacity-70'
+              className='bg-black px-4 py-5 text-2xl text-white hover:opacity-70'
             >
               비밀번호 변경
             </button>
