@@ -51,6 +51,7 @@ const FindPwPage = () => {
     //     console.error(error);
     //   }
     // }
+    console.log(newPw);
 
     if (isVerified) {
       setIsSuccess(true);
