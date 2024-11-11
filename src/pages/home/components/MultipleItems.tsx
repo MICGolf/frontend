@@ -12,20 +12,20 @@ export default function MultipleItems() {
 
   const settings = {
     dots: true,
-    infinite: true,
-    speed: 500,
     slidesToShow: pagePerSlide,
     slidesToScroll: pagePerSlide,
     beforeChange: (_current: number, next: number) => setActiveSlide(next / 4),
     appendDots: () => (
       <div className='relative w-full'>
-        <div className='flex w-full justify-between'>
+        <div className='flex w-full justify-between px-2'>
           {Array.from({ length: totalSlides }).map((_, index) => (
             <button
               key={index}
               onClick={() => sliderRef.current?.slickGoTo(index * 4)} // 특정 슬라이드로 이동
-              className={`relative my-6 h-1 w-full transition-all duration-300 ${index === activeSlide ? 'bg-black' : 'bg-gray300'}`}
-            />
+              className={`relative w-full py-6`}
+            >
+              <div className={`h-1 transition-all duration-300 ${index === activeSlide ? 'bg-black' : 'bg-gray300'}`} />
+            </button>
           ))}
         </div>
       </div>
@@ -38,8 +38,8 @@ export default function MultipleItems() {
       <div className='slider-container'>
         <Slider ref={sliderRef} {...settings}>
           {Array.from({ length: slideLength }).map((_, index) => (
-            <div key={index}>
-              <div className='flex h-[465px] items-center justify-center rounded-lg bg-gray-200'>
+            <div key={index} className='px-2'>
+              <div className='flex h-[465px] items-center justify-center rounded-lg bg-gray100'>
                 <h3 className='text-xl font-semibold'>{index}</h3>
               </div>
             </div>
