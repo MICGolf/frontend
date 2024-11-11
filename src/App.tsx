@@ -19,7 +19,6 @@ import NoticePage from './pages/notice/NoticePage';
 import AdminLayout from './layouts/adminLayout/AdminLayout';
 import PublicLayout from './layouts/publicLayout/PublicLayout';
 
-
 function App() {
   return (
     <>
