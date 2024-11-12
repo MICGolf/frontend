@@ -8,7 +8,6 @@ import SignUpPage from './pages/auth/SignUpPage';
 import SignUpCompletePage from './pages/auth/SignUpCompletePage';
 import MyPage from './pages/mypage/MyPage';
 import AdminPage from './pages/admin/main/AdminPage';
-import AdminLoginPage from './pages/admin/AdminLoginPage';
 import DetailPage from './pages/shop/detailPage/DetailPage';
 import CategoryPage from './pages/shop/CategoryPage';
 import CartPage from './pages/cart/CartPage';
@@ -63,6 +62,7 @@ function App() {
         <Route path='/admin/login' element={<AdminLoginPage />} />
         <Route element={<AdminLayout />}>
           <Route path='/admin' element={<AdminRoute />}>
+            <Route path='' element={<AdminPage />} />
             <Route path='product'>
               <Route path='edit' element={<AdminPage />} />
               <Route path='add' element={<AdminPage />} />
@@ -80,7 +80,7 @@ function App() {
             <Route path='review' element={<AdminPage />} />
             <Route path='store'>
               <Route path='logo' element={<AdminPage />} />
-              <Route path='banner' element={<AdminPage />} />
+              <Route path='banner' element={<Banner />} />
               <Route path='bestitem' element={<AdminPage />} />
               <Route path='newarrival' element={<AdminPage />} />
               <Route path='mdschoice' element={<AdminPage />} />

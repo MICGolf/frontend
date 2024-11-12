@@ -4,7 +4,7 @@ import arrowDropUp from '@/assets/icons/arrowDropUp.svg';
 import { Input } from '@/components/Input';
 import { useSidebarStorage } from '@/hooks/useSidebarStorage';
 import { useForm } from 'react-hook-form';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const sideBarMenu = [
   {
@@ -65,13 +65,14 @@ const sideBarMenu = [
 ];
 // 68번 타입 정해야함
 export const SideBar = () => {
+  const navigate = useNavigate();
   const { handleSubmit, register } = useForm();
   const handlerSubmit = (data: any) => console.log(data);
   const { selectMenu, toggleMenu } = useSidebarStorage();
   const location = useLocation();
   return (
     <aside className='min-w-72 bg-primary py-8'>
-      <div className='mb-11 flex content-center justify-center'>
+      <div className='mb-11 flex content-center justify-center' onClick={() => navigate('/admin')}>
         <img src={logoWhite} alt='믹골프 로고' />
       </div>
       <div>
