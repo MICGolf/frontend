@@ -1,6 +1,6 @@
-import { detailData } from '@/assets/dummys/detailData';
-import ProductDetailView from '../ui/ProductDetailView';
-import ProductDetails from '../ui/ProductDetails';
+import { productDetailInfo } from '@/assets/dummys/productDetailInfo';
+import ProductDetailView from '../components/ProductDetailView';
+import ProductDetails from '../components/ProductDetails';
 
 const DetailPage = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -11,8 +11,8 @@ const DetailPage = () => {
 
   return (
     <article className='w-full'>
-      <ProductDetailView data={detailData} onSubmit={handleSubmit} />
-      <ProductDetails data={detailData} />
+      <ProductDetailView data={productDetailInfo} onSubmit={handleSubmit} />
+      <ProductDetails data={productDetailInfo} />
     </article>
   );
 };
