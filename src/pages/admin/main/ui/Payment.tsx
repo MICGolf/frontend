@@ -11,13 +11,13 @@ export const Payment = () => {
           <p className='mt-2'>
             반품요청 <span className='float-right text-base'>0건</span>
           </p>
-          <p>
+          <p className='mt-2'>
             반품수거완료 <span className='float-right text-base'>0건</span>
           </p>
           <p className='mt-2'>
             교환요청 <span className='float-right text-base'>0건</span>
           </p>
-          <p>
+          <p className='mt-2'>
             교환수거완료 <span className='float-right text-base'>0건</span>
           </p>
         </div>
