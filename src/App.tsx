@@ -18,6 +18,8 @@ import AdminLayout from './layouts/adminLayout/AdminLayout';
 import PublicLayout from './layouts/publicLayout/PublicLayout';
 import FindPwPage from './pages/auth/FindPwPage';
 import FindIdPage from './pages/auth/FindIdPage';
+import AdminLoginPage from './pages/admin/AdminLoginPage';
+import Banner from './pages/admin/banner/Banner';
 
 function App() {
   return (
