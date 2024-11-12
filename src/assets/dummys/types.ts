@@ -26,5 +26,4 @@ export interface CartItemData {
   size: string;
   amount: number;
   price: number;
-  checked: boolean;
 }

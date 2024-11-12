@@ -7,8 +7,7 @@ export const cartItemData: CartItemData[] = [
     color: 'red',
     size: 'L',
     amount: 1,
-    price: 300000,
-    checked: false,
+    price: 15000,
   },
   {
     id: 2,
@@ -16,8 +15,7 @@ export const cartItemData: CartItemData[] = [
     color: 'red',
     size: 'L',
     amount: 2,
-    price: 300000,
-    checked: false,
+    price: 115000,
   },
   {
     id: 3,
@@ -25,8 +23,7 @@ export const cartItemData: CartItemData[] = [
     color: 'red',
     size: 'M',
     amount: 3,
-    price: 300000,
-    checked: false,
+    price: 20000,
   },
   {
     id: 4,
@@ -34,7 +31,6 @@ export const cartItemData: CartItemData[] = [
     color: 'blue',
     size: 'S',
     amount: 4,
-    price: 300000,
-    checked: false,
+    price: 50000,
   },
 ];

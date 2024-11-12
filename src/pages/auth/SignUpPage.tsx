@@ -24,7 +24,7 @@ const SignUpPage = () => {
   return (
     <div className='mx-auto flex max-w-[700px] flex-col gap-[64px] py-[88px]'>
       {/* section 1 */}
-      <div className='text-[40px] font-[500]'>회원 정보 입력</div>
+      <div className='text-4xl font-[500]'>회원 정보 입력</div>
 
       {/* section 2 */}
       <div>

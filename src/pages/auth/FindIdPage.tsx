@@ -18,7 +18,7 @@ const FindIdPage = () => {
   if (userInfo.email === '') {
     return (
       <div className='mx-auto flex max-w-[700px] flex-col gap-[64px] py-[88px]'>
-        <div className='text-[40px] font-[500]'>이메일 찾기</div>
+        <div className='text-4xl font-[500]'>이메일 찾기</div>
         <div>
           <form className='flex flex-col gap-[64px]'>
             <div className='flex flex-col gap-[10px]'>
