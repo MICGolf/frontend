@@ -1,92 +1,48 @@
-import { client } from '@/api/client';
 import { cartItemData } from '@/assets/dummys/cartItemData';
-import { CartItemData } from '@/assets/dummys/types';
 import { useUserStore } from '@/config/store';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useMemo, useState } from 'react';
+import useCartCalculations from '@/hooks/uesCartCalculations';
+import { useCart } from '@/hooks/useCart';
+import { useCartSelection } from '@/hooks/useCartSelection';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const CartPage = () => {
-  // INFO: 사용자 정보 전역상태
   const { user } = useUserStore();
-  const queryClient = useQueryClient();
-  const [selectedItems, setSelectedItems] = useState<number[]>([]);
-  const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
+  const { cartItems, syncGuestCartToUser } = useCart();
+  const { selectedItems, isAllChecked, handleToggle, handleToggleAll, selectedProducts } =
+    useCartSelection(cartItemData);
+  const { totalPrice, totalDeliveryFee } = useCartCalculations(selectedProducts);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
+  console.log(selectedItems);
+  console.log(cartItems);
 
-  // INFO: 비회원 사용자 기준 장바구니 데이터 가져오기
-  const getGuestCartItems = () => {
-    const guestCartItems = localStorage.getItem('cartItems');
-    return guestCartItems ? JSON.parse(guestCartItems) : [];
-  };
-
-  // INFO: 회원 사용자 기준 장바구니 데이터 가져오기
-  const { data = [] } = useQuery<CartItemData[]>({
-    queryKey: ['cartItems', user?.id],
-    queryFn: async () => {
-      const response = await client.get(`/api/v1/cart/${user?.id}`);
-      return response.data.cartItems || [];
-    },
-    enabled: Boolean(user),
-    initialData: getGuestCartItems(),
-  });
-  console.log(data);
-
-  // INFO: 비회원 사용자 장바구니 데이터를 회원 사용자 장바구니 데이터로 이전
   useEffect(() => {
-    const initializeCartItems = async () => {
-      if (user) {
-        const guestCartItems = getGuestCartItems();
-        if (guestCartItems.length > 0) {
-          try {
-            const response = await client.post(`/api/v1/cart/${user.id}`, { cartItems: guestCartItems });
-            if (response.status === 200) {
-              localStorage.removeItem('cartItems');
-              queryClient.invalidateQueries({ queryKey: ['cartItems', user.id] });
-            }
-          } catch (err) {
-            console.error(err);
-          }
-        }
-      } else {
-      }
-    };
-    initializeCartItems();
-  }, []);
+    syncGuestCartToUser();
+  }, [user]);
 
-  // INFO: 전체 선택 체크박스 트리거
-  useEffect(() => {
-    setIsAllChecked(cartItemData.length > 0 && selectedItems.length === cartItemData.length);
-  }, [selectedItems, cartItemData]);
-
-  // INFO: 선택된 상품 토글
-  const handleToggle = (itemId: number) => {
-    setSelectedItems((prev) => (prev.includes(itemId) ? prev.filter((id) => id !== itemId) : [...prev, itemId]));
+  const paymentData = {
+    items: selectedProducts,
+    totalPrice,
+    totalDeliveryFee,
   };
 
-  // INFO: 전체 선택 체크박스 토글
-  const handleToggleAll = () => {
-    if (isAllChecked) {
-      setSelectedItems([]);
-    } else {
-      setSelectedItems(cartItemData.map((item) => item.id));
-    }
-    setIsAllChecked((prev) => !prev);
-  };
-
-  // 선택된 아이템의 총 가격 계산
-  const totalPrice = useMemo(() => {
-    return selectedItems.reduce((acc, id) => {
-      const item = cartItemData.find((item) => item.id === id);
-      return acc + (item ? item.price : 0);
-    }, 0);
-  }, [selectedItems, cartItemData]);
-
-  // 배송비 계산 (변수 형태로 선언)
-  const totalDeliveryFee = useMemo(() => {
+  const handlePayment = () => {
     if (selectedItems.length === 0) {
-      return 0;
+      alert('상품을 선택해주세요');
+      return;
     }
-    return totalPrice > 100000 ? 0 : 2500;
-  }, [selectedItems, totalPrice]);
+    return user ? navigate('/checkout', { state: paymentData }) : setIsModalOpen(true);
+  };
+
+  const handleGuestPayment = () => {
+    navigate('/checkout', { state: paymentData });
+  };
+
+  const handleLoginClick = () => {
+    setIsModalOpen(false);
+    navigate('/auth/signin');
+  };
 
   return (
     <div className='mx-auto max-w-[1660px] pb-[120px] pt-[80px]'>
@@ -189,9 +145,13 @@ const CartPage = () => {
               <div>결제예상금액</div>
               <strong>{(totalPrice + totalDeliveryFee).toLocaleString()}원</strong>
             </div>
-            <div className='flex justify-center'>
-              <button className='bg-black px-6 py-3 text-2xl text-white hover:opacity-70'>주문하기</button>
-            </div>
+            <button
+              onClick={() => handlePayment()}
+              type='button'
+              className='bg-black px-6 py-3 text-left text-2xl text-white hover:opacity-70'
+            >
+              결제하기
+            </button>
           </div>
         </div>
       </div>
@@ -201,6 +161,19 @@ const CartPage = () => {
         <button className='border border-gray200 p-2 text-gray700'>선택 상품 삭제하기</button>
         <button className='border border-gray200 p-2 text-gray700'>장바구니 비우기</button>
       </div>
+
+      {isModalOpen && (
+        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
+          <div className='flex gap-4 bg-white px-14 py-8'>
+            <button onClick={handleLoginClick} className='bg-black px-6 py-4 text-white'>
+              로그인 하기
+            </button>
+            <button onClick={handleGuestPayment} className='bg-black px-6 py-4 text-white'>
+              비회원 결제
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,21 +1,9 @@
+import useTermsModalState from '@/hooks/useTermsModalState/useModalState';
 import { useNavigate } from 'react-router-dom';
-import { SignUpModalType } from './types';
 
 const SignUpPage = () => {
   const navigate = useNavigate();
-
-  const handleModalOpen = (type: SignUpModalType) => {
-    switch (type) {
-      case '개인정보': {
-        alert('개인정보 약관 모달 준비중');
-        break;
-      }
-      case '이용약관': {
-        alert('이용약관 모달 준비중');
-        break;
-      }
-    }
-  };
+  const { handleModalOpen, renderModalContent } = useTermsModalState();
 
   const handleSignUpSubmit = () => {
     navigate('/auth/signup/complete', { replace: true });
@@ -24,14 +12,14 @@ const SignUpPage = () => {
   return (
     <div className='mx-auto flex max-w-[700px] flex-col gap-[64px] py-[88px]'>
       {/* section 1 */}
-      <div className='text-4xl font-[500]'>회원 정보 입력</div>
+      <h1 className='text-4xl font-[500]'>회원 정보 입력</h1>
 
       {/* section 2 */}
       <div>
         <form onSubmit={() => handleSignUpSubmit()} className='flex flex-col gap-[64px]'>
           {/* step 1 */}
           <div className='flex flex-col gap-[10px]'>
-            <div className='text-2xl'>회원 정보</div>
+            <h2 className='text-2xl'>회원 정보</h2>
             <input
               className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl'
               type='text'
@@ -58,7 +46,7 @@ const SignUpPage = () => {
           </div>
           {/* step 2 */}
           <div className='flex flex-col gap-[10px]'>
-            <div className='text-2xl'>회원 연락처</div>
+            <h2 className='text-2xl'>회원 연락처</h2>
             <input
               className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl'
               type='text'
@@ -72,7 +60,7 @@ const SignUpPage = () => {
           </div>
           {/* step 3 */}
           <div className='flex flex-col gap-[10px]'>
-            <div className='text-2xl'>전화번호 인증</div>
+            <h2 className='text-2xl'>전화번호 인증</h2>
             <div className='flex'>
               <input
                 className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl'
@@ -120,6 +108,7 @@ const SignUpPage = () => {
           </div>
         </form>
       </div>
+      {renderModalContent()}
     </div>
   );
 };
