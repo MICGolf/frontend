@@ -1,4 +1,3 @@
-import { ProductDetailsProps } from '../detailPage/types';
 import ReviewCarousel from './ReviewCarousel';
 import ReviewDropdown from './ReviewDropDown';
 import TextContent from './TextContent';
@@ -27,7 +26,7 @@ const descBoxes = [
   },
 ];
 
-const ProductDetails = ({ data }: ProductDetailsProps) => {
+const ProductDetails = ({ data }) => {
   const renderContent = (item: { contentType: string }) => {
     if (item.contentType === 'dropdown') {
       return <ReviewDropdown />;

@@ -1,5 +1,5 @@
 import { StockItem } from '@/assets/dummys/types';
-import Counter from './Counter';
+import Counter from './CounterBtn';
 import { useEffect, useState } from 'react';
 
 interface CounterProps {
@@ -21,7 +21,7 @@ const OptionListItem = ({ stock, colorId, colorName, price }: CounterProps) => {
   }, [count]);
 
   return (
-    <div className='flex items-center justify-between gap-2 px-2 py-4 bg-gray-100'>
+    <div className='flex items-center justify-between gap-2 bg-gray-100 px-2 py-4'>
       <h3 className='text-sm font-medium'>{colorName}</h3>
       <div className='flex gap-6'>
         <Counter count={count} maxCount={maxCount} setCount={setCount} />
