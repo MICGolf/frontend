@@ -1,9 +1,23 @@
 import useTermsModalState from '@/hooks/useTermsModalState/useModalState';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+type CheckboxType = '개인정보' | '이용약관';
 
 const SignUpPage = () => {
   const navigate = useNavigate();
   const { handleModalOpen, renderModalContent } = useTermsModalState();
+  const [selectedCheckbox, setSelectedCheckbox] = useState<CheckboxType[]>([]);
+  const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
+
+  const handleToggle = (type: CheckboxType) => {
+    setSelectedCheckbox((prev) => (prev.includes(type) ? prev.filter((v) => v !== type) : [...prev, type]));
+  };
+
+  const handleToggleAll = () => {
+    setSelectedCheckbox(isAllChecked ? [] : ['개인정보', '이용약관']);
+    setIsAllChecked((prev) => !prev);
+  };
 
   const handleSignUpSubmit = () => {
     navigate('/auth/signup/complete', { replace: true });
@@ -44,6 +58,7 @@ const SignUpPage = () => {
             />
             <div className='text-right text-error text-opacity-60'>입력한 비밀번호와 일치하지 않습니다</div>
           </div>
+
           {/* step 2 */}
           <div className='flex flex-col gap-[10px]'>
             <h2 className='text-2xl'>회원 연락처</h2>
@@ -58,6 +73,7 @@ const SignUpPage = () => {
               placeholder='전화번호 "-" 없이 입력'
             />
           </div>
+
           {/* step 3 */}
           <div className='flex flex-col gap-[10px]'>
             <h2 className='text-2xl'>전화번호 인증</h2>
@@ -72,39 +88,71 @@ const SignUpPage = () => {
               </button>
             </div>
           </div>
+
           {/* step 4 */}
-          <div className='flex flex-col justify-center gap-[20px]'>
-            <div className='flex gap-[14px]'>
-              <input type='checkbox' />
-              <p>
-                개인정보 수집약관 동의{' '}
-                <span
-                  onClick={() => handleModalOpen('개인정보')}
-                  className='cursor-pointer border-b border-blue700 text-blue700'
-                >
-                  약관 보기 →
-                </span>
-              </p>
-            </div>
-            <div className='flex gap-[14px]'>
-              <input type='checkbox' />
-              <p>
-                이용약관 동의{' '}
-                <span
-                  onClick={() => handleModalOpen('이용약관')}
-                  className='cursor-pointer border-b border-blue700 text-blue700'
-                >
-                  약관 보기 →
-                </span>
-              </p>
-            </div>
-            <label className='flex gap-[14px]'>
-              <input type='checkbox' />
-              <p>전체 동의</p>
+          <div className='flex flex-col gap-[10px]'>
+            <h2 className='text-2xl'>개인정보 수집/제공</h2>
+            <label className='flex cursor-pointer items-center'>
+              <input
+                type='checkbox'
+                className='hidden'
+                checked={selectedCheckbox.includes('개인정보')}
+                onChange={() => handleToggle('개인정보')}
+              />
+              <span
+                className={`flex h-5 w-5 items-center justify-center rounded-sm border-2 ${selectedCheckbox.includes('개인정보') ? 'bg-black' : 'bg-white'}`}
+              >
+                {selectedCheckbox.includes('개인정보') && (
+                  <svg className='h-5 w-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
+                  </svg>
+                )}
+              </span>
+              개인정보 수집약관 동의&nbsp;
+              <span
+                onClick={() => handleModalOpen('개인정보')}
+                className='cursor-pointer border-b border-blue700 text-blue700'
+              >
+                약관 보기 →
+              </span>
             </label>
-            <button className='w-full bg-black px-6 py-4 text-center text-2xl text-white' type='submit'>
-              가입하기
-            </button>
+            <label className='flex cursor-pointer items-center'>
+              <input
+                type='checkbox'
+                className='hidden'
+                checked={selectedCheckbox.includes('이용약관')}
+                onChange={() => handleToggle('이용약관')}
+              />
+              <span
+                className={`flex h-5 w-5 items-center justify-center rounded-sm border-2 ${selectedCheckbox.includes('이용약관') ? 'bg-black' : 'bg-white'}`}
+              >
+                {selectedCheckbox.includes('이용약관') && (
+                  <svg className='h-5 w-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
+                  </svg>
+                )}
+              </span>
+              이용약관 동의&nbsp;
+              <span
+                onClick={() => handleModalOpen('이용약관')}
+                className='cursor-pointer border-b border-blue700 text-blue700'
+              >
+                약관 보기 →
+              </span>
+            </label>
+            <label className='flex cursor-pointer items-center'>
+              <input type='checkbox' className='hidden' checked={isAllChecked} onChange={handleToggleAll} />
+              <span
+                className={`flex h-5 w-5 items-center justify-center rounded-sm border-2 ${isAllChecked ? 'bg-black' : 'bg-white'}`}
+              >
+                {isAllChecked && (
+                  <svg className='h-5 w-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
+                  </svg>
+                )}
+              </span>
+              전체 동의
+            </label>
           </div>
         </form>
       </div>
