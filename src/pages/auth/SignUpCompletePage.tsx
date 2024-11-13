@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const SignUpCompletePage = () => {
   return (
     <div>
-      <div className='flex flex-col items-center justify-center gap-4 pt-[250px]'>
+      <div className='mb-6 flex flex-col items-center justify-center gap-4 pt-[250px]'>
         <img src={completeCheck} alt='성공 체크 아이콘' />
         <div className='text-5xl font-[700]'>회원 가입이 완료 되었습니다.</div>
         <div className='flex flex-col items-center'>
@@ -15,11 +15,11 @@ const SignUpCompletePage = () => {
       </div>
 
       <div className='mt-4 flex justify-center gap-4'>
-        <Link to={'/'} className='hover:bg-gray bg-gray100 px-4 py-3 hover:bg-black hover:text-white'>
+        <Link to={'/'} className='bg-gray100 px-4 py-3 hover:bg-black hover:text-white'>
           홈페이지 이동
         </Link>
-        <Link to={'/mypage'} className='hover:bg-gray400 bg-gray100 px-4 py-3 hover:bg-black hover:text-white'>
-          마이페이지 이동
+        <Link to={'/mypage'} className='bg-gray100 px-4 py-3 hover:bg-black hover:text-white'>
+          결제내역 이동
         </Link>
       </div>
     </div>

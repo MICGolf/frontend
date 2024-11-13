@@ -99,6 +99,19 @@ const SignUpPage = () => {
           <div className='flex flex-col gap-[10px]'>
             <h2 className='text-2xl'>개인정보 수집/제공</h2>
             <label className='flex cursor-pointer items-center'>
+              <input type='checkbox' className='hidden' checked={isAllChecked} onChange={handleToggleAll} />
+              <span
+                className={`flex h-5 w-5 items-center justify-center rounded-sm border-2 ${isAllChecked ? 'bg-black' : 'bg-white'}`}
+              >
+                {isAllChecked && (
+                  <svg className='h-5 w-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
+                  </svg>
+                )}
+              </span>
+              전체 동의
+            </label>
+            <label className='flex cursor-pointer items-center'>
               <input
                 type='checkbox'
                 className='hidden'
@@ -145,19 +158,6 @@ const SignUpPage = () => {
               >
                 약관 보기 →
               </span>
-            </label>
-            <label className='flex cursor-pointer items-center'>
-              <input type='checkbox' className='hidden' checked={isAllChecked} onChange={handleToggleAll} />
-              <span
-                className={`flex h-5 w-5 items-center justify-center rounded-sm border-2 ${isAllChecked ? 'bg-black' : 'bg-white'}`}
-              >
-                {isAllChecked && (
-                  <svg className='h-5 w-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
-                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
-                  </svg>
-                )}
-              </span>
-              전체 동의
             </label>
           </div>
         </form>
