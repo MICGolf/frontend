@@ -20,6 +20,7 @@ import FindPwPage from './pages/auth/FindPwPage';
 import FindIdPage from './pages/auth/FindIdPage';
 import AdminLoginPage from './pages/admin/AdminLoginPage';
 import Banner from './pages/admin/banner/Banner';
+import CheckoutPage from './pages/checkout/CheckoutPage';
 
 function App() {
   return (
@@ -52,6 +53,9 @@ function App() {
 
           {/* 장바구니 */}
           <Route path='/cart' element={<CartPage />} />
+
+          {/* 결제 */}
+          <Route path='/checkout' element={<CheckoutPage />} />
 
           {/* 공지사항 */}
           <Route path='/notice' element={<NoticePage />} />

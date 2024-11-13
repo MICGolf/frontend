@@ -18,3 +18,13 @@ export interface UserData {
   name: string;
   email: string;
 }
+
+export interface CartItemData {
+  id: number;
+  image: string;
+  name: string;
+  color: string;
+  size: string;
+  amount: number;
+  price: number;
+}

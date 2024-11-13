@@ -85,7 +85,7 @@ const FindPwPage = () => {
   return (
     <div className='mx-auto flex max-w-[700px] flex-col gap-[64px] py-[88px]'>
       {/* section 1 */}
-      <div className='text-[40px] font-[500]'>{isVerified ? '비밀번호 재설정' : '비밀번호 찾기'}</div>
+      <div className='text-4xl font-[500]'>{isVerified ? '비밀번호 재설정' : '비밀번호 찾기'}</div>
 
       {/* section 2 */}
       <div>
