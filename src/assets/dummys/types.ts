@@ -21,6 +21,7 @@ export interface UserData {
 
 export interface CartItemData {
   id: number;
+  image: string;
   name: string;
   color: string;
   size: string;

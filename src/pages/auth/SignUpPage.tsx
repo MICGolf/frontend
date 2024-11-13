@@ -1,5 +1,5 @@
 import useTermsModalState from '@/hooks/useTermsModalState/useModalState';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 type CheckboxType = '개인정보' | '이용약관';
@@ -22,6 +22,12 @@ const SignUpPage = () => {
   const handleSignUpSubmit = () => {
     navigate('/auth/signup/complete', { replace: true });
   };
+
+  useEffect(() => {
+    selectedCheckbox.includes('개인정보') && selectedCheckbox.includes('이용약관')
+      ? setIsAllChecked(true)
+      : setIsAllChecked(false);
+  }, [selectedCheckbox]);
 
   return (
     <div className='mx-auto flex max-w-[700px] flex-col gap-[64px] py-[88px]'>

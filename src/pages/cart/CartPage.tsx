@@ -129,7 +129,7 @@ const CartPage = () => {
         <div className='min-w-[386px]'>
           <div className='flex flex-col gap-2 border border-gray200 p-8'>
             <div className='flex flex-col gap-6 border-b border-gray200 p-6'>
-              <div className='mb- text-left text-2xl'>총 상품 0개</div>
+              <div className='mb- text-left text-2xl'>총 상품 {cartItemData.length}개</div>
               <div className='flex flex-col gap-2'>
                 <div className='flex justify-between'>
                   <span>상품합계</span>
