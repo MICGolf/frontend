@@ -1,4 +1,4 @@
-import { productListData } from '@/assets/dummys/productListData';
+import { productListData } from '@/assets/dummys/productListDatas';
 import ProductDetailView from './components/ProductDetailView';
 import ProductDetails from './components/ProductDetails';
 import { useParams } from 'react-router-dom';
