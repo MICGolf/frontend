@@ -10,7 +10,9 @@ import { useHeaderStore } from '@/config/store';
 
 const Header = () => {
   const location = useLocation();
-  const [headerBgColor, setHeaderBgColor] = useState<string>('transparent'); // 헤더 플래그
+  const [headerBgColor, setHeaderBgColor] = useState<string>('transparent');
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const headerRef = useRef<HTMLElement | null>(null);
   const { setHeaderRef } = useHeaderStore();
 
@@ -20,19 +22,32 @@ const Header = () => {
     }
   }, []);
 
-  // INFO: path 조건에 따라 헤더 배경색 변경
   useEffect(() => {
-    if (location.pathname !== '/') {
-      setHeaderBgColor('white');
-    } else {
-      setHeaderBgColor('transparent');
-    }
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY + 5) {
+        setIsHeaderVisible(false); // 스크롤 내릴 때 헤더 숨김
+      } else if (currentScrollY < lastScrollY - 5) {
+        setIsHeaderVisible(true); // 스크롤 올릴 때 헤더 표시
+      }
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
+  useEffect(() => {
+    setHeaderBgColor(location.pathname !== '/' ? 'white' : 'transparent');
   }, [location.pathname]);
 
   return (
     <header
       ref={headerRef}
-      className={`fixed z-50 w-full shadow-lg ${headerBgColor === 'white' ? 'bg-gray100' : 'bg-transparent'}`}
+      className={`fixed top-0 z-50 w-full shadow-lg transition-transform duration-300 ${
+        headerBgColor === 'white' ? 'bg-gray100' : 'bg-transparent'
+      } ${isHeaderVisible ? 'translate-y-0' : '-translate-y-full'}`}
     >
       <div className='flex h-[40px] w-full cursor-pointer items-center justify-center bg-black text-center text-white'>
         믹골프 자사몰 신규 런칭 프로모션 진행중! 최대 80,000원 전품목 15% 할인중. 프로모션 상품 보러가기&nbsp;
