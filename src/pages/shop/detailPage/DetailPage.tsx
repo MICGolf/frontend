@@ -1,6 +1,6 @@
 import { productDetailData } from '@/assets/dummys/productDetailData';
-import ProductDetailView from '../components/ProductDetailView';
-import ProductDetails from '../components/ProductDetails';
+import ProductDetailView from './components/ProductDetailView';
+import ProductDetails from './components/ProductDetails';
 
 const DetailPage = () => {
   return (

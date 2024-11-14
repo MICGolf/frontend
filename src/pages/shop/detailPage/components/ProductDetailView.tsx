@@ -4,7 +4,7 @@ import ColorBtns from './ColorBtns';
 import { useState } from 'react';
 import SizeBtns from './SizeBtns';
 import Counter from './CounterBtn';
-import { ProductDetailViewProps } from '../detailPage/types';
+import { ProductDetailViewProps } from '../types';
 import { Color, Size } from '@/assets/dummys/types';
 
 const ProductDetailView = ({ data }: ProductDetailViewProps) => {
@@ -16,23 +16,23 @@ const ProductDetailView = ({ data }: ProductDetailViewProps) => {
   // const [selectedOption, setSelectedOption] = useState(null);
 
   return (
-    <section className='flex flex-col min-h-screen xl:flex-row'>
+    <section className='flex min-h-screen flex-col xl:flex-row'>
       <div className='flex w-full flex-col gap-[2px] xl:w-1/2'>
         {detailImage.map((img, idx) => (
-          <div key={idx} className='w-full h-screen xl:h-full'>
-            <img src={img} alt={`상품 이미지 ${idx + 1}`} className='object-cover w-full h-full' />
+          <div key={idx} className='h-screen w-full xl:h-full'>
+            <img src={img} alt={`상품 이미지 ${idx + 1}`} className='h-full w-full object-cover' />
           </div>
         ))}
       </div>
 
       <div className='flex w-full flex-col overflow-auto p-[50px] xl:sticky xl:top-[70px] xl:h-[calc(100vh-70px)] xl:w-1/2 xl:border-l xl:border-primary'>
-        <div className='flex flex-col h-full gap-8'>
+        <div className='flex h-full flex-col gap-8'>
           <div className='flex flex-col gap-4'>
             <h2 className='text-4xl font-bold'>{data.name}</h2>
             <p className='text-2xl font-light'>₩{data.price.toLocaleString()}</p>
           </div>
 
-          <div className='flex flex-col gap-6 mt-auto'>
+          <div className='mt-auto flex flex-col gap-6'>
             <ColorBtns data={data.colors} onSelect={setSelectedColor} onChange={setDetailImage} />
             <SizeBtns data={selectedColor} onSelect={setSelectedSize} />
             <Counter

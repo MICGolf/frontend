@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ColorBtnsProps } from '../detailPage/types';
+import { ColorBtnsProps } from '../types';
 import { Color } from '@/assets/dummys/types';
 
 const ColorBtns = ({ data, onSelect, onChange }: ColorBtnsProps) => {

@@ -1,7 +1,7 @@
 import minus from '@/assets/icons/minus.svg';
 import plus from '@/assets/icons/plus.svg';
 import { useEffect } from 'react';
-import { CounterBtnProps } from '../detailPage/types';
+import { CounterBtnProps } from '../types';
 
 const CounterBtn = ({ count, setCount, maxCount, setMaxCount, selectedSize, selectedColor }: CounterBtnProps) => {
   useEffect(() => {
@@ -36,7 +36,7 @@ const CounterBtn = ({ count, setCount, maxCount, setMaxCount, selectedSize, sele
         >
           <button
             type='button'
-            className='flex items-center justify-center flex-1'
+            className='flex flex-1 items-center justify-center'
             aria-label='수량 감소'
             onClick={handleDecrease}
           >
@@ -51,7 +51,7 @@ const CounterBtn = ({ count, setCount, maxCount, setMaxCount, selectedSize, sele
           </span>
           <button
             type='button'
-            className='flex items-center justify-center flex-1'
+            className='flex flex-1 items-center justify-center'
             aria-label='수량 증가'
             onClick={handleIncrease}
           >

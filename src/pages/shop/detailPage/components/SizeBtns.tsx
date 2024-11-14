@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { SizeBtnsProps } from '../detailPage/types';
+import { SizeBtnsProps } from '../types';
 import { Size } from '@/assets/dummys/types';
 
 const SizeBtns = ({ data, onSelect }: SizeBtnsProps) => {
