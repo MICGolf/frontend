@@ -66,13 +66,13 @@ const BannerList = () => {
                           <img src={item.image} alt='banner' />
                         </div>
                         <div className='flex w-2/12 items-center justify-center'>
-                          <Button title='삭제' onClick={() => {}} color='bg-red-500' className='w-3/4' />
+                          <Button title='삭제' onClick={() => {}} color='bg-red-500 text-white' className='w-3/4' />
                         </div>
                         <div className='flex w-2/12 items-center justify-center'>
                           <Toggle isEnabled={item.isActive} onToggle={() => handleToggle(item.id)(!item.isActive)} />
                         </div>
                         <div className='flex w-2/12 items-center justify-center'>
-                          <Button title='수정' onClick={() => {}} color='bg-blue-500' className='w-3/4' />
+                          <Button title='수정' onClick={() => {}} color='bg-blue-500 text-white' className='w-3/4' />
                         </div>
                       </div>
                     )}
