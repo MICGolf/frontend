@@ -1,4 +1,4 @@
-import { productListData } from '@/assets/dummys/productListDatas';
+import { shopProductData } from '@/assets/dummys/productListDatas';
 import ProductDetailView from './components/ProductDetailView';
 import ProductDetails from './components/ProductDetails';
 import { useParams } from 'react-router-dom';
@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 const DetailPage = () => {
   const { id } = useParams<{ id: string }>();
 
-  const product = productListData.find((item) => item.id === id);
+  const product = shopProductData.find((item) => item.id === id);
 
   if (!product) {
     return (
