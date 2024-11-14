@@ -1,6 +1,9 @@
 name: Deploy to S3 And Invalidate Cloudfront
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
