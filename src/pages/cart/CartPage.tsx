@@ -20,6 +20,7 @@ const CartPage = () => {
     totalDeliveryFee,
   };
   const { handleModalOpen, renderModalContent } = useModalState({ paymentData });
+  console.log(cartItems);
 
   useEffect(() => {
     syncGuestCartToUser();
