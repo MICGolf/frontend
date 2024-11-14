@@ -3,10 +3,10 @@ import BannerList from './ui/BannerList';
 
 export const Banner = () => {
   return (
-    <div>
+    <>
       <AddImage />
       <BannerList />
-    </div>
+    </>
   );
 };
 

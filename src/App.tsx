@@ -21,6 +21,8 @@ import AdminLoginPage from './pages/admin/AdminLoginPage';
 import Banner from './pages/admin/banner/Banner';
 import CheckoutPage from './pages/checkout/CheckoutPage';
 import CheckoutCompletePage from './pages/checkout/CheckoutCompletePage';
+import ProductAdd from './pages/admin/product/ProductAdd';
+import ProductEdit from './pages/admin/product/ProductEdit';
 import CategoryPage from './pages/shop/categoryPage/CategoryPage';
 
 function App() {
@@ -72,8 +74,8 @@ function App() {
           <Route path='/admin' element={<AdminRoute />}>
             <Route path='' element={<AdminPage />} />
             <Route path='product'>
-              <Route path='edit' element={<AdminPage />} />
-              <Route path='add' element={<AdminPage />} />
+              <Route path='edit' element={<ProductEdit />} />
+              <Route path='add' element={<ProductAdd />} />
             </Route>
             <Route path='sale'>
               <Route path='search' element={<AdminPage />} />

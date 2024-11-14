@@ -1,10 +1,10 @@
 import logoWhite from '@/assets/imgs/logoWhite.svg';
 import arrowDropDown from '@/assets/icons/arrowDropDown.svg';
 import arrowDropUp from '@/assets/icons/arrowDropUp.svg';
-import { Input } from '@/components/Input';
 import { useSidebarStorage } from '@/hooks/useSidebarStorage';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const sideBarMenu = [
   {
@@ -65,13 +65,22 @@ const sideBarMenu = [
 ];
 // 68번 타입 정해야함
 export const SideBar = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const { handleSubmit, register } = useForm();
-  const handlerSubmit = (data: any) => console.log(data);
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm();
+  const handlerSubmit = (data: any) => {
+    console.log(data);
+    navigate('/admin/sale/search');
+  };
   const { selectMenu, toggleMenu } = useSidebarStorage();
   const location = useLocation();
+
   return (
-    <aside className='min-w-72 bg-primary py-8'>
+    <aside className='h-full w-72 bg-primary py-8'>
       <div className='mb-11 flex content-center justify-center' onClick={() => navigate('/admin')}>
         <img src={logoWhite} alt='믹골프 로고' />
       </div>
@@ -80,17 +89,32 @@ export const SideBar = () => {
         <p className='text-center'>계정 : ddd </p>
       </div>
       <form onSubmit={handleSubmit(handlerSubmit)} className='px-8'>
-        <Input
-          type='text'
+        <select
+          {...register('productStatus', { required: '검색옵션을 선택해주세요' })}
+          className={`mt-4 w-full appearance-none rounded-lg border border-neutral-300 bg-[length:36px_36px] bg-[center_right_1rem] bg-no-repeat px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300`}
+          style={{
+            backgroundImage: `url(${isOpen ? arrowDropUp : arrowDropDown})`,
+          }}
+          onClick={(prev) => setIsOpen(!prev)}
           defaultValue=''
-          placeholder='수취인 명'
-          formRegister={register('content', {
-            required: '필수 입력 항목입니다',
-          })}
+        >
+          <option value='' disabled>
+            판매정보 검색
+          </option>
+          <option value='recipientName'>수취인명</option>
+          <option value='recipientPhone'>수취인 연락처</option>
+          <option value='trackingNumber'>송장번호</option>
+          <option value='productCode'>상품코드</option>
+        </select>
+        {errors && <p className='ml-1 text-sm text-red-700'>{errors.productStatus?.message as string}</p>}
+        <input
+          type='text'
+          placeholder='입력 후 엔터로 검색'
+          {...register('searchText_input')}
+          className='mt-4 w-full rounded-lg px-3 py-2 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
         />
-        <Input type='text' defaultValue='' placeholder='입력 후 검색' formRegister={register('content')} />
       </form>
-      <ul className='mt-4 bg-neutral-800 py-3'>
+      <ul className='mt-8 bg-neutral-800 py-3'>
         {sideBarMenu.map((menuItem, index) => {
           const isLastItem = index === sideBarMenu.length - 1;
           return (

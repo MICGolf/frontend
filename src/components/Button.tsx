@@ -1,17 +1,20 @@
 const Button = ({
+  type = 'button',
   title,
   onClick,
   className,
-  color = 'bg-primary',
+  color = 'bg-primary text-white',
 }: {
+  type?: 'button' | 'submit';
   title: string;
-  onClick: () => void;
+  onClick?: () => void;
   className?: string;
   color?: string;
 }) => {
   return (
     <button
-      className={`${color} block rounded-md px-4 py-2 text-base text-white duration-300 ease-in-out hover:scale-105 ${className}`}
+      type={type}
+      className={`${color} block rounded-md px-4 py-2 text-base duration-300 ease-in-out hover:scale-105 ${className}`}
       onClick={onClick}
     >
       {title}

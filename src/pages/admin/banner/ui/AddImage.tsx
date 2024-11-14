@@ -70,10 +70,10 @@ const AddImage = () => {
                 type='text'
                 placeholder='배너 제목'
                 label='배너 제목'
-                formRegister={register('bannerName', {
+                register={register('bannerName', {
                   required: '필수 입력 항목입니다',
                 })}
-                className='rounded-md border border-neutral-300'
+                className=''
               />
               {errors.bannerName && (
                 <p className='ml-1 mt-1 text-sm text-red-500'>{errors.bannerName.message as string}</p>
@@ -88,10 +88,9 @@ const AddImage = () => {
                 onChange={(e) => {
                   handleImageChange(e);
                 }}
-                formRegister={{
-                  name: 'bannerImage',
-                  onBlur: bannerImageRegister.onBlur,
-                }}
+                register={register('bannerImage', {
+                  required: '필수 입력 항목입니다',
+                })}
                 className='rounded-md border border-neutral-300'
               />
               {errors.bannerImage && (
