@@ -18,13 +18,8 @@ const SortDropdown = () => {
   }, [isOpen]);
 
   return (
-    <div className='relative'>
-      <label
-        htmlFor='sort'
-        className='flex items-center justify-end gap-1 cursor-pointer'
-        onClick={() => setIsOpen((prev) => !prev)}
-        aria-expanded={isOpen}
-      >
+    <div className='relative flex items-center justify-end'>
+      <label htmlFor='sort' className='flex gap-1 cursor-pointer' onClick={() => setIsOpen((prev) => !prev)}>
         <span>최신순</span>
         <ChevronDown className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
         <input
@@ -39,7 +34,7 @@ const SortDropdown = () => {
 
       <div
         ref={dropdownRef}
-        className='absolute right-0 z-50 w-32 mt-2 overflow-hidden transition-all duration-300 ease-in-out bg-white border border-gray-300 shadow-lg'
+        className='absolute right-0 top-[20px] z-50 mt-2 w-32 overflow-hidden border border-gray-300 bg-white shadow-lg transition-all duration-300 ease-in-out'
         style={{ maxHeight: '0', opacity: '0' }}
       >
         <ul>
