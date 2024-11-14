@@ -1,5 +1,5 @@
-import AddImage from './ui/AddImage';
-import BannerList from './ui/BannerList';
+import AddImage from './components/AddImage';
+import BannerList from './components/BannerList';
 
 export const Banner = () => {
   return (
