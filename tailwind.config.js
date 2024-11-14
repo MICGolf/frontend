@@ -18,6 +18,7 @@ export default {
         blue700: "#0000FF", // 링크
         success: "#008541",
         error: '#FF0E00',
+        naver: '#00DE5A'
       },
       fontFamily: {
         sans: ["Noto Sans KR", "Arial", "sans-serif"],
@@ -25,6 +26,12 @@ export default {
       }
     },
   },
-  plugins: [],
+    corePlugins: {
+    aspectRatio: false,
+  },
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+    require("tailwind-scrollbar-hide")
+  ],
 } 
 
