@@ -8,7 +8,7 @@ import { ProductDetailViewProps } from '../types';
 import { Color, Size } from '@/assets/dummys/types';
 
 const ProductDetailView = ({ data }: ProductDetailViewProps) => {
-  const [detailImage, setDetailImage] = useState(data.colors[0]?.images);
+  const [detailImage, setDetailImage] = useState<string[]>(data.colors[0]?.images);
   const [selectedColor, setSelectedColor] = useState<Color | null>(null);
   const [selectedSize, setSelectedSize] = useState<Size | null>(null);
   const [count, setCount] = useState<number>(1);
