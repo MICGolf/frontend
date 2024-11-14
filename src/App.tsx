@@ -24,6 +24,10 @@ import CheckoutCompletePage from './pages/checkout/CheckoutCompletePage';
 import ProductAdd from './pages/admin/product/ProductAdd';
 import ProductEdit from './pages/admin/product/ProductEdit';
 import CategoryPage from './pages/shop/categoryPage/CategoryPage';
+import SaleSearch from './pages/admin/sale/search/SaleSearch';
+import SalePayment from './pages/admin/sale/payment/SalePayment';
+import SaleOrdering from './pages/admin/sale/ordering/SaleOrdering';
+import SaleDelivery from './pages/admin/sale/delivery/SaleDelivery';
 
 function App() {
   return (
@@ -78,30 +82,30 @@ function App() {
               <Route path='add' element={<ProductAdd />} />
             </Route>
             <Route path='sale'>
-              <Route path='search' element={<AdminPage />} />
-              <Route path='payment' element={<AdminPage />} />
-              <Route path='ordering' element={<AdminPage />} />
-              <Route path='delivery' element={<AdminPage />} />
-              <Route path='cancel' element={<AdminPage />} />
+              <Route path='search' element={<SaleSearch />} />
+              <Route path='payment' element={<SalePayment />} />
+              <Route path='ordering' element={<SaleOrdering />} />
+              <Route path='delivery' element={<SaleDelivery />} />
+              {/* <Route path='cancel' element={<AdminPage />} />
               <Route path='return' element={<AdminPage />} />
-              <Route path='exchange' element={<AdminPage />} />
+              <Route path='exchange' element={<AdminPage />} /> */}
             </Route>
-            <Route path='inquiry' element={<AdminPage />} />
-            <Route path='review' element={<AdminPage />} />
+            {/* <Route path='inquiry' element={<AdminPage />} />
+            <Route path='review' element={<AdminPage />} /> */}
             <Route path='store'>
-              <Route path='logo' element={<AdminPage />} />
+              {/* <Route path='logo' element={<AdminPage />} /> */}
               <Route path='banner' element={<Banner />} />
               <Route path='bestitem' element={<AdminPage />} />
-              <Route path='newarrival' element={<AdminPage />} />
+              {/* <Route path='newarrival' element={<AdminPage />} /> */}
               <Route path='mdschoice' element={<AdminPage />} />
             </Route>
-            <Route path='event'>
+            {/* <Route path='event'>
               <Route path='edit' element={<AdminPage />} />
               <Route path='add' element={<AdminPage />} />
             </Route>
             <Route path='user' element={<AdminPage />} />
             <Route path='statistics' element={<AdminPage />} />
-            <Route path='notification' element={<AdminPage />} />
+            <Route path='notification' element={<AdminPage />} /> */}
           </Route>
         </Route>
       </Routes>
