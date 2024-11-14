@@ -21,8 +21,6 @@ import AdminLoginPage from './pages/admin/AdminLoginPage';
 import Banner from './pages/admin/banner/Banner';
 import CheckoutPage from './pages/checkout/CheckoutPage';
 import CheckoutCompletePage from './pages/checkout/CheckoutCompletePage';
-import ProductAdd from './pages/admin/product/ProductAdd';
-import ProductEdit from './pages/admin/product/ProductEdit';
 import CategoryPage from './pages/shop/categoryPage/CategoryPage';
 import SaleSearch from './pages/admin/sale/search/SaleSearch';
 import SalePayment from './pages/admin/sale/payment/SalePayment';
@@ -43,8 +41,9 @@ function App() {
           {/* PublicRoute */}
           {/* 쇼핑 */}
           <Route path='/shop' element={<ShopPage />} />
-          <Route path='/shop/:category' element={<CategoryPage />} />
-          <Route path='/shop/:category/:id' element={<DetailPage />} />
+          <Route path='/shop/:majorCategory' element={<CategoryPage />} />
+          <Route path='/shop/:majorCategory/:middleCategory' element={<CategoryPage />} />
+          <Route path='/shop/detail/:id' element={<DetailPage />} />
 
           {/* 이벤트 */}
           <Route path='/event' element={<EventMainPage />} />
@@ -78,8 +77,8 @@ function App() {
           <Route path='/admin' element={<AdminRoute />}>
             <Route path='' element={<AdminPage />} />
             <Route path='product'>
-              <Route path='edit' element={<ProductEdit />} />
-              <Route path='add' element={<ProductAdd />} />
+              <Route path='edit' element={<AdminPage />} />
+              <Route path='add' element={<AdminPage />} />
             </Route>
             <Route path='sale'>
               <Route path='search' element={<SaleSearch />} />

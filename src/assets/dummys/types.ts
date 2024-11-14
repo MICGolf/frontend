@@ -34,3 +34,16 @@ export interface ProductDetail {
   feature: string;
   colors: Color[];
 }
+
+// 중분류 타입 정의
+export interface MiddleCategory {
+  id: number;
+  category: string;
+}
+
+// 대분류 타입 정의
+export interface MajorCategory {
+  id: number;
+  majorCategory: string;
+  middleCategories: MiddleCategory[];
+}
