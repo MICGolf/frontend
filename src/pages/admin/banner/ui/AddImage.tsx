@@ -14,26 +14,25 @@ const AddImage = () => {
     register,
     formState: { errors },
   } = useForm();
-  const bannerImageRegister = register('bannerImage', {
-    required: '이미지를 선택해주세요',
-    validate: {
-      fileFormat: (value) => {
-        if (value?.[0]) {
-          const types = ['image/jpeg', 'image/png', 'image/gif'];
-          return types.includes(value[0].type) || '이미지 파일만 업로드 가능합니다';
-        }
-        return true;
-      },
-      fileSize: (value) => {
-        if (value?.[0]) {
-          const fileSize = value[0].size / 1024 / 1024;
-          return fileSize <= 5 || '파일 크기는 5MB 이하여야 합니다';
-        }
-        return true;
-      },
-    },
-  });
-  console.log(bannerImageRegister);
+  // const bannerImageRegister = register('bannerImage', {
+  //   required: '이미지를 선택해주세요',
+  //   validate: {
+  //     fileFormat: (value) => {
+  //       if (value?.[0]) {
+  //         const types = ['image/jpeg', 'image/png', 'image/gif'];
+  //         return types.includes(value[0].type) || '이미지 파일만 업로드 가능합니다';
+  //       }
+  //       return true;
+  //     },
+  //     fileSize: (value) => {
+  //       if (value?.[0]) {
+  //         const fileSize = value[0].size / 1024 / 1024;
+  //         return fileSize <= 5 || '파일 크기는 5MB 이하여야 합니다';
+  //       }
+  //       return true;
+  //     },
+  //   },
+  // });
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
