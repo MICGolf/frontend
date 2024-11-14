@@ -1,4 +1,4 @@
-import useTermsModalState from '@/hooks/useTermsModalState/useModalState';
+import useTermsModalState from '@/hooks/useModalState/useModalState';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
