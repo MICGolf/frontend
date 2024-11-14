@@ -1,6 +1,6 @@
 import { shopProductData } from '@/assets/dummys/productListDatas';
-import ProductCard from './components/ProductCard';
-import SortDropdown from './components/SortDropdown';
+import ProductCard from '../components/ProductCard';
+import SortDropdown from '../components/SortDropdown';
 
 const ShopPage = () => {
   return (
