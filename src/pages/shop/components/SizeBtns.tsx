@@ -1,15 +1,11 @@
-import { SizeOption } from '@/assets/dummys/types';
 import { useEffect, useState } from 'react';
-
-interface SizeBtnsProps {
-  data: SizeOption[];
-  onSelect: (size: SizeOption | null) => void; // null 허용
-}
+import { SizeBtnsProps } from '../detailPage/types';
+import { Size } from '@/assets/dummys/types';
 
 const SizeBtns = ({ data, onSelect }: SizeBtnsProps) => {
   const [selectedSize, setSelectedSize] = useState('');
 
-  const handleSizeChange = (size: SizeOption) => {
+  const handleSizeChange = (size: Size) => {
     if (selectedSize === size.name) {
       // 동일한 사이즈를 클릭하면 선택 해제
       setSelectedSize('');

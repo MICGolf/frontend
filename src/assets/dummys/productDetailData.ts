@@ -15,8 +15,9 @@ import pouch2_004 from '@/assets/imgs/pouch2_004.jpg';
 import pouch2_005 from '@/assets/imgs/pouch2_005.jpg';
 import pouch2_006 from '@/assets/imgs/pouch2_006.jpg';
 import pouch2_007 from '@/assets/imgs/pouch2_007.jpg';
+import { ProductDetail } from './types';
 
-export const productDetailData = {
+export const productDetailData: ProductDetail = {
   name: '믹골프 파우치 2세대',
   id: '01201110',
   price: 120000000,

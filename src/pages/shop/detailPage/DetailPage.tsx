@@ -1,4 +1,4 @@
-import { productDetailData } from '@/assets/dummys/productDetailInfo';
+import { productDetailData } from '@/assets/dummys/productDetailData';
 import ProductDetailView from '../components/ProductDetailView';
 import ProductDetails from '../components/ProductDetails';
 

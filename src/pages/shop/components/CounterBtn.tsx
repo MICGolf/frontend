@@ -1,17 +1,14 @@
 import minus from '@/assets/icons/minus.svg';
 import plus from '@/assets/icons/plus.svg';
 import { useEffect } from 'react';
+import { CounterBtnProps } from '../detailPage/types';
 
-interface CounterProps {
-  count: number;
-  maxCount: number | undefined;
-  setCount: (count: number) => void;
-}
-
-const CounterBtn = ({ count, maxCount, setCount, setMaxCount, selectedSize, selectedColor }: CounterProps) => {
+const CounterBtn = ({ count, setCount, maxCount, setMaxCount, selectedSize, selectedColor }: CounterBtnProps) => {
   useEffect(() => {
     setCount(1);
-    setMaxCount(selectedSize?.stock);
+    if (selectedSize) {
+      setMaxCount(selectedSize.stock);
+    }
   }, [selectedSize, selectedColor]);
 
   const handleDecrease = () => {

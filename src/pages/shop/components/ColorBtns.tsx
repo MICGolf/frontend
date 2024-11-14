@@ -1,11 +1,11 @@
-import { ColorOption } from '@/assets/dummys/types';
-import { ColorBtnsProps } from '../detailPage/types';
 import { useState } from 'react';
+import { ColorBtnsProps } from '../detailPage/types';
+import { Color } from '@/assets/dummys/types';
 
 const ColorBtns = ({ data, onSelect, onChange }: ColorBtnsProps) => {
-  const [selectedColorId, setSelectedColorId] = useState(null);
+  const [selectedColorId, setSelectedColorId] = useState<string | null>(null);
 
-  const handleColorChange = (color: ColorOption) => {
+  const handleColorChange = (color: Color) => {
     if (selectedColorId === color.id) {
       setSelectedColorId(null);
       onSelect(null);

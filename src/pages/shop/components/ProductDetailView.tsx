@@ -1,17 +1,18 @@
-import { ProductDetailViewProps } from '../detailPage/types';
 import NaverPayBtn from './NaverPayBtn';
 import AddCartBtn from './AddCartBtn';
 import ColorBtns from './ColorBtns';
 import { useState } from 'react';
 import SizeBtns from './SizeBtns';
 import Counter from './CounterBtn';
+import { ProductDetailViewProps } from '../detailPage/types';
+import { Color, Size } from '@/assets/dummys/types';
 
 const ProductDetailView = ({ data }: ProductDetailViewProps) => {
   const [detailImage, setDetailImage] = useState(data.colors[0]?.images);
-  const [selectedColor, setSelectedColor] = useState(null);
-  const [selectedSize, setSelectedSize] = useState(null);
-  const [count, setCount] = useState(1);
-  const [maxCount, setMaxCount] = useState(1);
+  const [selectedColor, setSelectedColor] = useState<Color | null>(null);
+  const [selectedSize, setSelectedSize] = useState<Size | null>(null);
+  const [count, setCount] = useState<number>(1);
+  const [maxCount, setMaxCount] = useState<number>(1);
   // const [selectedOption, setSelectedOption] = useState(null);
 
   return (

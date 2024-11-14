@@ -2,8 +2,9 @@ import ReviewCarousel from './ReviewCarousel';
 import TextContent from './TextContent';
 import ReviewCard from './ReviewCard';
 import ReviewDropdown from './ReviewDropDown';
+import { ProductDetailsProps } from '../detailPage/types';
 
-const ProductDetails = ({ data }) => {
+const ProductDetails = ({ data }: ProductDetailsProps) => {
   const detailBoxes = [
     {
       id: 1,
