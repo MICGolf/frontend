@@ -27,7 +27,7 @@ const SizeBtns = ({ data, onSelect }: SizeBtnsProps) => {
 
   return (
     <div className='flex flex-col gap-2'>
-      <h3 className='text-2xl font-medium'>사이즈</h3>
+      <h3 className='text-2xl font-light'>사이즈</h3>
       <ul className='flex gap-[10px]'>
         {data ? (
           data.sizes?.map((size, idx) => (

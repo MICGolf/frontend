@@ -16,22 +16,19 @@ const ProductDetailView = ({ data }: ProductDetailViewProps) => {
 
   return (
     <section className='flex flex-col min-h-screen xl:flex-row'>
-      <div className='w-full xl:w-1/2'>
-        <figure className='flex flex-col'>
-          {detailImage.map((img, idx) => (
-            <img key={idx} src={img} alt={`상품 이미지 ${idx + 1}`} className='object-contain w-full h-auto' />
-          ))}
-          <figcaption className='sr-only'>상품의 썸네일 이미지</figcaption>
-        </figure>
+      <div className='flex w-full flex-col gap-[2px] xl:w-1/2'>
+        {detailImage.map((img, idx) => (
+          <div key={idx} className='w-full h-screen xl:h-full'>
+            <img src={img} alt={`상품 이미지 ${idx + 1}`} className='object-cover w-full h-full' />
+          </div>
+        ))}
       </div>
 
-      <div className='flex w-full flex-col overflow-auto border-l border-primary p-[50px] xl:sticky xl:top-[70px] xl:h-[calc(100vh-70px)] xl:w-1/2'>
+      <div className='flex w-full flex-col overflow-auto p-[50px] xl:sticky xl:top-[70px] xl:h-[calc(100vh-70px)] xl:w-1/2 xl:border-l xl:border-primary'>
         <div className='flex flex-col h-full gap-8'>
           <div className='flex flex-col gap-4'>
             <h2 className='text-4xl font-bold'>{data.name}</h2>
-            <p className='text-2xl font-light' aria-live='polite'>
-              ₩{data.price.toLocaleString()}
-            </p>
+            <p className='text-2xl font-light'>₩{data.price.toLocaleString()}</p>
           </div>
 
           <div className='flex flex-col gap-6 mt-auto'>
@@ -45,7 +42,7 @@ const ProductDetailView = ({ data }: ProductDetailViewProps) => {
               selectedSize={selectedSize}
               selectedColor={selectedColor}
             />
-            <div className='flex gap-4'>
+            <div className='flex flex-col gap-4 xl:flex'>
               <AddCartBtn />
               <NaverPayBtn />
             </div>

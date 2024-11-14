@@ -14,11 +14,12 @@ const ColorBtns = ({ data, onSelect, onChange }: ColorBtnsProps) => {
       onSelect(color);
     }
     onChange(color.images);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
     <div className='flex flex-col gap-2'>
-      <h3 className='text-2xl font-medium'>색상</h3>
+      <h3 className='text-2xl font-light'>색상</h3>
       <ul className='flex gap-[7px]'>
         {data.map((color) => (
           <li

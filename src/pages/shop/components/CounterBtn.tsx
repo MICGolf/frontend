@@ -29,7 +29,7 @@ const CounterBtn = ({ count, maxCount, setCount, setMaxCount, selectedSize, sele
 
   return (
     <div className='flex flex-col gap-2'>
-      <h3 className='text-2xl font-medium'>수량</h3>
+      <h3 className='text-2xl font-light'>수량</h3>
       {selectedColor && selectedSize ? (
         <div
           className='item-center flex h-[40px] w-[130px] justify-around border border-gray200'
