@@ -7,17 +7,19 @@ const ListHeader = ({
   listArray,
 }: {
   HeaderListArray: { className: string; title: string }[];
-  checkedList: { id: number; productNumber: string }[];
-  setCheckedList: (checkedList: { id: number; productNumber: string }[]) => void;
-  listArray: { id: number; productNumber: string }[];
+  checkedList?: { id: number; productNumber: string }[];
+  setCheckedList?: (checkedList: { id: number; productNumber: string }[]) => void;
+  listArray?: { id: number; productNumber: string }[];
 }) => {
-  const allChecked = checkedList.length === listArray.length; // 전체 선택 여부
+  const allChecked = checkedList?.length === listArray?.length; // 전체 선택 여부
 
   const toggleAllCheckboxes = () => {
-    if (allChecked) {
+    if (allChecked && setCheckedList && listArray) {
       setCheckedList([]);
-    } else {
+    } else if (listArray && setCheckedList) {
       setCheckedList(listArray.map((item) => ({ id: item.id, productNumber: item.productNumber }))); // 전체 선택
+    } else {
+      return null;
     }
   };
   return (
@@ -25,7 +27,7 @@ const ListHeader = ({
       {HeaderListArray.map((item) => (
         <div key={item.title} className={`${item.className} py-2`}>
           {item.title === '체크박스' ? (
-            <Checkbox disabled={false} checked={allChecked} onChange={() => toggleAllCheckboxes()} />
+            <Checkbox disabled={false} checked={allChecked} onChange={toggleAllCheckboxes} />
           ) : (
             item.title
           )}
