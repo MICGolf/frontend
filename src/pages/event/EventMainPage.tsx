@@ -1,7 +1,8 @@
-import { useState } from "react";
-import ArrowLeft from "@/assets/arrow_L.svg";
-import ArrowRight from "@/assets/arrow_R.svg";
-import DropdownIcon from "@/assets/dropdown.svg";
+import { useState } from 'react';
+import ArrowLeft from '@/assets/arrow_L.svg';
+import ArrowRight from '@/assets/arrow_R.svg';
+import DropdownIcon from '@/assets/dropdown.svg';
+import { Link } from 'react-router-dom';
 
 const EventMainPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -20,7 +21,7 @@ const EventMainPage = () => {
     setCurrentPage(page);
   };
 
-  //페이지 범위 계산
+  // 페이지 범위 계산
   const getPageRange = () => {
     const startPage = Math.floor((currentPage - 1) / pageRange) * pageRange + 1;
     const endPage = Math.min(startPage + pageRange - 1, totalPages);
@@ -30,57 +31,56 @@ const EventMainPage = () => {
   const { startPage, endPage } = getPageRange();
 
   return (
-    <div className="w-full mx-auto px-[130px] py-5">
-      <p className="mb-[75px] text-[40px] text-primary">Event</p>
+    <div className='mx-auto w-full px-[130px] py-5 pt-[200px]'>
+      <p className='mb-[75px] text-[40px] text-primary'>Event</p>
 
-      <div className="flex gap-3 mb-[93px]">
-        <button className="w-[307px] h-[41px] bg-secondary text-primary font-thin text-[20px] border border-primary hover:bg-primary hover:text-secondary transition">
+      <div className='mb-[93px] flex gap-3'>
+        <button className='h-[41px] w-[307px] border border-primary bg-secondary text-[20px] font-thin text-primary transition hover:bg-primary hover:text-secondary'>
           전체({dummyData.length})
         </button>
-        <button className="w-[307px] h-[41px] bg-primary text-secondary font-thin text-[20px] hover:bg-secondary hover:text-primary hover:border hover:border-primary transition">
+        <button className='h-[41px] w-[307px] bg-primary text-[20px] font-thin text-secondary transition hover:border hover:border-primary hover:bg-secondary hover:text-primary'>
           진행중(0)
         </button>
-        <button className="w-[307px] h-[41px] bg-primary text-secondary font-thin text-[20px] hover:bg-secondary hover:text-primary hover:border hover:border-primary transition">
+        <button className='h-[41px] w-[307px] bg-primary text-[20px] font-thin text-secondary transition hover:border hover:border-primary hover:bg-secondary hover:text-primary'>
           종료(0)
         </button>
       </div>
 
-      <div className="flex items-center justify-end mb-6">
-        <div className="flex items-center text-base font-medium cursor-pointer text-primary px-[19.5px] py-[13px]">
+      <div className='mb-6 flex items-center justify-end'>
+        <div className='flex cursor-pointer items-center px-[19.5px] py-[13px] text-base font-medium text-primary'>
           인기순
-          <img src={DropdownIcon} alt="Dropdown Icon" className="pl-[6px]" />
+          <img src={DropdownIcon} alt='Dropdown Icon' className='pl-[6px]' />
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-[38px] mb-6">
-        {dummyData
-          .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
-          .map((item) => (
-            <div className="flex flex-col items-start bg-secondary" key={item.id}>
-              <div className="w-full h-[591px] bg-[#f6f6f6] mb-5 "></div>
-              <p className="text-lg font-semibold text-primary mb-[6px]">{item.title}</p>
-              <p className="text-sm text-primary">{item.date}</p>
+      <div className='mb-6 grid grid-cols-2 gap-[38px]'>
+        {dummyData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((item) => (
+          <Link key={item.id} to={`/event/${item.id}`}>
+            <div className='flex flex-col items-start bg-secondary'>
+              <div className='mb-5 h-[591px] w-full bg-[#f6f6f6]'></div>
+              <p className='mb-[6px] text-lg font-semibold text-primary'>{item.title}</p>
+              <p className='text-sm text-primary'>{item.date}</p>
             </div>
-          ))}
+          </Link>
+        ))}
       </div>
 
-      <div className="flex items-center justify-center mt-8 space-x-3">
+      <div className='mt-8 flex items-center justify-center space-x-3'>
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className={`p-2 ${currentPage === 1 ? "text-gray300" : "text-primary"}`}
+          className={`p-2 ${currentPage === 1 ? 'text-gray300' : 'text-primary'}`}
         >
-          <img src={ArrowLeft} alt="Arrow Left" />
+          <img src={ArrowLeft} alt='Arrow Left' />
         </button>
 
         {Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i).map((page) => (
           <button
             key={page}
             onClick={() => handlePageChange(page)}
-            className={`px-2 py-1 ${page === currentPage
-              ? "font-bold text-primary border-b-2 border-primary"
-              : "text-gray300"
-              }`}
+            className={`px-2 py-1 ${
+              page === currentPage ? 'border-b-2 border-primary font-bold text-primary' : 'text-gray300'
+            }`}
           >
             {page}
           </button>
@@ -89,9 +89,9 @@ const EventMainPage = () => {
         <button
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className={`p-2 ${currentPage === totalPages ? "text-gray300" : "text-primary"}`}
+          className={`p-2 ${currentPage === totalPages ? 'text-gray300' : 'text-primary'}`}
         >
-          <img src={ArrowRight} alt="Arrow Right" />
+          <img src={ArrowRight} alt='Arrow Right' />
         </button>
       </div>
     </div>
