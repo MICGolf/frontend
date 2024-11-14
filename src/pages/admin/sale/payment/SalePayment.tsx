@@ -1,9 +1,10 @@
-import PaymentFilter from './ui/PaymentFilter';
-
+import PaymentFilter from './components/PaymentFilter';
+import PaymentList from './components/PaymentList';
 const SalePayment = () => {
   return (
     <>
       <PaymentFilter />
+      <PaymentList />
     </>
   );
 };

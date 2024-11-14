@@ -1,6 +1,6 @@
-import ProductFilter from './ui/ProductFilter';
-import ProductStatusDashboard from '../ui/ProductStatusDashboard';
-import ProductList from './ui/ProductList';
+import ProductFilter from './components/ProductFilter';
+import ProductStatusDashboard from '../components/ProductStatusDashboard';
+import ProductList from './components/ProductList';
 
 const productStatusArray = [
   { title: '전체', count: 0 },

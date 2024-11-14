@@ -1,10 +1,8 @@
-import Button from '@/components/Button';
-import { Input } from '@/components/Input';
 import { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import arrowDropDown from '@/assets/icons/arrowDropDown.svg';
 import arrowDropUp from '@/assets/icons/arrowDropUp.svg';
-import DatePickInputs from '@/components/DatePickInputs';
+import DatePickInputs from '@/pages/admin/components/DatePickInputs';
 
 const DeliveryFilter = () => {
   const methods = useForm();
@@ -15,13 +13,13 @@ const DeliveryFilter = () => {
 
   return (
     <FormProvider {...methods}>
-      <form className='grid grid-cols-6 px-8 py-5 mt-6 bg-white rounded-lg' onSubmit={handleSubmit(handlerSubmit)}>
-        <p className='col-span-1 mt-4 text-base font-semibold text-neutral-500'>조회기간</p>
+      <form className='mt-6 grid grid-cols-6 rounded-lg bg-white px-8 py-5' onSubmit={handleSubmit(handlerSubmit)}>
+        <p className='col-span-1 mt-4 flex items-center text-base font-semibold text-neutral-500'>조회기간</p>
         <div className='col-span-5'>
           <DatePickInputs />
         </div>
-        <p className='col-span-1 mt-4 text-base font-semibold text-neutral-500'>상세검색</p>
-        <div className='flex items-center col-span-5 gap-4'>
+        <p className='col-span-1 mt-4 flex items-center text-base font-semibold text-neutral-500'>상세검색</p>
+        <div className='col-span-5 flex items-center gap-4'>
           <select
             {...register('productStatus')}
             className={`mt-4 w-full appearance-none rounded-md border border-neutral-300 bg-[length:36px_36px] bg-[center_right_1rem] bg-no-repeat px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300`}
@@ -41,10 +39,15 @@ const DeliveryFilter = () => {
             <option value='productNumber'>상품 번호</option>
             <option value='invoiceNumber'>송장번호</option>
           </select>
-          <Input type='text' placeholder='검색어' register={register('searchKeyword')} />
-        </div>{' '}
-        <p className='col-span-1 mt-4 text-base font-semibold text-neutral-500'>주문상태</p>
-        <div className='flex items-center col-span-5 gap-4'>
+          <input
+            type='text'
+            placeholder='검색어'
+            {...register('searchKeyword')}
+            className='mt-4 w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
+          />
+        </div>
+        <p className='col-span-1 mt-4 flex items-center text-base font-semibold text-neutral-500'>주문상태</p>
+        <div className='col-span-5 flex items-center gap-4'>
           <select
             {...register('productStatus')}
             className={`mt-4 w-full appearance-none rounded-md border border-neutral-300 bg-[length:36px_36px] bg-[center_right_1rem] bg-no-repeat px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300`}
@@ -60,17 +63,23 @@ const DeliveryFilter = () => {
             <option value='delivered'>배송완료</option>
           </select>
         </div>
-        <div className='flex justify-center w-full col-span-6 gap-4 mt-4'>
-          <Button type='submit' title='검색' className='w-1/3 mt-4' />
-          <Button
+        <div className='col-span-6 mt-4 flex w-full justify-center gap-4'>
+          <button
+            type='submit'
+            className='mt-4 block w-1/3 rounded-md bg-primary px-4 py-2 text-base text-white duration-300 ease-in-out hover:scale-105'
+          >
+            검색
+          </button>
+          <button
             type='button'
-            title='초기화'
             onClick={() => {
               reset();
             }}
             color='white'
-            className='w-1/3 mt-4 border border-neutral-300 text-neutral-900'
-          />
+            className='mt-4 block w-1/3 rounded-md border border-neutral-300 px-4 py-2 text-base text-neutral-900 duration-300 ease-in-out hover:scale-105'
+          >
+            초기화
+          </button>
         </div>
       </form>
     </FormProvider>
