@@ -8,6 +8,7 @@ export const cartItemData: CartItemData[] = [
     size: 'L',
     amount: 1,
     price: 15000,
+    image: 'https://via.placeholder.com/150/FF0000/FFFFFF?text=Coat+1',
   },
   {
     id: 2,
@@ -16,6 +17,7 @@ export const cartItemData: CartItemData[] = [
     size: 'L',
     amount: 2,
     price: 115000,
+    image: 'https://via.placeholder.com/150/00FF00/FFFFFF?text=Coat+2',
   },
   {
     id: 3,
@@ -24,6 +26,7 @@ export const cartItemData: CartItemData[] = [
     size: 'M',
     amount: 3,
     price: 20000,
+    image: 'https://via.placeholder.com/150/0000FF/FFFFFF?text=Golf+Ball',
   },
   {
     id: 4,
@@ -32,5 +35,6 @@ export const cartItemData: CartItemData[] = [
     size: 'S',
     amount: 4,
     price: 50000,
+    image: 'https://via.placeholder.com/150/FFFF00/FFFFFF?text=Golf+Pouch',
   },
 ];

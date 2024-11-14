@@ -21,6 +21,7 @@ import FindIdPage from './pages/auth/FindIdPage';
 import AdminLoginPage from './pages/admin/AdminLoginPage';
 import Banner from './pages/admin/banner/Banner';
 import CheckoutPage from './pages/checkout/CheckoutPage';
+import CheckoutCompletePage from './pages/checkout/CheckoutCompletePage';
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
 
           {/* 결제 */}
           <Route path='/checkout' element={<CheckoutPage />} />
+          <Route path='/checkout/success' element={<CheckoutCompletePage />} />
 
           {/* 공지사항 */}
           <Route path='/notice' element={<NoticePage />} />
