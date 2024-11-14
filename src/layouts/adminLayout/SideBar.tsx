@@ -2,9 +2,7 @@ import logoWhite from '@/assets/imgs/logoWhite.svg';
 import arrowDropDown from '@/assets/icons/arrowDropDown.svg';
 import arrowDropUp from '@/assets/icons/arrowDropUp.svg';
 import { useSidebarStorage } from '@/hooks/useSidebarStorage';
-import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 
 const sideBarMenu = [
   {
@@ -26,69 +24,69 @@ const sideBarMenu = [
       { title: '교환관리', link: '/admin/sale/exchange' },
     ],
   },
-  {
-    title: '문의리뷰관리',
-    sibTitle: [
-      { title: '문의관리', link: '/admin/inquiry' },
-      { title: '리뷰관리', link: '/admin/review' },
-    ],
-  },
+  // {
+  //   title: '문의리뷰관리',
+  //   sibTitle: [
+  //     { title: '문의관리', link: '/admin/inquiry' },
+  //     { title: '리뷰관리', link: '/admin/review' },
+  //   ],
+  // },
   {
     title: '스토어관리',
     sibTitle: [
-      { title: '로고관리', link: '/admin/store/logo' },
+      // { title: '로고관리', link: '/admin/store/logo' },
       { title: '배너관리', link: '/admin/store/banner' },
       { title: 'Best Item', link: '/admin/store/bestitem' },
-      { title: 'New Arrival', link: '/admin/store/newarrival' },
+      // { title: 'New Arrival', link: '/admin/store/newarrival' },
       { title: 'MD’s Choice', link: '/admin/store/mdschoice' },
     ],
   },
-  {
-    title: '이벤트관리',
-    sibTitle: [
-      { title: '이벤트 조회/수정', link: '/admin/event/edit' },
-      { title: '이벤트 등록', link: '/admin/event/add' },
-    ],
-  },
-  {
-    title: '회원관리',
-    link: '/admin/user',
-  },
-  {
-    title: '통계',
-    link: '/admin/statistics',
-  },
-  {
-    title: '공지사항',
-    link: '/admin/notification',
-  },
+  // {
+  //   title: '이벤트관리',
+  //   sibTitle: [
+  //     { title: '이벤트 조회/수정', link: '/admin/event/edit' },
+  //     { title: '이벤트 등록', link: '/admin/event/add' },
+  //   ],
+  // },
+  // {
+  //   title: '회원관리',
+  //   link: '/admin/user',
+  // },
+  // {
+  //   title: '통계',
+  //   link: '/admin/statistics',
+  // },
+  // {
+  //   title: '공지사항',
+  //   link: '/admin/notification',
+  // },
 ];
-// 68번 타입 정해야함
 export const SideBar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm();
-  const handlerSubmit = (data: any) => {
-    console.log(data);
-    navigate('/admin/sale/search');
-  };
+  // const {
+  //   handleSubmit,
+  //   register,
+  //   formState: { errors },
+  // } = useForm();
+  // const handlerSubmit = (data: any) => {
+  //   console.log(data);
+  //   navigate('/admin/sale/search');
+  // };
   const { selectMenu, toggleMenu } = useSidebarStorage();
   const location = useLocation();
 
   return (
-    <aside className='h-full w-72 bg-primary py-8'>
-      <div className='mb-11 flex content-center justify-center' onClick={() => navigate('/admin')}>
+    <aside className='h-full py-8 w-72 bg-primary'>
+      <div className='flex content-center justify-center mb-11' onClick={() => navigate('/admin')}>
         <img src={logoWhite} alt='믹골프 로고' />
       </div>
       <div>
         <p className='text-center'>믹골프</p>
         <p className='text-center'>계정 : ddd </p>
       </div>
-      <form onSubmit={handleSubmit(handlerSubmit)} className='px-8'>
+      {/* FIX
+       <form onSubmit={handleSubmit(handlerSubmit)} className='px-8'>
         <select
           {...register('productStatus', { required: '검색옵션을 선택해주세요' })}
           className={`mt-4 w-full appearance-none rounded-lg border border-neutral-300 bg-[length:36px_36px] bg-[center_right_1rem] bg-no-repeat px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300`}
@@ -111,10 +109,10 @@ export const SideBar = () => {
           type='text'
           placeholder='입력 후 엔터로 검색'
           {...register('searchText_input')}
-          className='mt-4 w-full rounded-lg px-3 py-2 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
+          className='w-full px-3 py-2 mt-4 rounded-lg text-neutral-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
         />
-      </form>
-      <ul className='mt-8 bg-neutral-800 py-3'>
+      </form> */}
+      <ul className='py-3 mt-8 bg-neutral-800'>
         {sideBarMenu.map((menuItem, index) => {
           const isLastItem = index === sideBarMenu.length - 1;
           return (
@@ -122,9 +120,9 @@ export const SideBar = () => {
               key={menuItem.title}
               className={`mx-2 cursor-pointer px-2 py-3 ${isLastItem ? '' : 'border-b-2 border-neutral-700'}`}
             >
-              {menuItem.link ? (
+              {menuItem.sibTitle ? (
                 <Link
-                  to={menuItem.link}
+                  to={menuItem.sibTitle[0].link}
                   className='flex justify-between'
                   onClick={(e) => {
                     if (menuItem.sibTitle) {

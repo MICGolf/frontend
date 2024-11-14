@@ -22,6 +22,7 @@ const ListHeader = ({
       return null;
     }
   };
+
   return (
     <div className='flex items-center justify-stretch justify-items-center self-stretch border-b border-neutral-400 bg-neutral-100 text-center'>
       {HeaderListArray.map((item) => (
