@@ -1,5 +1,9 @@
 const ShopPage = () => {
-  return <div>ShopPage</div>;
+  return (
+    <>
+      <article className='w-full'></article>;
+    </>
+  );
 };
 
 export default ShopPage;

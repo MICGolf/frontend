@@ -25,7 +25,7 @@ const ProductDetailView = ({ data }: ProductDetailViewProps) => {
         ))}
       </div>
 
-      <div className='flex w-full flex-col overflow-auto px-[50px] pb-[50px] pt-[150px] xl:sticky xl:top-0 xl:h-[calc(100vh)] xl:w-1/2 xl:border-l xl:border-primary'>
+      <div className='z-[1] flex w-full flex-col overflow-auto px-[50px] pb-[50px] pt-[150px] xl:sticky xl:top-0 xl:h-[calc(100vh)] xl:w-1/2 xl:border-l xl:border-primary'>
         <div className='flex flex-col h-full gap-8'>
           <div className='flex flex-col gap-4'>
             <h2 className='text-4xl font-bold'>{data.name}</h2>
