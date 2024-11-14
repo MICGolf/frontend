@@ -9,7 +9,6 @@ import SignUpCompletePage from './pages/auth/SignUpCompletePage';
 import MyPage from './pages/mypage/MyPage';
 import AdminPage from './pages/admin/main/AdminPage';
 import DetailPage from './pages/shop/detailPage/DetailPage';
-import CategoryPage from './pages/shop/CategoryPage';
 import CartPage from './pages/cart/CartPage';
 import PrivateRoute from './routes/PrivateRoute';
 import AdminRoute from './routes/AdminRoute';
@@ -22,6 +21,7 @@ import AdminLoginPage from './pages/admin/AdminLoginPage';
 import Banner from './pages/admin/banner/Banner';
 import CheckoutPage from './pages/checkout/CheckoutPage';
 import CheckoutCompletePage from './pages/checkout/CheckoutCompletePage';
+import CategoryPage from './pages/shop/categoryPage/CategoryPage';
 
 function App() {
   return (

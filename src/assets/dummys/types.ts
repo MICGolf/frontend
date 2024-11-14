@@ -1,19 +1,3 @@
-type Images = {
-  id: number;
-  image: string;
-  name: string;
-};
-
-export interface DetailData {
-  name: string;
-  description: string;
-  feature: string;
-  price: number;
-  count: number;
-  colors: string[];
-  images: Images[];
-}
-
 export interface UserData {
   name: string;
   email: string;
@@ -27,4 +11,26 @@ export interface CartItemData {
   size: string;
   amount: number;
   price: number;
+}
+
+export interface Size {
+  name: string;
+  stock: number;
+}
+
+export interface Color {
+  id: string;
+  name: string;
+  hex: string;
+  images: string[];
+  sizes: Size[];
+}
+
+export interface ProductDetail {
+  name: string;
+  id: string;
+  price: number;
+  description: string;
+  feature: string;
+  colors: Color[];
 }
