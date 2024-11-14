@@ -24,8 +24,6 @@ import CheckoutCompletePage from './pages/checkout/CheckoutCompletePage';
 import ProductAdd from './pages/admin/product/ProductAdd';
 import ProductEdit from './pages/admin/product/ProductEdit';
 import CategoryPage from './pages/shop/categoryPage/CategoryPage';
-import ProductAdd from './pages/admin/product/ProductAdd';
-import ProductEdit from './pages/admin/product/ProductEdit';
 
 function App() {
   return (
