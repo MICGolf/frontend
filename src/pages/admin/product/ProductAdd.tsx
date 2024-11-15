@@ -39,9 +39,6 @@ const ProductAdd = () => {
   } = methods;
   const [isOpen, setIsOpen] = useState(false);
 
-  console.log(control);
-  console.log(control._names);
-
   const handlePostProduct = (data: ProductFormData) => console.log(data);
 
   const {
@@ -308,6 +305,9 @@ const ProductAdd = () => {
                         />
                         <p className='text-sm text-red-500'>{errors.sizes && errors.sizes[index]?.stock?.message}</p>
                       </div>
+                      <button type='button' onClick={() => onRevmoveSize(index)} className='mt-4'>
+                        -
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -321,9 +321,11 @@ const ProductAdd = () => {
           </div>
         </div>
 
-        <button type='submit' className='rounded-md bg-black px-4 py-2 text-white'>
-          submit
-        </button>
+        <div className='flex justify-end'>
+          <button type='submit' className='rounded-md bg-black px-4 py-2 text-white'>
+            등록
+          </button>
+        </div>
       </form>
     </FormProvider>
   );
