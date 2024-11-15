@@ -13,6 +13,7 @@ export default {
         gray100: "#F1F1F1",
         gray200: "#C5C5C5",
         gray300: "#CBCAC7",
+        gray400: "#C7C7C7",
         gray500: "#B2B2B2",
         gray700: "#7F7F7F",
         blue700: "#0000FF", // 링크
