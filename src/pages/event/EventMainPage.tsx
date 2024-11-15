@@ -31,7 +31,7 @@ const EventMainPage = () => {
   const { startPage, endPage } = getPageRange();
 
   return (
-    <div className='mx-auto w-full px-[130px] py-5 pt-[200px]'>
+    <div className='mx-auto w-full px-[130px] py-5 pt-[100px]'>
       <p className='mb-[75px] text-[40px] text-primary'>Event</p>
 
       <div className='mb-[93px] flex gap-3'>
