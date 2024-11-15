@@ -24,4 +24,5 @@ export interface CounterBtnProps {
   setMaxCount: (newMaxCount: number) => void;
   selectedSize: Size | null;
   selectedColor: Color | null;
+  isSoldOut: boolean;
 }
