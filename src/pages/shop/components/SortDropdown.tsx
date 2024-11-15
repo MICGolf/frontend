@@ -1,9 +1,47 @@
+import { SortMode } from '@/hooks/useSort';
 import { ChevronDown } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 
-const SortDropdown = () => {
+interface SortDropdownProps {
+  currentSort: string;
+  setCurrentSort: (value: SortMode) => void;
+}
+
+const sortModes = [
+  { id: 1, mode: '최신순' },
+  { id: 2, mode: '가격 낮은순' },
+  { id: 3, mode: '가격 높은순' },
+];
+
+const SortDropdown = ({ currentSort, setCurrentSort }: SortDropdownProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const labelRef = useRef<HTMLLabelElement>(null);
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const value = e.currentTarget.value as SortMode;
+    setCurrentSort(value);
+    setIsOpen(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node) &&
+        labelRef.current &&
+        !labelRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     if (dropdownRef.current) {
@@ -19,17 +57,16 @@ const SortDropdown = () => {
 
   return (
     <div className='relative flex items-center justify-end'>
-      <label htmlFor='sort' className='flex gap-1 cursor-pointer' onClick={() => setIsOpen((prev) => !prev)}>
-        <span>최신순</span>
-        <ChevronDown className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+      <label ref={labelRef} htmlFor='sort' className='flex gap-1 cursor-pointer'>
         <input
           type='checkbox'
-          name='sort'
           id='sort'
           className='appearance-none'
           checked={isOpen}
           onChange={() => setIsOpen((prev) => !prev)}
         />
+        <span>{currentSort}</span>
+        <ChevronDown className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
       </label>
 
       <div
@@ -38,9 +75,17 @@ const SortDropdown = () => {
         style={{ maxHeight: '0', opacity: '0' }}
       >
         <ul>
-          <li className='px-4 py-2 cursor-pointer hover:bg-gray-100'>최신순</li>
-          <li className='px-4 py-2 cursor-pointer hover:bg-gray-100'>가격 낮은순</li>
-          <li className='px-4 py-2 cursor-pointer hover:bg-gray-100'>가격 높은순</li>
+          {sortModes.map((item) => (
+            <li key={item.id}>
+              <button
+                className='w-full px-4 py-2 cursor-pointer text-start hover:bg-gray-100'
+                onClick={handleClick}
+                value={item.mode}
+              >
+                {item.mode}
+              </button>
+            </li>
+          ))}
         </ul>
       </div>
     </div>

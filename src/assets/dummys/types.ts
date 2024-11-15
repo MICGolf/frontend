@@ -29,6 +29,7 @@ export interface Color {
 export interface ProductDetail {
   name: string;
   id: string;
+  timestamp: number;
   price: number;
   description: string;
   feature: string;
