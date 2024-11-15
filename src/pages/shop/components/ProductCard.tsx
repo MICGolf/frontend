@@ -1,17 +1,36 @@
+import { ProductDetail } from '@/assets/dummys/types';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-interface ProductCardProps  {
-  product: {
-    id: string;
-    name: string;
-    price: number;
-    colors: { images: string[]; hex: string }[];
-  };
-};
+interface ProductCardProps {
+  product: ProductDetail;
+}
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  const { id, name, price, colors } = product;
+  const [isSale, setIsSale] = useState<boolean>(true);
+  const { id, name, price, colors, sale } = product;
   const productImage = colors[0].images[0]; // 첫 번째 색상과 첫 번째 이미지를 가져옴.
+
+  useEffect(() => {
+    setIsSale(sale.is_active);
+  }, [sale.is_active]);
+
+  const renderPriceTextByUnit = (unit: string, value: number) => {
+    switch (unit) {
+      case '%':
+        return `${value}${unit} 할인`;
+      case '-':
+        return `${value}원 할인`;
+      default:
+        return '';
+    }
+  };
+
+  // 할인 라벨 스타일 결정 함수
+  const labelClassNames =
+    sale.unit === '%'
+      ? 'bg-primary text-white' // %일 경우 배경색
+      : 'border border-primary text-primary'; // -일 경우 테두리 색과 글자색
 
   return (
     <Link to={`/shop/detail/${id}`} className='block h-full'>
@@ -24,8 +43,24 @@ const ProductCard = ({ product }: ProductCardProps) => {
           />
         </div>
         <div className='flex flex-col justify-between flex-grow py-4'>
-          <h3 className='mb-2 text-lg font-semibold'>{name}</h3>
-          <p className='text-gray-600'>₩ {price.toLocaleString()}</p>
+          <div className='flex items-center gap-2 mb-3'>
+            <h3 className='text-lg font-semibold'>{name}</h3>
+            <span className={`flex h-6 items-center justify-center px-2 text-center text-[10px] ${labelClassNames}`}>
+              {renderPriceTextByUnit(sale.unit, sale.value)}
+            </span>
+          </div>
+
+          {isSale ? (
+            <div className='flex flex-col'>
+              <div className='flex gap-2'>
+                <span className='text-sm line-through text-gray700'>₩{price.toLocaleString()}</span>
+              </div>
+
+              <p className='text-primary'>₩{sale.result.toLocaleString()}</p>
+            </div>
+          ) : (
+            <p className='text-primary'>₩{price.toLocaleString()}</p>
+          )}
         </div>
       </div>
     </Link>
