@@ -16,12 +16,13 @@ import pouch2_005 from '@/assets/imgs/pouch2_005.jpg';
 import pouch2_006 from '@/assets/imgs/pouch2_006.jpg';
 import pouch2_007 from '@/assets/imgs/pouch2_007.jpg';
 import { ProductDetail } from './types';
+import { nanoid } from 'nanoid';
 
 export const shopProductData: ProductDetail[] = [
   // Existing 7 items
   {
     name: '믹골프 파우치 2세대',
-    id: '01201110',
+    id: nanoid(),
     price: 120000000,
     sale: {
       is_active: true,
@@ -34,7 +35,7 @@ export const shopProductData: ProductDetail[] = [
     timestamp: new Date().getTime(),
     colors: [
       {
-        id: '00001110',
+        id: nanoid(),
         name: '해저드 블랙',
         hex: '#000000',
         images: [pouch1_001, pouch1_002, pouch1_003, pouch1_004, pouch1_005, pouch1_006, pouch1_007],
@@ -45,7 +46,7 @@ export const shopProductData: ProductDetail[] = [
         ],
       },
       {
-        id: '00001111',
+        id: nanoid(),
         name: '레드와인',
         hex: '#ff0000',
         images: [pouch2_001, pouch2_002, pouch2_003, pouch2_004, pouch2_005, pouch2_006, pouch2_007],
@@ -58,7 +59,7 @@ export const shopProductData: ProductDetail[] = [
   },
   {
     name: '골프백 3세대',
-    id: '01201111',
+    id: nanoid(),
     price: 150000000,
     sale: {
       is_active: true,
@@ -71,7 +72,7 @@ export const shopProductData: ProductDetail[] = [
     timestamp: new Date().getTime(),
     colors: [
       {
-        id: '00001112',
+        id: nanoid(),
         name: '블루',
         hex: '#0000ff',
         images: [pouch1_001, pouch1_002, pouch1_003],
@@ -93,8 +94,8 @@ export const shopProductData: ProductDetail[] = [
     ],
   },
   {
-    name: '골프 신발 2세대',
-    id: '01201112',
+    name: '골프 신발 3세대',
+    id: nanoid(),
     price: 95000000,
     sale: {
       is_active: true,
@@ -107,7 +108,7 @@ export const shopProductData: ProductDetail[] = [
     timestamp: new Date().getTime(),
     colors: [
       {
-        id: '00001114',
+        id: nanoid(),
         name: '화이트',
         hex: '#ffffff',
         images: [pouch2_001, pouch2_002],
@@ -117,7 +118,7 @@ export const shopProductData: ProductDetail[] = [
         ],
       },
       {
-        id: '00001115',
+        id: nanoid(),
         name: '블랙',
         hex: '#000000',
         images: [b_004, b_002],
@@ -130,7 +131,7 @@ export const shopProductData: ProductDetail[] = [
   },
   {
     name: '고급 골프 장갑',
-    id: '01201113',
+    id: nanoid(),
     price: 30000000,
     sale: {
       is_active: true,
@@ -143,7 +144,7 @@ export const shopProductData: ProductDetail[] = [
     timestamp: new Date().getTime(),
     colors: [
       {
-        id: '00001116',
+        id: nanoid(),
         name: '클래식 화이트',
         hex: '#ffffff',
         images: [pouch1_001, pouch1_002],
@@ -156,7 +157,7 @@ export const shopProductData: ProductDetail[] = [
   },
   {
     name: '경량 골프 모자',
-    id: '01201114',
+    id: nanoid(),
     price: 20000000,
     sale: {
       is_active: true,
@@ -169,17 +170,17 @@ export const shopProductData: ProductDetail[] = [
     timestamp: new Date().getTime(),
     colors: [
       {
-        id: '00001117',
+        id: nanoid(),
         name: '선샤인 옐로우',
         hex: '#ffd700',
         images: [pouch2_001, pouch2_002],
-        sizes: [{ name: 'One Size', stock: 20 }],
+        sizes: [{ name: 'One Size', stock: 0 }],
       },
     ],
   },
   {
     name: '방수 골프 신발',
-    id: '01201115',
+    id: nanoid(),
     price: 125000000,
     sale: {
       is_active: true,
@@ -192,7 +193,7 @@ export const shopProductData: ProductDetail[] = [
     timestamp: new Date().getTime(),
     colors: [
       {
-        id: '00001118',
+        id: nanoid(),
         name: '딥 블루',
         hex: '#00008b',
         images: [pouch1_004, pouch1_005],
@@ -202,7 +203,7 @@ export const shopProductData: ProductDetail[] = [
         ],
       },
       {
-        id: '00001119',
+        id: nanoid(),
         name: '잉글리시 그린',
         hex: '#004225',
         images: [pouch2_001, pouch2_002],
@@ -215,7 +216,7 @@ export const shopProductData: ProductDetail[] = [
   },
   {
     name: '베이직 골프 장갑',
-    id: '01201116',
+    id: nanoid(),
     price: 25000000,
     sale: {
       is_active: true,
@@ -228,7 +229,7 @@ export const shopProductData: ProductDetail[] = [
     timestamp: new Date().getTime(),
     colors: [
       {
-        id: '00001120',
+        id: nanoid(),
         name: '블랙',
         hex: '#000000',
         images: [b_004, b_002],
@@ -243,7 +244,7 @@ export const shopProductData: ProductDetail[] = [
   // Item 8
   {
     name: '프리미엄 골프 티셔츠',
-    id: '01201117',
+    id: nanoid(),
     price: 45000000,
     sale: {
       is_active: true,
@@ -256,7 +257,7 @@ export const shopProductData: ProductDetail[] = [
     timestamp: new Date().getTime(),
     colors: [
       {
-        id: '00001121',
+        id: nanoid(),
         name: '스카이 블루',
         hex: '#87CEEB',
         images: [pouch1_006, pouch1_007],
@@ -276,7 +277,7 @@ export const middleProductData: ProductDetail[] = [
   // Existing 5 items
   {
     name: '골프 신발 2세대',
-    id: '01201112',
+    id: nanoid(),
     price: 95000000,
     sale: {
       is_active: true,
@@ -289,7 +290,7 @@ export const middleProductData: ProductDetail[] = [
     timestamp: new Date().getTime(),
     colors: [
       {
-        id: '00001114',
+        id: nanoid(),
         name: '화이트',
         hex: '#ffffff',
         images: [pouch2_001, pouch2_002],
@@ -299,7 +300,7 @@ export const middleProductData: ProductDetail[] = [
         ],
       },
       {
-        id: '00001115',
+        id: nanoid(),
         name: '블랙',
         hex: '#000000',
         images: [b_004, b_002],
@@ -312,7 +313,7 @@ export const middleProductData: ProductDetail[] = [
   },
   {
     name: '고급 골프 장갑',
-    id: '01201113',
+    id: nanoid(),
     price: 30000000,
     sale: {
       is_active: true,
@@ -325,7 +326,7 @@ export const middleProductData: ProductDetail[] = [
     timestamp: new Date().getTime(),
     colors: [
       {
-        id: '00001116',
+        id: nanoid(),
         name: '클래식 화이트',
         hex: '#ffffff',
         images: [pouch1_001, pouch1_002],
@@ -338,7 +339,7 @@ export const middleProductData: ProductDetail[] = [
   },
   {
     name: '골프 타올 2세대',
-    id: '01201118',
+    id: nanoid(),
     price: 5000000,
     sale: {
       is_active: true,
@@ -351,7 +352,7 @@ export const middleProductData: ProductDetail[] = [
     timestamp: new Date().getTime(),
     colors: [
       {
-        id: '00001118',
+        id: nanoid(),
         name: '화이트',
         hex: '#ffffff',
         images: [pouch2_003],
@@ -361,7 +362,7 @@ export const middleProductData: ProductDetail[] = [
   },
   {
     name: '골프 볼 세트 2024',
-    id: '01201119',
+    id: nanoid(),
     price: 15000000,
     sale: {
       is_active: true,
@@ -374,7 +375,7 @@ export const middleProductData: ProductDetail[] = [
     timestamp: new Date().getTime(),
     colors: [
       {
-        id: '00001119',
+        id: nanoid(),
         name: '화이트',
         hex: '#ffffff',
         images: [pouch2_003],
@@ -384,7 +385,7 @@ export const middleProductData: ProductDetail[] = [
   },
   {
     name: '골프 팔꿈치 보호대',
-    id: '01201120',
+    id: nanoid(),
     price: 2000000,
     sale: {
       is_active: true,
@@ -397,7 +398,7 @@ export const middleProductData: ProductDetail[] = [
     timestamp: new Date().getTime(),
     colors: [
       {
-        id: '00001120',
+        id: nanoid(),
         name: '블랙',
         hex: '#000000',
         images: [pouch2_004],
@@ -409,7 +410,7 @@ export const middleProductData: ProductDetail[] = [
   // Item 6
   {
     name: '중급자용 골프 클럽 세트',
-    id: '01201121',
+    id: nanoid(),
     price: 180000000,
     sale: {
       is_active: true,
@@ -422,7 +423,7 @@ export const middleProductData: ProductDetail[] = [
     timestamp: new Date().getTime(),
     colors: [
       {
-        id: '00001121',
+        id: nanoid(),
         name: '실버',
         hex: '#C0C0C0',
         images: [b_001, b_002],
@@ -438,7 +439,7 @@ export const majorProductData: ProductDetail[] = [
   // Existing 6 items
   {
     name: '믹골프 파우치 2세대',
-    id: '01201110',
+    id: nanoid(),
     price: 120000000,
     sale: {
       is_active: true,
@@ -475,7 +476,7 @@ export const majorProductData: ProductDetail[] = [
   },
   {
     name: '골프백 3세대',
-    id: '01201111',
+    id: nanoid(),
     price: 150000000,
     sale: {
       is_active: true,
@@ -488,7 +489,7 @@ export const majorProductData: ProductDetail[] = [
     timestamp: new Date().getTime(),
     colors: [
       {
-        id: '00001112',
+        id: nanoid(),
         name: '블루',
         hex: '#0000ff',
         images: [pouch1_001, pouch1_002, pouch1_003],
@@ -498,7 +499,7 @@ export const majorProductData: ProductDetail[] = [
         ],
       },
       {
-        id: '00001113',
+        id: nanoid(),
         name: '그린',
         hex: '#008000',
         images: [b_001, b_002],
@@ -511,7 +512,7 @@ export const majorProductData: ProductDetail[] = [
   },
   {
     name: '골프 파우치 1세대',
-    id: '01201114',
+    id: nanoid(),
     price: 90000000,
     sale: {
       is_active: true,
@@ -524,7 +525,7 @@ export const majorProductData: ProductDetail[] = [
     timestamp: new Date().getTime(),
     colors: [
       {
-        id: '00001114',
+        id: nanoid(),
         name: '레드',
         hex: '#ff0000',
         images: [pouch1_001, pouch1_002],
@@ -534,7 +535,7 @@ export const majorProductData: ProductDetail[] = [
   },
   {
     name: '디럭스 골프백',
-    id: '01201115',
+    id: nanoid(),
     price: 200000000,
     sale: {
       is_active: true,
@@ -547,7 +548,7 @@ export const majorProductData: ProductDetail[] = [
     timestamp: new Date().getTime(),
     colors: [
       {
-        id: '00001115',
+        id: nanoid(),
         name: '실버',
         hex: '#c0c0c0',
         images: [b_002, b_004],
@@ -557,7 +558,7 @@ export const majorProductData: ProductDetail[] = [
   },
   {
     name: '골프 클럽 세트 2024',
-    id: '01201116',
+    id: nanoid(),
     price: 450000000,
     sale: {
       is_active: true,
@@ -570,7 +571,7 @@ export const majorProductData: ProductDetail[] = [
     timestamp: new Date().getTime(),
     colors: [
       {
-        id: '00001116',
+        id: nanoid(),
         name: '블랙',
         hex: '#000000',
         images: [b_002, b_004],
@@ -580,7 +581,7 @@ export const majorProductData: ProductDetail[] = [
   },
   {
     name: '골프 보스턴백',
-    id: '01201117',
+    id: nanoid(),
     price: 85000000,
     sale: {
       is_active: true,
@@ -593,7 +594,7 @@ export const majorProductData: ProductDetail[] = [
     timestamp: new Date().getTime(),
     colors: [
       {
-        id: '00001117',
+        id: nanoid(),
         name: '네이비',
         hex: '#000080',
         images: [b_004, pouch1_003],
@@ -605,7 +606,7 @@ export const majorProductData: ProductDetail[] = [
   // Item 7
   {
     name: '프로 골프 드라이버',
-    id: '01201118',
+    id: nanoid(),
     price: 180000000,
     sale: {
       is_active: true,
@@ -618,7 +619,7 @@ export const majorProductData: ProductDetail[] = [
     timestamp: new Date().getTime(),
     colors: [
       {
-        id: '00001118',
+        id: nanoid(),
         name: '티타늄 실버',
         hex: '#D3D3D3',
         images: [b_001, b_002],
@@ -629,3 +630,19 @@ export const majorProductData: ProductDetail[] = [
   // Items 8-30 (remaining 23 items)
   // ... (similar structure repeated for each item)
 ];
+
+function mergeArrays(target: any[], source: any[]): any[] {
+  const mergedArray = [...target];
+
+  source.forEach((item) => {
+    // Check if the item already exists in the merged array
+    if (!mergedArray.some((existingItem) => existingItem.id === item.id)) {
+      mergedArray.push(item);
+    }
+  });
+
+  return mergedArray;
+}
+
+const firstMergedArray = mergeArrays(shopProductData, middleProductData);
+export const allProductDatas = mergeArrays(firstMergedArray, majorProductData);

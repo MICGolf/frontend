@@ -1,4 +1,4 @@
-import { shopProductData } from '@/assets/dummys/productListDatas';
+import { allProductDatas } from '@/assets/dummys/productListDatas';
 import ProductDetailView from './components/ProductDetailView';
 import ProductDetails from './components/ProductDetails';
 import { useParams } from 'react-router-dom';
@@ -6,8 +6,7 @@ import { useParams } from 'react-router-dom';
 const DetailPage = () => {
   const { id } = useParams<{ id: string }>();
 
-  const product = shopProductData.find((item) => item.id === id);
-
+  const product = allProductDatas.find((item) => item.id === id);
   if (!product) {
     return (
       <div className='flex items-center justify-center w-full h-screen'>
