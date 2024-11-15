@@ -4,8 +4,10 @@ import useCartCalculations from '@/hooks/uesCartCalculations';
 import { useCart } from '@/hooks/useCart';
 import { useCartSelection } from '@/hooks/useCartSelection';
 import useModalState from '@/hooks/useModalState/useModalState';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import minus from '@/assets/icons/minus.svg';
+import plus from '@/assets/icons/plus.svg';
 
 const CartPage = () => {
   const { user } = useUserStore();
@@ -20,7 +22,7 @@ const CartPage = () => {
     totalDeliveryFee,
   };
   const { handleModalOpen, renderModalContent } = useModalState({ paymentData });
-  console.log(cartItems);
+  const [count, setCount] = useState(1);
 
   useEffect(() => {
     syncGuestCartToUser();
@@ -35,39 +37,15 @@ const CartPage = () => {
   };
 
   return (
-    <div className='mx-auto px-[130px] pb-[120px] pt-[80px]'>
-      <div className='max-w-[1660px]'>
-        <div>
-          <div className='text-4xl font-[700]'>장바구니</div>
-        </div>
-        <div className='flex gap-4'>
+    <div className='flex w-full justify-center pt-[210px]'>
+      <div className='flex w-[1320px] flex-col'>
+        <div className='flex w-full justify-center lg:gap-4'>
           <div className='p-5 font-sans'>
-            <div className='grid grid-cols-[50px_200px_1fr_220px_220px_50px] items-center border-y border-gray-200 py-4 font-bold'>
-              <div>
-                <label className='flex cursor-pointer items-center'>
-                  <input type='checkbox' className='hidden' onChange={handleToggleAll} checked={isAllChecked} />
-                  <span
-                    className={`flex h-8 w-8 items-center justify-center rounded-sm border-2 ${isAllChecked ? 'bg-black' : 'bg-white'}`}
-                  >
-                    {isAllChecked && (
-                      <svg className='h-5 w-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
-                        <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
-                      </svg>
-                    )}
-                  </span>
-                </label>
-              </div>
-              <div className='col-span-2 text-center text-xl'>상품정보</div>
-              <div className='text-center text-xl'>상품금액</div>
-              <div className='text-center text-xl'>선택</div>
-            </div>
-
             {/* FIX: cartItemData => data로 변경 예정 */}
+            <div className='flex justify-start px-[20px] text-4xl font-[700]'>장바구니</div>
             {cartItemData.map((item) => (
-              <div
-                key={item.id}
-                className='grid grid-cols-[50px_200px_1fr_220px_220px_50px] items-center border-b border-gray-100 py-5'
-              >
+              <div key={item.id} className='flex items-center gap-4 border-b border-gray-100 py-5'>
+                {/* 체크박스 */}
                 <div className='text-center'>
                   <label
                     className={`flex h-8 w-8 items-center justify-center rounded-sm border-2 ${selectedItems.includes(item.id) ? 'bg-black' : 'bg-white'}`}
@@ -85,43 +63,83 @@ const CartPage = () => {
                     )}
                   </label>
                 </div>
-
-                <div className='h-[200px] w-[200px]'>
-                  <div className='h-full w-full border border-gray-200 bg-gray-100'></div>
+                {/* 상품 이미지 */}
+                {/* lg:h-[140px] lg:w-[140px] xl:h-[200px] xl:w-[200px] */}
+                <div className='max-h-[200px] max-w-[200px] overflow-hidden'>
+                  <img src={item.image} className='h-full w-full border border-gray-200 bg-gray-100 object-cover'></img>
                 </div>
 
-                <div className='px-5 text-xl'>
-                  <div className='mb-2 text-2xl'>{item.name}</div>
-                  <div className='text-gray-600'>
-                    {item.color}&nbsp;&nbsp;{item.size}
+                <div className='items flex flex-1 flex-col items-start gap-1 px-2 xl:flex-row xl:items-center xl:gap-4'>
+                  {/* 상품정보 */}
+                  <div className='flex flex-1 flex-col text-base lg:text-lg xl:text-xl'>
+                    <div className='mb-2'>{item.name}</div>
+                    <div className='text-gray-600'>
+                      {item.color}&nbsp;&nbsp;{item.size}
+                    </div>
                   </div>
-                  <div className='text-gray-600'>{item.amount}</div>
-                </div>
-
-                <div className='text-center text-2xl font-bold'>{item.price.toLocaleString()} 원</div>
-
-                <div className='flex flex-col items-center gap-2 px-2'>
-                  <div>
-                    <button className='border border-gray200 bg-white px-6 py-3 text-2xl hover:opacity-70'>
-                      옵션 변경
+                  {/* 가격 */}
+                  <div className='whitespace-nowrap text-center text-xl font-bold'>
+                    {item.price.toLocaleString()} 원
+                  </div>
+                  {/* 선택 */}
+                  <div className='flex flex-row items-center gap-2 xl:flex-col'>
+                    <div
+                      className='item-center flex h-[28px] w-[110px] justify-around border border-gray200 text-base xl:h-[40px] xl:w-[130px] xl:text-lg'
+                      aria-live='polite'
+                      role='group'
+                      aria-labelledby='quantity-selection'
+                    >
+                      <button
+                        type='button'
+                        onClick={() => {
+                          if (count !== 1) {
+                            setCount((prev) => prev - 1);
+                          }
+                        }}
+                        className='flex flex-1 items-center justify-center'
+                        aria-label='수량 감소'
+                      >
+                        <img src={minus} alt='수량 감소 버튼' />
+                      </button>
+                      <span
+                        id='quantity-selection'
+                        className='text-item flex flex-1 items-center justify-center text-[16px] font-thin'
+                        aria-live='assertive'
+                      >
+                        {count}
+                      </span>
+                      <button
+                        type='button'
+                        onClick={() => setCount((prev) => prev + 1)}
+                        className='flex flex-1 items-center justify-center'
+                        aria-label='수량 증가'
+                      >
+                        <img src={plus} alt='수량 증가 버튼' />
+                      </button>
+                    </div>
+                    <button className='hidden h-[28px] w-[110px] bg-black text-base text-white hover:opacity-70 sm:block xl:h-[40px] xl:w-[130px] xl:text-lg'>
+                      바로 구매
                     </button>
                   </div>
-                  <div>
-                    <button className='bg-black px-6 py-3 text-2xl text-white hover:opacity-70'>바로 구매</button>
-                  </div>
                 </div>
 
+                {/* 제거 */}
                 <button className='text-xl text-gray-400 hover:text-gray-600'>✕</button>
               </div>
             ))}
+            <div className='flex gap-2'>
+              <button className='border border-gray200 p-2 text-gray700'>계속 쇼핑하기</button>
+              <button className='border border-gray200 p-2 text-gray700'>선택 상품 삭제하기</button>
+              <button className='border border-gray200 p-2 text-gray700'>장바구니 비우기</button>
+            </div>
           </div>
 
           {/* 주문 section */}
           <div>
-            <div className='sticky top-[110px] min-w-[386px]'>
-              <div className='flex flex-col gap-2 border border-gray200 p-8'>
-                <div className='flex flex-col gap-6 border-b border-gray200 p-6'>
-                  <div className='mb- text-left text-2xl'>총 상품 {cartItemData.length}개</div>
+            <div className='fixed bottom-0 left-0 right-0 min-w-[300px] bg-white lg:sticky xl:top-[260px]'>
+              <div className='flex flex-col gap-2 border border-gray200 p-4'>
+                <div className='flex flex-col gap-2 border-b border-gray200 p-6'>
+                  <div className='mb- text-left text-xl'>총 상품 {cartItemData.length}개</div>
                   <div className='flex flex-col gap-2'>
                     <div className='flex justify-between'>
                       <span>상품합계</span>
@@ -133,14 +151,14 @@ const CartPage = () => {
                     </div>
                   </div>
                 </div>
-                <div className='flex flex-col gap-2 p-6 text-right text-2xl'>
+                <div className='flex flex-col gap-2 p-6 text-right text-xl'>
                   <div>결제예상금액</div>
                   <strong>{(totalPrice + totalDeliveryFee).toLocaleString()}원</strong>
                 </div>
                 <button
                   onClick={() => handlePayment()}
                   type='button'
-                  className='bg-black px-6 py-3 text-left text-2xl text-white hover:opacity-70'
+                  className='bg-black px-6 py-3 text-left text-xl text-white hover:opacity-70'
                 >
                   결제하기
                 </button>
@@ -149,12 +167,8 @@ const CartPage = () => {
           </div>
         </div>
       </div>
+
       {/* 버튼 section */}
-      <div className='flex gap-2'>
-        <button className='border border-gray200 p-2 text-gray700'>계속 쇼핑하기</button>
-        <button className='border border-gray200 p-2 text-gray700'>선택 상품 삭제하기</button>
-        <button className='border border-gray200 p-2 text-gray700'>장바구니 비우기</button>
-      </div>
       {renderModalContent()}
     </div>
   );
