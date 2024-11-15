@@ -39,9 +39,9 @@ export const shopProductData: ProductDetail[] = [
         hex: '#000000',
         images: [pouch1_001, pouch1_002, pouch1_003, pouch1_004, pouch1_005, pouch1_006, pouch1_007],
         sizes: [
-          { name: 'XS', stock: 5 },
-          { name: 'S', stock: 4 },
-          { name: 'M', stock: 6 },
+          { name: 'XS', stock: 0 },
+          { name: 'S', stock: 0 },
+          { name: 'M', stock: 0 },
         ],
       },
       {
@@ -50,8 +50,8 @@ export const shopProductData: ProductDetail[] = [
         hex: '#ff0000',
         images: [pouch2_001, pouch2_002, pouch2_003, pouch2_004, pouch2_005, pouch2_006, pouch2_007],
         sizes: [
-          { name: 'XS', stock: 5 },
-          { name: 'S', stock: 4 },
+          { name: 'XS', stock: 0 },
+          { name: 'S', stock: 0 },
         ],
       },
     ],
@@ -76,8 +76,8 @@ export const shopProductData: ProductDetail[] = [
         hex: '#0000ff',
         images: [pouch1_001, pouch1_002, pouch1_003],
         sizes: [
-          { name: 'M', stock: 3 },
-          { name: 'L', stock: 4 },
+          { name: 'M', stock: 0 },
+          { name: 'L', stock: 0 },
         ],
       },
       {
@@ -86,8 +86,8 @@ export const shopProductData: ProductDetail[] = [
         hex: '#008000',
         images: [b_001, b_002],
         sizes: [
-          { name: 'M', stock: 4 },
-          { name: 'L', stock: 6 },
+          { name: 'M', stock: 0 },
+          { name: 'L', stock: 0 },
         ],
       },
     ],
@@ -148,8 +148,8 @@ export const shopProductData: ProductDetail[] = [
         hex: '#ffffff',
         images: [pouch1_001, pouch1_002],
         sizes: [
-          { name: 'S', stock: 12 },
-          { name: 'M', stock: 8 },
+          { name: 'S', stock: 0 },
+          { name: 'M', stock: 0 },
         ],
       },
     ],
@@ -197,8 +197,8 @@ export const shopProductData: ProductDetail[] = [
         hex: '#00008b',
         images: [pouch1_004, pouch1_005],
         sizes: [
-          { name: '8', stock: 5 },
-          { name: '9', stock: 6 },
+          { name: '8', stock: 0 },
+          { name: '9', stock: 0 },
         ],
       },
       {
@@ -294,8 +294,8 @@ export const middleProductData: ProductDetail[] = [
         hex: '#ffffff',
         images: [pouch2_001, pouch2_002],
         sizes: [
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
+          { name: '8', stock: 0 },
+          { name: '9', stock: 0 },
         ],
       },
       {
@@ -304,8 +304,8 @@ export const middleProductData: ProductDetail[] = [
         hex: '#000000',
         images: [b_004, b_002],
         sizes: [
-          { name: '8', stock: 3 },
-          { name: '9', stock: 4 },
+          { name: '8', stock: 0 },
+          { name: '9', stock: 0 },
         ],
       },
     ],
@@ -426,7 +426,7 @@ export const middleProductData: ProductDetail[] = [
         name: '실버',
         hex: '#C0C0C0',
         images: [b_001, b_002],
-        sizes: [{ name: '단일', stock: 5 }],
+        sizes: [{ name: '단일', stock: 0 }],
       },
     ],
   },
@@ -493,8 +493,8 @@ export const majorProductData: ProductDetail[] = [
         hex: '#0000ff',
         images: [pouch1_001, pouch1_002, pouch1_003],
         sizes: [
-          { name: 'M', stock: 3 },
-          { name: 'L', stock: 4 },
+          { name: 'M', stock: 0 },
+          { name: 'L', stock: 0 },
         ],
       },
       {
@@ -503,8 +503,8 @@ export const majorProductData: ProductDetail[] = [
         hex: '#008000',
         images: [b_001, b_002],
         sizes: [
-          { name: 'M', stock: 4 },
-          { name: 'L', stock: 6 },
+          { name: 'M', stock: 0 },
+          { name: 'L', stock: 0 },
         ],
       },
     ],
@@ -528,7 +528,7 @@ export const majorProductData: ProductDetail[] = [
         name: '레드',
         hex: '#ff0000',
         images: [pouch1_001, pouch1_002],
-        sizes: [{ name: 'M', stock: 10 }],
+        sizes: [{ name: 'M', stock: 0 }],
       },
     ],
   },
