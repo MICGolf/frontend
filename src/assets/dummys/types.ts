@@ -26,10 +26,19 @@ export interface Color {
   sizes: Size[];
 }
 
+export interface Sale {
+  is_active: boolean;
+  unit: string;
+  value: number;
+  result: number;
+}
+
 export interface ProductDetail {
   name: string;
   id: string;
+  timestamp: number;
   price: number;
+  sale: Sale;
   description: string;
   feature: string;
   colors: Color[];
