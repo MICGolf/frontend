@@ -1,12 +1,18 @@
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import arrowDropDown from '@/assets/icons/arrowDropDown.svg';
 import arrowDropUp from '@/assets/icons/arrowDropUp.svg';
 import setting from '@/assets/icons/setting.svg';
 import { useState } from 'react';
+import { ImageCarousel } from './components/ImageCarousel';
 
 type Size = {
   sizeName: string;
   stock: string;
+};
+
+export type ImageFile = {
+  file: File | null;
+  previewUrl?: string;
 };
 
 interface ProductFormData {
@@ -20,6 +26,7 @@ interface ProductFormData {
   sizes: Size[];
   subCategory: string;
   subSubCategory: string;
+  images: ImageFile[];
 }
 
 const ProductAdd = () => {
@@ -27,15 +34,49 @@ const ProductAdd = () => {
   const {
     handleSubmit,
     register,
+    control,
     formState: { errors },
   } = methods;
   const [isOpen, setIsOpen] = useState(false);
-  const [sizes, setSizes] = useState<Size[]>([{ sizeName: '', stock: '' }]);
 
-  const handlePostProduct = (data: any) => console.log(data);
+  console.log(control);
+  console.log(control._names);
 
-  const handleAddSizeClick = () => {
-    setSizes([...sizes, { sizeName: '', stock: '' }]);
+  const handlePostProduct = (data: ProductFormData) => console.log(data);
+
+  const {
+    fields: sizeFields,
+    append: appendSize,
+    remove: removeSize,
+  } = useFieldArray({
+    control,
+    name: 'sizes',
+  });
+
+  const {
+    fields: imageFields,
+    append: appendImage,
+    remove: removeImage,
+  } = useFieldArray({
+    control,
+    name: 'images',
+  });
+
+  const onAddSize = () => {
+    appendSize({ sizeName: '', stock: '' });
+  };
+
+  const onRevmoveSize = (index: number) => {
+    removeSize(index);
+  };
+
+  const onAddImage = (file: File) => {
+    const imageUrl = URL.createObjectURL(file);
+    appendImage({ file, previewUrl: imageUrl });
+  };
+
+  const onRemoveImage = (index: number) => {
+    removeImage(index);
   };
 
   return (
@@ -161,7 +202,7 @@ const ProductAdd = () => {
                   className='mt-4 w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
                 />
               </div>
-              <p className='text-sm text-red-500'>{errors.productPrice?.message}</p>
+              <p className='text-sm text-red-500'>{errors.productPrice?.message as string}</p>
             </div>
             <div className='col-span-1 mt-4 flex items-center text-base font-semibold text-neutral-500'>
               <p>할인</p>
@@ -206,12 +247,12 @@ const ProductAdd = () => {
 
           <div className='flex gap-10'>
             {/* section left */}
-            <div className='w-[60%] border border-red-400'>
-              <img src='' alt='' />
+            <div className='w-[60%]'>
+              <ImageCarousel images={imageFields} onAddImage={onAddImage} onRemoveImage={onRemoveImage} maxImages={6} />
             </div>
 
             {/* section right */}
-            <div className='w-[40%] border border-blue-400'>
+            <div className='w-[40%]'>
               <div className='grid grid-cols-4'>
                 <div className='col-span-1 mt-4 flex items-center text-base font-semibold text-neutral-500'>
                   <p>컬러</p>
@@ -243,7 +284,7 @@ const ProductAdd = () => {
                 <div className='mt-4 flex items-center text-base font-semibold text-neutral-500'>
                   <p>사이즈 및 재고</p>
                 </div>
-                {sizes.map((_, index) => (
+                {sizeFields.map((_, index) => (
                   <div key={index}>
                     <div className='flex items-center gap-4'>
                       <div className='flex-1'>
@@ -271,7 +312,7 @@ const ProductAdd = () => {
                   </div>
                 ))}
                 <div className='mt-2 text-right text-sm font-light text-gray-500'>
-                  <span onClick={handleAddSizeClick} className='cursor-pointer py-4'>
+                  <span onClick={onAddSize} className='cursor-pointer py-4'>
                     사이즈 추가 +
                   </span>
                 </div>
