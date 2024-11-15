@@ -25,9 +25,14 @@ const CheckoutPage = () => {
   };
 
   const [loadingflag, setLoadingFlag] = useState<boolean>(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   const postcodeScriptUrl = 'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
   const open = useDaumPostcodePopup(postcodeScriptUrl);
+
+  const handleTogglePayment = () => {
+    setIsVisible((prev) => !prev);
+  };
 
   // INFO: 패키지를 열어보면 Address 타입이 정의되어 있습니다.
   const handleComplete = (data: Address) => {
@@ -86,7 +91,7 @@ const CheckoutPage = () => {
   };
 
   return (
-    <div className='mx-auto px-[130px] py-[70px]'>
+    <div className='mx-auto px-5 py-[200px]'>
       {/* 결제 section */}
 
       <div className='flex max-w-[1660px] gap-4'>
@@ -228,28 +233,29 @@ const CheckoutPage = () => {
           {/* 결제 내용 section */}
         </div>
 
-        <div className='min-w-[500px] flex-1'>
-          <div className='sticky top-[110px]'>
-            <div className='flex flex-col gap-2 border border-gray200 p-8'>
+        <div className='hidden lg:block lg:min-w-[400px]'>
+          <div className='bg-white lg:sticky xl:top-[260px]'>
+            <div className='flex flex-col gap-2 border border-gray200 p-4'>
               <div className='flex flex-col gap-6 border-b border-gray200 p-6'>
                 <div className='text-left text-2xl'>총 상품 {items.length || 0}개</div>
                 {items.map((item) => (
                   <div key={item.id} className='flex items-center border-b border-gray-100 py-5'>
-                    <img
-                      src={item.image}
-                      alt=''
-                      className='h-[100px] w-[100px] border border-gray-200 bg-gray-100 object-cover'
-                    />
+                    <div className='max-h-[200px] max-w-[200px] overflow-hidden'>
+                      <img
+                        src={item.image}
+                        className='h-full w-full border border-gray-200 bg-gray-100 object-cover'
+                      ></img>
+                    </div>
 
-                    <div className='flex-grow px-5 text-lg'>
-                      <div className='mb-2 text-xl'>{item.name}</div>
+                    <div className='flex-grow px-5 text-base lg:text-lg xl:text-xl'>
+                      <div className='mb-2'>{item.name}</div>
                       <div className='text-gray-600'>
                         {item.color}&nbsp;&nbsp;{item.size}
                       </div>
                       <div className='text-gray-600'>{item.amount}</div>
                     </div>
 
-                    <div className='whitespace-nowrap text-center text-xl font-bold'>
+                    <div className='whitespace-nowrap text-center text-base font-bold lg:text-lg xl:text-xl'>
                       {item.price.toLocaleString()} 원
                     </div>
                   </div>
@@ -280,12 +286,77 @@ const CheckoutPage = () => {
             </div>
           </div>
         </div>
+
+        <div className={`${isVisible ? 'fixed inset-0 z-[100] bg-black bg-opacity-70' : null} lg:hidden`}>
+          <div className='fixed bottom-0 left-0 right-0 min-w-[300px] bg-white'>
+            <div className='flex flex-col gap-2 border-gray200 p-4 lg:border'>
+              <div className='flex justify-between px-4'>
+                <div className='mb- text-left text-xl'>총 상품 {items.length || 0}개</div>
+                <button onClick={handleTogglePayment} className='text-xl text-gray-400 hover:text-gray-600'>
+                  ✕
+                </button>
+              </div>
+              <div
+                className={`overflow-hidden transition-all duration-300 ${isVisible ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}
+              >
+                <div className='flex flex-col gap-2 border-b border-gray200 p-4'>
+                  {items.map((item) => (
+                    <div key={item.id} className='flex items-center border-b border-gray-100 py-5'>
+                      <div className='max-h-[200px] max-w-[200px] overflow-hidden'>
+                        <img
+                          src={item.image}
+                          className='h-full w-full border border-gray-200 bg-gray-100 object-cover'
+                        ></img>
+                      </div>
+
+                      <div className='flex-grow px-5 text-base lg:text-lg xl:text-xl'>
+                        <div className='mb-2'>{item.name}</div>
+                        <div className='text-gray-600'>
+                          {item.color}&nbsp;&nbsp;{item.size}
+                        </div>
+                        <div className='text-gray-600'>{item.amount}</div>
+                      </div>
+
+                      <div className='whitespace-nowrap text-center text-base font-bold lg:text-lg xl:text-xl'>
+                        {item.price.toLocaleString()} 원
+                      </div>
+                    </div>
+                  ))}
+
+                  <div className='flex flex-col gap-2'>
+                    <div className='flex justify-between'>
+                      <span>상품합계</span>
+                      <span>{totalPrice.toLocaleString()}원</span>
+                    </div>
+                    <div className='flex justify-between'>
+                      <span>배송비</span>
+                      <span>{totalDeliveryFee.toLocaleString()}원</span>
+                    </div>
+                  </div>
+                </div>
+                <div className='flex flex-col gap-2 p-4 text-right text-xl'>
+                  <div>결제예상금액</div>
+                  <strong>{(totalPrice + totalDeliveryFee).toLocaleString()}원</strong>
+                </div>
+              </div>
+              <button
+                onClick={() => handlePaymentClick()}
+                type='button'
+                className='bg-black px-6 py-3 text-left text-xl text-white hover:opacity-70'
+              >
+                <strong>
+                  {(totalPrice + totalDeliveryFee).toLocaleString()}원 구매하기 ({items.length || 0}개)
+                </strong>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* 결제중 loading 모달 */}
       {loadingflag && (
         <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50'>
-          <div className='mx-4 w-full max-w-md rounded-lg bg-white p-8 shadow-xl'>
+          <div className='mx-4 w-full max-w-md bg-white p-8 shadow-xl'>
             <div className='mb-6 flex items-center justify-center'>
               <div className='relative h-16 w-16'>
                 <div className='absolute inset-0 rounded-full border-4 border-gray-200'></div>
@@ -294,7 +365,8 @@ const CheckoutPage = () => {
             </div>
             <h2 className='mb-4 text-center text-2xl font-bold text-gray-800'>결제 중입니다</h2>
             <p className='text-center text-gray-600'>
-              결제 처리에는 약간의 시간이 소요될 수 있습니다. 잠시만 기다려 주세요.
+              결제 처리에는 약간의 시간이 소요될 수 있습니다. <br />
+              잠시만 기다려 주세요.
             </p>
           </div>
         </div>

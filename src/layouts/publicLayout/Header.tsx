@@ -62,7 +62,7 @@ const Header = () => {
   return (
     <header
       ref={headerRef}
-      className={`fixed top-0 z-[999] w-full transition-transform duration-300 ${isHeaderVisible ? 'translate-y-0' : '-translate-y-full'}`}
+      className={`fixed top-0 z-[50] w-full transition-transform duration-300 ${isHeaderVisible ? 'translate-y-0' : '-translate-y-full'}`}
     >
       <div className='relative z-[20]'>
         <div
