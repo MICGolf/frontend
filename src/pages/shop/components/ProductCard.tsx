@@ -17,7 +17,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <>
       <Link to={`/shop/detail/${id}`} className='block h-full'>
-        <div className='flex flex-col h-full'>
+        <div className='flex h-full flex-col'>
           <div className='relative w-full overflow-hidden pt-[133%]'>
             {isSoldOut ? (
               <>
@@ -27,19 +27,19 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 <img
                   src={productImage}
                   alt={name}
-                  className='absolute top-0 object-cover w-full h-full transition-transform duration-300 z-10left-0 hover:scale-105'
+                  className='z-10left-0 absolute top-0 h-full w-full object-cover transition-transform duration-300 hover:scale-105'
                 />
               </>
             ) : (
               <img
                 src={productImage}
                 alt={name}
-                className='absolute top-0 left-0 object-cover w-full h-full transition-transform duration-300 hover:scale-105'
+                className='absolute left-0 top-0 h-full w-full object-cover transition-transform duration-300 hover:scale-105'
               />
             )}
           </div>
-          <div className='flex flex-col justify-between flex-grow py-4'>
-            <div className='flex items-center gap-2 mb-3'>
+          <div className='flex flex-grow flex-col justify-between py-4'>
+            <div className='mb-3 flex flex-col gap-2'>
               <h3 className='text-lg font-semibold'>{name}</h3>
               <SaleLabel classString={labelClassNames} text={saleLabelText} />
             </div>
@@ -47,7 +47,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
             {isSale ? (
               <div className='flex flex-col'>
                 <div className='flex gap-2'>
-                  <span className='text-sm line-through text-gray700'>₩{price.toLocaleString()}</span>
+                  <span className='text-sm text-gray700 line-through'>₩{price.toLocaleString()}</span>
                 </div>
 
                 <p className='text-primary'>₩{sale.result.toLocaleString()}</p>
