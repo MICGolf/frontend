@@ -6,10 +6,6 @@ import { useFooterStyleStore } from '@/config/store';
 import { Link } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 
-interface MobileFooterProps {
-  linkHandler: (link: string) => void;
-}
-
 type LinkIcon = {
   id?: number;
   name?: string;
@@ -85,7 +81,7 @@ const footerLinks: FooterLink[] = [
   },
 ];
 
-const MobileFooter = ({ linkHandler }: MobileFooterProps) => {
+const MobileFooter = () => {
   const isMobileMode = useFooterStyleStore((state) => state.isMobileMode);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLUListElement>(null);
@@ -118,8 +114,8 @@ const MobileFooter = ({ linkHandler }: MobileFooterProps) => {
       ref={dropdownRef}
     >
       {isDropdownOpen && (
-        <button onClick={toggleDropdown} className='absolute w-full h-8 bg-black -top-4'>
-          <div className='absolute top-0 flex items-center justify-center w-full h-full transition-all duration-300 hover:top-2'>
+        <button onClick={toggleDropdown} className='absolute -top-4 h-8 w-full bg-black'>
+          <div className='absolute top-0 flex h-full w-full items-center justify-center transition-all duration-300 hover:top-2'>
             <p className='h-[3px] w-[84px] rounded-full border bg-white'></p>
           </div>
         </button>
@@ -130,7 +126,7 @@ const MobileFooter = ({ linkHandler }: MobileFooterProps) => {
         <ul className='flex gap-2'>
           {linkIcons.map((link) => (
             <li key={link.id} className='flex h-[25px] w-[25px] items-center justify-center'>
-              <a href={link.link} target={link.target} className='flex items-center justify-center w-full h-full'>
+              <a href={link.link} target={link.target} className='flex h-full w-full items-center justify-center'>
                 <img src={link.icon} alt={link.name} className='object-cover' />
               </a>
             </li>
