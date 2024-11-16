@@ -40,7 +40,7 @@ const Footer = () => {
   return (
     <>
       {isMobile ? (
-        <MobileFooter linkHandler={handleFooterLinkClick} />
+        <MobileFooter />
       ) : (
         <footer className='flex justify-between bg-black px-[130px] py-[50px] text-gray700'>
           <div>
