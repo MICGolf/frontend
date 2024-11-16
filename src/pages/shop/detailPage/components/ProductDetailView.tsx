@@ -9,6 +9,8 @@ import { Color, Size } from '@/assets/dummys/types';
 import useSoldOutState from '@/hooks/useSoldoutState';
 import useSaleState from '@/hooks/useSaleState';
 import SaleLabel from '../../components/SaleLabel';
+import { useMediaQuery } from 'react-responsive';
+import MobileDropdownBtn from './MobileDropdownBtn';
 
 const ProductDetailView = ({ data }: ProductDetailViewProps) => {
   const [detailImage, setDetailImage] = useState<string[]>(data.colors[0]?.images);
@@ -16,52 +18,70 @@ const ProductDetailView = ({ data }: ProductDetailViewProps) => {
   const [selectedSize, setSelectedSize] = useState<Size | null>(null);
   const [count, setCount] = useState<number>(1);
   const [maxCount, setMaxCount] = useState<number>(1);
+  const [isOpen, setIsOpen] = useState<string>();
+  const isMobile = useMediaQuery({ maxWidth: 767 });
   const { isSoldOut } = useSoldOutState(data);
   const { isSale, saleLabelText, labelClassNames } = useSaleState(data);
 
+  const pcStyle =
+    'shadow-top fixed bottom-0 z-[1] flex w-full flex-col overflow-hidden border-l-0 bg-white p-[40px] transition-all duration-300 ease-in-out md:sticky md:top-0 md:h-[100vh] md:w-1/2 md:border-l md:border-primary md:px-[50px] md:pb-[50px] md:pt-[150px] md:shadow-none';
+
+  const mobileStyle =
+    'shadow-top overflow-hidden fixed bottom-[-630px] z-[1] flex w-full flex-col border-l-0 bg-white p-[40px] transition-all duration-300 ease-in-out md:sticky md:top-0 md:h-[100vh] md:w-1/2 md:border-l md:border-primary md:px-[50px] md:pb-[50px] md:pt-[150px] md:shadow-none';
+
   return (
-    <section className='flex flex-col min-h-screen transition-all duration-300 ease-in-out xl:flex-row'>
-      <div className='flex w-full flex-col gap-[2px] transition-all duration-300 ease-in-out xl:w-1/2'>
+    <section className='flex flex-col min-h-screen transition-all duration-300 ease-in-out md:flex-row'>
+      <div className='flex w-full flex-col gap-[2px] transition-all duration-300 ease-in-out md:w-1/2'>
         {detailImage.map((img, idx) => (
-          <div key={idx} className='w-full h-screen transition-transform duration-500 ease-in-out xl:h-full'>
+          <div key={idx} className='w-full h-screen transition-transform duration-500 ease-in-out md:h-full'>
             <img src={img} alt={`상품 이미지 ${idx + 1}`} className='object-cover w-full h-full' />
           </div>
         ))}
       </div>
 
-      <div className='z-[1] flex w-full flex-col overflow-auto px-[50px] pb-[50px] pt-[150px] transition-all duration-300 ease-in-out xl:sticky xl:top-0 xl:h-[calc(100vh)] xl:w-1/2 xl:border-l xl:border-primary'>
-        <div className='flex flex-col h-full gap-8'>
+      <div className={isOpen ? mobileStyle : pcStyle}>
+        {isMobile && <MobileDropdownBtn setIsOpen={setIsOpen} />}
+        <div className='flex flex-col h-full gap-12'>
           <div className='flex flex-col gap-4'>
-            <div className='flex items-center gap-2'>
-              <h2 className='text-4xl font-bold transition-transform duration-300 ease-in-out'>{data.name}</h2>
-              <SaleLabel classString={labelClassNames} text={saleLabelText} />
+            <div className='flex gap-2'>
+              <div className='flex flex-col gap-3'>
+                <h2 className='text-2xl font-bold transition-transform duration-300 ease-in-out md:text-4xl'>
+                  {data.name}
+                </h2>
+                <SaleLabel classString={labelClassNames} text={saleLabelText} />
+              </div>
             </div>
             {isSale ? (
-              <div>
-                <p className='text-xl font-light line-through text-gray700'>₩{data.price.toLocaleString()}</p>
-                <p className='text-2xl font-light'>₩{data.sale.result.toLocaleString()}</p>
+              <div className='flex flex-col'>
+                <p className='text-lg font-light line-through text-gray700 md:text-xl'>
+                  ₩{data.price.toLocaleString()}
+                </p>
+                <p className='text-xl font-bold md:text-2xl'>₩{data.sale.result.toLocaleString()}</p>
               </div>
             ) : (
               <div>
                 <p className='text-2xl font-light'>₩{data.price.toLocaleString()}</p>
-                <p className='text-2xl font-light'>₩{data.sale.result.toLocaleString()}</p>
+                <p className='text-2xl font-bold'>₩{data.sale.result.toLocaleString()}</p>
               </div>
             )}
           </div>
 
           <div className='flex flex-col gap-6 mt-auto'>
-            <ColorBtns data={data.colors} onSelect={setSelectedColor} onChange={setDetailImage} />
-            <SizeBtns data={selectedColor} onSelect={setSelectedSize} />
-            <Counter
-              count={count}
-              setCount={setCount}
-              maxCount={maxCount}
-              setMaxCount={setMaxCount}
-              selectedSize={selectedSize}
-              selectedColor={selectedColor}
-              isSoldOut={isSoldOut}
-            />
-            <div className='relative flex flex-col gap-4 transition-all duration-300 ease-in-out xl:flex'>
+            <div className='flex flex-col w-full gap-6 md:justify-start'>
+              <ColorBtns data={data.colors} onSelect={setSelectedColor} onChange={setDetailImage} />
+              <SizeBtns data={selectedColor} onSelect={setSelectedSize} />
+              <Counter
+                count={count}
+                setCount={setCount}
+                maxCount={maxCount}
+                setMaxCount={setMaxCount}
+                selectedSize={selectedSize}
+                selectedColor={selectedColor}
+                isSoldOut={isSoldOut}
+              />
+            </div>
+
+            <div className='relative flex flex-col gap-4 transition-all duration-300 ease-in-out xl:flex-row'>
               {isSoldOut && (
                 <div className='absolute z-50 flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.45)] text-2xl text-white'>
                   <span className='absolute animate-pulse'>Sold Out</span>

@@ -22,7 +22,22 @@ interface UserStore {
   setUser: (user: User) => void; // FIX: user type 정의
 }
 
+interface MobileStore {
+  isMobileMode: boolean;
+  setIsMobileMode: (state: boolean) => void;
+}
+
 export const useUserStore = create<UserStore>(() => ({
   user: null,
   setUser: (user: User) => ({ user }),
+}));
+
+export const useMobileScrollStore = create<MobileStore>((set) => ({
+  isMobileMode: false,
+  setIsMobileMode: () => set((state) => ({ isMobileMode: !state.isMobileMode })),
+}));
+
+export const useFooterStyleStore = create<MobileStore>((set) => ({
+  isMobileMode: false,
+  setIsMobileMode: () => set((state) => ({ isMobileMode: !state.isMobileMode })),
 }));

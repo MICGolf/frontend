@@ -12,3 +12,30 @@
 .slick-list {
   margin-bottom: 36px !important;
 }
+
+/* 스크롤바 넓이 지정 */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+/* 스크롤바 트랙 꾸미기 */
+::-webkit-scrollbar-track {
+  background: #ececec;
+  border-radius: 5px;
+}
+
+/* 스크롤바 손잡이 꾸미기 */
+::-webkit-scrollbar-thumb {
+  background: black;
+  border-radius: 5px;
+}
+
+/* 스크롤바 손잡이 호버 시 색 */
+::-webkit-scrollbar-thumb:hover {
+  background: #2f2f2f;
+}
+
+.disable-scroll {
+  overflow: hidden;
+  height: 100vh;
+}

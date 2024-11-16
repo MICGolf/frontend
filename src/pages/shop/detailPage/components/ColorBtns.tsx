@@ -18,9 +18,9 @@ const ColorBtns = ({ data, onSelect, onChange }: ColorBtnsProps) => {
   };
 
   return (
-    <div className='flex flex-col gap-2'>
-      <h3 className='text-2xl font-light'>색상</h3>
-      <ul className='flex gap-[7px]'>
+    <div className='flex w-full flex-col gap-2 md:border-none'>
+      <h3 className='text-lg font-light md:text-2xl'>색상</h3>
+      <ul className='flex flex-wrap gap-[7px]'>
         {data.map((color) => (
           <li
             key={color.id}
