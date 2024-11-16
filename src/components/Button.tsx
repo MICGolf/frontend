@@ -1,16 +1,12 @@
-const Button = ({
-  type = 'button',
-  title,
-  onClick,
-  className,
-  color = 'bg-primary text-white',
-}: {
+type ButtonProps = {
   type?: 'button' | 'submit';
   title: string;
   onClick?: () => void;
   className?: string;
   color?: string;
-}) => {
+};
+
+const Button = ({ type = 'button', title, onClick, className, color = 'bg-primary text-white' }: ButtonProps) => {
   return (
     <button
       type={type}

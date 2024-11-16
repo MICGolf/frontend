@@ -3,12 +3,13 @@ interface FormRegister {
 }
 export interface InputProps {
   label?: string;
-  type: 'text' | 'email' | 'password' | 'file';
+  type: 'text' | 'email' | 'password' | 'file' | 'number';
   placeholder?: string;
   register?: FormRegister;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
 }
+
 export const Input = ({ className, label, type, placeholder, register, onChange }: InputProps) => {
   return (
     <label className={`w-full text-black`}>

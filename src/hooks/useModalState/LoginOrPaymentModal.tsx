@@ -25,11 +25,21 @@ const LoginOrPaymentModal = ({ onClose, paymentData }: LoginOrPaymentModalProps)
 
   return (
     <div onClick={onClose} className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
-      <div className='flex gap-4 bg-white px-14 py-8'>
-        <button onClick={handleLoginClick} className='bg-black px-6 py-4 text-white'>
+      <div onClick={(e) => e.stopPropagation()} className='flex flex-col gap-4 bg-white px-[240px] py-[60px]'>
+        <p className='text-2xl'>
+          로그인이 안돼있어요 !<br />
+          비회원으로 주문하시겠습니까?
+        </p>
+        <button
+          onClick={handleLoginClick}
+          className='flex-1 bg-primary px-6 py-4 text-white transition-all duration-300 hover:scale-105 hover:bg-opacity-70'
+        >
           로그인 하기
         </button>
-        <button onClick={handleGuestPayment} className='bg-black px-6 py-4 text-white'>
+        <button
+          onClick={handleGuestPayment}
+          className='flex-1 border border-primary bg-white px-6 py-4 text-black transition-all duration-300 hover:scale-105 hover:bg-primary hover:text-white hover:opacity-70'
+        >
           비회원 결제
         </button>
       </div>

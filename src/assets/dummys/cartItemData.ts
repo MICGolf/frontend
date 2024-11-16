@@ -3,7 +3,7 @@ import { CartItemData } from './types';
 export const cartItemData: CartItemData[] = [
   {
     id: 1,
-    name: 'ct1621 [울50%] (컬러추가/폭닥포근/누빔안감) 아도르 울 부클 싱글 하프 코트',
+    name: '믹골프 파우치 2세대',
     color: 'red',
     size: 'L',
     amount: 1,
@@ -12,7 +12,7 @@ export const cartItemData: CartItemData[] = [
   },
   {
     id: 2,
-    name: 'ct1621 [울50%] (컬러추가/폭닥포근/누빔안감) 아도르 울 부클 싱글 하프 코트',
+    name: '믹골프 파우치 2세대',
     color: 'red',
     size: 'L',
     amount: 2,
@@ -21,7 +21,7 @@ export const cartItemData: CartItemData[] = [
   },
   {
     id: 3,
-    name: '골프공',
+    name: '믹골프 파우치',
     color: 'red',
     size: 'M',
     amount: 3,
@@ -30,7 +30,7 @@ export const cartItemData: CartItemData[] = [
   },
   {
     id: 4,
-    name: '골프 파우치',
+    name: '믹골프 바지 2세대',
     color: 'blue',
     size: 'S',
     amount: 4,
@@ -39,7 +39,7 @@ export const cartItemData: CartItemData[] = [
   },
   {
     id: 5,
-    name: '골프공',
+    name: '믹골프 바지 1세대',
     color: 'red',
     size: 'M',
     amount: 3,
@@ -48,7 +48,7 @@ export const cartItemData: CartItemData[] = [
   },
   {
     id: 6,
-    name: '골프 파우치',
+    name: '믹골프 골프공',
     color: 'blue',
     size: 'S',
     amount: 4,
