@@ -6,6 +6,23 @@ export default {
   ],
   theme: {
     extend: {
+      animation: {
+        'fade-in': 'fadeIn 0.5s ease-in-out',
+        'fade-out': 'fadeOut 0.5s ease-in-out',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        fadeOut: {
+          '0%': { opacity: '1' },
+          '100%': { opacity: '0' },
+        },
+      },
+      boxShadow: {
+        'top': '0 0 10px rgba(0, 0, 0, 0.3)',
+      },
       colors: {
         primary: "#000000", // 메인 브랜드 색상
         secondary: "#ffffff", // 배경에 사용하는 중립 색상
@@ -19,7 +36,8 @@ export default {
         blue700: "#0000FF", // 링크
         success: "#008541",
         error: '#FF0E00',
-        naver: '#00DE5A'
+        naver: '#00DE5A',
+        transparentBlack: 'rgba(0, 0, 0, 0.5)'
       },
       fontFamily: {
         sans: ["Noto Sans KR", "Arial", "sans-serif"],
@@ -32,7 +50,6 @@ export default {
   },
   plugins: [
     require('@tailwindcss/aspect-ratio'),
-    require("tailwind-scrollbar-hide")
   ],
 } 
 
