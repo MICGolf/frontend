@@ -3,7 +3,15 @@ import plus from '@/assets/icons/plus.svg';
 import { useEffect } from 'react';
 import { CounterBtnProps } from '../types';
 
-const CounterBtn = ({ count, setCount, maxCount, setMaxCount, selectedSize, selectedColor }: CounterBtnProps) => {
+const CounterBtn = ({
+  count,
+  setCount,
+  maxCount,
+  setMaxCount,
+  selectedSize,
+  selectedColor,
+  isSoldOut,
+}: CounterBtnProps) => {
   useEffect(() => {
     setCount(1);
     if (selectedSize) {
@@ -25,7 +33,7 @@ const CounterBtn = ({ count, setCount, maxCount, setMaxCount, selectedSize, sele
   };
 
   return (
-    <div className='flex flex-col gap-2'>
+    <div className='relative flex flex-col gap-2'>
       <h3 className='text-2xl font-light'>수량</h3>
       {selectedColor && selectedSize ? (
         <div
@@ -36,7 +44,7 @@ const CounterBtn = ({ count, setCount, maxCount, setMaxCount, selectedSize, sele
         >
           <button
             type='button'
-            className='flex flex-1 items-center justify-center'
+            className='flex items-center justify-center flex-1'
             aria-label='수량 감소'
             onClick={handleDecrease}
           >
@@ -47,11 +55,11 @@ const CounterBtn = ({ count, setCount, maxCount, setMaxCount, selectedSize, sele
             className='text-item flex flex-1 items-center justify-center text-[16px] font-thin'
             aria-live='assertive'
           >
-            {count}
+            {isSoldOut ? 0 : count}
           </span>
           <button
             type='button'
-            className='flex flex-1 items-center justify-center'
+            className='flex items-center justify-center flex-1'
             aria-label='수량 증가'
             onClick={handleIncrease}
           >
