@@ -1,4 +1,4 @@
-import { SectionBox } from '../../ui/SectionBox';
+import { SectionBox } from '../../components/SectionBox';
 
 export const Payment = () => {
   return (

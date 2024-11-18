@@ -1,9 +1,9 @@
-import { Order } from './ui/Order';
-import { Payment } from './ui/Payment';
-import { Product } from './ui/Product';
-import { ReviewAndQuestion } from './ui/ReviewAndQuestion';
-import { SaleGraph } from './ui/SaleGraph';
-import { UserConnection } from './ui/UserConnection';
+import { Order } from './components/Order';
+import { Payment } from './components/Payment';
+import { Product } from './components/Product';
+import { ReviewAndQuestion } from './components/ReviewAndQuestion';
+import { SaleGraph } from './components/SaleGraph';
+import { UserConnection } from './components/UserConnection';
 
 const AdminPage = () => {
   return (
