@@ -1,4 +1,4 @@
-import { SectionBox } from '../../ui/SectionBox';
+import { SectionBox } from '../../components/SectionBox';
 import { Chart } from 'react-chartjs-2';
 import {
   ChartData,

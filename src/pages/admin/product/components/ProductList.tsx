@@ -1,8 +1,7 @@
-import Checkbox from '@/components/checkbox/Checkbox';
-import ListHeader from '../../ui/ListHeader';
-import { SectionBox } from '../../ui/SectionBox';
-import Button from '@/components/Button';
+import ListHeader from '../../components/ListHeader';
+import { SectionBox } from '../../components/SectionBox';
 import { useState, useEffect } from 'react';
+import { ProductListType } from '../type';
 
 const ListHeaderArray = [
   { className: 'w-1/12', title: '체크박스' },
@@ -18,7 +17,7 @@ const ListHeaderArray = [
   { className: 'w-2/12', title: '할인' },
   { className: 'w-2/12', title: '판매가' },
 ];
-const productListArray = [
+const productListArray: ProductListType[] = [
   {
     id: 1,
     productNumber: '수정불가능한상품코드',
@@ -31,21 +30,10 @@ const productListArray = [
     discountPrice: 10000,
     discount: '100%',
   },
-  {
-    id: 2,
-    productNumber: '수정불가능한상품코드',
-    productCode: '상품번호',
-    productName: '상품명',
-    saleStatus: false,
-    displayStatus: false,
-    stockQuantity: 10,
-    salePrice: 10000,
-    discountPrice: 10000,
-    discount: '100%',
-  },
 ];
+
 const ProductList = () => {
-  const [checkedList, setCheckedList] = useState<{ id: number; productNumber: string }[]>([]);
+  const [checkedList, setCheckedList] = useState<ProductListType[]>([]);
 
   useEffect(() => {
     console.log(checkedList);
@@ -63,26 +51,38 @@ const ProductList = () => {
           {productListArray.map((item, index) => (
             <div
               key={index}
-              className='flex items-center justify-stretch justify-items-center self-stretch border-b border-neutral-200 py-3 text-center'
+              className='flex items-center self-stretch py-3 text-center border-b justify-stretch justify-items-center border-neutral-200'
             >
-              <div className='flex w-1/12 items-center justify-center'>
-                <Checkbox
+              <div className='flex items-center justify-center w-1/12'>
+                <input
+                  type='checkbox'
                   checked={checkedList.some((checkedItem) => checkedItem.id === item.id)}
                   onChange={() => {
                     if (checkedList.some((checkedItem) => checkedItem.id === item.id)) {
                       setCheckedList(checkedList.filter((checkedItem) => checkedItem.id !== item.id));
                     } else {
-                      setCheckedList([...checkedList, { id: item.id, productNumber: item.productNumber }]);
+                      setCheckedList([...checkedList, item]);
                     }
                   }}
-                  disabled={false}
                 />
               </div>
-              <div className='flex w-2/12 items-center justify-center'>
-                <Button title='수정' onClick={() => {}} className='w-3/4' color='bg-blue-500 text-white' />
+              <div className='flex items-center justify-center w-2/12'>
+                <button
+                  type='button'
+                  onClick={() => {}}
+                  className='block w-3/4 px-4 py-2 text-base text-white duration-300 ease-in-out bg-blue-500 rounded-md hover:scale-105'
+                >
+                  수정
+                </button>
               </div>
-              <div className='flex w-2/12 items-center justify-center'>
-                <Button title='삭제' onClick={() => {}} className='w-3/4' color='bg-red-500 text-white' />
+              <div className='flex items-center justify-center w-2/12'>
+                <button
+                  type='button'
+                  onClick={() => {}}
+                  className='block w-3/4 px-4 py-2 text-base text-white duration-300 ease-in-out bg-red-500 rounded-md hover:scale-105'
+                >
+                  삭제
+                </button>
               </div>
               <div className='w-4/12'>{item.productNumber}</div>
               <div className='w-4/12'>{item.productCode}</div>
@@ -101,31 +101,35 @@ const ProductList = () => {
             </div>
           ))}
         </div>
-        <div className='mt-5 flex w-1/2 justify-end gap-2'>
-          <Button
-            title='판매중지'
+        <div className='flex justify-end w-1/2 gap-2 mt-5'>
+          <button
+            type='button'
             onClick={() => {}}
-            className='w-1/4 border-[1px] border-neutral-200 hover:bg-black hover:text-white'
-            color='bg-white text-black'
-          />
-          <Button
-            title='판매중'
+            className='block w-1/4 rounded-md border-[1px] border-neutral-200 bg-white px-4 py-2 text-base text-black duration-300 ease-in-out hover:scale-105 hover:bg-black hover:text-white'
+          >
+            판매중지
+          </button>
+          <button
+            type='button'
             onClick={() => {}}
-            className='w-1/4 border-[1px] border-neutral-200 hover:bg-black hover:text-white'
-            color='bg-white text-black'
-          />
-          <Button
-            title='전시중지'
+            className='block w-1/4 rounded-md border-[1px] border-neutral-200 bg-white px-4 py-2 text-base text-black duration-300 ease-in-out hover:scale-105 hover:bg-black hover:text-white'
+          >
+            판매중
+          </button>
+          <button
+            type='button'
             onClick={() => {}}
-            className='w-1/4 border-[1px] border-neutral-200 hover:bg-black hover:text-white'
-            color='bg-white text-black'
-          />
-          <Button
-            title='전시중'
+            className='block w-1/4 rounded-md border-[1px] border-neutral-200 bg-white px-4 py-2 text-base text-black duration-300 ease-in-out hover:scale-105 hover:bg-black hover:text-white'
+          >
+            전시중지
+          </button>
+          <button
+            type='button'
             onClick={() => {}}
-            className='w-1/4 border-[1px] border-neutral-200 hover:bg-black hover:text-white'
-            color='bg-white text-black'
-          />
+            className='block w-1/4 rounded-md border-[1px] border-neutral-200 bg-white px-4 py-2 text-base text-black duration-300 ease-in-out hover:scale-105 hover:bg-black hover:text-white'
+          >
+            전시중
+          </button>
         </div>
       </div>
     </SectionBox>
