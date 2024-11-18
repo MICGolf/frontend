@@ -104,12 +104,6 @@ const CheckoutPage = () => {
     }
   };
 
-  const inputStyle =
-    'peer w-full border border-neutral-300 px-4 py-3 placeholder-transparent focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary';
-
-  const FloatinglabelStyle =
-    'absolute left-3 -top-3 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-3 peer-focus:text-sm peer-focus:text-gray-600';
-
   if (!location.state) {
     return (
       <div className='flex items-center justify-center pt-[300px]'>
