@@ -30,7 +30,7 @@ const MobileMenu = ({ isOpen, setIsOpen }: MobileMenuProps) => {
         <div className='h-[39px] w-full'></div>
         <div className='flex h-[70px] w-full items-center justify-between'>
           <Link to={'/'} className='h-[26px] w-[73px]'>
-            <img src={logoWhite} alt='믹골프 로고' className='object-contain w-full h-full' />
+            <img src={logoWhite} alt='믹골프 로고' className='h-full w-full object-contain' />
           </Link>
           <HamburgerMenu isOpen={isOpen} setIsOpen={setIsOpen} color='white' />
         </div>
@@ -38,9 +38,9 @@ const MobileMenu = ({ isOpen, setIsOpen }: MobileMenuProps) => {
 
       {/* 네비게이션 영역 */}
       <nav className='w-full'>
-        <ul className='flex flex-col w-full text-white'>
+        <ul className='flex w-full flex-col text-white'>
           {navigations.map((nav, idx) => (
-            <li key={idx} className='w-full h-full'>
+            <li key={idx} className='h-full w-full'>
               <Link
                 className='hover:bg-transparentBlack flex h-[70px] w-full items-center justify-between px-6 text-lg font-medium transition-colors duration-300'
                 to={`/${nav}`}
@@ -54,7 +54,7 @@ const MobileMenu = ({ isOpen, setIsOpen }: MobileMenuProps) => {
 
       {/* 카테고리 영역 */}
       <nav className='w-full'>
-        <ul className='flex flex-col w-full text-white'>
+        <ul className='flex w-full flex-col text-white'>
           {shopCategoryData.map((major) => (
             <li key={major.id} className='w-full'>
               <div

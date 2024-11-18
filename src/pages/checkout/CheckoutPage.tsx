@@ -224,7 +224,7 @@ const CheckoutPage = () => {
                   checked={selectedCheckbox.includes('개인정보')}
                   onChange={() => handleToggle('개인정보')}
                 />
-                <span
+                <div
                   className={`flex h-5 w-5 items-center justify-center rounded-sm border-2 ${selectedCheckbox.includes('개인정보') ? 'bg-black' : 'bg-white'}`}
                 >
                   {selectedCheckbox.includes('개인정보') && (
@@ -232,10 +232,13 @@ const CheckoutPage = () => {
                       <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
                     </svg>
                   )}
-                </span>
+                </div>
                 개인정보 수집약관 동의&nbsp;
                 <span
-                  onClick={() => handleModalOpen('개인정보')}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleModalOpen('개인정보');
+                  }}
                   className='cursor-pointer border-b border-blue700 text-blue700'
                 >
                   약관 보기 →
@@ -248,7 +251,7 @@ const CheckoutPage = () => {
                   checked={selectedCheckbox.includes('이용약관')}
                   onChange={() => handleToggle('이용약관')}
                 />
-                <span
+                <div
                   className={`flex h-5 w-5 items-center justify-center rounded-sm border-2 ${selectedCheckbox.includes('이용약관') ? 'bg-black' : 'bg-white'}`}
                 >
                   {selectedCheckbox.includes('이용약관') && (
@@ -256,10 +259,13 @@ const CheckoutPage = () => {
                       <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
                     </svg>
                   )}
-                </span>
+                </div>
                 이용약관 동의&nbsp;
                 <span
-                  onClick={() => handleModalOpen('이용약관')}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleModalOpen('이용약관');
+                  }}
                   className='cursor-pointer border-b border-blue700 text-blue700'
                 >
                   약관 보기 →
@@ -329,7 +335,7 @@ const CheckoutPage = () => {
 
           {/* 모바일 뷰 결제 */}
           <div
-            className={`${isVisible ? 'fixed inset-0 z-[100] bg-black bg-opacity-50 backdrop-blur-md' : null} lg:hidden`}
+            className={`${isVisible ? 'fixed inset-0 z-[100] bg-black bg-opacity-50 backdrop-blur-sm' : null} lg:hidden`}
           >
             <div className='fixed bottom-0 left-0 right-0 z-[100] min-w-[300px] bg-white'>
               <div className='flex flex-col gap-2 border-gray200 p-4 lg:border'>

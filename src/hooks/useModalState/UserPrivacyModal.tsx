@@ -1,8 +1,8 @@
-type TermsOfServiceModalProps = {
+type UserPrivacyModalProps = {
   onClose: () => void;
 };
 
-const TermsOfServiceModal = ({ onClose }: TermsOfServiceModalProps) => {
+export const UserPrivacyModal = ({ onClose }: UserPrivacyModalProps) => {
   return (
     <div
       onClick={onClose}
@@ -11,7 +11,7 @@ const TermsOfServiceModal = ({ onClose }: TermsOfServiceModalProps) => {
       <div className='w-full max-w-lg bg-white p-8 shadow-lg'>
         <section className='h-full max-h-[500px] w-full overflow-auto px-1 py-4 text-gray700'>
           <h2 className='mb-6 text-xl font-semibold'>
-            <strong>믹골프 구매이용약관</strong>
+            <strong>믹골프 개인정보 수집 및 이용에 대한 안내</strong>
           </h2>
           <ul className='mb-4 list-decimal pl-5'>
             <li className='mb-4'>
@@ -68,5 +68,3 @@ const TermsOfServiceModal = ({ onClose }: TermsOfServiceModalProps) => {
     </div>
   );
 };
-
-export default TermsOfServiceModal;
