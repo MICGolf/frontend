@@ -136,7 +136,10 @@ const CheckoutPage = () => {
                 label='보내는 분'
                 name='senderName'
                 register={register}
-                registerOptions={{ required: '보내는 분 성함을 입력해주세요' }}
+                registerOptions={{
+                  required: '보내는 분 성함을 입력해주세요',
+                  validate: (value) => /^[가-힣]{2,5}$/.test(value) || '이름이 올바르지 않습니다',
+                }}
                 error={errors.senderName?.message}
               />
               <Input
@@ -144,7 +147,10 @@ const CheckoutPage = () => {
                 label='연락처 "-" 없이 입력'
                 name='phoneNumber'
                 register={register}
-                registerOptions={{ required: '연락처를 입력해주세요' }}
+                registerOptions={{
+                  required: '연락처를 입력해주세요',
+                  validate: (value) => value.length === 11 || '연락처가 올바르지 않습니다',
+                }}
                 error={errors.phoneNumber?.message}
                 onChange={(e) => {
                   const value = e.target.value.replace(/[^0-9]/g, ''); // 숫자만 입력
@@ -195,14 +201,7 @@ const CheckoutPage = () => {
                 registerOptions={{ required: '상세주소를 입력해주세요' }}
                 error={errors.detailAddress?.message}
               />
-              <Input
-                type='text'
-                label='배송요청사항'
-                name='deliveryRequest'
-                register={register}
-                registerOptions={{ required: '상세주소를 입력해주세요' }}
-                error={errors.deliveryRequest?.message}
-              />
+              <Input type='text' label='배송요청사항' name='deliveryRequest' register={register} />
             </div>
 
             {/* step 3 */}

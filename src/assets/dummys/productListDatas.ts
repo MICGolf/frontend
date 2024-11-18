@@ -15,8 +15,54 @@ import pouch2_004 from '@/assets/imgs/pouch2_004.jpg';
 import pouch2_005 from '@/assets/imgs/pouch2_005.jpg';
 import pouch2_006 from '@/assets/imgs/pouch2_006.jpg';
 import pouch2_007 from '@/assets/imgs/pouch2_007.jpg';
+import banner1 from '@/assets/imgs/image_section-1.jpg';
+import banner2 from '@/assets/imgs/image_section-2.jpg';
+import banner3 from '@/assets/imgs/image_section-3.jpg';
+import banner4 from '@/assets/imgs/image_section-4.jpg';
+import banner5 from '@/assets/imgs/image_section-5.jpg';
 import { ProductDetail } from './types';
 import { nanoid } from 'nanoid';
+
+export const bannerImage = [banner1, banner2, banner3, banner4, banner5];
+export const promotionImage = [banner3, banner4, banner5, banner1, banner1];
+export const Homeimages1 = [
+  pouch1_001,
+  pouch1_002,
+  pouch1_003,
+  pouch1_004,
+  pouch1_005,
+  pouch1_006,
+  pouch1_007,
+  pouch2_001,
+  pouch2_002,
+  pouch2_003,
+  pouch2_004,
+  pouch2_005,
+  pouch2_006,
+  pouch2_007,
+  b_001,
+  b_002,
+  b_004,
+];
+export const Homeimages2 = [
+  b_004,
+  pouch2_004,
+  b_001,
+  pouch1_003,
+  pouch2_005,
+  pouch1_002,
+  pouch1_004,
+  pouch1_007,
+  pouch2_001,
+  pouch1_001,
+  pouch2_007,
+  pouch1_005,
+  pouch1_006,
+  pouch2_002,
+  b_002,
+  pouch2_003,
+  pouch2_006,
+];
 
 export const shopProductData: ProductDetail[] = [
   // Existing 7 items

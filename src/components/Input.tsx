@@ -14,7 +14,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 /**
- * react-hook-form과 함께 사용할 수 있는 Floating Label Input 컴포넌트
+ * react-hook-form 사용을 바탕으로 만들어진 Floating Label Input 컴포넌트
  *
  * @component
  * @example
