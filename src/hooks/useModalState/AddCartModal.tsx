@@ -32,7 +32,7 @@ const AddCartModal = ({ onClose, isOpen }: AddCartModalProps) => {
               y: 0,
               transition: {
                 type: 'spring',
-                damping: 18,
+                damping: 20,
                 stiffness: 300,
                 duration: 0.3,
               },

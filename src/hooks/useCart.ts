@@ -1,5 +1,5 @@
 import { client } from '@/api/client';
-import { CartItemData } from '@/assets/dummys/types';
+import { CartItemData2 } from '@/assets/dummys/types';
 import { useUserStore } from '@/config/store';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -12,11 +12,11 @@ export const useCart = () => {
     return items ? JSON.parse(items) : [];
   };
 
-  const { data: cartItems = [] } = useQuery<CartItemData[]>({
-    queryKey: ['cartItems', user?.id],
+  const { data: cartItems = [] } = useQuery<CartItemData2[]>({
+    queryKey: ['cartItems'],
     queryFn: async () => {
       const response = await client.get(`/api/v1/cart/${user?.id}`);
-      return response.data.cartItems || [];
+      return response.data.cartItems || getGuestCartItems();
     },
     enabled: Boolean(user),
     initialData: getGuestCartItems(),

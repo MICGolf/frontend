@@ -1,4 +1,3 @@
-import { cartItemData } from '@/assets/dummys/cartItemData';
 import { useUserStore } from '@/config/store';
 import useCartCalculations from '@/hooks/uesCartCalculations';
 import { useCart } from '@/hooks/useCart';
@@ -8,11 +7,12 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import minus from '@/assets/icons/minus.svg';
 import plus from '@/assets/icons/plus.svg';
+import dropDownIco from '@/assets/icons/dropDownIco.svg';
 
 const CartPage = () => {
   const { user } = useUserStore();
   const { cartItems, syncGuestCartToUser } = useCart();
-  const { selectedItems, handleToggle, selectedProducts } = useCartSelection(cartItemData);
+  const { selectedItems, handleToggle, selectedProducts } = useCartSelection(cartItems);
   const { totalPrice, totalDeliveryFee } = useCartCalculations(selectedProducts);
   const navigate = useNavigate();
   const paymentData = {
@@ -42,13 +42,12 @@ const CartPage = () => {
   };
 
   return (
-    <div className='flex w-full justify-center pt-[210px]'>
+    <div className={`flex w-full justify-center pt-[210px]`}>
       <div className='flex w-[1320px] flex-col'>
         <div className='flex w-full justify-center lg:gap-4'>
           <div className='p-5 pb-[] font-sans'>
-            {/* FIX: cartItemData => data로 변경 예정 */}
             <div className='flex justify-start px-[20px] text-4xl font-[700]'>장바구니</div>
-            {cartItemData.map((item) => (
+            {cartItems.map((item) => (
               <div key={item.id} className='flex items-center gap-4 border-b border-gray-100 py-5'>
                 {/* 체크박스 */}
                 <div className='text-center'>
@@ -78,7 +77,7 @@ const CartPage = () => {
                   <div className='flex flex-1 flex-col text-base lg:text-lg xl:text-xl'>
                     <div className='mb-2'>{item.name}</div>
                     <div className='text-gray-600'>
-                      {item.color}&nbsp;&nbsp;{item.size}
+                      {item.color.name}&nbsp;&nbsp;{item.size}
                     </div>
                   </div>
                   {/* 가격 */}
@@ -140,15 +139,12 @@ const CartPage = () => {
 
           {/* 주문 section */}
           <div className='hidden lg:block'>
-            <div className='bg-white lg:sticky xl:top-[260px]'>
+            <div className='sticky top-[260px] bg-white transition-all duration-300'>
               <div className='flex flex-col gap-2 border-gray200 p-4 lg:border'>
-                <div className='flex justify-between p-4'>
-                  <div className='mb- text-left text-xl'>총 상품 {selectedProducts.length}개</div>
-                  <button className='text-xl text-gray-400 hover:text-gray-600'>✕</button>
-                </div>
+                <div className='text-left text-xl'>총 상품 {selectedProducts.length}개</div>
                 <div>
-                  <div className='flex flex-col gap-2 border-b border-gray200 p-4'>
-                    <div className='flex flex-col gap-2'>
+                  <div className='flex flex-col gap-2 border-b border-gray200'>
+                    <div className='flex flex-col gap-2 pb-2'>
                       <div className='flex justify-between'>
                         <span>상품합계</span>
                         <span>{totalPrice.toLocaleString()}원</span>
@@ -159,7 +155,7 @@ const CartPage = () => {
                       </div>
                     </div>
                   </div>
-                  <div className='flex flex-col gap-2 p-4 text-right text-xl'>
+                  <div className='flex flex-col gap-2 py-2 text-right text-xl'>
                     <div>결제예상금액</div>
                     <strong>{(totalPrice + totalDeliveryFee).toLocaleString()}원</strong>
                   </div>
@@ -167,23 +163,26 @@ const CartPage = () => {
                 <button
                   onClick={() => handlePayment()}
                   type='button'
-                  className='bg-black px-6 py-3 text-left text-xl text-white hover:opacity-70'
+                  className='bg-black px-6 py-3 text-left text-xl font-light text-white hover:opacity-70'
                 >
-                  <strong>
-                    {(totalPrice + totalDeliveryFee).toLocaleString()}원 구매하기 ({selectedProducts.length}개)
-                  </strong>
+                  {(totalPrice + totalDeliveryFee).toLocaleString()}원 구매하기 ({selectedProducts.length}개)
                 </button>
               </div>
             </div>
           </div>
 
           <div className={`${isVisible ? 'fixed inset-0 z-[100] bg-black bg-opacity-70' : null} lg:hidden`}>
-            <div className='fixed bottom-0 left-0 right-0 min-w-[300px] bg-white'>
+            <div className='shadow-top fixed bottom-0 left-0 right-0 z-[100] min-w-[300px] bg-white'>
               <div className='flex flex-col gap-2 border-gray200 p-4 lg:border'>
                 <div className='flex justify-between px-4'>
                   <div className='mb- text-left text-xl'>총 상품 {selectedProducts.length}개</div>
                   <button onClick={handleTogglePayment} className='text-xl text-gray-400 hover:text-gray-600'>
-                    ✕
+                    <img
+                      src={dropDownIco}
+                      alt='드롭다운 열기 닫기 버튼'
+                      className='transition-transform duration-300 ease-in-out'
+                      style={{ transform: isVisible ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                    />
                   </button>
                 </div>
                 <div
@@ -203,7 +202,7 @@ const CartPage = () => {
                   </div>
                   <div className='flex flex-col gap-2 p-4 text-right text-xl'>
                     <div>결제예상금액</div>
-                    <strong>{(totalPrice + totalDeliveryFee).toLocaleString()}원</strong>
+                    {(totalPrice + totalDeliveryFee).toLocaleString()}원
                   </div>
                 </div>
                 <button
@@ -211,9 +210,7 @@ const CartPage = () => {
                   type='button'
                   className='bg-black px-6 py-3 text-left text-xl text-white hover:opacity-70'
                 >
-                  <strong>
-                    {(totalPrice + totalDeliveryFee).toLocaleString()}원 구매하기 ({selectedProducts.length}개)
-                  </strong>
+                  {(totalPrice + totalDeliveryFee).toLocaleString()}원 구매하기 ({selectedProducts.length}개)
                 </button>
               </div>
             </div>

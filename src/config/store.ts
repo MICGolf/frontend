@@ -15,8 +15,3 @@ export const useMobileScrollStore = create<MobileStore>((set) => ({
   isMobileMode: false,
   setIsMobileMode: () => set((state) => ({ isMobileMode: !state.isMobileMode })),
 }));
-
-export const useFooterStyleStore = create<MobileStore>((set) => ({
-  isMobileMode: false,
-  setIsMobileMode: () => set((state) => ({ isMobileMode: !state.isMobileMode })),
-}));

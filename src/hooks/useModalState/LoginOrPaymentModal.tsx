@@ -1,10 +1,10 @@
-import { CartItemData } from '@/assets/dummys/types';
+import { CartItemData2 } from '@/assets/dummys/types';
 import { useNavigate } from 'react-router-dom';
 
 type LoginOrPaymentModalProps = {
   onClose: () => void;
   paymentData: {
-    items: CartItemData[];
+    items: CartItemData2[];
     totalPrice: number;
     totalDeliveryFee: number;
   };

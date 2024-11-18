@@ -2,14 +2,14 @@ import { useState } from 'react';
 import PrivatePolicyModal from './PrivatePolicyModal';
 import TermsOfServiceModal from './TermsOfServiceModal';
 import LoginOrPaymentModal from './LoginOrPaymentModal';
-import { CartItemData } from '@/assets/dummys/types';
+import { CartItemData2 } from '@/assets/dummys/types';
 import AddCartModal from './AddCartModal';
 
 export type SignUpModalType = '개인정보' | '이용약관' | '결제모달' | '장바구니';
 
 type useModalStateProps = {
   paymentData?: {
-    items: CartItemData[];
+    items: CartItemData2[];
     totalPrice: number;
     totalDeliveryFee: number;
   };

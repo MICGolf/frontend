@@ -18,11 +18,11 @@ export type ImageFile = {
 interface ProductFormData {
   colorName: string;
   hexCode: string;
-  mainCategory: string;
   productCode: string;
   productName: string;
   productPrice: number;
   discountPrice: number;
+  discountOption: string;
   sizes: Size[];
   subCategory: string;
   subSubCategory: string;
@@ -35,6 +35,7 @@ const ProductAdd = () => {
     handleSubmit,
     register,
     control,
+    watch,
     formState: { errors },
   } = methods;
   const [isOpen, setIsOpen] = useState(false);
@@ -76,6 +77,19 @@ const ProductAdd = () => {
     removeImage(index);
   };
 
+  const productPrice = watch('productPrice', 0);
+  const discountPrice = watch('discountPrice', 0);
+  const discountOption = watch('discountOption', 'won');
+
+  const calcurateSalePrice = (productPrice: number, discountPrice: number, discountOption: string) => {
+    if (discountOption === 'won') {
+      return productPrice - discountPrice;
+    }
+    return productPrice - productPrice * (discountPrice / 100);
+  };
+
+  const salePrice = Math.floor(calcurateSalePrice(productPrice, discountPrice, discountOption));
+
   return (
     <FormProvider {...methods}>
       <form className='mt-6 w-full' onSubmit={handleSubmit(handlePostProduct)}>
@@ -105,7 +119,7 @@ const ProductAdd = () => {
             </div>
             <div className='col-span-5 flex items-center gap-4'>
               <select
-                {...register('mainCategory')}
+                {...register('discountOption')}
                 className={`mt-4 w-full appearance-none rounded-md border border-neutral-300 bg-[length:36px_36px] bg-[center_right_1rem] bg-no-repeat px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300`}
                 style={{
                   backgroundImage: `url(${isOpen ? arrowDropUp : arrowDropDown})`,
@@ -174,13 +188,13 @@ const ProductAdd = () => {
             <div className='mb-4 flex items-center text-base font-semibold text-neutral-800'>
               <p>제품설명</p>
             </div>
-            <textarea name='' id='' className='h-[200px] w-full border border-gray-200' />
+            <textarea className='mt-4 h-[200px] w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300' />
           </div>
           <div className='mb-10'>
             <div className='mb-4 flex items-center text-base font-semibold text-neutral-800'>
               <p>제품특징</p>
             </div>
-            <textarea name='' id='' className='h-[200px] w-full border border-gray-200' />
+            <textarea className='mt-4 h-[200px] w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300' />
           </div>
         </div>
 
@@ -199,7 +213,7 @@ const ProductAdd = () => {
                   className='mt-4 w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
                 />
               </div>
-              <p className='text-sm text-red-500'>{errors.productPrice?.message as string}</p>
+              <p className='text-sm text-red-500'>{errors.productPrice?.message}</p>
             </div>
             <div className='col-span-1 mt-4 flex items-center text-base font-semibold text-neutral-500'>
               <p>할인</p>
@@ -214,7 +228,7 @@ const ProductAdd = () => {
             </div>
             <div className='col-span-1 flex items-center gap-4'>
               <select
-                {...register('mainCategory')}
+                {...register('discountOption')}
                 className={`mt-4 w-full appearance-none rounded-md border border-neutral-300 bg-[length:36px_36px] bg-[center_right_1rem] bg-no-repeat px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300`}
                 style={{
                   backgroundImage: `url(${isOpen ? arrowDropUp : arrowDropDown})`,
@@ -229,7 +243,7 @@ const ProductAdd = () => {
               <p>판매가</p>
             </div>
             <div className='col-span-6 mt-4 flex items-center text-base font-semibold text-neutral-500'>
-              <p>300,000원</p>
+              <p>{salePrice.toLocaleString()}원</p>
             </div>
           </div>
         </div>
