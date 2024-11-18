@@ -7,7 +7,9 @@ import { useMediaQuery } from 'react-responsive';
 
 const PublicLayout = () => {
   const isMobileMode = useMobileScrollStore((state) => state.isMobileMode);
-  const isMobileView = useMediaQuery({ maxWidth: 768 });
+  const isShopMobileView = useMediaQuery({ maxWidth: 768 });
+  const isCartMobileView = useMediaQuery({ maxWidth: 1024 });
+  const isFooterMobileView = useMediaQuery({ maxWidth: 1280 });
 
   useEffect(() => {
     if (isMobileMode) {
@@ -24,23 +26,29 @@ const PublicLayout = () => {
   const location = useLocation();
 
   const paddingBottomByLocation = () => {
-    if (!isMobileView) return;
-
-    if (location.pathname.startsWith('/shop/detail')) {
+    if (isShopMobileView && location.pathname.startsWith('/shop/detail')) {
       return '40px';
     }
 
-    if (location.pathname.startsWith('/cart')) {
+    if (isCartMobileView && location.pathname.startsWith('/cart')) {
       return '128px';
     }
 
     return 0;
   };
 
+  const minHeightByViewState = () => {
+    if (isFooterMobileView) {
+      return 'calc(100vh - 57px)';
+    } else {
+      return 'calc(100vh - 232px)';
+    }
+  };
+
   return (
     <div style={{ paddingBottom: paddingBottomByLocation() }}>
       <Header />
-      <main>
+      <main style={{ minHeight: minHeightByViewState() }}>
         <Outlet />
       </main>
       <Footer />

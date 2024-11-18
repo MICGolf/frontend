@@ -1,5 +1,6 @@
-import { CartItemData } from '@/assets/dummys/types';
+import { CartItemData2 } from '@/assets/dummys/types';
 import useModalState from '@/hooks/useModalState/useModalState';
+import { div } from 'framer-motion/client';
 import { useEffect, useState } from 'react';
 import { Address, useDaumPostcodePopup } from 'react-daum-postcode';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -10,7 +11,7 @@ const CheckoutPage = () => {
   const { handleModalOpen, renderModalContent } = useModalState();
   const [selectedCheckbox, setSelectedCheckbox] = useState<CheckboxType[]>([]);
   const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
-  const [phoneNumber, setPhoneNumber] = useState<string | null>(null);
+  const [phoneNumber, setPhoneNumber] = useState<number | null>(null);
   const [address, setAddress] = useState({
     zonecode: '',
     fullAddress: '',
@@ -19,7 +20,7 @@ const CheckoutPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { items, totalDeliveryFee, totalPrice } = location.state as {
-    items: CartItemData[];
+    items: CartItemData2[];
     totalDeliveryFee: number;
     totalPrice: number;
   };
@@ -77,8 +78,8 @@ const CheckoutPage = () => {
   const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     // 숫자만 입력하도록 제한하고, 길이를 11자로 제한
-    if (/^\d*$/.test(value) && value.length <= 11) {
-      setPhoneNumber(value);
+    if (value.length <= 11) {
+      setPhoneNumber(Number(value));
     }
   };
 
@@ -89,6 +90,10 @@ const CheckoutPage = () => {
     setLoadingFlag(false);
     navigate('/checkout/success');
   };
+
+  if (location.state === null) {
+    return <div>비 정상적인 접근입니다.</div>;
+  }
 
   return (
     <div className='mx-auto px-5 py-[200px]'>
@@ -106,8 +111,8 @@ const CheckoutPage = () => {
             />
             <input
               className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl'
-              type='text'
-              value={phoneNumber || ''}
+              type='number'
+              value={phoneNumber || 0}
               onChange={handlePhoneNumberChange}
               placeholder='연락처 "-" 없이 입력'
             />
@@ -240,7 +245,7 @@ const CheckoutPage = () => {
                 <div className='text-left text-2xl'>총 상품 {items.length || 0}개</div>
                 {items.map((item) => (
                   <div key={item.id} className='flex items-center border-b border-gray-100 py-5'>
-                    <div className='max-h-[200px] max-w-[200px] overflow-hidden'>
+                    <div className='max-h-[100px] max-w-[100px] overflow-hidden'>
                       <img
                         src={item.image}
                         className='h-full w-full border border-gray-200 bg-gray-100 object-cover'
@@ -250,7 +255,7 @@ const CheckoutPage = () => {
                     <div className='flex-grow px-5 text-base lg:text-lg xl:text-xl'>
                       <div className='mb-2'>{item.name}</div>
                       <div className='text-gray-600'>
-                        {item.color}&nbsp;&nbsp;{item.size}
+                        {item.color.name}&nbsp;&nbsp;{item.size}
                       </div>
                       <div className='text-gray-600'>{item.amount}</div>
                     </div>
@@ -302,7 +307,7 @@ const CheckoutPage = () => {
                 <div className='flex flex-col gap-2 border-b border-gray200 p-4'>
                   {items.map((item) => (
                     <div key={item.id} className='flex items-center border-b border-gray-100 py-5'>
-                      <div className='max-h-[200px] max-w-[200px] overflow-hidden'>
+                      <div className='max-h-[100px] max-w-[100px] overflow-hidden'>
                         <img
                           src={item.image}
                           className='h-full w-full border border-gray-200 bg-gray-100 object-cover'
@@ -312,7 +317,7 @@ const CheckoutPage = () => {
                       <div className='flex-grow px-5 text-base lg:text-lg xl:text-xl'>
                         <div className='mb-2'>{item.name}</div>
                         <div className='text-gray-600'>
-                          {item.color}&nbsp;&nbsp;{item.size}
+                          {item.color.name}&nbsp;&nbsp;{item.size}
                         </div>
                         <div className='text-gray-600'>{item.amount}</div>
                       </div>
