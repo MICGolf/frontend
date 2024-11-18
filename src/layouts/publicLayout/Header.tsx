@@ -11,10 +11,6 @@ import HamburgerMenu from './HamburgerMenu';
 import MobileMenu from './MobileMenu';
 import CartIco from '@/assets/icons/CartIco';
 import UserIco from '@/assets/icons/UserIco';
-// import cart from '@/assets/icons/cart.svg';
-// import user from '@/assets/icons/user.svg';
-// import LikeIco from '@/assets/icons/LikeIco';
-// import LensIco from '@/assets/icons/LensIco';
 
 const Header = () => {
   const [isHeaderVisible, setIsHeaderVisible] = useState<boolean>(true);
@@ -114,13 +110,6 @@ const Header = () => {
               <HamburgerMenu isOpen={isMobileMenuOpen} setIsOpen={setIsMobileMenuOpen} />
             ) : (
               <ul className='flex w-full justify-end gap-[16px]'>
-                {/* <Link to='/' className='h-[25px] w-[25px]'>
-                  <LikeIco/>
-                </Link>
-                <Link to='/' className='h-[25px] w-[25px]'>
-                  <LensIco/>
-                </Link> */}
-
                 <li>
                   <Link to={'/cart'} className='h-[25px] w-[25px]'>
                     <CartIco />

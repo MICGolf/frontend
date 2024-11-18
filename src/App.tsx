@@ -26,6 +26,8 @@ import SaleSearch from './pages/admin/sale/search/SaleSearch';
 import SalePayment from './pages/admin/sale/payment/SalePayment';
 import SaleOrdering from './pages/admin/sale/ordering/SaleOrdering';
 import SaleDelivery from './pages/admin/sale/delivery/SaleDelivery';
+import ProductEdit from './pages/admin/product/ProductEdit';
+import ProductAdd from './pages/admin/product/ProductAdd';
 
 function App() {
   return (
@@ -77,8 +79,8 @@ function App() {
           <Route path='/admin' element={<AdminRoute />}>
             <Route path='' element={<AdminPage />} />
             <Route path='product'>
-              <Route path='edit' element={<AdminPage />} />
-              <Route path='add' element={<AdminPage />} />
+              <Route path='edit' element={<ProductEdit />} />
+              <Route path='add' element={<ProductAdd />} />
             </Route>
             <Route path='sale'>
               <Route path='search' element={<SaleSearch />} />

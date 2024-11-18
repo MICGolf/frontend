@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import minus from '@/assets/icons/minus.svg';
 import plus from '@/assets/icons/plus.svg';
+import dropDownIco from '@/assets/icons/dropDownIco.svg';
 
 const CartPage = () => {
   const { user } = useUserStore();
@@ -42,7 +43,7 @@ const CartPage = () => {
   };
 
   return (
-    <div className='flex w-full justify-center pt-[210px]'>
+    <div className={`flex w-full justify-center pt-[210px]`}>
       <div className='flex w-[1320px] flex-col'>
         <div className='flex w-full justify-center lg:gap-4'>
           <div className='p-5 pb-[] font-sans'>
@@ -178,12 +179,17 @@ const CartPage = () => {
           </div>
 
           <div className={`${isVisible ? 'fixed inset-0 z-[100] bg-black bg-opacity-70' : null} lg:hidden`}>
-            <div className='fixed bottom-0 left-0 right-0 min-w-[300px] bg-white'>
+            <div className='shadow-top fixed bottom-0 left-0 right-0 z-[100] min-w-[300px] bg-white'>
               <div className='flex flex-col gap-2 border-gray200 p-4 lg:border'>
                 <div className='flex justify-between px-4'>
                   <div className='mb- text-left text-xl'>총 상품 {selectedProducts.length}개</div>
                   <button onClick={handleTogglePayment} className='text-xl text-gray-400 hover:text-gray-600'>
-                    ✕
+                    <img
+                      src={dropDownIco}
+                      alt='드롭다운 열기 닫기 버튼'
+                      className='transition-transform duration-300 ease-in-out'
+                      style={{ transform: isVisible ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                    />
                   </button>
                 </div>
                 <div

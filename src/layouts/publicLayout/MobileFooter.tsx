@@ -2,7 +2,6 @@ import facebook from '@/assets/icons/facebook.svg';
 import instagram from '@/assets/icons/instagram.svg';
 import youtube from '@/assets/icons/youTube.svg';
 import logoWhite from '@/assets/imgs/logoWhite.svg';
-import { useFooterStyleStore } from '@/config/store';
 import { Link } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 
@@ -82,7 +81,6 @@ const footerLinks: FooterLink[] = [
 ];
 
 const MobileFooter = () => {
-  const isMobileMode = useFooterStyleStore((state) => state.isMobileMode);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLUListElement>(null);
 
@@ -110,7 +108,7 @@ const MobileFooter = () => {
 
   return (
     <footer
-      className={`relative flex min-h-[57px] items-center justify-between px-4 ${isMobileMode ? 'pb-[55px] pt-4' : isDropdownOpen ? 'py-8' : 'py-4'} bg-black text-gray700 ${isDropdownOpen ? 'flex-col gap-12 px-6' : 'px-4'} `}
+      className={`relative flex min-h-[57px] items-center justify-between bg-black px-4 text-gray700`}
       ref={dropdownRef}
     >
       {isDropdownOpen && (

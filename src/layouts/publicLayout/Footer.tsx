@@ -4,9 +4,12 @@ import youtube from '@/assets/icons/youTube.svg';
 import logoWhite from '@/assets/imgs/logoWhite.svg';
 import { useMediaQuery } from 'react-responsive';
 import MobileFooter from './MobileFooter';
+import { useLocation } from 'react-router-dom';
 
 const Footer = () => {
   const isMobile = useMediaQuery({ maxWidth: 1280 });
+  const location = useLocation();
+  console.log(location.pathname.startsWith('/shop'));
 
   // INFO: 소셜 미디어 클릭 이벤트 링크 이동 핸들러
   const handleFooterLinkClick = (link: string) => {
@@ -47,7 +50,6 @@ const Footer = () => {
             <div className='w-[220px] border-b border-white'>
               <img className='mb-6' src={logoWhite} alt='믹골프 로고' />
             </div>
-
             <div className='flex'>
               <img
                 className='cursor-pointer'
