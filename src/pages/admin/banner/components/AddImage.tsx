@@ -32,22 +32,22 @@ const AddImage = () => {
   //   },
   // });
 
-  // const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = event.target.files?.[0];
-  //   if (file) {
-  //     if (file) {
-  //       const previewReader = new FileReader();
-  //       previewReader.onload = () => {
-  //         setImagePreview(previewReader.result as string);
-  //         setValue('bannerImage', { file, fileName: file.name });
-  //       };
-  //       previewReader.onerror = (error) => {
-  //         console.error('File read error:', error);
-  //       };
-  //       previewReader.readAsDataURL(file);
-  //     }
-  //   }
-  // };
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      if (file) {
+        const previewReader = new FileReader();
+        previewReader.onload = () => {
+          setImagePreview(previewReader.result as string);
+          setValue('bannerImage', { file, fileName: file.name });
+        };
+        previewReader.onerror = (error) => {
+          console.error('File read error:', error);
+        };
+        previewReader.readAsDataURL(file);
+      }
+    }
+  };
   const handlerSubmit = (data: any) => {
     const formData = new FormData();
     formData.append('bannerName', data.bannerName);
@@ -63,7 +63,7 @@ const AddImage = () => {
             <img src={imagePreview || DefaultImg} alt='배너' className='' />
           </div>
 
-          <div className='flex flex-col w-1/2 gap-4 ml-4'>
+          <div className='ml-4 flex w-1/2 flex-col gap-4'>
             <label>
               배너 제목
               <input
@@ -75,7 +75,7 @@ const AddImage = () => {
                 className='mt-4 w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
               />
               {errors.bannerName && (
-                <p className='mt-1 ml-1 text-sm text-red-500'>{errors.bannerName.message as string}</p>
+                <p className='ml-1 mt-1 text-sm text-red-500'>{errors.bannerName.message as string}</p>
               )}
             </label>
 
@@ -87,22 +87,23 @@ const AddImage = () => {
                 {...register('bannerImage', {
                   required: '필수 입력 항목입니다',
                 })}
+                onChange={handleImageChange}
                 className='mt-4 w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
               />
               {errors.bannerImage && (
-                <p className='mt-1 ml-1 text-sm text-red-500'>{errors.bannerImage.message as string}</p>
+                <p className='ml-1 mt-1 text-sm text-red-500'>{errors.bannerImage.message as string}</p>
               )}
             </label>
 
-            <p className='text-sm text-right text-neutral-500'>권장 해상도 : 1000 x 1000px / JPG 권장</p>
+            <p className='text-right text-sm text-neutral-500'>권장 해상도 : 1000 x 1000px / JPG 권장</p>
           </div>
         </div>
 
-        <div className='flex justify-center w-full mt-4'>
+        <div className='mt-4 flex w-full justify-center'>
           <button
             type='submit'
             onClick={handleSubmit(handlerSubmit)}
-            className='block w-1/2 px-4 py-2 text-base text-white duration-300 ease-in-out rounded-md bg-primary hover:scale-105'
+            className='block w-1/2 rounded-md bg-primary px-4 py-2 text-base text-white duration-300 ease-in-out hover:scale-105'
           >
             등록
           </button>
