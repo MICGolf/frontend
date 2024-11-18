@@ -8,13 +8,25 @@ import dropDownIco from '@/assets/icons/dropDownIco.svg';
 
 type CheckboxType = '개인정보' | '이용약관';
 
+type CheckoutFormData = {
+  deliveryRequest: string;
+  detailAddress: string;
+  fullAddress: string;
+  paymentType: string;
+  phoneNumber: string;
+  senderName: string;
+  zoneCode: string;
+};
+
 const CheckoutPage = () => {
   const { handleModalOpen, renderModalContent } = useModalState();
   const [selectedCheckbox, setSelectedCheckbox] = useState<CheckboxType[]>([]);
   const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
   const disabled = selectedCheckbox.includes('개인정보') && selectedCheckbox.includes('이용약관') ? false : true;
 
-  const methods = useForm();
+  const methods = useForm<CheckoutFormData>({
+    mode: 'onChange',
+  });
   const {
     handleSubmit,
     register,
@@ -56,7 +68,7 @@ const CheckoutPage = () => {
     }
 
     setValue('zoneCode', data.zonecode);
-    setValue('fullAddress', fullAddress);
+    setValue('fullAddress', localAddress + fullAddress);
   };
 
   const handleFindAddressClick = () => {
@@ -126,24 +138,39 @@ const CheckoutPage = () => {
                 placeholder='보내는 분'
                 {...register('senderName', { required: '보내는 분 성함을 입력해주세요' })}
               />
+              <p className='text-sm text-red-500'>{errors.senderName?.message}</p>
               <input
                 className={`${inputStyle}`}
-                type='number'
+                type='text'
                 placeholder='연락처 "-" 없이 입력'
-                {...register('phoneNumber', { required: '보내는 분 성함을 입력해주세요' })}
+                maxLength={11}
+                {...register('phoneNumber', {
+                  required: '연락처를 입력해주세요',
+                })}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/[^0-9]/g, ''); // 숫자만 입력
+                  setValue('phoneNumber', value, { shouldValidate: true }); // 검증 실행
+                }}
               />
+              <p className='text-sm text-red-500'>{errors.phoneNumber?.message}</p>
             </div>
 
             {/* step 2 */}
             <div className='flex flex-col gap-[10px]'>
-              <h2 className='text-2xl'>배송정보</h2>
+              <h2 className='text-2xl'>배송 정보</h2>
               <div className='flex'>
                 <input
                   className={`${inputStyle}`}
                   type='text'
                   placeholder='우편번호'
+                  maxLength={5}
                   {...register('zoneCode', { required: '우편번호를 입력해주세요' })}
+                  onChange={(e) => {
+                    const value = e.target.value.replace(/[^0-9]/g, ''); // 숫자만 입력
+                    setValue('zoneCode', value, { shouldValidate: true }); // 검증 실행
+                  }}
                 />
+
                 <button
                   onClick={handleFindAddressClick}
                   type='button'
@@ -152,24 +179,28 @@ const CheckoutPage = () => {
                   우편번호 찾기
                 </button>
               </div>
+              <p className='text-sm text-red-500'>{errors.zoneCode?.message}</p>
               <input
                 className={`${inputStyle}`}
                 type='text'
                 placeholder='주소'
                 {...register('fullAddress', { required: '주소를 입력해주세요' })}
               />
+              <p className='text-sm text-red-500'>{errors.fullAddress?.message}</p>
               <input
                 className={`${inputStyle}`}
                 type='text'
                 placeholder='상세주소'
                 {...register('detailAddress', { required: '상세주소를 입력해주세요' })}
               />
+              <p className='text-sm text-red-500'>{errors.detailAddress?.message}</p>
               <input
                 className={`${inputStyle}`}
                 type='text'
                 placeholder='배송요청사항'
                 {...register('deliveryRequest')}
               />
+              <p className='text-sm text-red-500'>{errors.deliveryRequest?.message}</p>
             </div>
 
             {/* step 3 */}
@@ -199,13 +230,14 @@ const CheckoutPage = () => {
                   KG 이니시스
                 </label>
               </div>
+              <p className='text-sm text-red-500'>{errors.paymentType?.message}</p>
             </div>
 
             {/* step 4 */}
             <div className='flex flex-col gap-[10px]'>
               <h2 className='text-2xl'>개인정보 수집/제공</h2>
-              <label className='flex cursor-pointer items-center'>
-                <input type='checkbox' className='hidden' checked={isAllChecked} onChange={handleToggleAll} />
+              <label className='flex cursor-pointer items-center gap-2'>
+                <input type='checkbox' hidden checked={isAllChecked} onChange={handleToggleAll} />
                 <span
                   className={`flex h-5 w-5 items-center justify-center rounded-sm border-2 ${isAllChecked ? 'bg-black' : 'bg-white'}`}
                 >
@@ -217,10 +249,10 @@ const CheckoutPage = () => {
                 </span>
                 전체 동의
               </label>
-              <label className='flex cursor-pointer items-center'>
+              <label className='flex cursor-pointer items-center gap-2'>
                 <input
                   type='checkbox'
-                  className='hidden'
+                  hidden
                   checked={selectedCheckbox.includes('개인정보')}
                   onChange={() => handleToggle('개인정보')}
                 />
@@ -244,10 +276,10 @@ const CheckoutPage = () => {
                   약관 보기 →
                 </span>
               </label>
-              <label className='flex cursor-pointer items-center'>
+              <label className='flex cursor-pointer items-center gap-2'>
                 <input
                   type='checkbox'
-                  className='hidden'
+                  hidden
                   checked={selectedCheckbox.includes('이용약관')}
                   onChange={() => handleToggle('이용약관')}
                 />
@@ -321,13 +353,11 @@ const CheckoutPage = () => {
                   <strong>{(totalPrice + totalDeliveryFee).toLocaleString()}원</strong>
                 </div>
                 <button
-                  disabled={
-                    selectedCheckbox.includes('개인정보') && selectedCheckbox.includes('이용약관') ? false : true
-                  }
+                  disabled={disabled}
                   type='submit'
-                  className='bg-black px-6 py-3 text-left text-xl text-white hover:opacity-70'
+                  className={`px-6 py-3 text-left text-xl transition-colors duration-700 ${disabled ? 'border border-gray300 bg-gray100 text-gray300' : 'bg-primary text-secondary hover:border hover:border-primary hover:bg-secondary hover:text-primary'}`}
                 >
-                  결제하기
+                  {(totalPrice + totalDeliveryFee).toLocaleString()}원 구매하기 ({items.length || 0}개)
                 </button>
               </div>
             </div>
@@ -399,7 +429,7 @@ const CheckoutPage = () => {
                 </div>
                 <button
                   disabled={disabled}
-                  type='button'
+                  type='submit'
                   className={`px-6 py-3 text-left text-xl transition-colors duration-700 ${disabled ? 'border border-gray300 bg-gray100 text-gray300' : 'bg-primary text-secondary hover:border hover:border-primary hover:bg-secondary hover:text-primary'}`}
                 >
                   {(totalPrice + totalDeliveryFee).toLocaleString()}원 구매하기 ({items.length || 0}개)
@@ -411,7 +441,7 @@ const CheckoutPage = () => {
       </form>
       {/* 결제중 loading 모달 */}
       {loadingflag && (
-        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50'>
+        <div className='fixed inset-0 z-[100] flex items-center justify-center bg-black/50'>
           <div className='mx-4 w-full max-w-md bg-white p-8 shadow-xl'>
             <div className='mb-6 flex items-center justify-center'>
               <div className='relative h-16 w-16'>
