@@ -1,6 +1,5 @@
 import { CartItemData2 } from '@/assets/dummys/types';
 import useModalState from '@/hooks/useModalState/useModalState';
-import { div } from 'framer-motion/client';
 import { useEffect, useState } from 'react';
 import { Address, useDaumPostcodePopup } from 'react-daum-postcode';
 import { useLocation, useNavigate } from 'react-router-dom';
