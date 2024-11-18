@@ -5,6 +5,8 @@ import { Address, useDaumPostcodePopup } from 'react-daum-postcode';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import dropDownIco from '@/assets/icons/dropDownIco.svg';
+import kakaopay from '@/assets/icons/kakaopay.svg';
+import { Input } from '@/components/Input';
 
 type CheckboxType = '개인정보' | '이용약관';
 
@@ -103,7 +105,10 @@ const CheckoutPage = () => {
   };
 
   const inputStyle =
-    'w-full border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300';
+    'peer w-full border border-neutral-300 px-4 py-3 placeholder-transparent focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary';
+
+  const FloatinglabelStyle =
+    'absolute left-3 -top-3 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-3 peer-focus:text-sm peer-focus:text-gray-600';
 
   if (!location.state) {
     return (
@@ -131,76 +136,79 @@ const CheckoutPage = () => {
           <div className='flex w-[1160px] flex-col gap-[64px] p-5'>
             {/* step 1 */}
             <div className='flex flex-col gap-[10px]'>
-              <h2 className='text-2xl'>주문자 정보</h2>
-              <input
-                className={`${inputStyle}`}
+              <h2 className='mb-4 text-2xl'>주문자 정보</h2>
+              <Input
                 type='text'
-                placeholder='보내는 분'
-                {...register('senderName', { required: '보내는 분 성함을 입력해주세요' })}
+                label='보내는 분'
+                name='senderName'
+                register={register}
+                registerOptions={{ required: '보내는 분 성함을 입력해주세요' }}
+                error={errors.senderName?.message}
               />
-              <p className='text-sm text-red-500'>{errors.senderName?.message}</p>
-              <input
-                className={`${inputStyle}`}
+              <Input
                 type='text'
-                placeholder='연락처 "-" 없이 입력'
-                maxLength={11}
-                {...register('phoneNumber', {
-                  required: '연락처를 입력해주세요',
-                })}
+                label='연락처 "-" 없이 입력'
+                name='phoneNumber'
+                register={register}
+                registerOptions={{ required: '연락처를 입력해주세요' }}
+                error={errors.phoneNumber?.message}
                 onChange={(e) => {
                   const value = e.target.value.replace(/[^0-9]/g, ''); // 숫자만 입력
                   setValue('phoneNumber', value, { shouldValidate: true }); // 검증 실행
                 }}
               />
-              <p className='text-sm text-red-500'>{errors.phoneNumber?.message}</p>
             </div>
 
             {/* step 2 */}
             <div className='flex flex-col gap-[10px]'>
-              <h2 className='text-2xl'>배송 정보</h2>
+              <h2 className='mb-4 text-2xl'>배송 정보</h2>
               <div className='flex'>
-                <input
-                  className={`${inputStyle}`}
+                <Input
                   type='text'
-                  placeholder='우편번호'
+                  label='우편번호'
+                  name='zoneCode'
+                  register={register}
+                  registerOptions={{ required: '우편번호를 입력해주세요' }}
+                  error={errors.zoneCode?.message}
                   maxLength={5}
-                  {...register('zoneCode', { required: '우편번호를 입력해주세요' })}
                   onChange={(e) => {
                     const value = e.target.value.replace(/[^0-9]/g, ''); // 숫자만 입력
                     setValue('zoneCode', value, { shouldValidate: true }); // 검증 실행
                   }}
+                  className='flex-1'
                 />
-
                 <button
                   onClick={handleFindAddressClick}
                   type='button'
-                  className='whitespace-nowrap bg-black px-3 py-2 text-white'
+                  className='h-[50px] whitespace-nowrap bg-black px-3 py-2 text-white'
                 >
                   우편번호 찾기
                 </button>
               </div>
-              <p className='text-sm text-red-500'>{errors.zoneCode?.message}</p>
-              <input
-                className={`${inputStyle}`}
+              <Input
                 type='text'
-                placeholder='주소'
-                {...register('fullAddress', { required: '주소를 입력해주세요' })}
+                label='주소'
+                name='fullAddress'
+                register={register}
+                registerOptions={{ required: '주소를 입력해주세요' }}
+                error={errors.fullAddress?.message}
               />
-              <p className='text-sm text-red-500'>{errors.fullAddress?.message}</p>
-              <input
-                className={`${inputStyle}`}
+              <Input
                 type='text'
-                placeholder='상세주소'
-                {...register('detailAddress', { required: '상세주소를 입력해주세요' })}
+                label='상세주소'
+                name='detailAddress'
+                register={register}
+                registerOptions={{ required: '상세주소를 입력해주세요' }}
+                error={errors.detailAddress?.message}
               />
-              <p className='text-sm text-red-500'>{errors.detailAddress?.message}</p>
-              <input
-                className={`${inputStyle}`}
+              <Input
                 type='text'
-                placeholder='배송요청사항'
-                {...register('deliveryRequest')}
+                label='배송요청사항'
+                name='deliveryRequest'
+                register={register}
+                registerOptions={{ required: '상세주소를 입력해주세요' }}
+                error={errors.deliveryRequest?.message}
               />
-              <p className='text-sm text-red-500'>{errors.deliveryRequest?.message}</p>
             </div>
 
             {/* step 3 */}
@@ -208,7 +216,7 @@ const CheckoutPage = () => {
               <h2 className='text-2xl'>결제수단</h2>
               <div className='flex gap-6'>
                 <label
-                  className={`w-full px-3 py-2 transition-colors duration-300 ${paymentType === 'kakaopay' ? 'bg-[#ffeb00]' : 'border-[1px] border-neutral-300'}`}
+                  className={`flex w-full items-center border px-3 py-2 transition-colors duration-300 ${paymentType === 'kakaopay' ? 'border-[#ffeb00] bg-[#ffeb00]' : 'border-neutral-300'}`}
                 >
                   <input
                     type='radio'
@@ -216,10 +224,10 @@ const CheckoutPage = () => {
                     {...register('paymentType', { required: '결제 수단을 선택해주세요.' })}
                     hidden
                   />
-                  카카오페이
+                  <img src={kakaopay} alt='카카오페이 결제' className='h-5' />
                 </label>
                 <label
-                  className={`w-full px-3 py-2 transition-colors duration-300 ${paymentType === 'inicis' ? 'bg-primary text-secondary' : 'border-[1px] border-neutral-300'}`}
+                  className={`w-full border px-3 py-2 transition-colors duration-300 ${paymentType === 'inicis' ? 'bg-primary text-secondary' : 'border-neutral-300'}`}
                 >
                   <input
                     type='radio'
