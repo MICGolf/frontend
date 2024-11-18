@@ -24,7 +24,7 @@ export const MultipleSwiper = ({ images }: SliderProps) => {
           renderBullet: (_, className) => {
             return `
             <button 
-              class="${className} relative focus:outline-none !my-6 !py-4 bg-transparent !m-0 w-full"
+              class="${className} relative focus:outline-none !my-6 !py-4 !bg-transparent !m-0 w-full"
             >
               <div class="h-2 w-full transition-all duration-300 bg-black">
               </div>

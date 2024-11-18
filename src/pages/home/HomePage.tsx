@@ -1,20 +1,11 @@
-import { useRef } from 'react';
 import { bannerImage, Homeimages1, Homeimages2, promotionImage } from '@/assets/dummys/productListDatas';
 import { MultipleSwiper } from './components/MultipleSwiper';
+import { BannerSwiper } from './components/BannerSwiper';
 
 const HomePage = () => {
-  const imageRef = useRef<HTMLImageElement>(null);
-
   return (
     <>
-      <img
-        className='fixed top-0 z-[-1] h-[100vh] w-full'
-        style={{
-          backgroundImage: `url(${bannerImage[0]})`,
-          backgroundSize: 'cover',
-        }}
-        ref={imageRef}
-      />
+      <BannerSwiper images={bannerImage} />
 
       <div className='z-20 mt-[100vh] w-full bg-white'>
         <div className='px-[130px] py-[100px]'>
