@@ -24,8 +24,11 @@ const LoginOrPaymentModal = ({ onClose, paymentData }: LoginOrPaymentModalProps)
   };
 
   return (
-    <div onClick={onClose} className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
-      <div onClick={(e) => e.stopPropagation()} className='flex flex-col gap-4 bg-white px-[240px] py-[60px]'>
+    <div onClick={onClose} className='fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50'>
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className='flex flex-col gap-4 bg-white px-[200px] py-[40px] lg:px-[240px] lg:py-[60px]'
+      >
         <p className='text-2xl'>
           로그인이 안돼있어요 !<br />
           비회원으로 주문하시겠습니까?

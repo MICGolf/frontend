@@ -61,9 +61,9 @@ const Header = () => {
 
       <header
         ref={headerRef}
-        className={`fixed top-0 z-[999] w-full transition-transform duration-300 ${isHeaderVisible ? 'translate-y-0' : '-translate-y-full'}`}
+        className={`fixed top-0 z-[99] w-full transition-transform duration-300 ${isHeaderVisible ? 'translate-y-0' : '-translate-y-full'}`}
       >
-        <div className='relative z-[1001]'>
+        <div className='relative z-[99]'>
           {/* 최상단 띠배너 영역 */}
           <div className='flex h-[39px] w-full items-center justify-center gap-4 bg-black px-4'>
             <span className='animate-pulse break-all text-center text-[10px] text-white transition-all duration-300 md:text-sm'>

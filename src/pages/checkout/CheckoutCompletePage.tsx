@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const CheckoutCompletePage = () => {
   const linkStyle =
-    'bg-primary px-4 py-3 text-secondary transition-colors duration-700 hover:border hover:border-primary hover:bg-secondary hover:text-primary';
+    'bg-primary px-4 py-3 text-secondary transition-colors duration-700 border border-primary hover:bg-secondary hover:text-primary';
 
   return (
     <div>
