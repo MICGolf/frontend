@@ -95,10 +95,10 @@ const CheckoutPage = () => {
   }
 
   return (
-    <div className='mx-auto px-5 py-[200px]'>
+    <div className='px-5 py-[200px]'>
       {/* 결제 section */}
 
-      <div className='flex max-w-[1660px] gap-4'>
+      <div className='mx-auto flex max-w-[1660px] gap-4'>
         <div className='flex w-[1160px] flex-col gap-[64px] p-5'>
           {/* step 1 */}
           <div className='flex flex-col gap-[10px]'>
@@ -292,7 +292,7 @@ const CheckoutPage = () => {
         </div>
 
         <div className={`${isVisible ? 'fixed inset-0 z-[100] bg-black bg-opacity-70' : null} lg:hidden`}>
-          <div className='fixed bottom-0 left-0 right-0 min-w-[300px] bg-white'>
+          <div className='fixed bottom-0 left-0 right-0 z-[100] min-w-[300px] bg-white'>
             <div className='flex flex-col gap-2 border-gray200 p-4 lg:border'>
               <div className='flex justify-between px-4'>
                 <div className='mb- text-left text-xl'>총 상품 {items.length || 0}개</div>

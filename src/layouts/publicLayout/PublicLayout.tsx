@@ -30,8 +30,10 @@ const PublicLayout = () => {
       return '40px';
     }
 
-    if (isCartMobileView && location.pathname.startsWith('/cart')) {
-      return '128px';
+    if (isCartMobileView) {
+      if (location.pathname.startsWith('/cart') || location.pathname.startsWith('/checkout')) {
+        return '128px';
+      }
     }
 
     return 0;
