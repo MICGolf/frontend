@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import PrivatePolicyModal from './PrivatePolicyModal';
 import TermsOfServiceModal from './TermsOfServiceModal';
 import LoginOrPaymentModal from './LoginOrPaymentModal';
 import { CartItemData2 } from '@/assets/dummys/types';
 import AddCartModal from './AddCartModal';
+import { UserPrivacyModal } from './UserPrivacyModal';
 
 export type SignUpModalType = '개인정보' | '이용약관' | '결제모달' | '장바구니';
 
@@ -32,7 +32,7 @@ const useModalState = ({ paymentData }: useModalStateProps = {}) => {
   const renderModalContent = (): React.ReactNode => {
     switch (currentModal) {
       case '개인정보': {
-        return <PrivatePolicyModal onClose={handleModalClose} />;
+        return <UserPrivacyModal onClose={handleModalClose} />;
       }
       case '이용약관': {
         return <TermsOfServiceModal onClose={handleModalClose} />;

@@ -1,28 +1,44 @@
-import { CartItemData } from '@/assets/dummys/types';
+import { CartItemData2 } from '@/assets/dummys/types';
 import useModalState from '@/hooks/useModalState/useModalState';
 import { useEffect, useState } from 'react';
 import { Address, useDaumPostcodePopup } from 'react-daum-postcode';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
+import dropDownIco from '@/assets/icons/dropDownIco.svg';
 
 type CheckboxType = '개인정보' | '이용약관';
+
+type CheckoutFormData = {
+  deliveryRequest: string;
+  detailAddress: string;
+  fullAddress: string;
+  paymentType: string;
+  phoneNumber: string;
+  senderName: string;
+  zoneCode: string;
+};
 
 const CheckoutPage = () => {
   const { handleModalOpen, renderModalContent } = useModalState();
   const [selectedCheckbox, setSelectedCheckbox] = useState<CheckboxType[]>([]);
   const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
-  const [phoneNumber, setPhoneNumber] = useState<string | null>(null);
-  const [address, setAddress] = useState({
-    zonecode: '',
-    fullAddress: '',
+  const disabled = selectedCheckbox.includes('개인정보') && selectedCheckbox.includes('이용약관') ? false : true;
+
+  const methods = useForm<CheckoutFormData>({
+    mode: 'onChange',
   });
+  const {
+    handleSubmit,
+    register,
+    setValue,
+    watch,
+    formState: { errors },
+  } = methods;
+
+  const paymentType = watch('paymentType');
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { items, totalDeliveryFee, totalPrice } = location.state as {
-    items: CartItemData[];
-    totalDeliveryFee: number;
-    totalPrice: number;
-  };
 
   const [loadingflag, setLoadingFlag] = useState<boolean>(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -51,8 +67,8 @@ const CheckoutPage = () => {
       fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
     }
 
-    console.log('주소: ', data.zonecode, fullAddress);
-    setAddress({ zonecode: data.zonecode, fullAddress });
+    setValue('zoneCode', data.zonecode);
+    setValue('fullAddress', localAddress + fullAddress);
   };
 
   const handleFindAddressClick = () => {
@@ -74,235 +90,233 @@ const CheckoutPage = () => {
       : setIsAllChecked(false);
   }, [selectedCheckbox]);
 
-  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    // 숫자만 입력하도록 제한하고, 길이를 11자로 제한
-    if (/^\d*$/.test(value) && value.length <= 11) {
-      setPhoneNumber(value);
+  const handlePaymentClick = async (data: any) => {
+    // 결제하기 버튼 클릭 시 로직
+    console.log(data);
+
+    if (data) {
+      setLoadingFlag(true);
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      setLoadingFlag(false);
+      navigate('/checkout/success');
     }
   };
 
-  const handlePaymentClick = async () => {
-    // 결제하기 버튼 클릭 시 로직
-    setLoadingFlag(true);
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-    setLoadingFlag(false);
-    navigate('/checkout/success');
+  const inputStyle =
+    'w-full border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300';
+
+  if (!location.state) {
+    return (
+      <div className='flex items-center justify-center pt-[300px]'>
+        <div className='text-[48px]'>
+          1. POST 주문번호 요청 <br />
+          2. Response.주문번호를 기반으로 결제 요청
+        </div>
+      </div>
+    );
+  }
+
+  // FIXME: 로케이션 상태로 받아오는게 아니라 주문번호 요청 및 응답을 통해 받아온 데이터로 처리
+  const { items, totalDeliveryFee, totalPrice } = location.state as {
+    items: CartItemData2[];
+    totalDeliveryFee: number;
+    totalPrice: number;
   };
 
   return (
-    <div className='mx-auto px-5 py-[200px]'>
-      {/* 결제 section */}
-
-      <div className='flex max-w-[1660px] gap-4'>
-        <div className='flex w-[1160px] flex-col gap-[64px] p-5'>
-          {/* step 1 */}
-          <div className='flex flex-col gap-[10px]'>
-            <h2 className='text-2xl'>주문자 정보</h2>
-            <input
-              className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl'
-              type='text'
-              placeholder='보내는 분'
-            />
-            <input
-              className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl'
-              type='text'
-              value={phoneNumber || ''}
-              onChange={handlePhoneNumberChange}
-              placeholder='연락처 "-" 없이 입력'
-            />
-          </div>
-
-          {/* step 2 */}
-          <div className='flex flex-col gap-[10px]'>
-            <h2 className='text-2xl'>배송정보</h2>
-            <div className='flex'>
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(handlePaymentClick)} className='px-5 py-[200px]'>
+        {/* 결제 section */}
+        <div className='mx-auto flex max-w-[1220px] gap-4'>
+          <div className='flex w-[1160px] flex-col gap-[64px] p-5'>
+            {/* step 1 */}
+            <div className='flex flex-col gap-[10px]'>
+              <h2 className='text-2xl'>주문자 정보</h2>
               <input
-                className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl'
+                className={`${inputStyle}`}
                 type='text'
-                placeholder='우편번호'
-                value={address.zonecode}
-                readOnly
+                placeholder='보내는 분'
+                {...register('senderName', { required: '보내는 분 성함을 입력해주세요' })}
               />
-              <button
-                onClick={handleFindAddressClick}
-                type='button'
-                className='whitespace-nowrap bg-black px-4 py-5 text-white'
-              >
-                우편번호 찾기
-              </button>
-            </div>
-            <input
-              className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl'
-              type='text'
-              placeholder='주소'
-              value={address.fullAddress}
-              readOnly
-            />
-            <input
-              className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl'
-              type='text'
-              placeholder='상세주소'
-            />
-            <input
-              className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl'
-              type='text'
-              placeholder='배송요청사항'
-            />
-          </div>
-
-          {/* step 3 */}
-          <div className='flex flex-col gap-[10px]'>
-            <h2 className='text-2xl'>결제수단</h2>
-            <div className='flex gap-6'>
-              <button className='w-full bg-[#ffeb00] px-6 py-4 placeholder:text-2xl' type='button'>
-                카카오페이
-              </button>
-              <button className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl' type='button'>
-                KG 이니시스
-              </button>
-            </div>
-          </div>
-
-          {/* step 4 */}
-          <div className='flex flex-col gap-[10px]'>
-            <h2 className='text-2xl'>개인정보 수집/제공</h2>
-            <label className='flex cursor-pointer items-center'>
-              <input type='checkbox' className='hidden' checked={isAllChecked} onChange={handleToggleAll} />
-              <span
-                className={`flex h-5 w-5 items-center justify-center rounded-sm border-2 ${isAllChecked ? 'bg-black' : 'bg-white'}`}
-              >
-                {isAllChecked && (
-                  <svg className='h-5 w-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
-                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
-                  </svg>
-                )}
-              </span>
-              전체 동의
-            </label>
-            <label className='flex cursor-pointer items-center'>
+              <p className='text-sm text-red-500'>{errors.senderName?.message}</p>
               <input
-                type='checkbox'
-                className='hidden'
-                checked={selectedCheckbox.includes('개인정보')}
-                onChange={() => handleToggle('개인정보')}
+                className={`${inputStyle}`}
+                type='text'
+                placeholder='연락처 "-" 없이 입력'
+                maxLength={11}
+                {...register('phoneNumber', {
+                  required: '연락처를 입력해주세요',
+                })}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/[^0-9]/g, ''); // 숫자만 입력
+                  setValue('phoneNumber', value, { shouldValidate: true }); // 검증 실행
+                }}
               />
-              <span
-                className={`flex h-5 w-5 items-center justify-center rounded-sm border-2 ${selectedCheckbox.includes('개인정보') ? 'bg-black' : 'bg-white'}`}
-              >
-                {selectedCheckbox.includes('개인정보') && (
-                  <svg className='h-5 w-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
-                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
-                  </svg>
-                )}
-              </span>
-              개인정보 수집약관 동의&nbsp;
-              <span
-                onClick={() => handleModalOpen('개인정보')}
-                className='cursor-pointer border-b border-blue700 text-blue700'
-              >
-                약관 보기 →
-              </span>
-            </label>
-            <label className='flex cursor-pointer items-center'>
-              <input
-                type='checkbox'
-                className='hidden'
-                checked={selectedCheckbox.includes('이용약관')}
-                onChange={() => handleToggle('이용약관')}
-              />
-              <span
-                className={`flex h-5 w-5 items-center justify-center rounded-sm border-2 ${selectedCheckbox.includes('이용약관') ? 'bg-black' : 'bg-white'}`}
-              >
-                {selectedCheckbox.includes('이용약관') && (
-                  <svg className='h-5 w-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
-                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
-                  </svg>
-                )}
-              </span>
-              이용약관 동의&nbsp;
-              <span
-                onClick={() => handleModalOpen('이용약관')}
-                className='cursor-pointer border-b border-blue700 text-blue700'
-              >
-                약관 보기 →
-              </span>
-            </label>
-          </div>
-
-          {/* 결제 내용 section */}
-        </div>
-
-        <div className='hidden lg:block lg:min-w-[400px]'>
-          <div className='bg-white lg:sticky xl:top-[260px]'>
-            <div className='flex flex-col gap-2 border border-gray200 p-4'>
-              <div className='flex flex-col gap-6 border-b border-gray200 p-6'>
-                <div className='text-left text-2xl'>총 상품 {items.length || 0}개</div>
-                {items.map((item) => (
-                  <div key={item.id} className='flex items-center border-b border-gray-100 py-5'>
-                    <div className='max-h-[200px] max-w-[200px] overflow-hidden'>
-                      <img
-                        src={item.image}
-                        className='h-full w-full border border-gray-200 bg-gray-100 object-cover'
-                      ></img>
-                    </div>
-
-                    <div className='flex-grow px-5 text-base lg:text-lg xl:text-xl'>
-                      <div className='mb-2'>{item.name}</div>
-                      <div className='text-gray-600'>
-                        {item.color}&nbsp;&nbsp;{item.size}
-                      </div>
-                      <div className='text-gray-600'>{item.amount}</div>
-                    </div>
-
-                    <div className='whitespace-nowrap text-center text-base font-bold lg:text-lg xl:text-xl'>
-                      {item.price.toLocaleString()} 원
-                    </div>
-                  </div>
-                ))}
-
-                <div className='flex flex-col gap-2'>
-                  <div className='flex justify-between'>
-                    <span>상품합계</span>
-                    <span>{totalPrice.toLocaleString()}원</span>
-                  </div>
-                  <div className='flex justify-between'>
-                    <span>배송비</span>
-                    <span>{totalDeliveryFee.toLocaleString()}원</span>
-                  </div>
-                </div>
-              </div>
-              <div className='flex flex-col gap-2 p-6 text-right text-xl'>
-                <div>결제예상금액</div>
-                <strong>{(totalPrice + totalDeliveryFee).toLocaleString()}원</strong>
-              </div>
-              <button
-                onClick={() => handlePaymentClick()}
-                type='button'
-                className='bg-black px-6 py-3 text-left text-xl text-white hover:opacity-70'
-              >
-                결제하기
-              </button>
+              <p className='text-sm text-red-500'>{errors.phoneNumber?.message}</p>
             </div>
-          </div>
-        </div>
 
-        <div className={`${isVisible ? 'fixed inset-0 z-[100] bg-black bg-opacity-70' : null} lg:hidden`}>
-          <div className='fixed bottom-0 left-0 right-0 min-w-[300px] bg-white'>
-            <div className='flex flex-col gap-2 border-gray200 p-4 lg:border'>
-              <div className='flex justify-between px-4'>
-                <div className='mb- text-left text-xl'>총 상품 {items.length || 0}개</div>
-                <button onClick={handleTogglePayment} className='text-xl text-gray-400 hover:text-gray-600'>
-                  ✕
+            {/* step 2 */}
+            <div className='flex flex-col gap-[10px]'>
+              <h2 className='text-2xl'>배송 정보</h2>
+              <div className='flex'>
+                <input
+                  className={`${inputStyle}`}
+                  type='text'
+                  placeholder='우편번호'
+                  maxLength={5}
+                  {...register('zoneCode', { required: '우편번호를 입력해주세요' })}
+                  onChange={(e) => {
+                    const value = e.target.value.replace(/[^0-9]/g, ''); // 숫자만 입력
+                    setValue('zoneCode', value, { shouldValidate: true }); // 검증 실행
+                  }}
+                />
+
+                <button
+                  onClick={handleFindAddressClick}
+                  type='button'
+                  className='whitespace-nowrap bg-black px-3 py-2 text-white'
+                >
+                  우편번호 찾기
                 </button>
               </div>
-              <div
-                className={`overflow-hidden transition-all duration-300 ${isVisible ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}
-              >
-                <div className='flex flex-col gap-2 border-b border-gray200 p-4'>
+              <p className='text-sm text-red-500'>{errors.zoneCode?.message}</p>
+              <input
+                className={`${inputStyle}`}
+                type='text'
+                placeholder='주소'
+                {...register('fullAddress', { required: '주소를 입력해주세요' })}
+              />
+              <p className='text-sm text-red-500'>{errors.fullAddress?.message}</p>
+              <input
+                className={`${inputStyle}`}
+                type='text'
+                placeholder='상세주소'
+                {...register('detailAddress', { required: '상세주소를 입력해주세요' })}
+              />
+              <p className='text-sm text-red-500'>{errors.detailAddress?.message}</p>
+              <input
+                className={`${inputStyle}`}
+                type='text'
+                placeholder='배송요청사항'
+                {...register('deliveryRequest')}
+              />
+              <p className='text-sm text-red-500'>{errors.deliveryRequest?.message}</p>
+            </div>
+
+            {/* step 3 */}
+            <div className='flex flex-col gap-[10px]'>
+              <h2 className='text-2xl'>결제수단</h2>
+              <div className='flex gap-6'>
+                <label
+                  className={`w-full px-3 py-2 transition-colors duration-300 ${paymentType === 'kakaopay' ? 'bg-[#ffeb00]' : 'border-[1px] border-neutral-300'}`}
+                >
+                  <input
+                    type='radio'
+                    value='kakaopay'
+                    {...register('paymentType', { required: '결제 수단을 선택해주세요.' })}
+                    hidden
+                  />
+                  카카오페이
+                </label>
+                <label
+                  className={`w-full px-3 py-2 transition-colors duration-300 ${paymentType === 'inicis' ? 'bg-primary text-secondary' : 'border-[1px] border-neutral-300'}`}
+                >
+                  <input
+                    type='radio'
+                    value='inicis'
+                    {...register('paymentType', { required: '결제 수단을 선택해주세요.' })}
+                    hidden
+                  />
+                  KG 이니시스
+                </label>
+              </div>
+              <p className='text-sm text-red-500'>{errors.paymentType?.message}</p>
+            </div>
+
+            {/* step 4 */}
+            <div className='flex flex-col gap-[10px]'>
+              <h2 className='text-2xl'>개인정보 수집/제공</h2>
+              <label className='flex cursor-pointer items-center gap-2'>
+                <input type='checkbox' hidden checked={isAllChecked} onChange={handleToggleAll} />
+                <span
+                  className={`flex h-5 w-5 items-center justify-center rounded-sm border-2 ${isAllChecked ? 'bg-black' : 'bg-white'}`}
+                >
+                  {isAllChecked && (
+                    <svg className='h-5 w-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+                      <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
+                    </svg>
+                  )}
+                </span>
+                전체 동의
+              </label>
+              <label className='flex cursor-pointer items-center gap-2'>
+                <input
+                  type='checkbox'
+                  hidden
+                  checked={selectedCheckbox.includes('개인정보')}
+                  onChange={() => handleToggle('개인정보')}
+                />
+                <div
+                  className={`flex h-5 w-5 items-center justify-center rounded-sm border-2 ${selectedCheckbox.includes('개인정보') ? 'bg-black' : 'bg-white'}`}
+                >
+                  {selectedCheckbox.includes('개인정보') && (
+                    <svg className='h-5 w-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+                      <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
+                    </svg>
+                  )}
+                </div>
+                개인정보 수집약관 동의&nbsp;
+                <span
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleModalOpen('개인정보');
+                  }}
+                  className='cursor-pointer border-b border-blue700 text-blue700'
+                >
+                  약관 보기 →
+                </span>
+              </label>
+              <label className='flex cursor-pointer items-center gap-2'>
+                <input
+                  type='checkbox'
+                  hidden
+                  checked={selectedCheckbox.includes('이용약관')}
+                  onChange={() => handleToggle('이용약관')}
+                />
+                <div
+                  className={`flex h-5 w-5 items-center justify-center rounded-sm border-2 ${selectedCheckbox.includes('이용약관') ? 'bg-black' : 'bg-white'}`}
+                >
+                  {selectedCheckbox.includes('이용약관') && (
+                    <svg className='h-5 w-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+                      <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
+                    </svg>
+                  )}
+                </div>
+                이용약관 동의&nbsp;
+                <span
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleModalOpen('이용약관');
+                  }}
+                  className='cursor-pointer border-b border-blue700 text-blue700'
+                >
+                  약관 보기 →
+                </span>
+              </label>
+            </div>
+
+            {/* 결제 내용 section */}
+          </div>
+
+          {/* 웹 뷰 결제 */}
+          <div className='hidden lg:block lg:min-w-[500px]'>
+            <div className='bg-white lg:sticky xl:top-[260px]'>
+              <div className='flex flex-col gap-2 border border-gray200 p-4'>
+                <div className='flex flex-col gap-6 border-b border-gray200 p-6'>
+                  <div className='text-left text-2xl'>총 상품 {items.length || 0}개</div>
                   {items.map((item) => (
                     <div key={item.id} className='flex items-center border-b border-gray-100 py-5'>
-                      <div className='max-h-[200px] max-w-[200px] overflow-hidden'>
+                      <div className='max-h-[100px] max-w-[100px] overflow-hidden'>
                         <img
                           src={item.image}
                           className='h-full w-full border border-gray-200 bg-gray-100 object-cover'
@@ -312,7 +326,7 @@ const CheckoutPage = () => {
                       <div className='flex-grow px-5 text-base lg:text-lg xl:text-xl'>
                         <div className='mb-2'>{item.name}</div>
                         <div className='text-gray-600'>
-                          {item.color}&nbsp;&nbsp;{item.size}
+                          {item.color.name}&nbsp;&nbsp;{item.size}
                         </div>
                         <div className='text-gray-600'>{item.amount}</div>
                       </div>
@@ -334,28 +348,100 @@ const CheckoutPage = () => {
                     </div>
                   </div>
                 </div>
-                <div className='flex flex-col gap-2 p-4 text-right text-xl'>
+                <div className='flex flex-col gap-2 p-6 text-right text-xl'>
                   <div>결제예상금액</div>
                   <strong>{(totalPrice + totalDeliveryFee).toLocaleString()}원</strong>
                 </div>
-              </div>
-              <button
-                onClick={() => handlePaymentClick()}
-                type='button'
-                className='bg-black px-6 py-3 text-left text-xl text-white hover:opacity-70'
-              >
-                <strong>
+                <button
+                  disabled={disabled}
+                  type='submit'
+                  className={`px-6 py-3 text-left text-xl transition-colors duration-700 ${disabled ? 'border border-gray300 bg-gray100 text-gray300' : 'bg-primary text-secondary hover:border hover:border-primary hover:bg-secondary hover:text-primary'}`}
+                >
                   {(totalPrice + totalDeliveryFee).toLocaleString()}원 구매하기 ({items.length || 0}개)
-                </strong>
-              </button>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* 모바일 뷰 결제 */}
+          <div
+            className={`${isVisible ? 'fixed inset-0 z-[100] bg-black bg-opacity-50 backdrop-blur-sm' : null} lg:hidden`}
+          >
+            <div className='fixed bottom-0 left-0 right-0 z-[100] min-w-[300px] bg-white'>
+              <div className='flex flex-col gap-2 border-gray200 p-4 lg:border'>
+                <div className='flex justify-between px-4'>
+                  <div className='mb- text-left text-xl'>총 상품 {items.length || 0}개</div>
+                  <button
+                    type='button'
+                    onClick={handleTogglePayment}
+                    className='text-xl text-gray-400 hover:text-gray-600'
+                  >
+                    <img
+                      src={dropDownIco}
+                      alt='드롭다운 열기 닫기 버튼'
+                      className='transition-transform duration-300 ease-in-out'
+                      style={{ transform: isVisible ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                    />
+                  </button>
+                </div>
+                <div
+                  className={`overflow-hidden transition-all duration-300 ${isVisible ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}
+                >
+                  <div className='flex flex-col gap-2 border-b border-gray200 p-4'>
+                    {items.map((item) => (
+                      <div key={item.id} className='flex items-center border-b border-gray-100 py-5'>
+                        <div className='max-h-[100px] max-w-[100px] overflow-hidden'>
+                          <img
+                            src={item.image}
+                            className='h-full w-full border border-gray-200 bg-gray-100 object-cover'
+                          ></img>
+                        </div>
+
+                        <div className='flex-grow px-5 text-base lg:text-lg xl:text-xl'>
+                          <div className='mb-2'>{item.name}</div>
+                          <div className='text-gray-600'>
+                            {item.color.name}&nbsp;&nbsp;{item.size}
+                          </div>
+                          <div className='text-gray-600'>{item.amount}</div>
+                        </div>
+
+                        <div className='whitespace-nowrap text-center text-base font-bold lg:text-lg xl:text-xl'>
+                          {item.price.toLocaleString()} 원
+                        </div>
+                      </div>
+                    ))}
+
+                    <div className='flex flex-col gap-2'>
+                      <div className='flex justify-between'>
+                        <span>상품합계</span>
+                        <span>{totalPrice.toLocaleString()}원</span>
+                      </div>
+                      <div className='flex justify-between'>
+                        <span>배송비</span>
+                        <span>{totalDeliveryFee.toLocaleString()}원</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className='flex flex-col gap-2 p-4 text-right text-xl'>
+                    <div>결제예상금액</div>
+                    <strong>{(totalPrice + totalDeliveryFee).toLocaleString()}원</strong>
+                  </div>
+                </div>
+                <button
+                  disabled={disabled}
+                  type='submit'
+                  className={`px-6 py-3 text-left text-xl transition-colors duration-700 ${disabled ? 'border border-gray300 bg-gray100 text-gray300' : 'bg-primary text-secondary hover:border hover:border-primary hover:bg-secondary hover:text-primary'}`}
+                >
+                  {(totalPrice + totalDeliveryFee).toLocaleString()}원 구매하기 ({items.length || 0}개)
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-
+      </form>
       {/* 결제중 loading 모달 */}
       {loadingflag && (
-        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50'>
+        <div className='fixed inset-0 z-[100] flex items-center justify-center bg-black/50'>
           <div className='mx-4 w-full max-w-md bg-white p-8 shadow-xl'>
             <div className='mb-6 flex items-center justify-center'>
               <div className='relative h-16 w-16'>
@@ -373,7 +459,7 @@ const CheckoutPage = () => {
       )}
 
       {renderModalContent()}
-    </div>
+    </FormProvider>
   );
 };
 

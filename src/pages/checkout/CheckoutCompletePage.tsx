@@ -2,6 +2,9 @@ import completeCheck from '@/assets/icons/completeCheck.svg';
 import { Link } from 'react-router-dom';
 
 const CheckoutCompletePage = () => {
+  const linkStyle =
+    'bg-primary px-4 py-3 text-secondary transition-colors duration-700 hover:border hover:border-primary hover:bg-secondary hover:text-primary';
+
   return (
     <div>
       <div className='mb-6 flex flex-col items-center justify-center gap-4 pt-[250px]'>
@@ -13,18 +16,10 @@ const CheckoutCompletePage = () => {
       </div>
 
       <div className='mt-4 flex justify-center gap-4'>
-        <Link
-          to={'/'}
-          replace={true}
-          className='hover border-gray300 bg-black px-4 py-3 text-white hover:border hover:bg-white hover:text-black'
-        >
+        <Link to={'/'} replace={true} className={`${linkStyle}`}>
           홈페이지 이동
         </Link>
-        <Link
-          to={'/mypage'}
-          replace={true}
-          className='bg-black px-4 py-3 text-white hover:border hover:bg-white hover:text-black'
-        >
+        <Link to={'/mypage'} replace={true} className={`${linkStyle}`}>
           결제내역 이동
         </Link>
       </div>

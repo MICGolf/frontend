@@ -68,7 +68,7 @@ const CartPage = () => {
                   </label>
                 </div>
                 {/* 상품 이미지 */}
-                <div className='max-h-[200px] max-w-[200px] overflow-hidden'>
+                <div className='max-h-[100px] max-w-[100px] overflow-hidden'>
                   <img src={item.image} className='h-full w-full border border-gray-200 bg-gray-100 object-cover'></img>
                 </div>
 
