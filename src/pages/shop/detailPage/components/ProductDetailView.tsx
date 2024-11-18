@@ -11,6 +11,7 @@ import useSaleState from '@/hooks/useSaleState';
 import SaleLabel from '../../components/SaleLabel';
 import { useMediaQuery } from 'react-responsive';
 import MobileDropdownBtn from './MobileDropdownBtn';
+import useModalState from '@/hooks/useModalState/useModalState';
 
 const ProductDetailView = ({ data }: ProductDetailViewProps) => {
   const [detailImage, setDetailImage] = useState<string[]>(data.colors[0]?.images);
@@ -22,6 +23,7 @@ const ProductDetailView = ({ data }: ProductDetailViewProps) => {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const { isSoldOut } = useSoldOutState(data);
   const { isSale, saleLabelText, labelClassNames } = useSaleState(data);
+  const { handleModalOpen, renderModalContent } = useModalState();
 
   const pcStyle =
     'shadow-top fixed bottom-0 z-[1] flex w-full flex-col overflow-hidden border-l-0 bg-white p-[40px] transition-all duration-300 ease-in-out md:sticky md:top-0 md:h-[100vh] md:w-1/2 md:border-l md:border-primary md:px-[50px] md:pb-[50px] md:pt-[150px] md:shadow-none';
@@ -30,18 +32,18 @@ const ProductDetailView = ({ data }: ProductDetailViewProps) => {
     'shadow-top overflow-hidden fixed bottom-[-630px] z-[1] flex w-full flex-col border-l-0 bg-white p-[40px] transition-all duration-300 ease-in-out md:sticky md:top-0 md:h-[100vh] md:w-1/2 md:border-l md:border-primary md:px-[50px] md:pb-[50px] md:pt-[150px] md:shadow-none';
 
   return (
-    <section className='flex flex-col min-h-screen transition-all duration-300 ease-in-out md:flex-row'>
+    <section className='flex min-h-screen flex-col transition-all duration-300 ease-in-out md:flex-row'>
       <div className='flex w-full flex-col gap-[2px] transition-all duration-300 ease-in-out md:w-1/2'>
         {detailImage.map((img, idx) => (
-          <div key={idx} className='w-full h-screen transition-transform duration-500 ease-in-out md:h-full'>
-            <img src={img} alt={`상품 이미지 ${idx + 1}`} className='object-cover w-full h-full' />
+          <div key={idx} className='h-screen w-full transition-transform duration-500 ease-in-out md:h-full'>
+            <img src={img} alt={`상품 이미지 ${idx + 1}`} className='h-full w-full object-cover' />
           </div>
         ))}
       </div>
 
       <div className={isOpen ? mobileStyle : pcStyle}>
         {isMobile && <MobileDropdownBtn setIsOpen={setIsOpen} />}
-        <div className='flex flex-col h-full gap-12'>
+        <div className='flex h-full flex-col gap-12'>
           <div className='flex flex-col gap-4'>
             <div className='flex gap-2'>
               <div className='flex flex-col gap-3'>
@@ -53,7 +55,7 @@ const ProductDetailView = ({ data }: ProductDetailViewProps) => {
             </div>
             {isSale ? (
               <div className='flex flex-col'>
-                <p className='text-lg font-light line-through text-gray700 md:text-xl'>
+                <p className='text-lg font-light text-gray700 line-through md:text-xl'>
                   ₩{data.price.toLocaleString()}
                 </p>
                 <p className='text-xl font-bold md:text-2xl'>₩{data.sale.result.toLocaleString()}</p>
@@ -66,8 +68,8 @@ const ProductDetailView = ({ data }: ProductDetailViewProps) => {
             )}
           </div>
 
-          <div className='flex flex-col gap-6 mt-auto'>
-            <div className='flex flex-col w-full gap-6 md:justify-start'>
+          <div className='mt-auto flex flex-col gap-6'>
+            <div className='flex w-full flex-col gap-6 md:justify-start'>
               <ColorBtns data={data.colors} onSelect={setSelectedColor} onChange={setDetailImage} />
               <SizeBtns data={selectedColor} onSelect={setSelectedSize} />
               <Counter
@@ -87,12 +89,20 @@ const ProductDetailView = ({ data }: ProductDetailViewProps) => {
                   <span className='absolute animate-pulse'>Sold Out</span>
                 </div>
               )}
-              <AddCartBtn />
+              <AddCartBtn
+                data={data}
+                count={count}
+                selectedColor={selectedColor}
+                selectedSize={selectedSize}
+                detailImage={detailImage}
+                handleModalOpen={handleModalOpen}
+              />
               <NaverPayBtn />
             </div>
           </div>
         </div>
       </div>
+      {renderModalContent()}
     </section>
   );
 };

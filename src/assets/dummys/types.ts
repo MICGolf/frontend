@@ -13,6 +13,21 @@ export interface CartItemData {
   price: number;
 }
 
+export interface CartItemData2 {
+  id: string;
+  image: string;
+  name: string;
+  color: {
+    id: string | undefined;
+    name: string | undefined;
+    hex: string | undefined;
+  };
+  size: string | undefined;
+  amount: number;
+  price: number;
+  sale: Sale;
+}
+
 export interface Size {
   name: string;
   stock: number;
