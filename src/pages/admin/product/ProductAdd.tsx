@@ -90,6 +90,9 @@ const ProductAdd = () => {
 
   const salePrice = Math.floor(calcurateSalePrice(productPrice, discountPrice, discountOption));
 
+  const inputStyle =
+    'mt-4 w-full border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300';
+
   return (
     <FormProvider {...methods}>
       <form className='mt-6 w-full' onSubmit={handleSubmit(handlePostProduct)}>
@@ -106,7 +109,7 @@ const ProductAdd = () => {
                   type='text'
                   placeholder='상품명'
                   {...register('productName', { required: '상품명을 입력해주세요' })}
-                  className='mt-4 w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
+                  className={`${inputStyle}`}
                 />
               </div>
               <p className='text-sm text-red-500'>{errors.productName?.message}</p>
@@ -173,7 +176,7 @@ const ProductAdd = () => {
                     type='text'
                     placeholder='상품 코드'
                     {...register('productCode', { required: '상품코드를 입력해주세요' })}
-                    className='mt-4 w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
+                    className={`${inputStyle}`}
                   />
                   <p className='text-sm text-red-500'>{errors.productCode?.message}</p>
                 </div>
@@ -210,7 +213,7 @@ const ProductAdd = () => {
                   type='number'
                   placeholder='상품가'
                   {...register('productPrice', { required: '상품가를 입력해주세요' })}
-                  className='mt-4 w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
+                  className={`${inputStyle}`}
                 />
               </div>
               <p className='text-sm text-red-500'>{errors.productPrice?.message}</p>
@@ -223,7 +226,7 @@ const ProductAdd = () => {
                 type='number'
                 placeholder='할인가격'
                 {...register('discountPrice', { required: '할인할 가격을 입력해주세요' })}
-                className='mt-4 w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
+                className={`${inputStyle}`}
               />
             </div>
             <div className='col-span-1 flex items-center gap-4'>
@@ -275,7 +278,7 @@ const ProductAdd = () => {
                         type='text'
                         placeholder='컬러명'
                         {...register('colorName', { required: '컬러명을 입력해주세요' })}
-                        className='mt-4 w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
+                        className={`${inputStyle}`}
                       />
                       <p className='text-sm text-red-500'>{errors.colorName?.message}</p>
                     </div>
@@ -284,7 +287,7 @@ const ProductAdd = () => {
                         type='text'
                         placeholder='Hex 코드'
                         {...register('hexCode', { required: 'Hex 코드를 입력해주세요' })}
-                        className='mt-4 w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
+                        className={`${inputStyle}`}
                       />
                       <p className='text-sm text-red-500'>{errors.hexCode?.message}</p>
                     </div>
@@ -303,7 +306,7 @@ const ProductAdd = () => {
                           type='text'
                           placeholder='사이즈 명'
                           {...register(`sizes.${index}.sizeName`, { required: '사이즈 명을 입력해주세요' })}
-                          className='mt-4 w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
+                          className={`${inputStyle}`}
                         />
                         <p className='text-sm text-red-500'>{errors.sizes && errors.sizes[index]?.sizeName?.message}</p>
                       </div>
@@ -315,7 +318,7 @@ const ProductAdd = () => {
                             required: '재고 수량을 입력해주세요.',
                             min: { value: 1, message: '재고 수량은 1 이상이어야 합니다.' },
                           })}
-                          className='mt-4 w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
+                          className={`${inputStyle}`}
                         />
                         <p className='text-sm text-red-500'>{errors.sizes && errors.sizes[index]?.stock?.message}</p>
                       </div>
