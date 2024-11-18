@@ -3,8 +3,9 @@ import PrivatePolicyModal from './PrivatePolicyModal';
 import TermsOfServiceModal from './TermsOfServiceModal';
 import LoginOrPaymentModal from './LoginOrPaymentModal';
 import { CartItemData } from '@/assets/dummys/types';
+import AddCartModal from './AddCartModal';
 
-type SignUpModalType = '개인정보' | '이용약관' | '결제모달';
+export type SignUpModalType = '개인정보' | '이용약관' | '결제모달' | '장바구니';
 
 type useModalStateProps = {
   paymentData?: {
@@ -16,16 +17,19 @@ type useModalStateProps = {
 
 const useModalState = ({ paymentData }: useModalStateProps = {}) => {
   const [currentModal, setCurrentModal] = useState<SignUpModalType | null>(null);
+  const [isOpen, setIsOpen] = useState<boolean>(false); // ADD : 모달 애니메이션 상태관리를 위해 추가
 
   const handleModalOpen = (type: SignUpModalType) => {
     setCurrentModal(type);
+    setIsOpen(true);
   };
 
   const handleModalClose = () => {
-    setCurrentModal(null);
+    setIsOpen(false);
+    setTimeout(() => setCurrentModal(null), 300); // FIX : 모달 애니메이션을 위한 딜레이 추가
   };
 
-  const renderModalContent = () => {
+  const renderModalContent = (): React.ReactNode => {
     switch (currentModal) {
       case '개인정보': {
         return <PrivatePolicyModal onClose={handleModalClose} />;
@@ -38,6 +42,9 @@ const useModalState = ({ paymentData }: useModalStateProps = {}) => {
           return <LoginOrPaymentModal onClose={handleModalClose} paymentData={paymentData} />;
         }
         return null;
+      }
+      case '장바구니': {
+        return <AddCartModal onClose={handleModalClose} isOpen={isOpen} />;
       }
     }
   };
