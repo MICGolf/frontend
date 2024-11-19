@@ -4,6 +4,7 @@ import arrowDropUp from '@/assets/icons/arrowDropUp.svg';
 import setting from '@/assets/icons/setting.svg';
 import { useState } from 'react';
 import { ImageCarousel } from './components/ImageCarousel';
+import { Category } from '@/pages/admin/components/Category';
 
 type Size = {
   sizeName: string;
@@ -30,6 +31,7 @@ interface ProductFormData {
 }
 
 const ProductAdd = () => {
+  const [showCategory, setShowCategory] = useState(false);
   const methods = useForm<ProductFormData>();
   const {
     handleSubmit,
@@ -95,6 +97,7 @@ const ProductAdd = () => {
 
   return (
     <FormProvider {...methods}>
+      {showCategory && <Category onClose={() => setShowCategory(false)} />}
       <form className='mt-6 w-full' onSubmit={handleSubmit(handlePostProduct)}>
         {/* section 1 */}
         <div className='mb-10 rounded-lg bg-white px-8 py-5 shadow-md'>
@@ -159,7 +162,7 @@ const ProductAdd = () => {
               </select>
             </div>
             <div className='col-span-1 flex items-center justify-center whitespace-nowrap'>
-              <div onClick={() => alert('카테고리 관리 모달 출력')} className='ml-10 mt-4 flex items-center gap-2'>
+              <div onClick={() => setShowCategory((prev) => !prev)} className='ml-10 mt-4 flex items-center gap-2'>
                 <img src={setting} alt='세팅 이미지' />
                 <span>카테고리 관리</span>
               </div>
