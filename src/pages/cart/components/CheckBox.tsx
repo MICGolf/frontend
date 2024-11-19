@@ -3,12 +3,12 @@ import CheckIco from '@/assets/icons/CheckIco';
 interface CheckBoxProps {
   handleCartSelectToggle: (itemId: string) => void;
   itemId: string;
-  isChecked: boolean; // 상위에서 체크 상태를 전달받음
+  isChecked: boolean;
 }
 
 const CheckBox = ({ handleCartSelectToggle, itemId, isChecked }: CheckBoxProps) => {
   const handleOnChange = () => {
-    handleCartSelectToggle(itemId); // 체크 상태 변경 요청
+    handleCartSelectToggle(itemId);
   };
 
   return (

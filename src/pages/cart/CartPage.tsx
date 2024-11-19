@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import CheckBox from './components/CheckBox';
+import { useEffect, useState } from 'react';
 import { useUserStore } from '@/config/store';
 import { useCartSelection } from '@/hooks/useCartSelection';
 import useCartCalculations from '@/hooks/useCartCalculations';
@@ -10,13 +9,23 @@ import PaymentModal from './components/PaymentModal';
 import PaymentStickyBox from './components/PaymentStickyBox';
 import CartItem from './components/CartItem';
 import useLocalStorage from '@/hooks/useLocalStorage';
+import SelectAllCheckBox from './components/SelectAllCheckBox';
 // import { useCart } from '@/hooks/useCart';
 
 const CartPage = () => {
   const { user } = useUserStore();
   // const { cartItems, syncGuestCartToUser } = useCart();
   const [cartItems] = useLocalStorage('cartItems', []);
-  const { selectedItems, selectedProducts, handleCartSelectToggle, handleUpdateCount } = useCartSelection(cartItems);
+  const {
+    cartItemArr,
+    selectedItems,
+    selectedProducts,
+    handleCartSelectToggle,
+    handleUpdateCount,
+    handleSelectAll,
+    handleRemoveSelectedItems,
+    selectAll,
+  } = useCartSelection(cartItems);
   const { totalPrice, totalDeliveryFee } = useCartCalculations(selectedProducts);
   const navigate = useNavigate();
   const paymentData = {
@@ -25,7 +34,7 @@ const CartPage = () => {
     totalDeliveryFee,
   };
   const { handleModalOpen, renderModalContent } = useModalState({ paymentData });
-  const [globalSelectCount, setGlobalSelectCount] = useState(1);
+  const [globalSelectCount, setGlobalSelectCount] = useState(0);
   const shouldResponsive = useMediaQuery({ maxWidth: '1280px' });
 
   const handlePayment = () => {
@@ -38,6 +47,10 @@ const CartPage = () => {
     }
   };
 
+  useEffect(() => {
+    setGlobalSelectCount(selectedProducts.length);
+  }, [selectedProducts, cartItemArr]);
+
   return (
     <article className='mx-auto w-full max-w-[1660px] px-[24px] py-[160px] transition-all duration-300 ease-in-out xl:px-[130px]'>
       {/* 타이틀 */}
@@ -47,16 +60,16 @@ const CartPage = () => {
           {/* 장바구니 헤더 영역 */}
           <div className='flex justify-between w-full py-4 text-sm border-y border-gray300'>
             <div className='flex items-center w-full gap-3'>
-              {/* <CheckBox /> */}
+              <SelectAllCheckBox isChecked={selectAll} cartItemArr={cartItemArr} handleSelectAll={handleSelectAll} />
               <span>전체선택 ({globalSelectCount})</span>
             </div>
             <div className='flex justify-end w-full'>
-              <button>선택삭제</button>
+              <button onClick={handleRemoveSelectedItems}>선택삭제</button>
             </div>
           </div>
           {/* 장바구니 리스트 영역 */}
           <ul className='flex flex-col w-full gap-8 my-6'>
-            {cartItems.map((item, idx) => (
+            {cartItemArr.map((item, idx) => (
               <CartItem
                 key={idx}
                 data={item}
@@ -70,9 +83,21 @@ const CartPage = () => {
 
         {/* 결제 창 : 모달타입 OR 배너타입 */}
         {shouldResponsive ? (
-          <PaymentModal totalPrice={totalPrice} totalDeliveryFee={totalDeliveryFee} handlePayment={handlePayment} />
+          <PaymentModal
+            totalPrice={totalPrice}
+            totalDeliveryFee={totalDeliveryFee}
+            handlePayment={handlePayment}
+            globalSelectCount={globalSelectCount}
+            cartItemArr={cartItemArr}
+          />
         ) : (
-          <PaymentStickyBox totalPrice={totalPrice} totalDeliveryFee={totalDeliveryFee} handlePayment={handlePayment} />
+          <PaymentStickyBox
+            totalPrice={totalPrice}
+            totalDeliveryFee={totalDeliveryFee}
+            handlePayment={handlePayment}
+            globalSelectCount={globalSelectCount}
+            cartItemArr={cartItemArr}
+          />
         )}
       </section>
       {/* 비회원일 경우 뜨는 모달 창 */}

@@ -20,7 +20,7 @@ const useLocalStorage = <T>(key: string, initialValue: T) => {
    * 상태와 로컬 스토리지 값을 동시에 업데이트하는 함수.
    * @param value 새로운 값 또는 함수형 업데이트로 기존 값을 기반으로 계산된 값
    */
-  const setValue = (value: T | ((val: T) => T)) => {
+  const setValue = (value: any) => {
     try {
       const valueToStore = value instanceof Function ? value(storedValue) : value;
       setStoredValue(valueToStore);

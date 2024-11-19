@@ -14,7 +14,6 @@ interface CounterBtnProps {
 const GlobalCounterBtn = ({ data, maxCount, handleUpdateCount }: CounterBtnProps) => {
   const [isMaxStock, setIsMaxStock] = useState<boolean>(false);
   const [count, setCount] = useState(data.amount || 1);
-  console.log(count);
 
   useEffect(() => {
     if (count === maxCount) {
