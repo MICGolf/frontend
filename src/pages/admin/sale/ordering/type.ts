@@ -6,3 +6,9 @@ export type OrderingListType = {
   orderStatus: string;
   depositDueDate: string;
 };
+
+export type DeliveryCompanyType = {
+  Name: string;
+  Code: string;
+  International: boolean;
+};
