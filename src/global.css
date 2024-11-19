@@ -16,15 +16,6 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
-.slick-dots {
-  position: relative !important;
-  bottom: 0 !important;
-}
-
-.slick-list {
-  margin-bottom: 36px !important;
-}
-
 /* 스크롤바 넓이 지정 */
 ::-webkit-scrollbar {
   width: 4px;
@@ -50,4 +41,8 @@ input[type='number'] {
 .disable-scroll {
   overflow: hidden;
   height: 100vh;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: black; /* 활성화된 점 색상 */
 }

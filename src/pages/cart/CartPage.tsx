@@ -45,7 +45,7 @@ const CartPage = () => {
     <div className={`flex w-full justify-center pt-[210px]`}>
       <div className='flex w-[1320px] flex-col'>
         <div className='flex w-full justify-center lg:gap-4'>
-          <div className='p-5 pb-[] font-sans'>
+          <div className='p-5 font-sans'>
             <div className='flex justify-start px-[20px] text-4xl font-[700]'>장바구니</div>
             {cartItems.map((item) => (
               <div key={item.id} className='flex items-center gap-4 border-b border-gray-100 py-5'>
@@ -172,7 +172,7 @@ const CartPage = () => {
           </div>
 
           <div className={`${isVisible ? 'fixed inset-0 z-[100] bg-black bg-opacity-70' : null} lg:hidden`}>
-            <div className='shadow-top fixed bottom-0 left-0 right-0 z-[100] min-w-[300px] bg-white'>
+            <div className='fixed bottom-0 left-0 right-0 z-[100] min-w-[300px] bg-white shadow-top'>
               <div className='flex flex-col gap-2 border-gray200 p-4 lg:border'>
                 <div className='flex justify-between px-4'>
                   <div className='mb- text-left text-xl'>총 상품 {selectedProducts.length}개</div>

@@ -44,11 +44,11 @@ type FooterLink = {
 };
 
 const footerLinks: FooterLink[] = [
-  {
-    id: 1,
-    title: 'SNS',
-    links: linkIcons,
-  },
+  // {
+  //   id: 1,
+  //   title: 'SNS',
+  //   links: linkIcons,
+  // },
   {
     id: 2,
     title: '서비스',
@@ -108,73 +108,80 @@ const MobileFooter = () => {
 
   return (
     <footer
-      className={`relative flex min-h-[57px] items-center justify-between bg-black px-4 text-gray700`}
+      className={`relative flex min-h-[57px] w-full flex-col items-center justify-between gap-4 bg-primary p-4 text-gray700`}
       ref={dropdownRef}
     >
+      {/* 회색 토글 */}
       {isDropdownOpen && (
-        <button onClick={toggleDropdown} className='absolute -top-4 h-8 w-full bg-black'>
-          <div className='absolute top-0 flex h-full w-full items-center justify-center transition-all duration-300 hover:top-2'>
+        <button onClick={toggleDropdown} className='absolute -top-8 left-0 right-0 h-8 w-full bg-primary'>
+          <div className='absolute left-0 right-0 top-0 flex h-full w-full items-center justify-center'>
             <p className='h-[3px] w-[84px] rounded-full border bg-white'></p>
           </div>
         </button>
       )}
-      <div className={`flex gap-1 ${isDropdownOpen && 'w-full justify-between'}`}>
-        <img src={logoWhite} alt='믹골프 로고' className={`${isDropdownOpen ? 'w-[70px]' : 'mr-2 w-[32px]'} `} />
+      {/* logo */}
+      <div className={`flex w-full ${isDropdownOpen ? 'items-center justify-center gap-6' : 'justify-between'}`}>
+        <div className={`flex gap-1 ${isDropdownOpen && 'flex-col items-center'}`}>
+          <img src={logoWhite} alt='믹골프 로고' className={`${isDropdownOpen ? 'w-[70px]' : 'w-[32px]'} `} />
 
-        <ul className='flex gap-2'>
-          {linkIcons.map((link) => (
-            <li key={link.id} className='flex h-[25px] w-[25px] items-center justify-center'>
-              <a href={link.link} target={link.target} className='flex h-full w-full items-center justify-center'>
-                <img src={link.icon} alt={link.name} className='object-cover' />
-              </a>
-            </li>
-          ))}
-        </ul>
+          <ul className='flex gap-2'>
+            {linkIcons.map((link) => (
+              <li key={link.id} className='flex h-[25px] w-[25px] items-center justify-center'>
+                <a href={link.link} target={link.target} className='flex h-full w-full items-center justify-center'>
+                  <img src={link.icon} alt={link.name} className='object-cover' />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* companyInfo */}
+        <div className={`flex ${isDropdownOpen ? 'gap-4' : 'justify-end gap-2'}`}>
+          <ul
+            className={`flex ${isDropdownOpen ? 'justify-between gap-4' : 'justify-end gap-4'} w-full text-[14px] text-white`}
+          >
+            {footerLinks.map((el) => (
+              <li key={el.id}>
+                {isDropdownOpen ? (
+                  <h4 className={`${isDropdownOpen && 'mb-2'} whitespace-nowrap font-semibold`}>{el.title}</h4>
+                ) : (
+                  <h4
+                    className={`${isDropdownOpen && 'mb-2'} cursor-pointer whitespace-nowrap font-semibold text-gray200 transition-colors duration-300 hover:text-white`}
+                    onClick={toggleDropdown}
+                  >
+                    {el.title}
+                  </h4>
+                )}
+                {isDropdownOpen && (
+                  <ul className='flex flex-col gap-1 whitespace-nowrap'>
+                    {el.links.map((link) => {
+                      const isOrigin = link.target === 'origin';
+                      return (
+                        <li
+                          key={link.id}
+                          className='transition-color text-[12px] text-gray500 duration-300 hover:text-white'
+                        >
+                          {isOrigin ? (
+                            <Link to={link.link}>{link.name}</Link>
+                          ) : (
+                            <a href={link.link} target={link.target}>
+                              {link.name}
+                            </a>
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
 
-      <div className={`flex ${isDropdownOpen ? 'gap-4' : 'justify-end gap-2'} w-full`}>
-        <ul
-          className={`flex ${isDropdownOpen ? 'justify-between gap-6' : 'justify-end gap-4'} w-full text-[14px] text-white`}
-        >
-          {footerLinks.map((el) => (
-            <li key={el.id}>
-              {isDropdownOpen ? (
-                <h4 className={`${isDropdownOpen && 'mb-2'} font-semibold`}>{el.title}</h4>
-              ) : (
-                <h4
-                  className={`${isDropdownOpen && 'mb-2'} cursor-pointer font-semibold text-gray200 transition-colors duration-300 hover:text-white`}
-                  onClick={toggleDropdown}
-                >
-                  {el.title}
-                </h4>
-              )}
-              {isDropdownOpen && (
-                <ul className='flex flex-col gap-1'>
-                  {el.links.map((link) => {
-                    const isOrigin = link.target === 'origin';
-                    return (
-                      <li
-                        key={link.id}
-                        className='transition-color text-[12px] text-gray500 duration-300 hover:text-white'
-                      >
-                        {isOrigin ? (
-                          <Link to={link.link}>{link.name}</Link>
-                        ) : (
-                          <a href={link.link} target={link.target}>
-                            {link.name}
-                          </a>
-                        )}
-                      </li>
-                    );
-                  })}
-                </ul>
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
+      {/* all rights reserverd */}
       {isDropdownOpen && (
-        <p className='w-full border-y border-white py-2 text-center text-[10px] text-white'>
+        <p className='w-full whitespace-nowrap border-y border-white py-2 text-center text-[10px] text-white'>
           &copy; PAPATALABS All rights reserved.
         </p>
       )}
