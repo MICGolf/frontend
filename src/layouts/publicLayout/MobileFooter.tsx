@@ -120,8 +120,10 @@ const MobileFooter = () => {
         </button>
       )}
       {/* logo */}
-      <div className={`flex w-full ${isDropdownOpen ? 'items-center justify-center gap-6' : 'justify-between'}`}>
-        <div className={`flex gap-1 ${isDropdownOpen && 'flex-col items-center'}`}>
+      <div
+        className={`flex w-full ${isDropdownOpen ? 'flex-col items-center justify-center gap-6' : 'justify-between'}`}
+      >
+        <div className={`flex w-full gap-1 ${isDropdownOpen && 'items-center justify-between'}`}>
           <img src={logoWhite} alt='믹골프 로고' className={`${isDropdownOpen ? 'w-[70px]' : 'w-[32px]'} `} />
 
           <ul className='flex gap-2'>
@@ -136,7 +138,7 @@ const MobileFooter = () => {
         </div>
 
         {/* companyInfo */}
-        <div className={`flex ${isDropdownOpen ? 'gap-4' : 'justify-end gap-2'}`}>
+        <div className={`flex w-full ${isDropdownOpen ? 'justify-between gap-4' : 'justify-end gap-2'}`}>
           <ul
             className={`flex ${isDropdownOpen ? 'justify-between gap-4' : 'justify-end gap-4'} w-full text-[14px] text-white`}
           >

@@ -1,5 +1,3 @@
-import { useMobileScrollStore } from '@/config/store';
-
 interface HamburgerMenuProps {
   isOpen: boolean;
   setIsOpen: (state: boolean) => void;
@@ -7,10 +5,8 @@ interface HamburgerMenuProps {
 }
 
 const HamburgerMenu = ({ isOpen, setIsOpen, color = 'black' }: HamburgerMenuProps) => {
-  const { isMobileMode, setIsMobileMode } = useMobileScrollStore();
   const toggleMenu = () => {
     setIsOpen(!isOpen);
-    setIsMobileMode(!isMobileMode);
   };
 
   return (

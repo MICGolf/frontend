@@ -2,7 +2,7 @@ import logoBlack from '@/assets/imgs/logoBlack.svg';
 import { Link, useLocation } from 'react-router-dom';
 import arrowRight from '@/assets/icons/arrowRight.svg';
 import { useEffect, useRef, useState } from 'react';
-import { useHeaderStore } from '@/config/store';
+import { useHeaderStore, useMobileScrollStore } from '@/config/store';
 import { eventCategoryData, noticeCategoryData, shopCategoryData } from '@/assets/dummys/categoryDatas';
 import Categories from '../../pages/cart/Categories';
 import { navigations } from '@/assets/dummys/navigationData';
@@ -13,6 +13,7 @@ import CartIco from '@/assets/icons/CartIco';
 import UserIco from '@/assets/icons/UserIco';
 
 const Header = () => {
+  const { setIsMobileMode } = useMobileScrollStore();
   const [isHeaderVisible, setIsHeaderVisible] = useState<boolean>(true);
   const [lastScrollY, setLastScrollY] = useState<number>(0);
   const [activeNav, setActiveNav] = useState<string | null>(null);
