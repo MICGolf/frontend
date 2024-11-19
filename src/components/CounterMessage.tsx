@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 
-const CounterMessage = ({ isOpen, position = 'row' }: { isOpen: boolean; position: 'row' | 'col' }) => {
+const CounterMessage = ({ isOpen, position = 'row' }: { isOpen: boolean; position?: 'row' | 'col' }) => {
   const pos = position === 'row' ? '-right-[120px]' : '-top-[40px]';
   return (
     <AnimatePresence mode='wait'>
