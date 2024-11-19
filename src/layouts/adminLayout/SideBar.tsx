@@ -8,7 +8,7 @@ const sideBarMenu = [
   {
     title: '상품관리',
     sibTitle: [
-      { title: '상품 조회/수정', link: '/admin/product/edit' },
+      { title: '상품 조회', link: '/admin/product/search' },
       { title: '상품 등록', link: '/admin/product/add' },
     ],
   },
@@ -77,8 +77,8 @@ export const SideBar = () => {
   const location = useLocation();
 
   return (
-    <aside className='h-full py-8 w-72 bg-primary'>
-      <div className='flex content-center justify-center mb-11' onClick={() => navigate('/admin')}>
+    <aside className='h-full w-72 bg-primary py-8'>
+      <div className='mb-11 flex content-center justify-center' onClick={() => navigate('/admin')}>
         <img src={logoWhite} alt='믹골프 로고' />
       </div>
       <div>
@@ -112,7 +112,7 @@ export const SideBar = () => {
           className='w-full px-3 py-2 mt-4 rounded-lg text-neutral-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
         />
       </form> */}
-      <ul className='py-3 mt-8 bg-neutral-800'>
+      <ul className='mt-8 bg-neutral-800 py-3'>
         {sideBarMenu.map((menuItem, index) => {
           const isLastItem = index === sideBarMenu.length - 1;
           return (
