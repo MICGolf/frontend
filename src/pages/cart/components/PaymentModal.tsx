@@ -25,7 +25,7 @@ const PaymentModal = ({ totalPrice, totalDeliveryFee, handlePayment }: PaymentMo
           className='fixed bottom-0 left-0 z-50 w-full'
         >
           <PaymentModalToggler isOpen={isOpen} setIsOpen={setIsOpen} />
-          <div className='h-[calc(40vh-4rem)] w-full border border-gray300 bg-white px-4 py-10'>
+          <div className='w-full px-4 py-10 bg-white border border-gray300'>
             <h3 className='mb-4 text-lg font-semibold'>총 상품 0개</h3>
             <div className='flex flex-col gap-2 mb-4'>
               <div className='flex justify-between text-sm'>

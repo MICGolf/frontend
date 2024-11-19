@@ -68,7 +68,7 @@ export const shopProductData: ProductDetail[] = [
   // Existing 7 items
   {
     name: '믹골프 파우치 2세대',
-    id: nanoid(),
+    id: 'A00000',
     price: 120000000,
     sale: {
       is_active: true,
@@ -105,7 +105,7 @@ export const shopProductData: ProductDetail[] = [
   },
   {
     name: '골프백 3세대',
-    id: nanoid(),
+    id: 'A00001',
     price: 150000000,
     sale: {
       is_active: true,
@@ -141,7 +141,7 @@ export const shopProductData: ProductDetail[] = [
   },
   {
     name: '골프 신발 3세대',
-    id: nanoid(),
+    id: 'A00002',
     price: 95000000,
     sale: {
       is_active: true,
@@ -161,14 +161,54 @@ export const shopProductData: ProductDetail[] = [
         sizes: [
           { name: '8', stock: 7 },
           { name: '9', stock: 5 },
+        ],
+      },
+      {
+        id: nanoid(),
+        name: '블랙',
+        hex: '#000000',
+        images: [b_004, b_002],
+        sizes: [
+          { name: '8', stock: 3 },
+          { name: '9', stock: 4 },
+        ],
+      },
+      {
+        id: nanoid(),
+        name: '옐로우',
+        hex: '#fff000',
+        images: [pouch2_001, pouch2_002],
+        sizes: [
           { name: '8', stock: 7 },
           { name: '9', stock: 5 },
+        ],
+      },
+      {
+        id: nanoid(),
+        name: '블루',
+        hex: '#00BFFF',
+        images: [b_004, b_002],
+        sizes: [
+          { name: '8', stock: 3 },
+          { name: '9', stock: 4 },
+        ],
+      },
+      {
+        id: nanoid(),
+        name: '마젠타',
+        hex: '#8A084B',
+        images: [pouch2_001, pouch2_002],
+        sizes: [
           { name: '8', stock: 7 },
           { name: '9', stock: 5 },
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
+        ],
+      },
+      {
+        id: nanoid(),
+        name: '오렌지',
+        hex: '#B43104',
+        images: [pouch2_001, pouch2_002],
+        sizes: [
           { name: '8', stock: 7 },
           { name: '9', stock: 5 },
         ],
@@ -185,28 +225,18 @@ export const shopProductData: ProductDetail[] = [
       },
       {
         id: nanoid(),
-        name: '화이트',
-        hex: '#ffffff',
+        name: '미도리',
+        hex: '#0B610B',
         images: [pouch2_001, pouch2_002],
         sizes: [
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
           { name: '8', stock: 7 },
           { name: '9', stock: 5 },
         ],
       },
       {
         id: nanoid(),
-        name: '블랙',
-        hex: '#000000',
+        name: '스카이블루',
+        hex: '#01DFD7',
         images: [b_004, b_002],
         sizes: [
           { name: '8', stock: 3 },
@@ -215,88 +245,8 @@ export const shopProductData: ProductDetail[] = [
       },
       {
         id: nanoid(),
-        name: '화이트',
-        hex: '#ffffff',
-        images: [pouch2_001, pouch2_002],
-        sizes: [
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
-        ],
-      },
-      {
-        id: nanoid(),
-        name: '화이트',
-        hex: '#ffffff',
-        images: [pouch2_001, pouch2_002],
-        sizes: [
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
-        ],
-      },
-      {
-        id: nanoid(),
-        name: '블랙',
-        hex: '#000000',
-        images: [b_004, b_002],
-        sizes: [
-          { name: '8', stock: 3 },
-          { name: '9', stock: 4 },
-        ],
-      },
-      {
-        id: nanoid(),
-        name: '화이트',
-        hex: '#ffffff',
-        images: [pouch2_001, pouch2_002],
-        sizes: [
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
-          { name: '8', stock: 7 },
-          { name: '9', stock: 5 },
-        ],
-      },
-      {
-        id: nanoid(),
-        name: '블랙',
-        hex: '#000000',
-        images: [b_004, b_002],
-        sizes: [
-          { name: '8', stock: 3 },
-          { name: '9', stock: 4 },
-        ],
-      },
-      {
-        id: nanoid(),
-        name: '블랙',
-        hex: '#000000',
+        name: '퍼플',
+        hex: '#DA81F5',
         images: [b_004, b_002],
         sizes: [
           { name: '8', stock: 3 },
@@ -307,7 +257,7 @@ export const shopProductData: ProductDetail[] = [
   },
   {
     name: '고급 골프 장갑',
-    id: nanoid(),
+    id: 'A00003',
     price: 30000000,
     sale: {
       is_active: true,
@@ -333,7 +283,7 @@ export const shopProductData: ProductDetail[] = [
   },
   {
     name: '경량 골프 모자',
-    id: nanoid(),
+    id: 'A00004',
     price: 20000000,
     sale: {
       is_active: true,
@@ -356,7 +306,7 @@ export const shopProductData: ProductDetail[] = [
   },
   {
     name: '방수 골프 신발',
-    id: nanoid(),
+    id: 'A00005',
     price: 125000000,
     sale: {
       is_active: true,
@@ -440,7 +390,7 @@ export const shopProductData: ProductDetail[] = [
   },
   {
     name: '베이직 골프 장갑',
-    id: nanoid(),
+    id: 'A00006',
     price: 25000000,
     sale: {
       is_active: true,
@@ -491,7 +441,7 @@ export const shopProductData: ProductDetail[] = [
   // Item 8
   {
     name: '프리미엄 골프 티셔츠',
-    id: nanoid(),
+    id: 'A00007',
     price: 45000000,
     sale: {
       is_active: true,
@@ -550,7 +500,7 @@ export const middleProductData: ProductDetail[] = [
   // Existing 5 items
   {
     name: '골프 신발 2세대',
-    id: nanoid(),
+    id: 'A00008',
     price: 95000000,
     sale: {
       is_active: true,
@@ -577,17 +527,13 @@ export const middleProductData: ProductDetail[] = [
           pouch2_002,
           pouch2_001,
           pouch2_002,
-
           pouch2_001,
           pouch2_002,
-
           pouch2_001,
-
           pouch2_001,
           pouch2_002,
           pouch2_001,
           pouch2_002,
-
           pouch2_001,
           pouch2_002,
           pouch2_001,
@@ -612,7 +558,7 @@ export const middleProductData: ProductDetail[] = [
   },
   {
     name: '고급 골프 장갑',
-    id: nanoid(),
+    id: 'A00009',
     price: 30000000,
     sale: {
       is_active: true,
@@ -639,7 +585,6 @@ export const middleProductData: ProductDetail[] = [
           pouch2_002,
           pouch2_001,
           pouch2_002,
-
           pouch2_001,
           pouch2_002,
           pouch2_001,
@@ -648,10 +593,8 @@ export const middleProductData: ProductDetail[] = [
           pouch2_002,
           pouch2_001,
           pouch2_002,
-
           pouch2_001,
           pouch2_002,
-
           pouch2_001,
           pouch2_002,
         ],
@@ -664,7 +607,7 @@ export const middleProductData: ProductDetail[] = [
   },
   {
     name: '골프 타올 2세대',
-    id: nanoid(),
+    id: 'A00010',
     price: 5000000,
     sale: {
       is_active: true,
@@ -713,7 +656,7 @@ export const middleProductData: ProductDetail[] = [
   },
   {
     name: '골프 볼 세트 2024',
-    id: nanoid(),
+    id: 'A00012',
     price: 15000000,
     sale: {
       is_active: true,
@@ -761,7 +704,7 @@ export const middleProductData: ProductDetail[] = [
   },
   {
     name: '골프 팔꿈치 보호대',
-    id: nanoid(),
+    id: 'A00013',
     price: 2000000,
     sale: {
       is_active: true,
@@ -810,7 +753,7 @@ export const middleProductData: ProductDetail[] = [
   // Item 6
   {
     name: '중급자용 골프 클럽 세트',
-    id: nanoid(),
+    id: 'A00014',
     price: 180000000,
     sale: {
       is_active: true,
@@ -865,7 +808,7 @@ export const majorProductData: ProductDetail[] = [
   // Existing 6 items
   {
     name: '믹골프 파우치 2세대',
-    id: nanoid(),
+    id: 'A00015',
     price: 120000000,
     sale: {
       is_active: true,
@@ -902,7 +845,7 @@ export const majorProductData: ProductDetail[] = [
   },
   {
     name: '골프백 3세대',
-    id: nanoid(),
+    id: 'A00016',
     price: 150000000,
     sale: {
       is_active: true,
@@ -988,7 +931,7 @@ export const majorProductData: ProductDetail[] = [
   },
   {
     name: '골프 파우치 1세대',
-    id: nanoid(),
+    id: 'A00017',
     price: 90000000,
     sale: {
       is_active: true,
@@ -1042,7 +985,7 @@ export const majorProductData: ProductDetail[] = [
   },
   {
     name: '디럭스 골프백',
-    id: nanoid(),
+    id: 'A00018',
     price: 200000000,
     sale: {
       is_active: true,
@@ -1101,7 +1044,7 @@ export const majorProductData: ProductDetail[] = [
   },
   {
     name: '골프 클럽 세트 2024',
-    id: nanoid(),
+    id: 'A00019',
     price: 450000000,
     sale: {
       is_active: true,
@@ -1158,7 +1101,7 @@ export const majorProductData: ProductDetail[] = [
   },
   {
     name: '골프 보스턴백',
-    id: nanoid(),
+    id: 'A00020',
     price: 85000000,
     sale: {
       is_active: true,
@@ -1214,7 +1157,7 @@ export const majorProductData: ProductDetail[] = [
   // Item 7
   {
     name: '프로 골프 드라이버',
-    id: nanoid(),
+    id: 'A00021',
     price: 180000000,
     sale: {
       is_active: true,
@@ -1259,7 +1202,7 @@ export const majorProductData: ProductDetail[] = [
   // ... (similar structure repeated for each item)
 ];
 
-function mergeArrays(target: any[], source: any[]): any[] {
+const mergeArrays = (target: any[], source: any[]): any[] => {
   const mergedArray = [...target];
 
   source.forEach((item) => {
@@ -1270,7 +1213,7 @@ function mergeArrays(target: any[], source: any[]): any[] {
   });
 
   return mergedArray;
-}
+};
 
 const firstMergedArray = mergeArrays(shopProductData, middleProductData);
 export const allProductDatas = mergeArrays(firstMergedArray, majorProductData);

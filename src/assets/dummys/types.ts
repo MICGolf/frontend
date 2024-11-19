@@ -15,6 +15,7 @@ export interface CartItemData {
 
 export interface CartItemData2 {
   id: string;
+  productId: string;
   image: string;
   name: string;
   color: {

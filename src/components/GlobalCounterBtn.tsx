@@ -3,16 +3,18 @@ import plus from '@/assets/icons/plus.svg';
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import CounterMessage from './CounterMessage';
+import { CartItemData2 } from '@/assets/dummys/types';
 
 interface CounterBtnProps {
-  amount: number;
-  count: number;
-  setCount: (newCount: number) => void;
+  data: CartItemData2;
   maxCount: number;
+  handleUpdateCount: (id: string, newCount: number) => void;
 }
 
-const GlobalCounterBtn = ({ amount, count, setCount, maxCount }: CounterBtnProps) => {
+const GlobalCounterBtn = ({ data, maxCount, handleUpdateCount }: CounterBtnProps) => {
   const [isMaxStock, setIsMaxStock] = useState<boolean>(false);
+  const [count, setCount] = useState(data.amount || 1);
+  console.log(count);
 
   useEffect(() => {
     if (count === maxCount) {
@@ -22,13 +24,11 @@ const GlobalCounterBtn = ({ amount, count, setCount, maxCount }: CounterBtnProps
     }
   }, [count, maxCount]);
 
-  useEffect(() => {
-    setCount(amount);
-  }, []);
-
   const handleDecrease = () => {
     if (count > 1) {
-      setCount(count - 1);
+      const newCount = count - 1;
+      setCount(newCount);
+      handleUpdateCount(data.id, newCount);
     } else {
       return;
     }
@@ -37,16 +37,18 @@ const GlobalCounterBtn = ({ amount, count, setCount, maxCount }: CounterBtnProps
   const handleIncrease = () => {
     if (!maxCount) return;
     if (count < maxCount) {
-      setCount(count + 1);
+      const newCount = count + 1;
+      setCount(newCount);
+      handleUpdateCount(data.id, newCount);
     }
   };
 
   return (
     <div className='flex h-[40px] w-[130px]'>
-      <div className='relative flex w-full items-center justify-around border border-gray200'>
+      <div className='relative flex items-center justify-around w-full border border-gray200'>
         <button
           type='button'
-          className='flex h-full w-full flex-1 items-center justify-center transition-all duration-300 hover:bg-gray-100 active:bg-gray-100'
+          className='flex items-center justify-center flex-1 w-full h-full transition-all duration-300 hover:bg-gray-100 active:bg-gray-100'
           aria-label='수량 감소'
           onClick={handleDecrease}
         >
@@ -70,7 +72,7 @@ const GlobalCounterBtn = ({ amount, count, setCount, maxCount }: CounterBtnProps
 
         <button
           type='button'
-          className='flex h-full w-full flex-1 items-center justify-center transition-all duration-300 hover:bg-gray-100 active:bg-gray-100'
+          className='flex items-center justify-center flex-1 w-full h-full transition-all duration-300 hover:bg-gray-100 active:bg-gray-100'
           aria-label='수량 증가'
           onClick={handleIncrease}
         >

@@ -1,5 +1,7 @@
 import { CartItemData2, Color, ProductDetail, Size } from '@/assets/dummys/types';
+import useLocalStorage from '@/hooks/useLocalStorage';
 import { SignUpModalType } from '@/hooks/useModalState/useModalState';
+import { nanoid } from 'nanoid';
 import { useState } from 'react';
 
 interface AddCartBtnProps {
@@ -21,11 +23,8 @@ const AddCartBtn = ({
   detailImage,
   handleModalOpen,
 }: AddCartBtnProps) => {
-  const [cartItems, setCartItems] = useState(() => {
-    const storedItems = localStorage.getItem('cartItems');
-    return storedItems ? JSON.parse(storedItems) : [];
-  });
-  console.log(cartItems);
+  const [storedValue, setValue] = useLocalStorage<CartItemData2[] | []>('cartItems', []);
+  const [cartItems, setCartItems] = useState<CartItemData2[]>(storedValue);
 
   const isValid = !!(selectedColor && selectedSize);
 
@@ -44,7 +43,8 @@ const AddCartBtn = ({
     } else {
       // 새로운 상품 추가
       const newCartItem: CartItemData2 = {
-        id: data.id,
+        id: nanoid(), // FIX: 상품 아이디가 아니라 주문 아이디 생성
+        productId: data.id,
         name: data.name,
         image: detailImage[0],
         stock: maxCount,
@@ -63,7 +63,7 @@ const AddCartBtn = ({
     }
 
     setCartItems(updatedCartItems);
-    localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+    setValue(updatedCartItems);
     handleModalOpen('장바구니');
   };
 
