@@ -3,7 +3,7 @@ import plus from '@/assets/icons/plus.svg';
 import { useEffect, useState } from 'react';
 import { CounterBtnProps } from '../types';
 import { AnimatePresence, motion } from 'framer-motion';
-import CounterMessage from './CounterMessage';
+import CounterMessage from '@/components/CounterMessage';
 
 const CounterBtn = ({
   count,

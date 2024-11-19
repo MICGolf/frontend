@@ -5,13 +5,22 @@ import { useState } from 'react';
 interface AddCartBtnProps {
   data: ProductDetail;
   count: number;
+  maxCount: number;
   selectedColor: Color | null;
   selectedSize: Size | null;
   detailImage: string[];
   handleModalOpen: (type: SignUpModalType) => void;
 }
 
-const AddCartBtn = ({ data, count, selectedColor, selectedSize, detailImage, handleModalOpen }: AddCartBtnProps) => {
+const AddCartBtn = ({
+  data,
+  count,
+  maxCount,
+  selectedColor,
+  selectedSize,
+  detailImage,
+  handleModalOpen,
+}: AddCartBtnProps) => {
   const [cartItems, setCartItems] = useState(() => {
     const storedItems = localStorage.getItem('cartItems');
     return storedItems ? JSON.parse(storedItems) : [];
@@ -38,6 +47,7 @@ const AddCartBtn = ({ data, count, selectedColor, selectedSize, detailImage, han
         id: data.id,
         name: data.name,
         image: detailImage[0],
+        stock: maxCount,
         color: {
           id: selectedColor?.id,
           name: selectedColor?.name,

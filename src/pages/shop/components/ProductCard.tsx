@@ -2,7 +2,8 @@ import { ProductDetail } from '@/assets/dummys/types';
 import useSaleState from '@/hooks/useSaleState';
 import useSoldOutState from '@/hooks/useSoldoutState';
 import { Link } from 'react-router-dom';
-import SaleLabel from './SaleLabel';
+import { SaleProvider } from '@/components/SaleProvider';
+import SaleLabel from '@/components/SaleLabel';
 
 interface ProductCardProps {
   product: ProductDetail;
@@ -41,7 +42,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <div className='flex flex-grow flex-col justify-between py-4'>
             <div className='mb-3 flex flex-col gap-2'>
               <h3 className='text-lg font-semibold'>{name}</h3>
-              <SaleLabel classString={labelClassNames} text={saleLabelText} />
+              <SaleProvider data={product}>
+                <SaleLabel classString={labelClassNames} text={saleLabelText} />
+              </SaleProvider>
             </div>
 
             {isSale ? (

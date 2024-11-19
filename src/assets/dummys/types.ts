@@ -24,6 +24,7 @@ export interface CartItemData2 {
   };
   size: string | undefined;
   amount: number;
+  stock: number;
   price: number;
   sale: Sale;
 }
