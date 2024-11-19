@@ -22,7 +22,7 @@ const MobileMenu = ({ isOpen, setIsOpen }: MobileMenuProps) => {
 
   return (
     <div
-      className={`bg-transparentBlack fixed left-0 top-0 z-[1000] flex h-screen w-full flex-col gap-20 overflow-auto pb-20 backdrop-blur-lg ${
+      className={`fixed left-0 top-0 z-[1000] flex h-screen w-full flex-col gap-20 overflow-auto bg-transparentBlack pb-20 backdrop-blur-lg ${
         isOpen ? 'animate-fade-in' : 'animate-fade-out'
       }`}
     >
@@ -42,7 +42,7 @@ const MobileMenu = ({ isOpen, setIsOpen }: MobileMenuProps) => {
           {navigations.map((nav, idx) => (
             <li key={idx} className='h-full w-full'>
               <Link
-                className='hover:bg-transparentBlack flex h-[70px] w-full items-center justify-between px-6 text-lg font-medium transition-colors duration-300'
+                className='flex h-[70px] w-full items-center justify-between px-6 text-lg font-medium transition-colors duration-300 hover:bg-transparentBlack'
                 to={`/${nav}`}
               >
                 <span>{nav.charAt(0).toUpperCase() + nav.slice(1)}</span>
@@ -58,7 +58,7 @@ const MobileMenu = ({ isOpen, setIsOpen }: MobileMenuProps) => {
           {shopCategoryData.map((major) => (
             <li key={major.id} className='w-full'>
               <div
-                className='hover:bg-transparentBlack flex h-[70px] w-full cursor-pointer items-center justify-between px-6 text-lg font-medium transition-colors duration-300'
+                className='flex h-[70px] w-full cursor-pointer items-center justify-between px-6 text-lg font-medium transition-colors duration-300 hover:bg-transparentBlack'
                 onClick={() => toggleCategory(major.id)}
               >
                 <span>{major.majorCategory}</span>
@@ -76,7 +76,7 @@ const MobileMenu = ({ isOpen, setIsOpen }: MobileMenuProps) => {
                 {major.middleCategories.map((middle) => (
                   <li key={middle.id}>
                     <Link
-                      className='hover:bg-transparentBlack flex h-[50px] w-full items-center justify-between px-12 text-sm font-light transition-all duration-300 ease-in-out'
+                      className='flex h-[50px] w-full items-center justify-between px-12 text-sm font-light transition-all duration-300 ease-in-out hover:bg-transparentBlack'
                       to={`/shop/${middle.category.toLowerCase()}`}
                     >
                       <span>{middle.category}</span>
@@ -94,14 +94,14 @@ const MobileMenu = ({ isOpen, setIsOpen }: MobileMenuProps) => {
         <ul className='flex flex-col text-white'>
           <Link
             to={'/mypage'}
-            className='hover:bg-transparentBlack flex h-[70px] w-full items-center justify-between px-6 transition-colors duration-300'
+            className='flex h-[70px] w-full items-center justify-between px-6 transition-colors duration-300 hover:bg-transparentBlack'
           >
             <UserIco color='white' />
             <span>마이페이지</span>
           </Link>
           <Link
             to={'/cart'}
-            className='hover:bg-transparentBlack flex h-[70px] w-full items-center justify-between px-6 transition-colors duration-300'
+            className='flex h-[70px] w-full items-center justify-between px-6 transition-colors duration-300 hover:bg-transparentBlack'
           >
             <CartIco color='white' />
             <span>장바구니</span>

@@ -108,12 +108,12 @@ const MobileFooter = () => {
 
   return (
     <footer
-      className={`relative flex min-h-[57px] w-full flex-col items-center justify-between gap-4 bg-black p-4 text-gray700`}
+      className={`relative flex min-h-[57px] w-full flex-col items-center justify-between gap-4 bg-primary p-4 text-gray700`}
       ref={dropdownRef}
     >
       {/* 회색 토글 */}
       {isDropdownOpen && (
-        <button onClick={toggleDropdown} className='absolute -top-8 left-0 right-0 h-8 w-full bg-gray-500'>
+        <button onClick={toggleDropdown} className='absolute -top-8 left-0 right-0 h-8 w-full bg-primary'>
           <div className='absolute left-0 right-0 top-0 flex h-full w-full items-center justify-center'>
             <p className='h-[3px] w-[84px] rounded-full border bg-white'></p>
           </div>

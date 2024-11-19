@@ -1,5 +1,5 @@
 import logoBlack from '@/assets/imgs/logoBlack.svg';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import arrowRight from '@/assets/icons/arrowRight.svg';
 import { useEffect, useRef, useState } from 'react';
 import { useHeaderStore } from '@/config/store';
@@ -21,6 +21,7 @@ const Header = () => {
   const { setHeaderRef } = useHeaderStore();
   const shouldResponsive = useMediaQuery({ maxWidth: 767 });
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+  const location = useLocation();
 
   useEffect(() => {
     if (headerRef.current) {
@@ -53,6 +54,10 @@ const Header = () => {
     if (activeNav === 'notice') return noticeCategoryData;
     return [];
   };
+
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
 
   return (
     <>
