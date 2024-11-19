@@ -32,14 +32,14 @@ const useModalState = ({ paymentData }: useModalStateProps = {}) => {
   const renderModalContent = (): React.ReactNode => {
     switch (currentModal) {
       case '개인정보': {
-        return <UserPrivacyModal onClose={handleModalClose} />;
+        return <UserPrivacyModal onClose={handleModalClose} isOpen={isOpen} />;
       }
       case '이용약관': {
-        return <TermsOfServiceModal onClose={handleModalClose} />;
+        return <TermsOfServiceModal onClose={handleModalClose} isOpen={isOpen} />;
       }
       case '결제모달': {
         if (paymentData) {
-          return <LoginOrPaymentModal onClose={handleModalClose} paymentData={paymentData} />;
+          return <LoginOrPaymentModal onClose={handleModalClose} paymentData={paymentData} isOpen={isOpen} />;
         }
         return null;
       }
