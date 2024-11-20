@@ -113,7 +113,7 @@ const MobileFooter = () => {
     >
       {/* 회색 토글 */}
       {isDropdownOpen && (
-        <button onClick={toggleDropdown} className='absolute left-0 right-0 z-50 w-full h-8 -top-8 bg-primary'>
+        <button onClick={toggleDropdown} className='absolute left-0 right-0 w-full h-8 z-49 -top-8 bg-primary'>
           <div className='absolute top-0 left-0 right-0 flex items-center justify-center w-full h-full'>
             <p className='h-[3px] w-[84px] rounded-full border bg-white'></p>
           </div>
