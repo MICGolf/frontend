@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import PaymentModalToggler from './PaymentModalToggler';
 import { CartItemData2 } from '@/assets/dummys/types';
 
 interface PaymentModalProps {
+  selectedItems: string[];
   totalPrice: number;
   totalDeliveryFee: number;
   globalSelectCount: number;
@@ -12,6 +13,7 @@ interface PaymentModalProps {
 }
 
 const PaymentModal = ({
+  selectedItems,
   totalPrice,
   totalDeliveryFee,
   globalSelectCount,
@@ -19,16 +21,23 @@ const PaymentModal = ({
   handlePayment,
 }: PaymentModalProps) => {
   const [isOpen, setIsOpen] = useState(true);
+  const [isDisabled, setIsDisabled] = useState(true);
   const calculateTotal = () => {
     return totalPrice + totalDeliveryFee;
   };
+
   const handlePaymentButton = () => {
-    if (cartItemArr.length === 0 || globalSelectCount === 0) {
-      alert('선택된 아이템이 없어요!'); // FIX: 토스트UI로 대체할 예정
-    } else {
-      handlePayment();
-    }
+    handlePayment();
   };
+
+  useEffect(() => {
+    if (cartItemArr.length === 0 || globalSelectCount === 0) {
+      setIsDisabled(true);
+    }
+    if (selectedItems.length > 0) {
+      setIsDisabled(false);
+    }
+  }, [cartItemArr.length, globalSelectCount, selectedItems.length]);
 
   return (
     <>
@@ -42,9 +51,9 @@ const PaymentModal = ({
           className='fixed bottom-0 left-0 z-50 w-full'
         >
           <PaymentModalToggler isOpen={isOpen} setIsOpen={setIsOpen} />
-          <div className='w-full px-4 py-10 bg-white border border-gray300'>
+          <div className='w-full border border-gray300 bg-white px-4 py-10'>
             <h3 className='mb-4 text-lg font-semibold'>총 상품 {globalSelectCount}개</h3>
-            <div className='flex flex-col gap-2 mb-4'>
+            <div className='mb-4 flex flex-col gap-2'>
               <div className='flex justify-between text-sm'>
                 <span>상품금액</span>
                 <span>{totalPrice.toLocaleString()}원</span>
@@ -55,12 +64,17 @@ const PaymentModal = ({
               </div>
             </div>
 
-            <div className='flex flex-col items-end py-4 text-xl font-semibold border-y border-gray300'>
+            <div className='flex flex-col items-end border-y border-gray300 py-4 text-xl font-semibold'>
               <span>결제 예상 금액</span>
               <span>{calculateTotal().toLocaleString()}원</span>
             </div>
             <button
-              className='w-full py-2 mt-4 text-sm transition-all duration-300 border border-primary bg-primary text-secondary hover:bg-secondary hover:text-primary'
+              className={`mt-4 w-full border py-2 text-sm transition-all duration-300 ${
+                isDisabled
+                  ? 'cursor-not-allowed border-gray300 bg-gray100 text-gray300'
+                  : 'border-primary bg-primary text-secondary hover:bg-secondary hover:text-primary'
+              }`}
+              disabled={isDisabled}
               onClick={handlePaymentButton}
             >
               결제하기
@@ -73,7 +87,7 @@ const PaymentModal = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className='fixed inset-0 z-0 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm'
+            className='fixed inset-0 z-0 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm'
             onClick={() => setIsOpen(false)}
           />
         )}
