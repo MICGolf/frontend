@@ -18,7 +18,6 @@ import PublicLayout from './layouts/publicLayout/PublicLayout';
 import FindPwPage from './pages/auth/FindPwPage';
 import FindIdPage from './pages/auth/FindIdPage';
 import AdminLoginPage from './pages/admin/AdminLoginPage';
-import Banner from './pages/admin/banner/Banner';
 import CheckoutPage from './pages/checkout/CheckoutPage';
 import CheckoutCompletePage from './pages/checkout/CheckoutCompletePage';
 import CategoryPage from './pages/shop/categoryPage/CategoryPage';
@@ -27,7 +26,10 @@ import SalePayment from './pages/admin/sale/payment/SalePayment';
 import SaleOrdering from './pages/admin/sale/ordering/SaleOrdering';
 import SaleDelivery from './pages/admin/sale/delivery/SaleDelivery';
 import ProductAdd from './pages/admin/product/ProductAdd';
-import ProductSearch from './pages/admin/product/ProductSearch';
+import { BestItemPage } from './pages/admin/store/BestItemPage';
+import { MdsChoicePage } from './pages/admin/store/MdsChoicePage';
+import { BannerPage } from './pages/admin/store/BannerPage';
+import { PromotionPage } from './pages/admin/store/PromotionPage';
 
 function App() {
   return (
@@ -79,7 +81,7 @@ function App() {
           <Route path='/admin' element={<AdminRoute />}>
             <Route path='' element={<AdminPage />} />
             <Route path='product'>
-              <Route path='search' element={<ProductSearch />} />
+              <Route path='edit' element={<AdminPage />} />
               <Route path='add' element={<ProductAdd />} />
             </Route>
             <Route path='sale'>
@@ -95,10 +97,10 @@ function App() {
             <Route path='review' element={<AdminPage />} /> */}
             <Route path='store'>
               {/* <Route path='logo' element={<AdminPage />} /> */}
-              <Route path='banner' element={<Banner />} />
-              <Route path='bestitem' element={<AdminPage />} />
-              {/* <Route path='newarrival' element={<AdminPage />} /> */}
-              <Route path='mdschoice' element={<AdminPage />} />
+              <Route path='banner' element={<BannerPage />} />
+              <Route path='bestitem' element={<BestItemPage />} />
+              <Route path='promotion' element={<PromotionPage />} />
+              <Route path='mdschoice' element={<MdsChoicePage />} />
             </Route>
             {/* <Route path='event'>
               <Route path='edit' element={<AdminPage />} />

@@ -37,7 +37,7 @@ const sideBarMenu = [
       // { title: '로고관리', link: '/admin/store/logo' },
       { title: '배너관리', link: '/admin/store/banner' },
       { title: 'Best Item', link: '/admin/store/bestitem' },
-      // { title: 'New Arrival', link: '/admin/store/newarrival' },
+      { title: 'Promotion', link: '/admin/store/promotion' },
       { title: 'MD’s Choice', link: '/admin/store/mdschoice' },
     ],
   },
@@ -86,7 +86,7 @@ export const SideBar = () => {
         <p className='text-center'>계정 : ddd </p>
       </div>
       {/* FIX
-       <form onSubmit={handleSubmit(handlerSubmit)} className='px-8'>
+      <form onSubmit={handleSubmit(handlerSubmit)} className='px-8'>
         <select
           {...register('productStatus', { required: '검색옵션을 선택해주세요' })}
           className={`mt-4 w-full appearance-none rounded-lg border border-neutral-300 bg-[length:36px_36px] bg-[center_right_1rem] bg-no-repeat px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300`}
