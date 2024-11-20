@@ -8,6 +8,7 @@ import { Section } from './components/Section';
 import { PromotionSection } from './components/PromotionSection';
 import { useQuery } from '@tanstack/react-query';
 import { client } from '@/api/client';
+import { bannersApi } from '@/api';
 
 const HomePage = () => {
   const [showIntro, setShowIntro] = useState(false); // 애니메이션 실행 여부
@@ -33,10 +34,11 @@ const HomePage = () => {
   const { data } = useQuery({
     queryKey: ['banner'],
     queryFn: async () => {
-      const response = await client.get('/banners');
+      const response = await bannersApi.getBanners();
       return response.data;
     },
   });
+  console.log(data);
 
   return (
     <div className='relative'>
