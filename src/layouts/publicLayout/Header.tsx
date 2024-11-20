@@ -13,7 +13,6 @@ import CartIco from '@/assets/icons/CartIco';
 import UserIco from '@/assets/icons/UserIco';
 
 const Header = () => {
-  // const { setIsMobileMode } = useMobileScrollStore();
   const [isHeaderVisible, setIsHeaderVisible] = useState<boolean>(true);
   const [lastScrollY, setLastScrollY] = useState<number>(0);
   const [activeNav, setActiveNav] = useState<string | null>(null);
@@ -33,7 +32,7 @@ const Header = () => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      setIsHeaderVisible(currentScrollY < lastScrollY - 5 || currentScrollY < 5);
+      setIsHeaderVisible(currentScrollY < lastScrollY - 10 || currentScrollY < 10);
       setLastScrollY(currentScrollY);
     };
 
@@ -84,7 +83,7 @@ const Header = () => {
           </div>
 
           <div
-            className={`flex h-[70px] items-center justify-between px-[24px] shadow-lg transition-all duration-300 md:px-[130px] ${'bg-white'}`}
+            className={`flex h-[60px] items-center justify-between px-[24px] shadow-lg transition-all duration-300 md:px-[130px] ${'bg-white'}`}
           >
             <div className='flex gap-10'>
               {/* 로고 영역 */}

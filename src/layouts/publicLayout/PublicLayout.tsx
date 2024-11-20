@@ -7,12 +7,9 @@ import { useMediaQuery } from 'react-responsive';
 
 const PublicLayout = () => {
   const isMobileMode = useMobileScrollStore((state) => state.isMobileMode);
-
   const isShopMobileView = useMediaQuery({ maxWidth: 768 });
   const isCartMobileView = useMediaQuery({ maxWidth: 1024 });
   const isFooterMobileView = useMediaQuery({ maxWidth: 1280 });
-
-  console.log('isMobileMode: ', isMobileMode);
 
   useEffect(() => {
     if (isMobileMode) {

@@ -1,18 +1,18 @@
 const RefundPolicy = () => {
   return (
-    <section className='h-full max-h-[500px] w-full overflow-auto px-1 py-4 text-gray700'>
-      <h2 className='mb-2 mt-6 text-xl font-semibold'>
+    <section className='h-full max-h-[500px] w-full overflow-auto px-1 py-4 text-sm text-gray700'>
+      <h2 className='mt-6 mb-2 text-lg font-semibold'>
         <strong>환불이 가능한 조건</strong>
       </h2>
-      <ul className='mb-4 list-disc pl-5'>
+      <ul className='pl-5 mb-4 list-disc'>
         <li className='mb-4'>상품 미배송</li>
         <li className='mb-4'>고객 변심</li>
       </ul>
 
-      <h2 className='mb-2 mt-6 text-xl font-semibold'>
+      <h2 className='mt-6 mb-2 text-lg font-semibold'>
         <strong>교환 및 반품이 가능한 경우</strong>
       </h2>
-      <ul className='mb-4 list-disc pl-5'>
+      <ul className='pl-5 mb-4 list-disc'>
         <li className='mb-4'>상품을 공급 받으신 날로부터 7일 이내</li>
         <li className='mb-4'>공급받으신 상품 및 용역의 내용이 표시·광고 내용과 다르거나 다르게 이행된 경우:</li>
         <li className='mb-4'>공급받은 날로부터 3개월 이내</li>
@@ -27,10 +27,10 @@ const RefundPolicy = () => {
         합니다. (색상 교환, 사이즈 교환 등 포함)
       </p>
 
-      <h2 className='mb-2 mt-6 text-xl font-semibold'>
+      <h2 className='mt-6 mb-2 text-lg font-semibold'>
         <strong>교환 및 반품이 불가능한 경우</strong>
       </h2>
-      <ul className='mb-4 list-disc pl-5'>
+      <ul className='pl-5 mb-4 list-disc'>
         <li className='mb-4'>
           고객님의 책임 있는 사유로 상품 등이 멸실 또는 훼손된 경우. 단, 상품의 내용을 확인하기 위하여 포장 등을 훼손한
           경우는 제외
@@ -47,17 +47,17 @@ const RefundPolicy = () => {
         <li>복제가 가능한 상품등의 포장을 훼손한 경우 (자세한 내용은 고객센터에 문의를 해주시길 바랍니다)</li>
       </ul>
 
-      <h2 className='mb-2 mt-6 text-xl font-semibold'>
+      <h2 className='mt-6 mb-2 text-lg font-semibold'>
         <strong>환불 요청 절차</strong>
       </h2>
       <ul className="'mb-4 list-disc pl-5">
         <li className='mb-4'>주문 내역에서 요청</li>
       </ul>
 
-      <h2 className='mb-2 mt-6 text-xl font-semibold'>
+      <h2 className='mt-6 mb-2 text-lg font-semibold'>
         <strong>환불 방식</strong>
       </h2>
-      <ul className='mb-4 list-disc pl-5'>
+      <ul className='pl-5 mb-4 list-disc'>
         <li className='mb-4'>결제 방식에 따른 환불</li>
         <li className='mb-4'>
           신용카드로 결제하신 경우는 신용카드 승인을 취소하여 결제 대금이 청구되지 않게 합니다. (단, 신용카드 결제일자에
@@ -65,17 +65,17 @@ const RefundPolicy = () => {
         </li>
       </ul>
 
-      <h2 className='mb-2 mt-6 text-xl font-semibold'>
+      <h2 className='mt-6 mb-2 text-lg font-semibold'>
         <strong>환불 처리 기간</strong>
       </h2>
-      <ul className='mb-4 list-disc pl-5'>
+      <ul className='pl-5 mb-4 list-disc'>
         <li className='mb-4'>3일 이내 처리</li>
       </ul>
 
-      <h2 className='mb-2 mt-6 text-xl font-semibold'>
+      <h2 className='mt-6 mb-2 text-lg font-semibold'>
         <strong>환불 시 발생하는 수수료 설정 여부</strong>
       </h2>
-      <ul className='mb-4 list-disc pl-5'>
+      <ul className='pl-5 mb-4 list-disc'>
         <li className='mb-4'>없음</li>
       </ul>
     </section>
