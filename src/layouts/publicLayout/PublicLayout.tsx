@@ -29,12 +29,15 @@ const PublicLayout = () => {
   const location = useLocation();
 
   const paddingBottomByLocation = () => {
-    if (isShopMobileView && location.pathname.startsWith('/shop/detail')) {
+    if (
+      (isShopMobileView && location.pathname.startsWith('/shop/detail')) ||
+      (isFooterMobileView && location.pathname.startsWith('/cart'))
+    ) {
       return '40px';
     }
 
     if (isCartMobileView) {
-      if (location.pathname.startsWith('/cart') || location.pathname.startsWith('/checkout')) {
+      if (location.pathname.startsWith('/checkout')) {
         return '128px';
       }
     }

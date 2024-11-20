@@ -51,7 +51,13 @@ const CartItem = ({ data, selectedItems, handleCartSelectToggle, handleUpdateCou
             <SalePrice data={data} originalSize='sm' saleSize='md' />
           </div>
           <div className='flex flex-col items-end justify-center w-full h-full gap-2'>
-            <GlobalCounterBtn data={data} maxCount={data.stock} handleUpdateCount={handleUpdateCount} size='m' />
+            <GlobalCounterBtn
+              data={data}
+              maxCount={data.stock}
+              handleUpdateCount={handleUpdateCount}
+              size='m'
+              isMobile={isMobile}
+            />
             <button className='h-[40px] w-[130px] border border-primary bg-primary text-sm text-secondary transition-all duration-300 hover:bg-secondary hover:text-primary'>
               바로구매
             </button>
