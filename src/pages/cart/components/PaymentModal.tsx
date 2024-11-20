@@ -34,6 +34,7 @@ const PaymentModal = ({
     <>
       <AnimatePresence>
         <motion.div
+          key='paymentModal'
           initial={{ y: '100%' }}
           animate={{ y: isOpen ? 0 : '90%' }}
           exit={{ y: '100%' }}
@@ -66,6 +67,16 @@ const PaymentModal = ({
             </button>
           </div>
         </motion.div>
+        {isOpen && (
+          <motion.div
+            key='backdrop'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className='fixed inset-0 z-0 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm'
+            onClick={() => setIsOpen(false)}
+          />
+        )}
       </AnimatePresence>
     </>
   );
