@@ -8,7 +8,7 @@ const data: ChartData<'line'> = {
   datasets: [
     {
       label: '결제건수',
-      borderColor: 'rgb(54, 162, 235)',
+      borderColor: 'rgb(54, 162, 235)', // 파란색
       borderWidth: 2,
       data: [500, 300, 800, 800, 300, 200, 100, 600, 500, 300],
     },

@@ -11,7 +11,6 @@ const ListHeaderArray = [
   { className: 'w-4/12', title: '상품코드' },
   { className: 'w-4/12', title: '상품명' },
   { className: 'w-2/12', title: '판매상태' },
-  { className: 'w-2/12', title: '전시상태' },
   { className: 'w-2/12', title: '재고수량' },
   { className: 'w-2/12', title: '상품가' },
   { className: 'w-2/12', title: '할인' },
@@ -25,14 +24,13 @@ const productListArray: ProductListType[] = [
     productName: '상품명',
     saleStatus: false,
     displayStatus: false,
-    stockQuantity: 10,
     salePrice: 10000,
-    discountPrice: 10000,
     discount: '100%',
+    discountPrice: 0,
   },
 ];
 
-const ProductList = () => {
+const ProductList = ({ handleShowPopup }: { handleShowPopup: () => void }) => {
   const [checkedList, setCheckedList] = useState<ProductListType[]>([]);
 
   useEffect(() => {
@@ -51,9 +49,9 @@ const ProductList = () => {
           {productListArray.map((item, index) => (
             <div
               key={index}
-              className='flex items-center self-stretch py-3 text-center border-b justify-stretch justify-items-center border-neutral-200'
+              className='flex items-center justify-stretch justify-items-center self-stretch border-b border-neutral-200 py-3 text-center'
             >
-              <div className='flex items-center justify-center w-1/12'>
+              <div className='flex w-1/12 items-center justify-center'>
                 <input
                   type='checkbox'
                   checked={checkedList.some((checkedItem) => checkedItem.id === item.id)}
@@ -66,20 +64,20 @@ const ProductList = () => {
                   }}
                 />
               </div>
-              <div className='flex items-center justify-center w-2/12'>
+              <div className='flex w-2/12 items-center justify-center'>
                 <button
                   type='button'
                   onClick={() => {}}
-                  className='block w-3/4 px-4 py-2 text-base text-white duration-300 ease-in-out bg-blue-500 rounded-md hover:scale-105'
+                  className='block w-3/4 rounded-md bg-blue-500 px-4 py-2 text-base text-white duration-300 ease-in-out hover:scale-105'
                 >
                   수정
                 </button>
               </div>
-              <div className='flex items-center justify-center w-2/12'>
+              <div className='flex w-2/12 items-center justify-center'>
                 <button
                   type='button'
                   onClick={() => {}}
-                  className='block w-3/4 px-4 py-2 text-base text-white duration-300 ease-in-out bg-red-500 rounded-md hover:scale-105'
+                  className='block w-3/4 rounded-md bg-red-500 px-4 py-2 text-base text-white duration-300 ease-in-out hover:scale-105'
                 >
                   삭제
                 </button>
@@ -89,9 +87,16 @@ const ProductList = () => {
               <div className='w-4/12'>{item.productName}</div>
 
               <div className='w-2/12'>{item.saleStatus ? '판매중' : '판매중지'}</div>
-              <div className='w-2/12'>{item.displayStatus ? '전시중' : '전시중지'}</div>
               <div className='w-2/12'>
-                {item.stockQuantity.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}
+                <button
+                  type='button'
+                  onClick={() => {
+                    handleShowPopup();
+                  }}
+                  className='block rounded-md border-[1px] border-neutral-200 bg-white px-4 py-2 text-base text-black duration-300 ease-in-out hover:scale-105 hover:bg-black hover:text-white'
+                >
+                  재고확인
+                </button>
               </div>
               <div className='w-2/12'>{item.salePrice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}</div>
               <div className='w-2/12'>{item.discount.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}</div>
@@ -101,7 +106,7 @@ const ProductList = () => {
             </div>
           ))}
         </div>
-        <div className='flex justify-end w-1/2 gap-2 mt-5'>
+        <div className='mt-5 flex justify-start gap-2'>
           <button
             type='button'
             onClick={() => {}}
@@ -115,20 +120,6 @@ const ProductList = () => {
             className='block w-1/4 rounded-md border-[1px] border-neutral-200 bg-white px-4 py-2 text-base text-black duration-300 ease-in-out hover:scale-105 hover:bg-black hover:text-white'
           >
             판매중
-          </button>
-          <button
-            type='button'
-            onClick={() => {}}
-            className='block w-1/4 rounded-md border-[1px] border-neutral-200 bg-white px-4 py-2 text-base text-black duration-300 ease-in-out hover:scale-105 hover:bg-black hover:text-white'
-          >
-            전시중지
-          </button>
-          <button
-            type='button'
-            onClick={() => {}}
-            className='block w-1/4 rounded-md border-[1px] border-neutral-200 bg-white px-4 py-2 text-base text-black duration-300 ease-in-out hover:scale-105 hover:bg-black hover:text-white'
-          >
-            전시중
           </button>
         </div>
       </div>

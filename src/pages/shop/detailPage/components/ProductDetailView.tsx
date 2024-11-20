@@ -3,15 +3,17 @@ import AddCartBtn from './AddCartBtn';
 import ColorBtns from './ColorBtns';
 import { useState } from 'react';
 import SizeBtns from './SizeBtns';
-import Counter from './CounterBtn';
 import { ProductDetailViewProps } from '../types';
 import { Color, Size } from '@/assets/dummys/types';
 import useSoldOutState from '@/hooks/useSoldoutState';
 import useSaleState from '@/hooks/useSaleState';
-import SaleLabel from '../../components/SaleLabel';
 import { useMediaQuery } from 'react-responsive';
 import MobileDropdownBtn from './MobileDropdownBtn';
 import useModalState from '@/hooks/useModalState/useModalState';
+import SalePrice from '@/components/SalePrice';
+import { SaleProvider } from '@/components/SaleProvider';
+import SaleLabel from '@/components/SaleLabel';
+import CounterBtn from './CounterBtn';
 
 const ProductDetailView = ({ data }: ProductDetailViewProps) => {
   const [detailImage, setDetailImage] = useState<string[]>(data.colors[0]?.images);
@@ -50,16 +52,13 @@ const ProductDetailView = ({ data }: ProductDetailViewProps) => {
                 <h2 className='text-2xl font-bold transition-transform duration-300 ease-in-out md:text-4xl'>
                   {data.name}
                 </h2>
-                <SaleLabel classString={labelClassNames} text={saleLabelText} />
+                <SaleProvider data={data}>
+                  <SaleLabel classString={labelClassNames} text={saleLabelText} />
+                </SaleProvider>
               </div>
             </div>
             {isSale ? (
-              <div className='flex flex-col'>
-                <p className='text-lg font-light text-gray700 line-through md:text-xl'>
-                  ₩{data.price.toLocaleString()}
-                </p>
-                <p className='text-xl font-bold md:text-2xl'>₩{data.sale.result.toLocaleString()}</p>
-              </div>
+              <SalePrice data={data} />
             ) : (
               <div>
                 <p className='text-2xl font-light'>₩{data.price.toLocaleString()}</p>
@@ -72,7 +71,7 @@ const ProductDetailView = ({ data }: ProductDetailViewProps) => {
             <div className='flex w-full flex-col gap-6 md:justify-start'>
               <ColorBtns data={data.colors} onSelect={setSelectedColor} onChange={setDetailImage} />
               <SizeBtns data={selectedColor} onSelect={setSelectedSize} />
-              <Counter
+              <CounterBtn
                 count={count}
                 setCount={setCount}
                 maxCount={maxCount}
@@ -92,6 +91,7 @@ const ProductDetailView = ({ data }: ProductDetailViewProps) => {
               <AddCartBtn
                 data={data}
                 count={count}
+                maxCount={maxCount}
                 selectedColor={selectedColor}
                 selectedSize={selectedSize}
                 detailImage={detailImage}

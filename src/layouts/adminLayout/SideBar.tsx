@@ -8,7 +8,7 @@ const sideBarMenu = [
   {
     title: '상품관리',
     sibTitle: [
-      { title: '상품 조회/수정', link: '/admin/product/edit' },
+      { title: '상품 조회', link: '/admin/product/search' },
       { title: '상품 등록', link: '/admin/product/add' },
     ],
   },

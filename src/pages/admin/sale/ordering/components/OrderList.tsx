@@ -29,7 +29,7 @@ const productListArray: OrderingListType[] = [
     depositDueDate: '송장번호',
   },
 ];
-const OrderingList = () => {
+const OrderingList = ({ handleShowPopup }: { handleShowPopup: () => void }) => {
   const [checkedList, setCheckedList] = useState<OrderingListType[]>([]);
 
   useEffect(() => {
@@ -98,20 +98,15 @@ const OrderingList = () => {
           >
             판매자 취소 처리
           </button>
+
           <button
-            onClick={() => {}}
+            onClick={handleShowPopup}
             className='block w-2/4 rounded-md border-[1px] border-neutral-200 bg-white px-4 py-2 text-base text-black duration-300 ease-in-out hover:scale-105 hover:bg-black hover:text-white'
           >
-            일괄 배송처리
+            송장입력
           </button>
           <button
-            onClick={() => {}}
-            className='block w-2/4 rounded-md border-[1px] border-neutral-200 bg-white px-4 py-2 text-base text-black duration-300 ease-in-out hover:scale-105 hover:bg-black hover:text-white'
-          >
-            송장개별입력
-          </button>
-          <button
-            onClick={() => {}}
+            onClick={handleShowPopup}
             className='block w-2/4 rounded-md border-[1px] border-neutral-200 bg-white px-4 py-2 text-base text-black duration-300 ease-in-out hover:scale-105 hover:bg-black hover:text-white'
           >
             송장수정

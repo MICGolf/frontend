@@ -1,7 +1,7 @@
-import { ProductDetail } from '@/assets/dummys/types';
+import { CartItemData2, ProductDetail } from '@/assets/dummys/types';
 import { useEffect, useState } from 'react';
 
-const useSaleState = (product: ProductDetail) => {
+const useSaleState = (product: ProductDetail | CartItemData2) => {
   const [isSale, setIsSale] = useState<boolean>(true);
   const { sale } = product;
   const { unit, value } = sale;
