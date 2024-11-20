@@ -75,6 +75,7 @@ const CartPage = () => {
                 key={idx}
                 data={item}
                 selectedItems={selectedItems}
+                handleModalOpen={handleModalOpen}
                 handleCartSelectToggle={handleCartSelectToggle}
                 handleUpdateCount={handleUpdateCount}
                 handleRemoveSingleItem={handleRemoveSingleItem}

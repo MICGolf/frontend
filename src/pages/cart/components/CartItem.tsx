@@ -8,10 +8,12 @@ import CloseIco from '@/assets/icons/CloseIco';
 import { CartItemData2 } from '@/assets/dummys/types';
 import { useMediaQuery } from 'react-responsive';
 import BuyNowButton from './BuyNowButton';
+import { SignUpModalType } from '@/hooks/useModalState/useModalState';
 
 interface CartItemProps {
   data: CartItemData2;
   selectedItems: string[];
+  handleModalOpen: (type: SignUpModalType) => void;
   handleCartSelectToggle: (itemId: string) => void;
   handleUpdateCount: (id: string, newCount: number) => void;
   handleRemoveSingleItem: (itemId: string) => void;
@@ -23,6 +25,7 @@ const CartItem = ({
   handleCartSelectToggle,
   handleUpdateCount,
   handleRemoveSingleItem,
+  handleModalOpen,
 }: CartItemProps) => {
   const isChecked = selectedItems.includes(data.id);
   const isMobile = useMediaQuery({ maxWidth: 468 });
@@ -65,7 +68,12 @@ const CartItem = ({
               size='m'
               isMobile={isMobile}
             />
-            <BuyNowButton size='m' />
+            <BuyNowButton
+              size='m'
+              handleModalOpen={handleModalOpen}
+              handleCartSelectToggle={handleCartSelectToggle}
+              data={data}
+            />
           </div>
           <button className='hidden h-full cursor-pointer xl:block' onClick={() => handleRemoveSingleItem(data.id)}>
             <CloseIco />
