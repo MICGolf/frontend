@@ -7,7 +7,7 @@ type PromotionSectionProps = {
 
 // WARNING: images 의 데이터 형식이 어떻게 되는지 확인 후 타입 변경이 필요할 수 있음.
 // WARNING: 또는 직접적으로 데이터를 컴포넌트에서 불러오는 방식도 고려해야함.
-export const PromotionSection = ({ image }: PromotionSectionProps) => {
+const PromotionSection = ({ image }: PromotionSectionProps) => {
   return (
     <motion.section
       initial={{ opacity: 0 }}
@@ -34,3 +34,5 @@ export const PromotionSection = ({ image }: PromotionSectionProps) => {
     </motion.section>
   );
 };
+
+export default PromotionSection;
