@@ -102,7 +102,12 @@ const CartItem = ({
               handleUpdateCount={handleUpdateCount}
               isMobile={isMobile}
             />
-            <BuyNowButton size='s' />
+            <BuyNowButton
+              size='s'
+              handleModalOpen={handleModalOpen}
+              handleCartSelectToggle={handleCartSelectToggle}
+              data={data}
+            />
           </div>
         </div>
       )}
