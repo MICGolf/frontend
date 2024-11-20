@@ -54,7 +54,7 @@ export const Input = ({
 }: InputProps) => {
   const { onChange: registerOnChange, ...registerRest } = register(name, registerOptions);
 
-  const inputStyle = `${className} peer w-full border border-neutral-300 px-4 py-3 placeholder-transparent focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary`;
+  const inputStyle = `${className} peer w-full border border-neutral-300 px-4 py-3 placeholder-transparent focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary`;
 
   const FloatinglabelStyle =
     'absolute left-3 -top-3 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-3 peer-focus:text-sm peer-focus:text-gray-600';
