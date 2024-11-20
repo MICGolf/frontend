@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 
-const CounterMessage = ({ isOpen }: { isOpen: boolean }) => {
+const CounterMessage = ({ isOpen, position = 'row' }: { isOpen: boolean; position?: 'row' | 'col' }) => {
+  const pos = position === 'row' ? '-right-[120px]' : '-top-[40px]';
   return (
     <AnimatePresence mode='wait'>
       {isOpen && (
@@ -29,9 +30,9 @@ const CounterMessage = ({ isOpen }: { isOpen: boolean }) => {
               duration: 0.3,
             },
           }}
-          className='absolute -right-[180px] bg-error px-2 py-1 text-center text-[12px] text-secondary'
+          className={`absolute ${pos} bg-error px-2 py-1 text-center text-[12px] text-secondary`}
         >
-          구매가능한 최대수량입니다.
+          최대수량입니다.
         </motion.span>
       )}
     </AnimatePresence>

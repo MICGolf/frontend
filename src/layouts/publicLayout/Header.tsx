@@ -13,6 +13,7 @@ import CartIco from '@/assets/icons/CartIco';
 import UserIco from '@/assets/icons/UserIco';
 
 const Header = () => {
+  // const { setIsMobileMode } = useMobileScrollStore();
   const [isHeaderVisible, setIsHeaderVisible] = useState<boolean>(true);
   const [lastScrollY, setLastScrollY] = useState<number>(0);
   const [activeNav, setActiveNav] = useState<string | null>(null);
@@ -88,7 +89,7 @@ const Header = () => {
             <div className='flex gap-10'>
               {/* 로고 영역 */}
               <Link to={'/'} className='h-[26px] w-[73px]'>
-                <img src={logoBlack} alt='믹골프 로고' className='h-full w-full object-contain' />
+                <img src={logoBlack} alt='믹골프 로고' className='object-contain w-full h-full' />
               </Link>
 
               {/* 네비게이션 영역 */}

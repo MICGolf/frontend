@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { navigations } from '@/assets/dummys/navigationData';
 import { Link } from 'react-router-dom';
 import HamburgerMenu from './HamburgerMenu';
@@ -7,6 +7,7 @@ import CartIco from '@/assets/icons/CartIco';
 import UserIco from '@/assets/icons/UserIco';
 import { ChevronRight } from 'lucide-react';
 import { shopCategoryData } from '@/assets/dummys/categoryDatas';
+import { useMobileScrollStore } from '@/config/store';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -14,11 +15,19 @@ interface MobileMenuProps {
 }
 
 const MobileMenu = ({ isOpen, setIsOpen }: MobileMenuProps) => {
+  const { setIsMobileMode } = useMobileScrollStore();
   const [openCategories, setOpenCategories] = useState<Record<number, boolean>>({});
 
   const toggleCategory = (id: number) => {
     setOpenCategories((prev) => ({ ...prev, [id]: !prev[id] }));
   };
+
+  useEffect(() => {
+    setIsMobileMode(true);
+    return () => {
+      setIsMobileMode(false);
+    };
+  }, []);
 
   return (
     <div

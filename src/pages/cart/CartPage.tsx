@@ -1,18 +1,31 @@
-import { useUserStore } from '@/config/store';
-import useCartCalculations from '@/hooks/uesCartCalculations';
-import { useCart } from '@/hooks/useCart';
-import { useCartSelection } from '@/hooks/useCartSelection';
-import useModalState from '@/hooks/useModalState/useModalState';
 import { useEffect, useState } from 'react';
+import { useUserStore } from '@/config/store';
+import { useCartSelection } from '@/hooks/useCartSelection';
+import useCartCalculations from '@/hooks/useCartCalculations';
 import { useNavigate } from 'react-router-dom';
-import minus from '@/assets/icons/minus.svg';
-import plus from '@/assets/icons/plus.svg';
-import dropDownIco from '@/assets/icons/dropDownIco.svg';
+import useModalState from '@/hooks/useModalState/useModalState';
+import { useMediaQuery } from 'react-responsive';
+import PaymentModal from './components/PaymentModal';
+import PaymentStickyBox from './components/PaymentStickyBox';
+import CartItem from './components/CartItem';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import SelectAllCheckBox from './components/SelectAllCheckBox';
+// import { useCart } from '@/hooks/useCart';
 
 const CartPage = () => {
   const { user } = useUserStore();
-  const { cartItems, syncGuestCartToUser } = useCart();
-  const { selectedItems, handleToggle, selectedProducts } = useCartSelection(cartItems);
+  // const { cartItems, syncGuestCartToUser } = useCart();
+  const [cartItems] = useLocalStorage('cartItems', []);
+  const {
+    cartItemArr,
+    selectedItems,
+    selectedProducts,
+    handleCartSelectToggle,
+    handleUpdateCount,
+    handleSelectAll,
+    handleRemoveSelectedItems,
+    selectAll,
+  } = useCartSelection(cartItems);
   const { totalPrice, totalDeliveryFee } = useCartCalculations(selectedProducts);
   const navigate = useNavigate();
   const paymentData = {
@@ -21,206 +34,75 @@ const CartPage = () => {
     totalDeliveryFee,
   };
   const { handleModalOpen, renderModalContent } = useModalState({ paymentData });
-  const [count, setCount] = useState(1);
-  const [isVisible, setIsVisible] = useState(false);
-  console.log(cartItems);
+  const [globalSelectCount, setGlobalSelectCount] = useState(0);
+  const shouldResponsive = useMediaQuery({ maxWidth: '1280px' });
 
-  const handleTogglePayment = () => {
-    setIsVisible((prev) => !prev);
+  const handlePayment = () => {
+    if (user) {
+      navigate('/checkout', {
+        state: paymentData,
+      });
+    } else {
+      handleModalOpen('결제모달');
+    }
   };
 
   useEffect(() => {
-    syncGuestCartToUser();
-  }, [user]);
-
-  const handlePayment = () => {
-    if (selectedItems.length === 0) {
-      alert('상품을 선택해주세요');
-      return;
-    }
-    return user ? navigate('/checkout', { state: paymentData }) : handleModalOpen('결제모달');
-  };
+    setGlobalSelectCount(selectedProducts.length);
+  }, [selectedProducts, cartItemArr]);
 
   return (
-    <div className={`flex w-full justify-center pt-[210px]`}>
-      <div className='flex w-[1320px] flex-col'>
-        <div className='flex w-full justify-center lg:gap-4'>
-          <div className='p-5 font-sans'>
-            <div className='flex justify-start px-[20px] text-4xl font-[700]'>장바구니</div>
-            {cartItems.map((item) => (
-              <div key={item.id} className='flex items-center gap-4 border-b border-gray-100 py-5'>
-                {/* 체크박스 */}
-                <div className='text-center'>
-                  <label
-                    className={`flex h-8 w-8 items-center justify-center rounded-sm border-2 ${selectedItems.includes(item.id) ? 'bg-black' : 'bg-white'}`}
-                  >
-                    <input
-                      type='checkbox'
-                      className='hidden'
-                      onChange={() => handleToggle(item.id)}
-                      checked={selectedItems.includes(item.id)}
-                    />
-                    {selectedItems.includes(item.id) && (
-                      <svg className='h-5 w-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
-                        <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
-                      </svg>
-                    )}
-                  </label>
-                </div>
-                {/* 상품 이미지 */}
-                <div className='max-h-[100px] max-w-[100px] overflow-hidden'>
-                  <img src={item.image} className='h-full w-full border border-gray-200 bg-gray-100 object-cover'></img>
-                </div>
-
-                <div className='items flex flex-1 flex-col items-start gap-1 px-2 xl:flex-row xl:items-center xl:gap-4'>
-                  {/* 상품정보 */}
-                  <div className='flex flex-1 flex-col text-base lg:text-lg xl:text-xl'>
-                    <div className='mb-2'>{item.name}</div>
-                    <div className='text-gray-600'>
-                      {item.color.name}&nbsp;&nbsp;{item.size}
-                    </div>
-                  </div>
-                  {/* 가격 */}
-                  <div className='whitespace-nowrap text-center text-xl font-bold'>
-                    {item.price.toLocaleString()} 원
-                  </div>
-                  {/* 선택 */}
-                  <div className='flex flex-row items-center gap-2 xl:flex-col'>
-                    <div
-                      className='item-center flex h-[28px] w-[110px] justify-around border border-gray200 text-base xl:h-[40px] xl:w-[130px] xl:text-lg'
-                      aria-live='polite'
-                      role='group'
-                      aria-labelledby='quantity-selection'
-                    >
-                      <button
-                        type='button'
-                        onClick={() => {
-                          if (count !== 1) {
-                            setCount((prev) => prev - 1);
-                          }
-                        }}
-                        className='flex flex-1 items-center justify-center'
-                        aria-label='수량 감소'
-                      >
-                        <img src={minus} alt='수량 감소 버튼' />
-                      </button>
-                      <span
-                        id='quantity-selection'
-                        className='text-item flex flex-1 items-center justify-center text-[16px] font-thin'
-                        aria-live='assertive'
-                      >
-                        {count}
-                      </span>
-                      <button
-                        type='button'
-                        onClick={() => setCount((prev) => prev + 1)}
-                        className='flex flex-1 items-center justify-center'
-                        aria-label='수량 증가'
-                      >
-                        <img src={plus} alt='수량 증가 버튼' />
-                      </button>
-                    </div>
-                    <button className='hidden h-[28px] w-[110px] bg-black text-base text-white hover:opacity-70 sm:block xl:h-[40px] xl:w-[130px] xl:text-lg'>
-                      바로 구매
-                    </button>
-                  </div>
-                </div>
-
-                {/* 제거 */}
-                <button className='text-xl text-gray-400 hover:text-gray-600'>✕</button>
-              </div>
+    <article className='mx-auto w-full max-w-[1660px] px-[24px] py-[160px] transition-all duration-300 ease-in-out xl:px-[130px]'>
+      {/* 타이틀 */}
+      <h2 className='mb-[24px] w-full text-3xl font-semibold'>장바구니</h2>
+      <section className='flex w-full h-full gap-12 flex-2'>
+        <div className='flex flex-col w-full'>
+          {/* 장바구니 헤더 영역 */}
+          <div className='flex justify-between w-full py-4 text-sm border-y border-gray300'>
+            <div className='flex items-center w-full gap-3'>
+              <SelectAllCheckBox isChecked={selectAll} cartItemArr={cartItemArr} handleSelectAll={handleSelectAll} />
+              <span>전체선택 ({globalSelectCount})</span>
+            </div>
+            <div className='flex justify-end w-full'>
+              <button onClick={handleRemoveSelectedItems}>선택삭제</button>
+            </div>
+          </div>
+          {/* 장바구니 리스트 영역 */}
+          <ul className='flex flex-col w-full gap-8 my-6'>
+            {cartItemArr.map((item, idx) => (
+              <CartItem
+                key={idx}
+                data={item}
+                selectedItems={selectedItems}
+                handleCartSelectToggle={handleCartSelectToggle}
+                handleUpdateCount={handleUpdateCount}
+              />
             ))}
-            <div className='flex gap-2'>
-              <button className='border border-gray200 p-2 text-gray700'>계속 쇼핑하기</button>
-              <button className='border border-gray200 p-2 text-gray700'>선택 상품 삭제하기</button>
-              <button className='border border-gray200 p-2 text-gray700'>장바구니 비우기</button>
-            </div>
-          </div>
-
-          {/* 주문 section */}
-          <div className='hidden lg:block'>
-            <div className='sticky top-[260px] bg-white transition-all duration-300'>
-              <div className='flex flex-col gap-2 border-gray200 p-4 lg:border'>
-                <div className='text-left text-xl'>총 상품 {selectedProducts.length}개</div>
-                <div>
-                  <div className='flex flex-col gap-2 border-b border-gray200'>
-                    <div className='flex flex-col gap-2 pb-2'>
-                      <div className='flex justify-between'>
-                        <span>상품합계</span>
-                        <span>{totalPrice.toLocaleString()}원</span>
-                      </div>
-                      <div className='flex justify-between'>
-                        <span>배송비</span>
-                        <span>{totalDeliveryFee.toLocaleString()}원</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='flex flex-col gap-2 py-2 text-right text-xl'>
-                    <div>결제예상금액</div>
-                    <strong>{(totalPrice + totalDeliveryFee).toLocaleString()}원</strong>
-                  </div>
-                </div>
-                <button
-                  onClick={() => handlePayment()}
-                  type='button'
-                  className='bg-black px-6 py-3 text-left text-xl font-light text-white hover:opacity-70'
-                >
-                  {(totalPrice + totalDeliveryFee).toLocaleString()}원 구매하기 ({selectedProducts.length}개)
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className={`${isVisible ? 'fixed inset-0 z-[100] bg-black bg-opacity-70' : null} lg:hidden`}>
-            <div className='fixed bottom-0 left-0 right-0 z-[100] min-w-[300px] bg-white shadow-top'>
-              <div className='flex flex-col gap-2 border-gray200 p-4 lg:border'>
-                <div className='flex justify-between px-4'>
-                  <div className='mb- text-left text-xl'>총 상품 {selectedProducts.length}개</div>
-                  <button onClick={handleTogglePayment} className='text-xl text-gray-400 hover:text-gray-600'>
-                    <img
-                      src={dropDownIco}
-                      alt='드롭다운 열기 닫기 버튼'
-                      className='transition-transform duration-300 ease-in-out'
-                      style={{ transform: isVisible ? 'rotate(180deg)' : 'rotate(0deg)' }}
-                    />
-                  </button>
-                </div>
-                <div
-                  className={`overflow-hidden transition-all duration-300 ${isVisible ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}
-                >
-                  <div className='flex flex-col gap-2 border-b border-gray200 p-4'>
-                    <div className='flex flex-col gap-2'>
-                      <div className='flex justify-between'>
-                        <span>상품합계</span>
-                        <span>{totalPrice.toLocaleString()}원</span>
-                      </div>
-                      <div className='flex justify-between'>
-                        <span>배송비</span>
-                        <span>{totalDeliveryFee.toLocaleString()}원</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='flex flex-col gap-2 p-4 text-right text-xl'>
-                    <div>결제예상금액</div>
-                    {(totalPrice + totalDeliveryFee).toLocaleString()}원
-                  </div>
-                </div>
-                <button
-                  onClick={() => handlePayment()}
-                  type='button'
-                  className='bg-black px-6 py-3 text-left text-xl text-white hover:opacity-70'
-                >
-                  {(totalPrice + totalDeliveryFee).toLocaleString()}원 구매하기 ({selectedProducts.length}개)
-                </button>
-              </div>
-            </div>
-          </div>
+          </ul>
         </div>
-      </div>
 
-      {/* 버튼 section */}
+        {/* 결제 창 : 모달타입 OR 배너타입 */}
+        {shouldResponsive ? (
+          <PaymentModal
+            totalPrice={totalPrice}
+            totalDeliveryFee={totalDeliveryFee}
+            handlePayment={handlePayment}
+            globalSelectCount={globalSelectCount}
+            cartItemArr={cartItemArr}
+          />
+        ) : (
+          <PaymentStickyBox
+            totalPrice={totalPrice}
+            totalDeliveryFee={totalDeliveryFee}
+            handlePayment={handlePayment}
+            globalSelectCount={globalSelectCount}
+            cartItemArr={cartItemArr}
+          />
+        )}
+      </section>
+      {/* 비회원일 경우 뜨는 모달 창 */}
       {renderModalContent()}
-    </div>
+    </article>
   );
 };
 
