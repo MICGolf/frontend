@@ -5,7 +5,6 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  BarElement,
   LineElement,
   PointElement,
   Title,
@@ -13,24 +12,24 @@ import {
   Legend,
 } from 'chart.js';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend);
 
-const data: ChartData<'bar' | 'line'> = {
-  labels: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+const data: ChartData<'line'> = {
+  labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
   datasets: [
     {
-      type: 'line' as const,
+      type: 'line',
       label: '결제건수',
       borderColor: 'rgb(54, 162, 235)',
       borderWidth: 2,
       data: [500, 300, 800, 800, 300, 200, 100, 600, 500, 300],
     },
     {
-      type: 'line' as const,
+      type: 'line',
       label: '결제금액',
-      borderColor: 'rgb(54, 162, 235)',
+      borderColor: 'rgb(228, 74, 22)',
       borderWidth: 2,
-      data: [500, 300, 800, 800, 300, 200, 100, 600, 500, 300],
+      data: [700, 400, 900, 700, 400, 300, 200, 500, 600, 400],
     },
   ],
 };
