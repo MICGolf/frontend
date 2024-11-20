@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 interface CounterMessageProps {
   isOpen: boolean;
-  isMobile: boolean;
+  isMobile?: boolean;
   position?: 'row' | 'col';
 }
 
