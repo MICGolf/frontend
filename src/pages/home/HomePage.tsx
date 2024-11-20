@@ -7,7 +7,6 @@ import { useMobileScrollStore } from '@/config/store';
 import { Section } from './components/Section';
 import { PromotionSection } from './components/PromotionSection';
 import { useQuery } from '@tanstack/react-query';
-import { client } from '@/api/client';
 import { bannersApi } from '@/api';
 
 const HomePage = () => {
@@ -31,14 +30,14 @@ const HomePage = () => {
     }
   }, []);
 
-  const { data } = useQuery({
+  const { data: bannerData } = useQuery({
     queryKey: ['banner'],
     queryFn: async () => {
       const response = await bannersApi.getBanners();
       return response.data;
     },
   });
-  console.log(data);
+  console.log(bannerData);
 
   return (
     <div className='relative'>
