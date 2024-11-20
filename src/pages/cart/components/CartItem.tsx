@@ -40,15 +40,18 @@ const CartItem = ({
         <img
           src={data.image}
           alt={data.name}
-          className='object-cover object-center w-full h-full transition-all duration-300 hover:scale-105'
+          className='h-full w-full object-cover object-center transition-all duration-300 hover:scale-105'
         />
       </Link>
 
       {!isMobile && (
         <>
-          <div className='flex flex-col justify-between w-full h-full'>
+          <div className='flex h-full w-full flex-col justify-between'>
             <div className='flex flex-col'>
-              <h3 className='mb-1 text-sm font-semibold md:text-lg'>{data.name}</h3>
+              <Link to={`/shop/detail/${data.productId}`}>
+                <h3 className='mb-1 cursor-pointer text-sm font-semibold md:text-lg'>{data.name}</h3>
+              </Link>
+
               <p className='text-xs text-gray700'>
                 [옵션: {data.color.name} / {data.size}]
               </p>
@@ -60,7 +63,7 @@ const CartItem = ({
 
             <SalePrice data={data} originalSize='sm' saleSize='md' />
           </div>
-          <div className='flex flex-col items-end justify-center w-full h-full gap-2'>
+          <div className='flex h-full w-full flex-col items-end justify-center gap-2'>
             <GlobalCounterBtn
               data={data}
               maxCount={data.stock}
@@ -81,11 +84,13 @@ const CartItem = ({
         </>
       )}
       {isMobile && (
-        <div className='flex flex-col justify-between w-full h-full'>
-          <div className='flex flex-col w-full h-full gap-2'>
+        <div className='flex h-full w-full flex-col justify-between'>
+          <div className='flex h-full w-full flex-col gap-2'>
             <div className='flex justify-between'>
               <div className='flex flex-col'>
-                <h3 className='mb-1 text-sm font-semibold md:text-lg'>{data.name}</h3>
+                <Link to={`/shop/detail/${data.productId}`}>
+                  <h3 className='mb-1 cursor-pointer text-sm font-semibold md:text-lg'>{data.name}</h3>
+                </Link>
                 <p className='text-xs text-gray700'>
                   [옵션: {data.color.name} / {data.size}]
                 </p>
@@ -94,7 +99,7 @@ const CartItem = ({
 
             <SalePrice data={data} originalSize='xs' saleSize='md' flex='col' />
           </div>
-          <div className='flex items-end justify-between w-full h-full gap-2'>
+          <div className='flex h-full w-full items-end justify-between gap-2'>
             <GlobalCounterBtn
               data={data}
               maxCount={data.stock}
