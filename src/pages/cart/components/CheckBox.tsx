@@ -18,7 +18,7 @@ const CheckBox = ({ handleCartSelectToggle, itemId, isChecked }: CheckBoxProps) 
     >
       <input
         type='checkbox'
-        className='appearance-none'
+        className='appearance-none focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2'
         name={`cartItem-${itemId}`}
         id={`cartItem-${itemId}`}
         checked={isChecked}

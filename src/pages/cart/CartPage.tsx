@@ -24,6 +24,7 @@ const CartPage = () => {
     handleUpdateCount,
     handleSelectAll,
     handleRemoveSelectedItems,
+    handleRemoveSingleItem,
     selectAll,
   } = useCartSelection(cartItems);
   const { totalPrice, totalDeliveryFee } = useCartCalculations(selectedProducts);
@@ -76,6 +77,7 @@ const CartPage = () => {
                 selectedItems={selectedItems}
                 handleCartSelectToggle={handleCartSelectToggle}
                 handleUpdateCount={handleUpdateCount}
+                handleRemoveSingleItem={handleRemoveSingleItem}
               />
             ))}
           </ul>

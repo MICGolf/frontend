@@ -14,9 +14,16 @@ interface CartItemProps {
   selectedItems: string[];
   handleCartSelectToggle: (itemId: string) => void;
   handleUpdateCount: (id: string, newCount: number) => void;
+  handleRemoveSingleItem: (itemId: string) => void;
 }
 
-const CartItem = ({ data, selectedItems, handleCartSelectToggle, handleUpdateCount }: CartItemProps) => {
+const CartItem = ({
+  data,
+  selectedItems,
+  handleCartSelectToggle,
+  handleUpdateCount,
+  handleRemoveSingleItem,
+}: CartItemProps) => {
   const isChecked = selectedItems.includes(data.id);
   const isMobile = useMediaQuery({ maxWidth: 468 });
 
@@ -58,10 +65,11 @@ const CartItem = ({ data, selectedItems, handleCartSelectToggle, handleUpdateCou
               size='m'
               isMobile={isMobile}
             />
-            <button className='h-[40px] w-[130px] border border-primary bg-primary text-sm text-secondary transition-all duration-300 hover:bg-secondary hover:text-primary'>
-              바로구매
-            </button>
+            <BuyNowButton size='m' />
           </div>
+          <button className='hidden h-full cursor-pointer xl:block' onClick={() => handleRemoveSingleItem(data.id)}>
+            <CloseIco />
+          </button>
         </>
       )}
       {isMobile && (
@@ -90,9 +98,6 @@ const CartItem = ({ data, selectedItems, handleCartSelectToggle, handleUpdateCou
           </div>
         </div>
       )}
-      <button className='hidden h-full cursor-pointer xl:block'>
-        <CloseIco />
-      </button>
     </li>
   );
 };
