@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import HomePage from './pages/home/HomePage';
 import ShopPage from './pages/shop/shopPage/ShopPage';
 import EventMainPage from './pages/event/EventMainPage';
@@ -10,8 +10,6 @@ import MyPage from './pages/mypage/MyPage';
 import AdminPage from './pages/admin/main/AdminPage';
 import DetailPage from './pages/shop/detailPage/DetailPage';
 import CartPage from './pages/cart/CartPage';
-import PrivateRoute from './routes/PrivateRoute';
-import AdminRoute from './routes/AdminRoute';
 import NoticePage from './pages/notice/NoticePage';
 import AdminLayout from './layouts/adminLayout/AdminLayout';
 import PublicLayout from './layouts/publicLayout/PublicLayout';
@@ -26,10 +24,12 @@ import SalePayment from './pages/admin/sale/payment/SalePayment';
 import SaleOrdering from './pages/admin/sale/ordering/SaleOrdering';
 import SaleDelivery from './pages/admin/sale/delivery/SaleDelivery';
 import ProductAdd from './pages/admin/product/ProductAdd';
-import { BestItemPage } from './pages/admin/store/BestItemPage';
-import { MdsChoicePage } from './pages/admin/store/MdsChoicePage';
-import { BannerPage } from './pages/admin/store/BannerPage';
-import { PromotionPage } from './pages/admin/store/PromotionPage';
+import BestItemPage from './pages/admin/store/BestItemPage';
+import MdsChoicePage from './pages/admin/store/MdsChoicePage';
+import PromotionPage from './pages/admin/store/PromotionPage';
+import ProtectPrivateRoute from './routes/ProtectPrivateRoute';
+import ProtectAdminRoute from './routes/ProtectAdminRoute';
+import BannerPage from './pages/admin/store/BannerPage';
 
 function App() {
   return (
@@ -38,7 +38,7 @@ function App() {
         {/* PrivateRoute */}
         {/* 마이페이지 */}
         <Route element={<PublicLayout />}>
-          <Route element={<PrivateRoute />}>
+          <Route element={<ProtectPrivateRoute />}>
             <Route path='/mypage' element={<MyPage />} />
           </Route>
 
@@ -54,7 +54,6 @@ function App() {
           <Route path='/event/:id' element={<EventDetailPage />} />
 
           {/* 인증 */}
-          <Route path='/auth' element={<Navigate to={'/auth/signin'} replace={true} />} />
           <Route path='/auth/signin' element={<SignInPage />} />
           <Route path='/auth/signup' element={<SignUpPage />} />
           <Route path='/auth/signup/complete' element={<SignUpCompletePage />} />
@@ -78,7 +77,7 @@ function App() {
         {/* 관리자 */}
         <Route path='/admin/login' element={<AdminLoginPage />} />
         <Route element={<AdminLayout />}>
-          <Route path='/admin' element={<AdminRoute />}>
+          <Route path='/admin' element={<ProtectAdminRoute />}>
             <Route path='' element={<AdminPage />} />
             <Route path='product'>
               <Route path='edit' element={<AdminPage />} />

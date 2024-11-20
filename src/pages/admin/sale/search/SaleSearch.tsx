@@ -1,6 +1,6 @@
 import SaleFilter from './components/SaleFilter';
 import SaleList from './components/SaleList';
-const SaleSearch = () => {
+export const SaleSearch = () => {
   return (
     <>
       <SaleFilter />

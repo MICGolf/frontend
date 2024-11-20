@@ -30,7 +30,7 @@ const bannerListArray: Banner[] = [
   },
 ];
 
-export const BannerPage = () => {
+const BannerPage = () => {
   return (
     <>
       <AddData location='banner' />
@@ -38,3 +38,5 @@ export const BannerPage = () => {
     </>
   );
 };
+
+export default BannerPage;

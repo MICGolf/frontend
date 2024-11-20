@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { bannerImage, Homeimages1, Homeimages2, promotionImage } from '@/assets/dummys/productListDatas';
-import { BannerSwiper } from './components/BannerSwiper';
+import { Homeimages1, Homeimages2, promotionImage } from '@/assets/dummys/productListDatas';
+import { BannerSection } from './components/BannerSection';
 import logoWhite from '@/assets/imgs/logoWhite.svg';
 import { useMobileScrollStore } from '@/config/store';
 import { Section } from './components/Section';
 import { PromotionSection } from './components/PromotionSection';
+import { useQuery } from '@tanstack/react-query';
+import { bannersApi } from '@/api';
 
-export default function HomePage() {
+const HomePage = () => {
   const [showIntro, setShowIntro] = useState(false); // 애니메이션 실행 여부
   const { setIsMobileMode } = useMobileScrollStore();
 
@@ -16,20 +18,30 @@ export default function HomePage() {
 
     if (!isIntroShown) {
       setShowIntro(true); // 애니메이션 실행
-      setIsMobileMode(true);
+      setIsMobileMode(true); // 스크롤 방지
 
       const timer = setTimeout(() => {
         setShowIntro(false); // 애니메이션 종료
         setIsMobileMode(false);
         sessionStorage.setItem('introShown', 'true'); // sessionStorage에 저장
-      }, 3000);
+      }, 2000);
 
       return () => clearTimeout(timer);
     }
   }, []);
 
+  const { data: bannerData } = useQuery({
+    queryKey: ['banner'],
+    queryFn: async () => {
+      const response = await bannersApi.getBanners();
+      return response.data;
+    },
+  });
+  console.log(bannerData);
+
   return (
     <div className='relative'>
+      {/* 인트로 */}
       <AnimatePresence>
         {showIntro && (
           <motion.div
@@ -51,7 +63,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 1 }}
-                className='text-3xl font-bold text-white md:text-4xl lg:text-5xl'
+                className='text-3xl font-light text-white md:text-4xl lg:text-5xl'
               >
                 Make It Count
               </motion.span>
@@ -61,11 +73,9 @@ export default function HomePage() {
       </AnimatePresence>
 
       {/* 배너 */}
-      {!showIntro && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5, duration: 1 }}>
-          <BannerSwiper images={bannerImage} />
-        </motion.div>
-      )}
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5, duration: 1 }}>
+        <BannerSection />
+      </motion.div>
 
       {/* 컨텐츠 */}
       <div className='relative z-10 mt-[100vh] bg-white'>
@@ -75,4 +85,6 @@ export default function HomePage() {
       </div>
     </div>
   );
-}
+};
+
+export default HomePage;

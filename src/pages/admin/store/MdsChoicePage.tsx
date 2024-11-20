@@ -38,3 +38,5 @@ export const MdsChoicePage = () => {
     </>
   );
 };
+
+export default MdsChoicePage;

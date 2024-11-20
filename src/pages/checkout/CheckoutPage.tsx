@@ -325,11 +325,10 @@ const CheckoutPage = () => {
                       </div>
 
                       <div className='flex-grow px-5 text-base lg:text-lg xl:text-xl'>
-                        <div className='mb-2'>{item.name}</div>
-                        <div className='text-gray-600'>
-                          {item.color.name}&nbsp;&nbsp;{item.size}
-                        </div>
-                        <div className='text-gray-600'>{item.amount}</div>
+                        <h3 className='mb-1 text-sm font-semibold md:text-lg'>{item.name}</h3>
+                        <p className='text-xs text-gray700'>
+                          [옵션: {item.color.name} / {item.size}]
+                        </p>
                       </div>
 
                       <div className='whitespace-nowrap text-center text-base font-bold lg:text-lg xl:text-xl'>
@@ -356,7 +355,7 @@ const CheckoutPage = () => {
                 <button
                   disabled={disabled}
                   type='submit'
-                  className={`px-6 py-3 text-left text-xl transition-colors duration-700 ${disabled ? 'border border-gray300 bg-gray100 text-gray300' : 'bg-primary text-secondary hover:border hover:border-primary hover:bg-secondary hover:text-primary'}`}
+                  className={`px-6 py-3 text-center text-xl transition-colors duration-700 ${disabled ? 'border border-gray300 bg-gray100 text-gray300' : 'bg-primary text-secondary hover:border hover:border-primary hover:bg-secondary hover:text-primary'}`}
                 >
                   {(totalPrice + totalDeliveryFee).toLocaleString()}원 구매하기 ({items.length || 0}개)
                 </button>
@@ -399,11 +398,10 @@ const CheckoutPage = () => {
                         </div>
 
                         <div className='flex-grow px-5 text-base lg:text-lg xl:text-xl'>
-                          <div className='mb-2'>{item.name}</div>
-                          <div className='text-gray-600'>
-                            {item.color.name}&nbsp;&nbsp;{item.size}
-                          </div>
-                          <div className='text-gray-600'>{item.amount}</div>
+                          <h3 className='mb-1 text-sm font-semibold md:text-lg'>{item.name}</h3>
+                          <p className='text-xs text-gray700'>
+                            [옵션: {item.color.name} / {item.size}]
+                          </p>
                         </div>
 
                         <div className='whitespace-nowrap text-center text-base font-bold lg:text-lg xl:text-xl'>
@@ -431,7 +429,7 @@ const CheckoutPage = () => {
                 <button
                   disabled={disabled}
                   type='submit'
-                  className={`px-6 py-3 text-left text-xl transition-colors duration-700 ${disabled ? 'border border-gray300 bg-gray100 text-gray300' : 'bg-primary text-secondary hover:border hover:border-primary hover:bg-secondary hover:text-primary'}`}
+                  className={`px-6 py-3 text-center text-xl transition-colors duration-700 ${disabled ? 'border border-gray300 bg-gray100 text-gray300' : 'bg-primary text-secondary hover:border hover:border-primary hover:bg-secondary hover:text-primary'}`}
                 >
                   {(totalPrice + totalDeliveryFee).toLocaleString()}원 구매하기 ({items.length || 0}개)
                 </button>
