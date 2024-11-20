@@ -7,11 +7,13 @@ import { CartItemData2 } from '@/assets/dummys/types';
 
 interface CounterBtnProps {
   data: CartItemData2;
+  isMobile: boolean;
   maxCount: number;
+  size?: 's' | 'm' | 'l';
   handleUpdateCount: (id: string, newCount: number) => void;
 }
 
-const GlobalCounterBtn = ({ data, maxCount, handleUpdateCount }: CounterBtnProps) => {
+const GlobalCounterBtn = ({ data, isMobile, maxCount, size = 'l', handleUpdateCount }: CounterBtnProps) => {
   const [isMaxStock, setIsMaxStock] = useState<boolean>(false);
   const [count, setCount] = useState(data.amount || 1);
 
@@ -28,8 +30,6 @@ const GlobalCounterBtn = ({ data, maxCount, handleUpdateCount }: CounterBtnProps
       const newCount = count - 1;
       setCount(newCount);
       handleUpdateCount(data.id, newCount);
-    } else {
-      return;
     }
   };
 
@@ -42,8 +42,15 @@ const GlobalCounterBtn = ({ data, maxCount, handleUpdateCount }: CounterBtnProps
     }
   };
 
+  // 버튼 크기 클래스 매핑
+  const sizeClasses = {
+    s: 'h-[30px] w-[80px]',
+    m: 'h-[40px] w-[130px]',
+    l: 'h-[50px] w-[170px]',
+  };
+
   return (
-    <div className='flex h-[40px] w-[130px]'>
+    <div className={`flex ${sizeClasses[size]} `}>
       <div className='relative flex items-center justify-around w-full border border-gray200'>
         <button
           type='button'
@@ -51,7 +58,7 @@ const GlobalCounterBtn = ({ data, maxCount, handleUpdateCount }: CounterBtnProps
           aria-label='수량 감소'
           onClick={handleDecrease}
         >
-          <img src={minus} alt='수량 감소 버튼' />
+          <img src={minus} alt='수량 감소 버튼' className={`${size === 's' ? 'h-3 w-3' : 'h-4 w-4'}`} />
         </button>
 
         <p className='relative flex h-[24px] flex-1 items-center justify-center overflow-hidden text-[16px] font-thin'>
@@ -75,10 +82,10 @@ const GlobalCounterBtn = ({ data, maxCount, handleUpdateCount }: CounterBtnProps
           aria-label='수량 증가'
           onClick={handleIncrease}
         >
-          <img src={plus} alt='수량 증가 버튼' />
+          <img src={plus} alt='수량 증가 버튼' className={`${size === 's' ? 'h-3 w-3' : 'h-4 w-4'}`} />
         </button>
 
-        <CounterMessage isOpen={isMaxStock} position={'col'} />
+        <CounterMessage isOpen={isMaxStock} position={'col'} isMobile={isMobile} />
       </div>
     </div>
   );

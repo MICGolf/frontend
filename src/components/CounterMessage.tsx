@@ -1,7 +1,14 @@
 import { AnimatePresence, motion } from 'framer-motion';
 
-const CounterMessage = ({ isOpen, position = 'row' }: { isOpen: boolean; position?: 'row' | 'col' }) => {
-  const pos = position === 'row' ? '-right-[120px]' : '-top-[40px]';
+interface CounterMessageProps {
+  isOpen: boolean;
+  isMobile: boolean;
+  position?: 'row' | 'col';
+}
+
+const CounterMessage = ({ isOpen, isMobile, position = 'row' }: CounterMessageProps) => {
+  const pos = position === 'row' ? '-right-[120px]' : isMobile ? '-top-[30px]' : '-top-[40px]';
+
   return (
     <AnimatePresence mode='wait'>
       {isOpen && (
@@ -30,7 +37,7 @@ const CounterMessage = ({ isOpen, position = 'row' }: { isOpen: boolean; positio
               duration: 0.3,
             },
           }}
-          className={`absolute ${pos} bg-error px-2 py-1 text-center text-[12px] text-secondary`}
+          className={`absolute ${pos} text-nowrap bg-error px-2 py-1 text-center text-[10px] text-secondary`}
         >
           최대수량입니다.
         </motion.span>
