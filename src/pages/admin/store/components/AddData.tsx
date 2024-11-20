@@ -10,8 +10,11 @@ type BannerFormData = {
   image: File[];
 };
 
-export const AddData = () => {
+type locationType = 'banner' | 'promotion' | 'bestItem' | 'mdsChoice';
+
+export const AddData = ({ location }: { location: locationType }) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  console.log(location);
 
   const {
     handleSubmit,
@@ -21,9 +24,7 @@ export const AddData = () => {
   } = useForm<BannerFormData>();
 
   const handlerSubmit = (data: BannerFormData) => {
-    console.log(data);
     const formData = new FormData();
-
     formData.append('title', data.title);
     formData.append('subTitle', data.subTitle);
     formData.append('eventUrl', data.eventUrl);
@@ -37,7 +38,25 @@ export const AddData = () => {
     for (const [key, value] of formData.entries()) {
       console.log(`${key}:`, value);
     }
-    // POST API 호출
+
+    switch (location) {
+      case 'banner': {
+        // 배너 데이터 추가 API 호출
+        break;
+      }
+      case 'promotion': {
+        // 프로모션 데이터 추가 API 호출
+        break;
+      }
+      case 'bestItem': {
+        // 베스트 아이템 데이터 추가 API 호출
+        break;
+      }
+      case 'mdsChoice': {
+        // MDS 추천 데이터 추가 API 호출
+        break;
+      }
+    }
   };
 
   const image = watch('image');

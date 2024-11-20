@@ -29,6 +29,7 @@ import ProductAdd from './pages/admin/product/ProductAdd';
 import { BestItemPage } from './pages/admin/store/BestItemPage';
 import { MdsChoicePage } from './pages/admin/store/MdsChoicePage';
 import { BannerPage } from './pages/admin/store/BannerPage';
+import { PromotionPage } from './pages/admin/store/PromotionPage';
 
 function App() {
   return (
@@ -98,7 +99,7 @@ function App() {
               {/* <Route path='logo' element={<AdminPage />} /> */}
               <Route path='banner' element={<BannerPage />} />
               <Route path='bestitem' element={<BestItemPage />} />
-              {/* <Route path='newarrival' element={<AdminPage />} /> */}
+              <Route path='promotion' element={<PromotionPage />} />
               <Route path='mdschoice' element={<MdsChoicePage />} />
             </Route>
             {/* <Route path='event'>

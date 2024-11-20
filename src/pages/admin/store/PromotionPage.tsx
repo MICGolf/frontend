@@ -1,12 +1,12 @@
 import DefaultImg from '@/assets/imgs/logoText.svg';
 import { AddData } from './components/AddData';
 import { Banner } from './type';
-import { BestItemDataList } from './components/BestItemDataList';
+import { PromotionDataList } from './components/PromotionDataList';
 
 const bannerListArray: Banner[] = [
   {
     id: 1,
-    title: 'BestItemPage',
+    title: 'PromotionPage',
     subTitle: '놓치면 후회할 특별한 제안',
     eventUrl: 'http://localhost:5173/event/1',
     image: DefaultImg,
@@ -14,7 +14,7 @@ const bannerListArray: Banner[] = [
   },
   {
     id: 2,
-    title: 'BestItemPage',
+    title: 'PromotionPage',
     subTitle: '놓치면 후회할 특별한 제안',
     eventUrl: 'http://localhost:5173/event/2',
     image: DefaultImg,
@@ -22,7 +22,7 @@ const bannerListArray: Banner[] = [
   },
   {
     id: 3,
-    title: 'BestItemPage',
+    title: 'PromotionPage',
     subTitle: '놓치면 후회할 특별한 제안',
     eventUrl: 'http://localhost:5173/event/3',
     image: DefaultImg,
@@ -30,11 +30,11 @@ const bannerListArray: Banner[] = [
   },
 ];
 
-export const BestItemPage = () => {
+export const PromotionPage = () => {
   return (
     <>
-      <AddData location='bestItem' />
-      <BestItemDataList data={bannerListArray} />
+      <AddData location='promotion' />
+      <PromotionDataList data={bannerListArray} />
     </>
   );
 };

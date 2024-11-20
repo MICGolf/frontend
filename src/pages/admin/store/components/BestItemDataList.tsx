@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom';
 import { Banner } from '../type';
 
+type Props = {
+  data: Banner[];
+};
+
 const TableHeadArray = [
   { className: 'w-2/12', title: '제목' },
   { className: 'w-2/12', title: '소제목' },
@@ -10,11 +14,7 @@ const TableHeadArray = [
   { className: 'w-2/12', title: '삭제/수정' },
 ];
 
-type Props = {
-  data: Banner[];
-};
-
-export const BannerDataList = ({ data }: Props) => {
+export const BestItemDataList = ({ data }: Props) => {
   return (
     <div className='rounded-lg bg-secondary px-5 py-6 text-base'>
       <p className='mb-4 border-black text-xl font-bold'>배너목록 총({data.length}개)</p>

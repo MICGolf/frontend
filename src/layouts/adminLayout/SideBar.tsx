@@ -37,7 +37,7 @@ const sideBarMenu = [
       // { title: '로고관리', link: '/admin/store/logo' },
       { title: '배너관리', link: '/admin/store/banner' },
       { title: 'Best Item', link: '/admin/store/bestitem' },
-      // { title: 'New Arrival', link: '/admin/store/newarrival' },
+      { title: 'Promotion', link: '/admin/store/promotion' },
       { title: 'MD’s Choice', link: '/admin/store/mdschoice' },
     ],
   },
@@ -77,8 +77,8 @@ export const SideBar = () => {
   const location = useLocation();
 
   return (
-    <aside className='h-full py-8 w-72 bg-primary'>
-      <div className='flex content-center justify-center mb-11' onClick={() => navigate('/admin')}>
+    <aside className='h-full w-72 bg-primary py-8'>
+      <div className='mb-11 flex content-center justify-center' onClick={() => navigate('/admin')}>
         <img src={logoWhite} alt='믹골프 로고' />
       </div>
       <div>
@@ -86,7 +86,7 @@ export const SideBar = () => {
         <p className='text-center'>계정 : ddd </p>
       </div>
       {/* FIX
-       <form onSubmit={handleSubmit(handlerSubmit)} className='px-8'>
+      <form onSubmit={handleSubmit(handlerSubmit)} className='px-8'>
         <select
           {...register('productStatus', { required: '검색옵션을 선택해주세요' })}
           className={`mt-4 w-full appearance-none rounded-lg border border-neutral-300 bg-[length:36px_36px] bg-[center_right_1rem] bg-no-repeat px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300`}
@@ -112,7 +112,7 @@ export const SideBar = () => {
           className='w-full px-3 py-2 mt-4 rounded-lg text-neutral-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
         />
       </form> */}
-      <ul className='py-3 mt-8 bg-neutral-800'>
+      <ul className='mt-8 bg-neutral-800 py-3'>
         {sideBarMenu.map((menuItem, index) => {
           const isLastItem = index === sideBarMenu.length - 1;
           return (

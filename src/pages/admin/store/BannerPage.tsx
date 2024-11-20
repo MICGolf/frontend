@@ -6,7 +6,7 @@ import { Banner } from './type';
 const bannerListArray: Banner[] = [
   {
     id: 1,
-    title: '믹골프 런칭 특별 프로모션',
+    title: 'BannerPage',
     subTitle: '놓치면 후회할 특별한 제안',
     eventUrl: 'http://localhost:5173/event/1',
     image: DefaultImg,
@@ -14,7 +14,7 @@ const bannerListArray: Banner[] = [
   },
   {
     id: 2,
-    title: '믹골프 런칭 특별 프로모션',
+    title: 'BannerPage',
     subTitle: '놓치면 후회할 특별한 제안',
     eventUrl: 'http://localhost:5173/event/2',
     image: DefaultImg,
@@ -22,7 +22,7 @@ const bannerListArray: Banner[] = [
   },
   {
     id: 3,
-    title: '믹골프 런칭 특별 프로모션',
+    title: 'BannerPage',
     subTitle: '놓치면 후회할 특별한 제안',
     eventUrl: 'http://localhost:5173/event/3',
     image: DefaultImg,
@@ -33,7 +33,7 @@ const bannerListArray: Banner[] = [
 export const BannerPage = () => {
   return (
     <>
-      <AddData />
+      <AddData location='banner' />
       <BannerDataList data={bannerListArray} />
     </>
   );
