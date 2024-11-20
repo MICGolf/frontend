@@ -38,3 +38,5 @@ export const PromotionPage = () => {
     </>
   );
 };
+
+export default PromotionPage;

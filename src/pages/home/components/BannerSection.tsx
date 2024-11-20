@@ -3,11 +3,9 @@ import { Pagination, Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-type SliderProps = {
-  images: string[];
-};
+import { bannerImage } from '@/assets/dummys/productListDatas';
 
-export const BannerSwiper = ({ images }: SliderProps) => {
+export const BannerSection = () => {
   return (
     <div className='fixed top-0 z-[-1] h-[100vh] w-full'>
       <Swiper
@@ -22,7 +20,7 @@ export const BannerSwiper = ({ images }: SliderProps) => {
         loop // 슬라이드가 끝나면 처음으로 돌아가도록 설정
         pagination={{ clickable: true }}
       >
-        {images.map((image, index) => (
+        {bannerImage.map((image, index) => (
           <SwiperSlide key={index}>
             <div className='h-full w-full bg-cover bg-center' style={{ backgroundImage: `url(${image})` }} />
           </SwiperSlide>

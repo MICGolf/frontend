@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 
-const AdminRoute = () => {
+const ProtectAdminRoute = () => {
   return <Outlet />;
 };
 
-export default AdminRoute;
+export default ProtectAdminRoute;
