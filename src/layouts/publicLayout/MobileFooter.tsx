@@ -84,8 +84,6 @@ const MobileFooter = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLUListElement>(null);
 
-  console.log(isDropdownOpen);
-
   // 드롭다운 열기 및 닫기 토글
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
@@ -110,7 +108,7 @@ const MobileFooter = () => {
 
   return (
     <footer
-      className={`relative flex min-h-[57px] w-full flex-col items-center justify-between gap-4 bg-primary p-4 text-gray700`}
+      className={`relative flex min-h-[57px] w-full flex-col items-center justify-between gap-4 bg-primary px-6 py-4 text-gray700`}
       ref={dropdownRef}
     >
       {/* 회색 토글 */}
@@ -183,11 +181,20 @@ const MobileFooter = () => {
         </div>
       </div>
 
-      {/* all rights reserverd */}
+      {/* copyrights */}
       {isDropdownOpen && (
-        <p className='w-full whitespace-nowrap border-y border-white py-2 text-center text-[10px] text-white'>
-          &copy; PAPATALABS All rights reserved.
-        </p>
+        <>
+          <p className='w-full whitespace-nowrap border-y border-white py-2 text-center text-[10px] text-white'>
+            &copy; MICGOLF 2024
+          </p>
+          <div className='flex flex-col w-full gap-2'>
+            <p className='w-full text-center text-[16px] font-semibold'>고객센터: 070-8827-6220</p>
+            <p className='w-full text-center text-[10px]'>
+              상호: 믹골프 MICGOLF | 대표: 신강식 | 주소: 서울시 강서구 양천로30길 67 3층 통신판매업신고증:
+              2021-서울강서-4168호 | 사업자등록증: 173-27-01298 | 개인정보책임자: 신강식
+            </p>
+          </div>
+        </>
       )}
     </footer>
   );
