@@ -13,6 +13,7 @@ const productStatusArray = [
 
 const ProductSearch = () => {
   const [isOpen, setIsOpen] = useState(false);
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';

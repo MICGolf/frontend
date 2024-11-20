@@ -1,6 +1,6 @@
 import ListHeader from '../../components/ListHeader';
 import { SectionBox } from '../../components/SectionBox';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { ProductListType } from '../type';
 
 const ListHeaderArray = [
@@ -33,9 +33,6 @@ const productListArray: ProductListType[] = [
 const ProductList = ({ handleShowPopup }: { handleShowPopup: () => void }) => {
   const [checkedList, setCheckedList] = useState<ProductListType[]>([]);
 
-  useEffect(() => {
-    console.log(checkedList);
-  }, [checkedList]);
   return (
     <SectionBox title={`상품목록 총(${productListArray.length}개)`}>
       <div className='px-5'>

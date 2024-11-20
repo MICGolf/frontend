@@ -5,20 +5,36 @@ import { Product } from './components/Product';
 import { ReviewAndQuestion } from './components/ReviewAndQuestion';
 import { SaleGraph } from './components/SaleGraph';
 import { UserConnection } from './components/UserConnection';
-import { getAdminMain } from '@/api/adminAxois';
+import { getAdminProduct } from '@/api/adminAxois';
+import { OrderType, ProductType } from './type';
+
+interface AdminData {
+  order: OrderType;
+  product: ProductType;
+}
 
 const AdminPage = () => {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<AdminData>({
+    order: {
+      waiting: 0,
+      newOrder: 0,
+    },
+    product: {
+      sale: 0,
+      soldOut: 0,
+    },
+  });
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await getAdminMain();
+        const { data } = await getAdminProduct();
         setData(data);
       } catch (err) {
         console.error(err);
       }
     })();
   }, []);
+
   return (
     <div className='grid grid-cols-2 gap-8'>
       <Order order={data?.order} />

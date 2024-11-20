@@ -24,12 +24,11 @@ import SalePayment from './pages/admin/sale/payment/SalePayment';
 import SaleOrdering from './pages/admin/sale/ordering/SaleOrdering';
 import SaleDelivery from './pages/admin/sale/delivery/SaleDelivery';
 import ProductAdd from './pages/admin/product/ProductAdd';
-import BestItemPage from './pages/admin/store/BestItemPage';
-import MdsChoicePage from './pages/admin/store/MdsChoicePage';
-import PromotionPage from './pages/admin/store/PromotionPage';
-import ProtectPrivateRoute from './routes/ProtectPrivateRoute';
-import ProtectAdminRoute from './routes/ProtectAdminRoute';
-import BannerPage from './pages/admin/store/BannerPage';
+import { BestItemPage } from './pages/admin/store/BestItemPage';
+import { MdsChoicePage } from './pages/admin/store/MdsChoicePage';
+import { BannerPage } from './pages/admin/store/BannerPage';
+import { PromotionPage } from './pages/admin/store/PromotionPage';
+import ProductSearch from './pages/admin/product/ProductSearch';
 
 function App() {
   return (
@@ -80,7 +79,7 @@ function App() {
           <Route path='/admin' element={<ProtectAdminRoute />}>
             <Route path='' element={<AdminPage />} />
             <Route path='product'>
-              <Route path='edit' element={<AdminPage />} />
+              <Route path='search' element={<ProductSearch />} />
               <Route path='add' element={<ProductAdd />} />
             </Route>
             <Route path='sale'>

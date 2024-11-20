@@ -1,6 +1,8 @@
 import ProductFilter from './components/ProductFilter';
 import ProductStatusDashboard from '../components/ProductStatusDashboard';
 import ProductList from './components/ProductList';
+import QuantitPopup from './components/QuantitPopup';
+import { useState } from 'react';
 
 const productStatusArray = [
   { title: '전체', count: 0 },
@@ -10,11 +12,14 @@ const productStatusArray = [
 ];
 
 const ProductEdit = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <>
       <ProductStatusDashboard productStatusArray={productStatusArray} />
       <ProductFilter />
-      <ProductList />
+      <ProductList handleShowPopup={() => setIsOpen(true)} />
+      {isOpen && <QuantitPopup onClose={() => setIsOpen(false)} />}
     </>
   );
 };

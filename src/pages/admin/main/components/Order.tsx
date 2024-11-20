@@ -7,10 +7,10 @@ export const Order = ({ order }: { order: OrderType }) => {
       <div className='grid grid-cols-2 gap-4 px-5'>
         <div className='border-r-[1px] border-black pr-4 text-xl'>
           <p>
-            결제대기 <span className='float-right text-base'>{order.waiting}건</span>
+            결제대기 <span className='float-right text-base'>{order?.waiting || 0}건</span>
           </p>
           <p className='mt-2'>
-            신규주문 <span className='float-right text-base'>{order.newOrder}건</span>
+            신규주문 <span className='float-right text-base'>{order?.newOrder || 0}건</span>
           </p>
         </div>
 
