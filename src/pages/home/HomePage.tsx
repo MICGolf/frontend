@@ -1,7 +1,6 @@
 import BannerSection from './components/BannerSection';
 import Section from './components/Section';
 import PromotionSection from './components/PromotionSection';
-import Intro from './components/Intro';
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Homeimages1, Homeimages2, promotionImage } from '@/assets/dummys/productListDatas';
