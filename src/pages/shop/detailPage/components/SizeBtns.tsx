@@ -31,12 +31,12 @@ const SizeBtns = ({ data, onSelect }: SizeBtnsProps) => {
               <button
                 type='button'
                 onClick={() => handleSizeChange(size)}
-                className={`flex h-[30px] w-[30px] cursor-pointer items-center justify-center border-b border-black font-light transition-colors duration-300 hover:bg-black hover:text-white ${
+                className={`flex h-[30px] w-[30px] cursor-pointer items-center justify-center border-b border-black font-light transition-colors duration-300 hover:bg-black hover:text-white md:h-[40px] md:w-[40px] ${
                   selectedSize === size.name ? 'bg-black text-white' : 'bg-white text-black'
                 }`}
                 aria-label={`사이즈: ${size.name}`}
               >
-                <span className='text-sm'>{size.name}</span>
+                <span className='text-sm md:text-base'>{size.name}</span>
               </button>
             </li>
           ))

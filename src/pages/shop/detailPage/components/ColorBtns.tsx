@@ -29,7 +29,7 @@ const ColorBtns = ({ data, onSelect, onChange }: ColorBtnsProps) => {
             <button
               type='button'
               onClick={() => handleColorChange(color)}
-              className={`h-5 w-5 border border-gray-300`}
+              className={`h-5 w-5 border border-gray-300 md:h-7 md:w-7`}
               style={{ backgroundColor: color.hex }}
               aria-label={`색상: ${color.name}`}
             />
