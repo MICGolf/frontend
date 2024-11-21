@@ -77,7 +77,7 @@ const Header = () => {
 
       <header
         ref={headerRef}
-        className={`fixed top-0 z-[99] w-full transition-transform duration-300 ${isHeaderVisible ? 'translate-y-0' : '-translate-y-full'}`}
+        className={`fixed top-0 z-[40] w-full transition-transform duration-300 ${isHeaderVisible ? 'translate-y-0' : '-translate-y-full'}`}
       >
         <div className='relative z-[99]'>
           {/* 최상단 띠배너 영역 */}

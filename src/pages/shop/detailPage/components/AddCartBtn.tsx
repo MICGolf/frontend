@@ -74,7 +74,7 @@ const AddCartBtn = ({
         isValid
           ? 'border-primary bg-primary text-secondary hover:bg-white hover:text-primary'
           : 'cursor-not-allowed border border-gray300 bg-gray100 text-gray300'
-      } px-[15px] py-[8px] font-light transition-colors duration-700 md:px-[30px] md:py-[10px]`}
+      } px-[10px] py-[4px] font-light transition-colors duration-700 md:px-[30px] md:py-[10px]`}
       aria-label='장바구니에 상품 추가'
       onClick={handleAddCart}
       disabled={!isValid}

@@ -13,28 +13,26 @@ const SelectAllCheckBox = ({ handleSelectAll, isChecked, cartItemArr }: SelectAl
 
   useEffect(() => {
     // 카트 아이템이 비어있으면 체크박스를 비활성화
-    if (cartItemArr.length === 0) {
-      setIsDisabled(true);
-    } else {
-      setIsDisabled(false);
-    }
+    setIsDisabled(cartItemArr.length === 0);
   }, [cartItemArr]);
 
   return (
-    <label
-      htmlFor='select-all'
-      className={`flex h-4 w-4 items-center justify-center border transition-colors duration-300 ${isDisabled ? 'cursor-not-allowed bg-gray-300' : 'cursor-pointer'} ${isChecked && !isDisabled ? 'bg-primary' : 'bg-white'}`}
-    >
+    <div className='relative inline-block'>
       <input
         type='checkbox'
         id='select-all'
         checked={isChecked}
         disabled={isDisabled}
         onChange={handleSelectAll}
-        className='appearance-none'
+        className='peer sr-only'
       />
-      {!isDisabled && isChecked && <CheckIco size={10} color='white' />}
-    </label>
+      <label
+        htmlFor='select-all'
+        className={`flex h-4 w-4 items-center justify-center border border-gray300 transition-colors duration-300 ${isDisabled ? 'cursor-not-allowed bg-gray-300' : 'cursor-pointer bg-white peer-checked:bg-primary'} `}
+      >
+        {!isDisabled && isChecked && <CheckIco size={10} color='white' />}
+      </label>
+    </div>
   );
 };
 
