@@ -6,4 +6,5 @@ import * as userApi from './user';
 import * as cartApi from './cart';
 import * as orderApi from './order';
 import * as adminApi from './admin';
-export { productsApi, bannersApi, categoryApi, promotionApi, userApi, cartApi, orderApi, adminApi };
+
+export { productsApi, homeApi, categoryApi, promotionApi, userApi, cartApi, orderApi, adminApi };
