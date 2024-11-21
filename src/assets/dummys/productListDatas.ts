@@ -335,20 +335,16 @@ export const shopProductData: ProductDetail[] = [
           pouch2_002,
           pouch2_001,
           pouch2_002,
-
           pouch2_001,
           pouch2_002,
           pouch2_001,
           pouch2_002,
-
           pouch2_001,
           pouch2_002,
           pouch2_001,
           pouch2_002,
-
           pouch2_001,
           pouch2_002,
-
           pouch2_001,
           pouch2_002,
         ],
@@ -476,7 +472,6 @@ export const shopProductData: ProductDetail[] = [
           pouch2_002,
           pouch2_001,
           pouch2_002,
-
           pouch2_001,
           pouch2_002,
           pouch2_001,
@@ -690,7 +685,6 @@ export const middleProductData: ProductDetail[] = [
           pouch2_002,
           pouch2_001,
           pouch2_002,
-
           pouch2_001,
           pouch2_002,
           pouch2_001,
@@ -732,12 +726,10 @@ export const middleProductData: ProductDetail[] = [
           pouch2_002,
           pouch2_001,
           pouch2_002,
-
           pouch2_001,
           pouch2_002,
           pouch2_001,
           pouch2_002,
-
           pouch2_001,
           pouch2_002,
           pouch2_001,
@@ -792,7 +784,6 @@ export const middleProductData: ProductDetail[] = [
           pouch2_002,
           pouch2_001,
           pouch2_002,
-
           pouch2_001,
           pouch2_002,
         ],
@@ -871,7 +862,6 @@ export const majorProductData: ProductDetail[] = [
           pouch2_002,
           pouch2_001,
           pouch2_002,
-
           pouch2_001,
           pouch2_002,
           pouch2_001,
@@ -958,15 +948,6 @@ export const majorProductData: ProductDetail[] = [
           pouch2_002,
           pouch2_001,
           pouch2_002,
-
-          pouch2_001,
-          pouch2_002,
-          pouch2_001,
-          pouch2_002,
-
-          pouch2_001,
-          pouch2_002,
-
           pouch2_001,
           pouch2_002,
           pouch2_001,
@@ -975,7 +956,12 @@ export const majorProductData: ProductDetail[] = [
           pouch2_002,
           pouch2_001,
           pouch2_002,
-
+          pouch2_001,
+          pouch2_002,
+          pouch2_001,
+          pouch2_002,
+          pouch2_001,
+          pouch2_002,
           pouch2_001,
           pouch2_002,
         ],
@@ -1012,18 +998,6 @@ export const majorProductData: ProductDetail[] = [
           pouch2_002,
           pouch2_001,
           pouch2_002,
-
-          pouch2_001,
-          pouch2_002,
-
-          pouch2_001,
-          pouch2_002,
-          pouch2_001,
-          pouch2_002,
-
-          pouch2_001,
-          pouch2_002,
-
           pouch2_001,
           pouch2_002,
           pouch2_001,
@@ -1034,7 +1008,14 @@ export const majorProductData: ProductDetail[] = [
           pouch2_002,
           pouch2_001,
           pouch2_002,
-
+          pouch2_001,
+          pouch2_002,
+          pouch2_001,
+          pouch2_002,
+          pouch2_001,
+          pouch2_002,
+          pouch2_001,
+          pouch2_002,
           pouch2_001,
           pouch2_002,
         ],
@@ -1077,21 +1058,16 @@ export const majorProductData: ProductDetail[] = [
           pouch2_002,
           pouch2_001,
           pouch2_002,
-
           pouch2_001,
           pouch2_002,
           pouch2_001,
           pouch2_002,
-
           pouch2_001,
           pouch2_002,
-
           pouch2_001,
           pouch2_002,
-
           pouch2_001,
           pouch2_002,
-
           pouch2_001,
           pouch2_002,
         ],
@@ -1128,20 +1104,16 @@ export const majorProductData: ProductDetail[] = [
           pouch2_002,
           pouch2_001,
           pouch2_002,
-
           pouch2_001,
           pouch2_002,
           pouch2_001,
           pouch2_002,
-
           pouch2_001,
           pouch2_002,
           pouch2_001,
           pouch2_002,
-
           pouch2_001,
           pouch2_002,
-
           pouch2_001,
           pouch2_002,
           pouch2_001,
