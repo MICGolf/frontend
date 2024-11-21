@@ -62,7 +62,7 @@ const HistoryFab = () => {
     <>
       <button
         onClick={toggleModal}
-        className='fixed bottom-20 right-20 z-[100] h-[50px] w-[50px] rounded-full bg-primary'
+        className='fixed bottom-20 right-20 z-[11] h-[50px] w-[50px] rounded-full bg-primary'
       >
         <img src={DefaultImg} alt='' className='h-[50px] w-[50px] cursor-pointer' />
       </button>

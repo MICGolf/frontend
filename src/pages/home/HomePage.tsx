@@ -8,7 +8,6 @@ import { Homeimages1, Homeimages2, promotionImage } from '@/assets/dummys/produc
 import { useMobileScrollStore } from '@/config/store';
 import { useQuery } from '@tanstack/react-query';
 import { homeApi } from '@/api';
-import EventPopup from './components/EventPopup';
 import { client } from '@/api/client';
 
 const HomePage = () => {
@@ -73,7 +72,6 @@ const HomePage = () => {
         <Section title='Best Product' images={Homeimages2} />
         <PromotionSection image={promotionImage[0]} />
         <Section title="MD's Choice" images={Homeimages1} />
-        <EventPopup images={Homeimages1} />
       </div>
     </div>
   );
