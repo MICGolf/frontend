@@ -8,10 +8,20 @@ import { Homeimages1, Homeimages2, promotionImage } from '@/assets/dummys/produc
 import { useMobileScrollStore } from '@/config/store';
 import { useQuery } from '@tanstack/react-query';
 import { homeApi } from '@/api';
+import EventPopup from './components/EventPopup';
+import { client } from '@/api/client';
 
 const HomePage = () => {
   const [showIntro, setShowIntro] = useState(false); // 애니메이션 실행 여부
   const { setIsMobileMode } = useMobileScrollStore();
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      const { data } = await client.get('products?page=1&page_size=10&sort=created_at&order=desc');
+      console.log(data);
+    };
+    fetchApi();
+  }, []);
 
   useEffect(() => {
     const isIntroShown = sessionStorage.getItem('introShown');
@@ -63,6 +73,7 @@ const HomePage = () => {
         <Section title='Best Product' images={Homeimages2} />
         <PromotionSection image={promotionImage[0]} />
         <Section title="MD's Choice" images={Homeimages1} />
+        <EventPopup images={Homeimages1} />
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import dropDownIco from '@/assets/icons/dropDownIco.svg';
 import kakaopay from '@/assets/icons/kakaopay.svg';
 import { Input } from '@/components/Input';
+import * as PortOne from '@portone/browser-sdk/v2';
 
 type CheckboxType = '개인정보' | '이용약관';
 
@@ -92,18 +93,6 @@ const CheckoutPage = () => {
       : setIsAllChecked(false);
   }, [selectedCheckbox]);
 
-  const handlePaymentClick = async (data: any) => {
-    // 결제하기 버튼 클릭 시 로직
-    console.log(data);
-
-    if (data) {
-      setLoadingFlag(true);
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      setLoadingFlag(false);
-      navigate('/checkout/success');
-    }
-  };
-
   if (!location.state) {
     return (
       <div className='flex items-center justify-center pt-[300px]'>
@@ -120,6 +109,45 @@ const CheckoutPage = () => {
     items: CartItemData2[];
     totalDeliveryFee: number;
     totalPrice: number;
+  };
+
+  // INFO: PortOne 결제 로직
+  const handlePaymentClick = async (data: any) => {
+    console.log(data); // data: formData
+
+    // 결제하기 버튼 클릭 시 로직
+    const response = await PortOne.requestPayment({
+      storeId: '',
+      channelKey: '',
+      paymentId: '',
+      orderName: '',
+      totalAmount: 1,
+      currency: 'CURRENCY_KRW',
+      payMethod: 'CARD',
+    });
+
+    console.log(response);
+
+    if (response?.code !== undefined) {
+      return alert(response?.message);
+    }
+
+    // INFO: 백엔드 결제 로직 처리 api
+    // const notified = await fetch(`${import.meta.env.VITE_PUBLIC_BASEURL}/payment/complete`, {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({
+    //     paymentId: response?.paymentId,
+    //   }),
+    // });
+
+    // FIXME: notified.status === 200으로 변경해야함
+    if (data) {
+      setLoadingFlag(true);
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      setLoadingFlag(false);
+      navigate('/checkout/success');
+    }
   };
 
   return (
@@ -305,8 +333,6 @@ const CheckoutPage = () => {
                 </span>
               </label>
             </div>
-
-            {/* 결제 내용 section */}
           </div>
 
           {/* 웹 뷰 결제 */}

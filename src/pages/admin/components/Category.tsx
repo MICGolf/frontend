@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 
 export const Category = ({ onClose }: { onClose: () => void }) => {
@@ -5,6 +6,10 @@ export const Category = ({ onClose }: { onClose: () => void }) => {
   const { register, watch, handleSubmit, setValue } = methods;
   const radioCategory = watch('category');
   const addCategory = watch('addCategory');
+
+  const queryClient = useQueryClient();
+  const categoryData = queryClient.getQueryData(['category']);
+  console.log(categoryData);
 
   const renderCategory = () => {
     switch (radioCategory) {
@@ -76,6 +81,7 @@ export const Category = ({ onClose }: { onClose: () => void }) => {
         );
     }
   };
+
   const onSubmit = (data: any) => {
     console.log(data);
   };

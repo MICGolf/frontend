@@ -5,6 +5,7 @@ import setting from '@/assets/icons/setting.svg';
 import { useEffect, useState } from 'react';
 import { ImageCarousel } from './components/ImageCarousel';
 import { Category } from '@/pages/admin/components/Category';
+import { productsApi } from '@/api';
 
 type Size = {
   sizeName: string;
@@ -104,6 +105,40 @@ const ProductAdd = () => {
       document.body.style.overflow = 'auto';
     };
   }, [showCategory]);
+
+  const fetchPostProducts = async () => {
+    const response = await productsApi.createProduct({
+      category_id: 1,
+      product: {
+        name: '',
+        price: 1,
+        discount: 1,
+        discount_option: 'percent',
+        origin_price: 1,
+        description: '',
+        detail: '',
+        product_code: '',
+      },
+      options: [
+        {
+          color: '1', // 예: 'Black', 'White'
+          color_code: '1', // 예: '#000000', '#FFFFFF'
+          sizes: [
+            {
+              size: '1', // 예: 'M', 'L'
+              stock: 0, // 재고 수량
+            },
+          ],
+        },
+      ],
+      image_mapping: {
+        '#000': ['image1, image2'],
+      },
+    });
+
+    console.log(response);
+  };
+
   return (
     <div>
       {showCategory && <Category onClose={() => setShowCategory(false)} />}
