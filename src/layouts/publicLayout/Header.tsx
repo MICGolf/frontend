@@ -1,16 +1,14 @@
 import { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
-import { useQueries, useQuery } from '@tanstack/react-query';
 import { useHeaderStore } from '@/config/store';
-import { categoryApi } from '@/api';
 import { shopCategoryData } from '@/assets/dummys/categoryDatas';
 import logoBlack from '@/assets/imgs/logoBlack.svg';
 import arrowRight from '@/assets/icons/arrowRight.svg';
 import Categories from '../../pages/cart/Categories';
 import HamburgerMenu from './HamburgerMenu';
 import MobileMenu from './MobileMenu';
-import { useDebounce } from './useDebounce';
+import { useDebounce } from '../../hooks/useDebounce';
 import UserUtilities from './UserUtilities';
 
 const Header = () => {

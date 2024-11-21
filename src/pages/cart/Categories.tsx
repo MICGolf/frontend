@@ -1,6 +1,6 @@
 import { categoryApi } from '@/api';
 import { MajorCategory } from '@/assets/dummys/types';
-import { useQueries, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 
 interface CategoriesProps {
