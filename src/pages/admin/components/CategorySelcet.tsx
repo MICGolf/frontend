@@ -24,6 +24,7 @@ const CategorySelcet = () => {
       small: Number(categorySmall) || 0,
     });
   }, [categoryLarge, categoryMiddle, categorySmall]);
+
   const { data: categoryData } = useQuery({
     queryKey: ['productFilter', categoryId],
     queryFn: async () => {
