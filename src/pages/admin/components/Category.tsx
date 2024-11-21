@@ -26,7 +26,7 @@ export const Category = ({ onClose }: { onClose: () => void }) => {
   const { data: categoryData } = useQuery({
     queryKey: ['productFilter', categoryId],
     queryFn: async () => {
-      const response = await categoryApi.getCategory(categoryId);
+      const response = await categoryApi.getCategory();
       if (!response) return null;
       return response.data;
     },

@@ -29,11 +29,16 @@ interface ProductFormData {
   subCategory: string;
   subSubCategory: string;
   images: ImageFile[];
+  mainCategory: string;
 }
 
 const ProductAdd = () => {
   const [showCategory, setShowCategory] = useState(false);
-  const methods = useForm<ProductFormData>();
+  const methods = useForm<ProductFormData>({
+    defaultValues: {
+      discountOption: 'won',
+    },
+  });
   const {
     handleSubmit,
     register,

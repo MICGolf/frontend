@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { navigations } from '@/assets/dummys/navigationData';
 import { Link } from 'react-router-dom';
 import HamburgerMenu from './HamburgerMenu';
 import logoWhite from '@/assets/imgs/logoWhite.svg';
@@ -48,16 +47,30 @@ const MobileMenu = ({ isOpen, setIsOpen }: MobileMenuProps) => {
       {/* 네비게이션 영역 */}
       <nav className='w-full'>
         <ul className='flex w-full flex-col text-white'>
-          {navigations.map((nav, idx) => (
-            <li key={idx} className='h-full w-full'>
-              <Link
-                className='flex h-[70px] w-full items-center justify-between px-6 text-lg font-medium transition-colors duration-300 hover:bg-transparentBlack'
-                to={`/${nav}`}
-              >
-                <span>{nav.charAt(0).toUpperCase() + nav.slice(1)}</span>
-              </Link>
-            </li>
-          ))}
+          <li className='h-full w-full'>
+            <Link
+              className='flex h-[70px] w-full items-center justify-between px-6 text-lg font-medium transition-colors duration-300 hover:bg-transparentBlack'
+              to='/shop'
+            >
+              Shop
+            </Link>
+          </li>
+          <li className='h-full w-full'>
+            <Link
+              className='flex h-[70px] w-full items-center justify-between px-6 text-lg font-medium transition-colors duration-300 hover:bg-transparentBlack'
+              to='/Event'
+            >
+              Event
+            </Link>
+          </li>
+          <li className='h-full w-full'>
+            <Link
+              className='flex h-[70px] w-full items-center justify-between px-6 text-lg font-medium transition-colors duration-300 hover:bg-transparentBlack'
+              to='/Notice'
+            >
+              Notice
+            </Link>
+          </li>
         </ul>
       </nav>
 

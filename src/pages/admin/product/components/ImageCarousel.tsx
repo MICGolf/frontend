@@ -11,7 +11,6 @@ interface ImageCarouselProps {
 
 export const ImageCarousel = ({ images = [], onAddImage, onRemoveImage, maxImages = 6 }: ImageCarouselProps) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
@@ -36,7 +35,7 @@ export const ImageCarousel = ({ images = [], onAddImage, onRemoveImage, maxImage
       {/* Image Container */}
       <div
         ref={scrollContainerRef}
-        className='flex gap-4 overflow-x-auto pb-4 scrollbar-hide'
+        className='scrollbar-hide flex gap-4 overflow-x-auto pb-4'
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {/* Existing Images */}
@@ -45,6 +44,7 @@ export const ImageCarousel = ({ images = [], onAddImage, onRemoveImage, maxImage
             <div className='group relative h-[200px] w-[200px] overflow-hidden rounded-lg border border-neutral-200'>
               <img src={image.previewUrl} alt={`Product image ${index + 1}`} className='h-full w-full object-cover' />
               <button
+                type='button'
                 onClick={() => onRemoveImage(index)}
                 className='absolute right-2 top-2 rounded-full bg-white/80 p-1 opacity-0 transition-opacity group-hover:opacity-100'
               >
@@ -57,20 +57,11 @@ export const ImageCarousel = ({ images = [], onAddImage, onRemoveImage, maxImage
         {/* Add Image Button */}
         {images.length < maxImages && (
           <div className='flex-none'>
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              className='flex h-[200px] w-[200px] flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-neutral-300 bg-neutral-50 text-neutral-500 hover:bg-neutral-100'
-            >
+            <label className='flex h-[200px] w-[200px] flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-neutral-300 bg-neutral-50 text-neutral-500 hover:bg-neutral-100'>
               <Plus className='h-6 w-6' />
               <span className='text-sm'>이미지 추가</span>
-            </button>
-            <input
-              type='file'
-              accept='image/*'
-              onChange={handleFileChange}
-              style={{ display: 'none' }}
-              ref={fileInputRef} // 추가: 파일 입력을 감추고 버튼으로 트리거
-            />
+              <input type='file' accept='image/*' onChange={handleFileChange} hidden />
+            </label>
           </div>
         )}
       </div>
