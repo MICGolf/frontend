@@ -50,6 +50,13 @@ export const useCartSelection = (cartItems: CartItemData2[]) => {
     setValue(updatedCart); // 로컬 스토리지에 새로운 장바구니 배열 저장
   };
 
+  const handleRemoveSingleItem = (itemId: string) => {
+    const updatedCart = cartItemArr.filter((item) => item.id !== itemId);
+    setCartItemArr(updatedCart);
+    setSelectedItems([]);
+    setValue(updatedCart);
+  };
+
   useEffect(() => {
     // 전체 선택 상태 업데이트 (장바구니의 아이템 모두가 선택되면 전체 선택 상태 true)
     setSelectAll(selectedItems.length === cartItemArr.length);
@@ -64,5 +71,6 @@ export const useCartSelection = (cartItems: CartItemData2[]) => {
     handleUpdateCount,
     handleSelectAll, // 전체 선택/해제 함수
     handleRemoveSelectedItems, // 선택된 아이템 삭제 함수
+    handleRemoveSingleItem, // X버튼을 눌렀을때 아이템 하나만 삭제하는 함수
   };
 };

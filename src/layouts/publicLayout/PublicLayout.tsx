@@ -7,12 +7,9 @@ import { useMediaQuery } from 'react-responsive';
 
 const PublicLayout = () => {
   const isMobileMode = useMobileScrollStore((state) => state.isMobileMode);
-
   const isShopMobileView = useMediaQuery({ maxWidth: 768 });
   const isCartMobileView = useMediaQuery({ maxWidth: 1024 });
   const isFooterMobileView = useMediaQuery({ maxWidth: 1280 });
-
-  console.log('isMobileMode: ', isMobileMode);
 
   useEffect(() => {
     if (isMobileMode) {
@@ -29,12 +26,15 @@ const PublicLayout = () => {
   const location = useLocation();
 
   const paddingBottomByLocation = () => {
-    if (isShopMobileView && location.pathname.startsWith('/shop/detail')) {
+    if (
+      (isShopMobileView && location.pathname.startsWith('/shop/detail')) ||
+      (isFooterMobileView && location.pathname.startsWith('/cart'))
+    ) {
       return '40px';
     }
 
     if (isCartMobileView) {
-      if (location.pathname.startsWith('/cart') || location.pathname.startsWith('/checkout')) {
+      if (location.pathname.startsWith('/checkout')) {
         return '128px';
       }
     }

@@ -35,13 +35,13 @@ const ProductDetails = ({ data }: ProductDetailsProps) => {
   ];
 
   return (
-    <section className='mx-[50px] my-[48px] flex flex-col xl:mx-[130px] xl:my-[96px]'>
+    <section className='mx-[25px] my-[24px] flex flex-col xl:mx-[130px] xl:my-[96px]'>
       {detailBoxes
         .filter((item) => item.show) // show가 true인 항목만 표시
         .map((item) => (
           <div key={item.id} className='flex flex-col border-t border-t-gray500 py-[38px]'>
             <div className='flex flex-col gap-4 xl:flex-row xl:justify-between'>
-              <h3 className='flex-1 text-4xl font-semibold'>{item.title}</h3>
+              <h3 className='flex-1 text-xl font-semibold md:text-4xl'>{item.title}</h3>
               <div className='flex flex-col flex-1'>{item.content}</div>
             </div>
             {item.hasCarousel && (

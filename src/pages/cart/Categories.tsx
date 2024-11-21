@@ -40,7 +40,7 @@ const Categories = ({ content, categoryData, onMouseEnter, onMouseLeave }: Categ
 
   return (
     <nav
-      className='absolute top-[110px] z-[10] w-full border-b border-gray-300 bg-white px-24 py-4'
+      className='absolute top-[98px] z-[10] w-full border-b border-gray-300 bg-white px-24 py-4'
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
