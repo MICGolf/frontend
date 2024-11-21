@@ -64,8 +64,8 @@ const Header = () => {
   const { data: categoryData } = useQuery({
     queryKey: ['category'],
     queryFn: async () => {
-      const response = await categoryApi.getCategory();
-      return response.data;
+      const response = await categoryApi.getCategory({});
+      return response;
     },
   });
   console.log('categoryData', categoryData);
