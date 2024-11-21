@@ -1,6 +1,8 @@
 import { SectionBox } from '../../components/SectionBox';
 import { ProductType } from '../type';
+import { ProductType } from '../type';
 
+export const Product = ({ product }: { product: ProductType }) => {
 export const Product = ({ product }: { product: ProductType }) => {
   return (
     <SectionBox title='상품'>

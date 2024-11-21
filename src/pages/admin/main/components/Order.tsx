@@ -1,6 +1,8 @@
 import { SectionBox } from '../../components/SectionBox';
 import { OrderType } from '../type';
+import { OrderType } from '../type';
 
+export const Order = ({ order }: { order: OrderType }) => {
 export const Order = ({ order }: { order: OrderType }) => {
   return (
     <SectionBox title='주문/배송'>

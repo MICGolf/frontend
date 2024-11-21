@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Order } from './components/Order';
 import { Payment } from './components/Payment';
 import { Product } from './components/Product';
@@ -28,9 +29,11 @@ const AdminPage = () => {
   return (
     <div className='grid grid-cols-2 gap-8'>
       <Order order={data?.order} />
+      <Order order={data?.order} />
       <Payment />
       <SaleGraph />
       <UserConnection />
+      <Product product={data?.product} />
       <Product product={data?.product} />
       <ReviewAndQuestion />
     </div>
