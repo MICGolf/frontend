@@ -1,12 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Order } from './components/Order';
 import { Payment } from './components/Payment';
 import { Product } from './components/Product';
 import { ReviewAndQuestion } from './components/ReviewAndQuestion';
 import { SaleGraph } from './components/SaleGraph';
 import { UserConnection } from './components/UserConnection';
-import { adminApi } from '@/api';
 import { OrderType, ProductType } from './type';
 
 interface AdminData {
@@ -15,7 +13,7 @@ interface AdminData {
 }
 
 const AdminPage = () => {
-  const [data, setData] = useState<AdminData>({
+  const [data, _setData] = useState<AdminData>({
     order: {
       waiting: 0,
       newOrder: 0,
@@ -29,11 +27,9 @@ const AdminPage = () => {
   return (
     <div className='grid grid-cols-2 gap-8'>
       <Order order={data?.order} />
-      <Order order={data?.order} />
       <Payment />
       <SaleGraph />
       <UserConnection />
-      <Product product={data?.product} />
       <Product product={data?.product} />
       <ReviewAndQuestion />
     </div>
