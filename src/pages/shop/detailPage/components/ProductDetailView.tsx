@@ -41,17 +41,17 @@ const ProductDetailView = ({ data }: ProductDetailViewProps) => {
   };
 
   return (
-    <section className='flex flex-col min-h-screen transition-all duration-300 ease-in-out md:flex-row'>
+    <section className='flex min-h-screen flex-col transition-all duration-300 ease-in-out md:flex-row'>
       <div className='flex w-full flex-col gap-[2px] transition-all duration-300 ease-in-out md:w-1/2'>
         {detailImage.map((img, idx) => (
-          <div key={idx} className='w-full h-screen transition-transform duration-500 ease-in-out md:h-full'>
-            <img src={img} alt={`상품 이미지 ${idx + 1}`} className='object-cover w-full h-full' />
+          <div key={idx} className='h-screen w-full transition-transform duration-500 ease-in-out md:h-full'>
+            <img src={img} alt={`상품 이미지 ${idx + 1}`} className='h-full w-full object-cover' />
           </div>
         ))}
       </div>
-
-      {!isMobile && <OptionSelectBox {...optionSelectBoxProps} />}
-      {isMobile && <MobileOptionSelectBox {...optionSelectBoxProps} />}
+      {/* 옵션 선택 박스 영역 */}
+      {isMobile ? <MobileOptionSelectBox {...optionSelectBoxProps} /> : <OptionSelectBox {...optionSelectBoxProps} />}
+      {/* 모달 영역 */}
       {renderModalContent()}
     </section>
   );

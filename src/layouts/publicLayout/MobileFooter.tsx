@@ -113,8 +113,8 @@ const MobileFooter = () => {
     >
       {/* 회색 토글 */}
       {isDropdownOpen && (
-        <button onClick={toggleDropdown} className='absolute left-0 right-0 w-full h-8 z-49 -top-8 bg-primary'>
-          <div className='absolute top-0 left-0 right-0 flex items-center justify-center w-full h-full'>
+        <button onClick={toggleDropdown} className='absolute -top-8 left-0 right-0 z-[49] h-8 w-full bg-primary'>
+          <div className='absolute left-0 right-0 top-0 flex h-full w-full items-center justify-center'>
             <p className='h-[3px] w-[84px] rounded-full border bg-white'></p>
           </div>
         </button>
@@ -129,7 +129,7 @@ const MobileFooter = () => {
           <ul className='flex gap-2'>
             {linkIcons.map((link) => (
               <li key={link.id} className='flex h-[25px] w-[25px] items-center justify-center'>
-                <a href={link.link} target={link.target} className='flex items-center justify-center w-full h-full'>
+                <a href={link.link} target={link.target} className='flex h-full w-full items-center justify-center'>
                   <img src={link.icon} alt={link.name} className='object-cover' />
                 </a>
               </li>
@@ -187,7 +187,7 @@ const MobileFooter = () => {
           <p className='w-full whitespace-nowrap border-y border-white py-2 text-center text-[10px] text-white'>
             &copy; MICGOLF 2024
           </p>
-          <div className='flex flex-col w-full gap-2'>
+          <div className='flex w-full flex-col gap-2'>
             <p className='w-full text-center text-[16px] font-semibold'>고객센터: 070-8827-6220</p>
             <p className='w-full text-center text-[10px]'>
               상호: 믹골프 MICGOLF | 대표: 신강식 | 주소: 서울시 강서구 양천로30길 67 3층 통신판매업신고증:

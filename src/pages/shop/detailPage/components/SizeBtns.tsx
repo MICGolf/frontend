@@ -22,26 +22,26 @@ const SizeBtns = ({ data, onSelect }: SizeBtnsProps) => {
   }, [data]);
 
   return (
-    <div className='flex flex-col w-full gap-2'>
+    <div className='flex w-full flex-col gap-2'>
       <h3 className='text-lg font-light md:text-2xl'>사이즈</h3>
-      <ul className='flex flex-wrap gap-[10px]'>
+      <ul className='flex flex-wrap gap-2'>
         {data ? (
           data.sizes?.map((size, idx) => (
             <li key={idx}>
               <button
                 type='button'
                 onClick={() => handleSizeChange(size)}
-                className={`flex h-[40px] w-[40px] cursor-pointer items-center justify-center border-b border-black font-light transition-colors duration-300 hover:bg-black hover:text-white ${
+                className={`flex h-[30px] w-[30px] cursor-pointer items-center justify-center border-b border-black font-light transition-colors duration-300 hover:bg-black hover:text-white ${
                   selectedSize === size.name ? 'bg-black text-white' : 'bg-white text-black'
                 }`}
                 aria-label={`사이즈: ${size.name}`}
               >
-                {size.name}
+                <span className='text-sm'>{size.name}</span>
               </button>
             </li>
           ))
         ) : (
-          <p className='flex h-[40px] w-full items-center text-sm text-gray-400 md:text-base'>색상을 선택해주세요!</p>
+          <p className='flex h-[10px] w-full items-center text-sm text-gray-400 md:text-base'>색상을 선택해주세요!</p>
         )}
         {}
       </ul>
