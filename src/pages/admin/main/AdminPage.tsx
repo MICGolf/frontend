@@ -5,7 +5,7 @@ import { Product } from './components/Product';
 import { ReviewAndQuestion } from './components/ReviewAndQuestion';
 import { SaleGraph } from './components/SaleGraph';
 import { UserConnection } from './components/UserConnection';
-import { getAdminProduct } from '@/api/adminAxois';
+import { adminApi } from '@/api';
 import { OrderType, ProductType } from './type';
 
 interface AdminData {
@@ -24,16 +24,6 @@ const AdminPage = () => {
       soldOut: 0,
     },
   });
-  useEffect(() => {
-    (async () => {
-      try {
-        const { data } = await getAdminProduct();
-        setData(data);
-      } catch (err) {
-        console.error(err);
-      }
-    })();
-  }, []);
 
   return (
     <div className='grid grid-cols-2 gap-8'>

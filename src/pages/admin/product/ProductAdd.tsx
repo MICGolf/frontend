@@ -5,6 +5,7 @@ import setting from '@/assets/icons/setting.svg';
 import { useEffect, useState } from 'react';
 import { ImageCarousel } from './components/ImageCarousel';
 import { Category } from '@/pages/admin/components/Category';
+import CategorySelcet from '../components/CategorySelcet';
 
 type Size = {
   sizeName: string;
@@ -168,42 +169,7 @@ const ProductAdd = () => {
                 <p>판매상태</p>
               </div>
               <div className='col-span-5 flex items-center gap-4'>
-                <select
-                  {...register('discountOption')}
-                  className={`mt-4 w-full appearance-none rounded-md border border-neutral-300 bg-[length:36px_36px] bg-[center_right_1rem] bg-no-repeat px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300`}
-                  style={{
-                    backgroundImage: `url(${isOpen ? arrowDropUp : arrowDropDown})`,
-                  }}
-                  onClick={(prev) => setIsOpen(!prev)}
-                >
-                  <option value='대분류1'>대분류1</option>
-                  <option value='대분류2'>대분류2</option>
-                  <option value='대분류3'>대분류3</option>
-                </select>
-                <select
-                  {...register('subCategory')}
-                  className={`mt-4 w-full appearance-none rounded-md border border-neutral-300 bg-[length:36px_36px] bg-[center_right_1rem] bg-no-repeat px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300`}
-                  style={{
-                    backgroundImage: `url(${isOpen ? arrowDropUp : arrowDropDown})`,
-                  }}
-                  onClick={(prev) => setIsOpen(!prev)}
-                >
-                  <option value='중분류1'>중분류1</option>
-                  <option value='중분류2'>중분류2</option>
-                  <option value='중분류3'>중분류3</option>
-                </select>
-                <select
-                  {...register('subSubCategory')}
-                  className={`mt-4 w-full appearance-none rounded-md border border-neutral-300 bg-[length:36px_36px] bg-[center_right_1rem] bg-no-repeat px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300`}
-                  style={{
-                    backgroundImage: `url(${isOpen ? arrowDropUp : arrowDropDown})`,
-                  }}
-                  onClick={(prev) => setIsOpen(!prev)}
-                >
-                  <option value='소분류1'>소분류1</option>
-                  <option value='소분류2'>소분류2</option>
-                  <option value='소분류3'>소분류3</option>
-                </select>
+                <CategorySelcet />
               </div>
               <div className='col-span-1 flex items-center justify-center whitespace-nowrap'>
                 <div onClick={() => setShowCategory((prev) => !prev)} className='ml-10 mt-4 flex items-center gap-2'>

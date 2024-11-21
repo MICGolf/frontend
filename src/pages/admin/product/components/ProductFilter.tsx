@@ -1,20 +1,15 @@
 import { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-import { useQuery } from '@tanstack/react-query';
-import { getAdminProduct } from '@/api/adminAxois';
 import arrowDropDown from '@/assets/icons/arrowDropDown.svg';
 import arrowDropUp from '@/assets/icons/arrowDropUp.svg';
 import DatePickInputs from '@/pages/admin/components/DatePickInputs';
 import CategorySelcet from '@/pages/admin/components/CategorySelcet';
+import { ProductFilterFormData, ProductFilterProps } from '../type';
 
-const category = {
-  categoryLargeArray: ['대분류1', '대분류2', '대분류3'],
-  categoryMiddleArray: ['중분류1', '중분류2', '중분류3'],
-  categorySmallArray: ['소분류1', '소분류2', '소분류3'],
-};
+const ProductFilter = ({ setSearchParams, onSubmit }: ProductFilterProps) => {
+  const [isOpen, setIsOpen] = useState(false);
 
-const ProductFilter = () => {
-  const methods = useForm();
+  const methods = useForm<ProductFilterFormData>();
   const {
     handleSubmit,
     register,
@@ -22,11 +17,28 @@ const ProductFilter = () => {
     formState: { errors },
   } = methods;
 
-  const handlerSubmit = (data: any) => console.log(data);
-  const [isOpen, setIsOpen] = useState(false);
-  const { data, isPending, error } = useQuery({ queryKey: ['adminProductFilter'], queryFn: getAdminProduct });
-  if (isPending) return 'Loading...';
-  if (error) return 'An error has occurred: ' + error.message;
+  const handlerSubmit = (data: ProductFilterFormData) => {
+    const searchParamsData = new URLSearchParams();
+    if (data.productName) searchParamsData.append('product_name', data.productName);
+    if (data.productNumber) searchParamsData.append('product_id', data.productNumber);
+    if (data.sellerProductCode) searchParamsData.append('product_code', data.sellerProductCode);
+    if (data.productStatus === 'Y' || data.productStatus === 'N') {
+      searchParamsData.append('sale_status', data.productStatus);
+    } else {
+      searchParamsData.delete('sale_status');
+    }
+    if (data.category_id) searchParamsData.append('category_id', data.category_id);
+    if (data.startDate) searchParamsData.append('start_date', data.startDate);
+    if (data.endDate) searchParamsData.append('end_date', data.endDate);
+
+    searchParamsData.append('page', '1');
+    searchParamsData.append('page_size', localStorage.getItem('pageListLimit') || '100');
+    searchParamsData.append('sort', 'created_at');
+    setSearchParams(searchParamsData);
+    onSubmit();
+    console.log(data);
+  };
+
   return (
     <FormProvider {...methods}>
       <form className='mt-6 grid grid-cols-6 rounded-lg bg-white px-8 py-5' onSubmit={handleSubmit(handlerSubmit)}>
@@ -34,7 +46,7 @@ const ProductFilter = () => {
         <div className='col-span-5'>
           <div className='flex items-center gap-4'>
             <input
-              type='text'
+              type='number'
               placeholder='상품번호'
               {...register('productNumber')}
               className='mt-4 w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
@@ -64,17 +76,13 @@ const ProductFilter = () => {
             }}
             onClick={(prev) => setIsOpen(!prev)}
           >
-            <option value='all'>전체</option>
-            <option value='sale'>판매중</option>
-            <option value='stop'>판매중지</option>
+            <option value='ALL'>전체</option>
+            <option value='Y'>판매중</option>
+            <option value='N'>판매중지</option>
           </select>
         </div>
         <p className='col-span-1 mt-4 flex items-center text-base font-semibold text-neutral-500'>카테고리</p>
-        <CategorySelcet
-          categoryLargeArray={category.categoryLargeArray}
-          categoryMiddleArray={category.categoryMiddleArray}
-          categorySmallArray={category.categorySmallArray}
-        />
+        <CategorySelcet />
         <p className='col-span-1 mt-4 flex items-center text-base font-semibold text-neutral-500'>
           기간 <span className='ml-1 text-xs text-neutral-400'>등록일 기준</span>
         </p>
@@ -89,11 +97,10 @@ const ProductFilter = () => {
             검색
           </button>
           <button
-            type='button'
             onClick={() => {
               reset();
             }}
-            color='white'
+            type='submit'
             className='mt-4 block w-1/3 rounded-md border border-neutral-300 px-4 py-2 text-base text-neutral-900 duration-300 ease-in-out hover:scale-105'
           >
             초기화

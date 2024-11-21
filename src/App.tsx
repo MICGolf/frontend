@@ -24,11 +24,12 @@ import SalePayment from './pages/admin/sale/payment/SalePayment';
 import SaleOrdering from './pages/admin/sale/ordering/SaleOrdering';
 import SaleDelivery from './pages/admin/sale/delivery/SaleDelivery';
 import ProductAdd from './pages/admin/product/ProductAdd';
-import { BestItemPage } from './pages/admin/store/BestItemPage';
+import BestItemPage from './pages/admin/store/BestItemPage';
 import { MdsChoicePage } from './pages/admin/store/MdsChoicePage';
-import { BannerPage } from './pages/admin/store/BannerPage';
+import BannerPage from './pages/admin/store/BannerPage';
 import { PromotionPage } from './pages/admin/store/PromotionPage';
 import ProductSearch from './pages/admin/product/ProductSearch';
+import ProtectPrivateRoute from './routes/ProtectPrivateRoute';
 
 function App() {
   return (
@@ -76,7 +77,7 @@ function App() {
         {/* 관리자 */}
         <Route path='/admin/login' element={<AdminLoginPage />} />
         <Route element={<AdminLayout />}>
-          <Route path='/admin' element={<ProtectAdminRoute />}>
+          <Route path='/admin' element={<ProtectPrivateRoute />}>
             <Route path='' element={<AdminPage />} />
             <Route path='product'>
               <Route path='search' element={<ProductSearch />} />

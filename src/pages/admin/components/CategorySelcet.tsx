@@ -1,17 +1,40 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import arrowDropDown from '@/assets/icons/arrowDropDown.svg';
 import arrowDropUp from '@/assets/icons/arrowDropUp.svg';
+import { categoryApi } from '@/api';
+import { useQuery } from '@tanstack/react-query';
+import { CategoryData } from './type';
 
-interface CategorySelcetProps {
-  categoryLargeArray: string[];
-  categoryMiddleArray: string[];
-  categorySmallArray: string[];
-}
-
-const CategorySelcet = ({ categoryLargeArray, categoryMiddleArray, categorySmallArray }: CategorySelcetProps) => {
-  const { register } = useFormContext();
+const CategorySelcet = () => {
+  const { register, watch } = useFormContext();
+  const categoryLarge = watch('categoryLarge');
+  const categoryMiddle = watch('categoryMiddle');
+  const categorySmall = watch('categorySmall');
   const [isOpen, setIsOpen] = useState(false);
+  const [categoryId, setCategoryId] = useState({
+    large: 0,
+    middle: 0,
+    small: 0,
+  });
+  useEffect(() => {
+    setCategoryId({
+      large: Number(categoryLarge) || 0,
+      middle: Number(categoryMiddle) || 0,
+      small: Number(categorySmall) || 0,
+    });
+  }, [categoryLarge, categoryMiddle, categorySmall]);
+  const { data: categoryData } = useQuery({
+    queryKey: ['productFilter', categoryId],
+    queryFn: async () => {
+      const response = await categoryApi.getCategory(categoryId);
+      if (!response) return null;
+      return response.data;
+    },
+  });
+
+  console.log('categoryList', categoryData);
+
   return (
     <div className='col-span-5 flex items-center gap-4'>
       <select
@@ -26,9 +49,9 @@ const CategorySelcet = ({ categoryLargeArray, categoryMiddleArray, categorySmall
         <option value='' disabled>
           대분류
         </option>
-        {categoryLargeArray.map((item, index) => (
-          <option key={index} value={item}>
-            {item}
+        {categoryData?.map((item: CategoryData) => (
+          <option key={item.id} value={item.id}>
+            {item.name}
           </option>
         ))}
       </select>
@@ -44,9 +67,9 @@ const CategorySelcet = ({ categoryLargeArray, categoryMiddleArray, categorySmall
         <option value='' disabled>
           중분류
         </option>
-        {categoryMiddleArray.map((item, index) => (
-          <option key={index} value={item}>
-            {item}
+        {categoryData?.map((item: CategoryData) => (
+          <option key={item.id} value={item.id}>
+            {item.name}
           </option>
         ))}
       </select>
@@ -62,9 +85,9 @@ const CategorySelcet = ({ categoryLargeArray, categoryMiddleArray, categorySmall
         <option value='' disabled>
           소분류
         </option>
-        {categorySmallArray.map((item, index) => (
-          <option key={index} value={item}>
-            {item}
+        {categoryData?.map((item: CategoryData) => (
+          <option key={item.id} value={item.id}>
+            {item.name}
           </option>
         ))}
       </select>
