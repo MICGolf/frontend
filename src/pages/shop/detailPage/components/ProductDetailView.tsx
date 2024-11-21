@@ -7,8 +7,9 @@ import { useMediaQuery } from 'react-responsive';
 import useModalState from '@/hooks/useModalState/useModalState';
 import OptionSelectBox from './OptionSelectBox';
 import MobileOptionSelectBox from './MobileOptionSelectBox';
+import DetailImageSkeleton from './skeletons/DetailImageSkeleton';
 
-const ProductDetailView = ({ data }: ProductDetailViewProps) => {
+const ProductDetailView = ({ data, isLoading }: ProductDetailViewProps) => {
   const [detailImage, setDetailImage] = useState<string[]>(data.colors[0]?.images);
   const [selectedColor, setSelectedColor] = useState<Color | null>(null);
   const [selectedSize, setSelectedSize] = useState<Size | null>(null);
@@ -24,6 +25,7 @@ const ProductDetailView = ({ data }: ProductDetailViewProps) => {
     count,
     maxCount,
     isSale,
+    isLoading,
     isSoldOut,
     isOpen,
     labelClassNames,
@@ -43,11 +45,15 @@ const ProductDetailView = ({ data }: ProductDetailViewProps) => {
   return (
     <section className='flex min-h-screen flex-col transition-all duration-300 ease-in-out md:flex-row'>
       <div className='flex w-full flex-col gap-[2px] transition-all duration-300 ease-in-out md:w-1/2'>
-        {detailImage.map((img, idx) => (
-          <div key={idx} className='h-screen w-full transition-transform duration-500 ease-in-out md:h-full'>
-            <img src={img} alt={`상품 이미지 ${idx + 1}`} className='h-full w-full object-cover' />
-          </div>
-        ))}
+        {isLoading ? (
+          <DetailImageSkeleton />
+        ) : (
+          detailImage.map((img, idx) => (
+            <div key={idx} className='h-screen w-full transition-transform duration-500 ease-in-out md:h-full'>
+              <img src={img} alt={`상품 이미지 ${idx + 1}`} className='h-full w-full object-cover' />
+            </div>
+          ))
+        )}
       </div>
       {/* 옵션 선택 박스 영역 */}
       {isMobile ? <MobileOptionSelectBox {...optionSelectBoxProps} /> : <OptionSelectBox {...optionSelectBoxProps} />}

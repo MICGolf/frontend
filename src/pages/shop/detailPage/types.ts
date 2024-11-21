@@ -1,6 +1,7 @@
 import { Color, ProductDetail, Size } from '@/assets/dummys/types';
 
 export interface ProductDetailViewProps {
+  isLoading: boolean;
   data: ProductDetail;
 }
 
