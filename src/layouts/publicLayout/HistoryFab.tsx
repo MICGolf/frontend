@@ -10,8 +10,8 @@ const HistoryFab = () => {
     setIsModalOpen((prev) => !prev);
   };
 
-  const history = localStorage.getItem('history');
-  const dataHistory = history ? JSON.parse(history) : [];
+  // const history = localStorage.getItem('history');
+  // const dataHistory = history ? JSON.parse(history) : [];
 
   const dummyHistory = [
     {
