@@ -46,7 +46,7 @@ const EventPopup = ({ images }: EventPopupProps) => {
   if (isEventPopupHidden) return null;
 
   return (
-    <div className='fixed bottom-24 right-10 z-[100] h-[344px] w-[540px]'>
+    <div className='fixed bottom-24 right-10 z-[20] h-[344px] w-[540px]'>
       <Swiper
         modules={[Pagination, Navigation, Autoplay]}
         slidesPerView={1}

@@ -126,8 +126,6 @@ const CheckoutPage = () => {
       payMethod: 'CARD',
     });
 
-    console.log(response);
-
     if (response?.code !== undefined) {
       return alert(response?.message);
     }

@@ -28,11 +28,16 @@ interface ProductFormData {
   subCategory: string;
   subSubCategory: string;
   images: ImageFile[];
+  mainCategory: string;
 }
 
 const ProductAdd = () => {
   const [showCategory, setShowCategory] = useState(false);
-  const methods = useForm<ProductFormData>();
+  const methods = useForm<ProductFormData>({
+    defaultValues: {
+      discountOption: 'won',
+    },
+  });
   const {
     handleSubmit,
     register,
@@ -169,7 +174,7 @@ const ProductAdd = () => {
               </div>
               <div className='col-span-5 flex items-center gap-4'>
                 <select
-                  {...register('discountOption')}
+                  {...register('mainCategory')}
                   className={`mt-4 w-full appearance-none rounded-md border border-neutral-300 bg-[length:36px_36px] bg-[center_right_1rem] bg-no-repeat px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300`}
                   style={{
                     backgroundImage: `url(${isOpen ? arrowDropUp : arrowDropDown})`,
