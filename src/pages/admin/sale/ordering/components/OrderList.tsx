@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { SectionBox } from '@/pages/admin/components/SectionBox';
 import ListHeader from '@/pages/admin/components/ListHeader';
 import { OrderingListType } from '../type';
@@ -14,27 +13,38 @@ const ListHeaderArray = [
 const productListArray: OrderingListType[] = [
   {
     id: 1,
-    orderNumber: '주문번호',
-    productOrderNumber: '상품주문번호',
-    orderDate: '발주상태',
-    orderStatus: '택배사',
-    depositDueDate: '송장번호',
+    orderNumber: '주문번호1',
+    productOrderNumber: '상품주문번호1',
+    orderDate: '발주상태1',
+    orderStatus: '택배사1',
+    depositDueDate: '송장번호1',
   },
   {
     id: 2,
-    orderNumber: '주문번호',
-    productOrderNumber: '상품주문번호',
-    orderDate: '발주상태',
-    orderStatus: '택배사',
-    depositDueDate: '송장번호',
+    orderNumber: '주문번호2',
+    productOrderNumber: '상품주문번호2',
+    orderDate: '발주상태2',
+    orderStatus: '택배사2',
+    depositDueDate: '송장번호2',
+  },
+  {
+    id: 3,
+    orderNumber: '주문번호1',
+    productOrderNumber: '상품주문번호3',
+    orderDate: '발주상태1',
+    orderStatus: '택배사1',
+    depositDueDate: '송장번호1',
   },
 ];
-const OrderingList = ({ handleShowPopup }: { handleShowPopup: () => void }) => {
-  const [checkedList, setCheckedList] = useState<OrderingListType[]>([]);
-
-  useEffect(() => {
-    console.log(checkedList);
-  }, [checkedList]);
+const OrderingList = ({
+  handleShowPopup,
+  checkedList,
+  setCheckedList,
+}: {
+  handleShowPopup: () => void;
+  checkedList: OrderingListType[];
+  setCheckedList: React.Dispatch<React.SetStateAction<OrderingListType[]>>;
+}) => {
   return (
     <SectionBox title={`상품목록 총(${productListArray.length}개)`}>
       <div className='px-5'>
@@ -101,13 +111,17 @@ const OrderingList = ({ handleShowPopup }: { handleShowPopup: () => void }) => {
 
           <button
             onClick={handleShowPopup}
-            className='block w-2/4 rounded-md border-[1px] border-neutral-200 bg-white px-4 py-2 text-base text-black duration-300 ease-in-out hover:scale-105 hover:bg-black hover:text-white'
+            className={`${checkedList.length === 0 ? 'cursor-not-allowed opacity-50' : ''} block w-2/4 rounded-md border-[1px] border-neutral-200 bg-white px-4 py-2 text-base text-black duration-300 ease-in-out hover:scale-105 hover:bg-black hover:text-white`}
+            disabled={checkedList.length === 0}
+            title={checkedList.length === 0 ? '상품을 선택해주세요' : ''}
           >
             송장입력
           </button>
           <button
             onClick={handleShowPopup}
-            className='block w-2/4 rounded-md border-[1px] border-neutral-200 bg-white px-4 py-2 text-base text-black duration-300 ease-in-out hover:scale-105 hover:bg-black hover:text-white'
+            className={`${checkedList.length === 0 ? 'cursor-not-allowed opacity-50' : ''} block w-2/4 rounded-md border-[1px] border-neutral-200 bg-white px-4 py-2 text-base text-black duration-300 ease-in-out hover:scale-105 hover:bg-black hover:text-white`}
+            disabled={checkedList.length === 0}
+            title={checkedList.length === 0 ? '상품을 선택해주세요' : ''}
           >
             송장수정
           </button>

@@ -1,4 +1,6 @@
-import { useQueryClient } from '@tanstack/react-query';
+import { categoryApi } from '@/api';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 export const Category = ({ onClose }: { onClose: () => void }) => {
@@ -6,11 +8,29 @@ export const Category = ({ onClose }: { onClose: () => void }) => {
   const { register, watch, handleSubmit, setValue } = methods;
   const radioCategory = watch('category');
   const addCategory = watch('addCategory');
-
-  const queryClient = useQueryClient();
-  const categoryData = queryClient.getQueryData(['category']);
-  console.log(categoryData);
-
+  const categoryLarge = watch('categoryLarge');
+  const categoryMiddle = watch('categoryMiddle');
+  const categorySmall = watch('categorySmall');
+  const [categoryId, setCategoryId] = useState({
+    large: 0,
+    middle: 0,
+    small: 0,
+  });
+  useEffect(() => {
+    setCategoryId({
+      large: Number(categoryLarge) || 0,
+      middle: Number(categoryMiddle) || 0,
+      small: Number(categorySmall) || 0,
+    });
+  }, [categoryLarge, categoryMiddle, categorySmall]);
+  const { data: categoryData } = useQuery({
+    queryKey: ['productFilter', categoryId],
+    queryFn: async () => {
+      const response = await categoryApi.getCategory(categoryId);
+      if (!response) return null;
+      return response.data;
+    },
+  });
   const renderCategory = () => {
     switch (radioCategory) {
       case 'large':
@@ -36,7 +56,7 @@ export const Category = ({ onClose }: { onClose: () => void }) => {
             <label className='flex flex-col text-neutral-600'>
               대분류
               <select {...register('categoryTypeLarge')} className='mt-2 rounded-md border-2 border-gray-300 p-2'>
-                <option value=''>대분류</option>
+                {categoryData?.map((item: any) => <option value={item.categoryId}>{item.categoryName}</option>)}
               </select>
             </label>
             <label className='flex flex-col text-neutral-600'>

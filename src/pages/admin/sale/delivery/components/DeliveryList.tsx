@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { SectionBox } from '@/pages/admin/components/SectionBox';
 import ListHeader from '@/pages/admin/components/ListHeader';
 import { DeliveryListType } from '../type';
@@ -28,9 +28,6 @@ const productListArray: DeliveryListType[] = [
 const DeliveryList = () => {
   const [checkedList, setCheckedList] = useState<DeliveryListType[]>([]);
 
-  useEffect(() => {
-    console.log(checkedList);
-  }, [checkedList]);
   return (
     <SectionBox title={`상품목록 총(${productListArray.length}개)`}>
       <div className='px-5'>

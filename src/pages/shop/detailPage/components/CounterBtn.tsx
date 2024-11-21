@@ -49,7 +49,7 @@ const CounterBtn = ({
       <h3 className='text-lg font-light md:text-2xl'>수량</h3>
       {selectedColor && selectedSize ? (
         <div className='flex w-full'>
-          <div className='relative flex h-[40px] w-[130px] items-center justify-around border border-gray200'>
+          <div className='relative flex h-[30px] w-[100px] items-center justify-around border border-gray200'>
             <button
               type='button'
               className='flex h-full w-full flex-1 items-center justify-center transition-all duration-300 hover:bg-gray-100 active:bg-gray-100'

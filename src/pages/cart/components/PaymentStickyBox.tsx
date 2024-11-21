@@ -1,7 +1,9 @@
 import { CartItemData2 } from '@/assets/dummys/types';
+import LoadingSpinner from '@/components/LoadingSpinner';
 import { useEffect, useState } from 'react';
 
 interface PaymentStickyBoxProps {
+  isLoading: boolean;
   selectedItems: string[];
   totalPrice: number;
   totalDeliveryFee: number;
@@ -11,6 +13,7 @@ interface PaymentStickyBoxProps {
 }
 
 const PaymentStickyBox = ({
+  isLoading,
   selectedItems,
   totalPrice,
   totalDeliveryFee,
@@ -39,33 +42,41 @@ const PaymentStickyBox = ({
   return (
     <div className='min-w-[300px]'>
       <div className='sticky top-[160px] w-full border border-gray300 bg-white px-4 py-10 transition-[top] duration-300'>
-        <h3 className='mb-4 text-lg font-semibold'>총 상품 {globalSelectCount}개</h3>
-        <div className='mb-4 flex flex-col gap-2'>
-          <div className='flex justify-between text-sm'>
-            <span>상품금액</span>
-            <span>{totalPrice.toLocaleString()}원</span>
+        {isLoading ? (
+          <div className='h-[150px] w-full'>
+            <LoadingSpinner size='s' />
           </div>
-          <div className='flex justify-between text-sm'>
-            <span>배송비</span>
-            <span>{totalDeliveryFee.toLocaleString()}원</span>
-          </div>
-        </div>
+        ) : (
+          <>
+            <h3 className='mb-4 text-lg font-semibold'>총 상품 {globalSelectCount}개</h3>
+            <div className='mb-4 flex flex-col gap-2'>
+              <div className='flex justify-between text-sm'>
+                <span>상품금액</span>
+                <span>{totalPrice.toLocaleString()}원</span>
+              </div>
+              <div className='flex justify-between text-sm'>
+                <span>배송비</span>
+                <span>{totalDeliveryFee.toLocaleString()}원</span>
+              </div>
+            </div>
 
-        <div className='flex flex-col items-end border-y border-gray300 py-4 text-xl font-semibold'>
-          <span>결제 예상 금액</span>
-          <span>{calculateTotal().toLocaleString()}원</span>
-        </div>
-        <button
-          className={`mt-4 w-full border py-2 text-sm transition-all duration-300 ${
-            isDisabled
-              ? 'cursor-not-allowed border-gray300 bg-gray100 text-gray300'
-              : 'border-primary bg-primary text-secondary hover:bg-secondary hover:text-primary'
-          }`}
-          disabled={isDisabled}
-          onClick={handlePaymentButton}
-        >
-          결제하기
-        </button>
+            <div className='flex flex-col items-end border-y border-gray300 py-4 text-xl font-semibold'>
+              <span>결제 예상 금액</span>
+              <span>{calculateTotal().toLocaleString()}원</span>
+            </div>
+            <button
+              className={`mt-4 w-full border py-2 text-sm transition-all duration-300 ${
+                isDisabled
+                  ? 'cursor-not-allowed border-gray300 bg-gray100 text-gray300'
+                  : 'border-primary bg-primary text-secondary hover:bg-secondary hover:text-primary'
+              }`}
+              disabled={isDisabled}
+              onClick={handlePaymentButton}
+            >
+              결제하기
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

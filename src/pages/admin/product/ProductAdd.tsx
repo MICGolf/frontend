@@ -5,6 +5,7 @@ import setting from '@/assets/icons/setting.svg';
 import { useEffect, useState } from 'react';
 import { ImageCarousel } from './components/ImageCarousel';
 import { Category } from '@/pages/admin/components/Category';
+import CategorySelcet from '../components/CategorySelcet';
 
 type Size = {
   sizeName: string;
@@ -209,6 +210,7 @@ const ProductAdd = () => {
                   <option value='소분류2'>소분류2</option>
                   <option value='소분류3'>소분류3</option>
                 </select>
+                <CategorySelcet />
               </div>
               <div className='col-span-1 flex items-center justify-center whitespace-nowrap'>
                 <div onClick={() => setShowCategory((prev) => !prev)} className='ml-10 mt-4 flex items-center gap-2'>

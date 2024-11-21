@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { DeliveryCompanyType } from '../type';
 const sweetTrackerApiKey = import.meta.env.VITE_SWEETTRACKER_API_KEY;
 
 const DeliveryCompony = () => {
   const [deliveryCompanyList, setDeliveryCompanyList] = useState<DeliveryCompanyType[]>([]);
-  const { register, watch, setValue } = useForm();
+  const { register, watch, setValue } = useFormContext();
   const deliveryCompany = watch('deliveryCompany');
   const [isShowList, setIsShowList] = useState<boolean>(false);
   const handleCompanyClick = (name: string) => {

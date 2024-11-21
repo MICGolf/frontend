@@ -12,22 +12,22 @@ const CheckBox = ({ handleCartSelectToggle, itemId, isChecked }: CheckBoxProps) 
   };
 
   return (
-    <label
-      htmlFor={`cartItem-${itemId}`}
-      className={`flex h-4 w-4 cursor-pointer items-center justify-center border border-gray300 transition-colors duration-300 ${isChecked && 'bg-primary'}`}
-    >
+    <div className='relative inline-block'>
       <input
         type='checkbox'
-        className='appearance-none focus:outline-none focus:ring-0 focus:ring-transparent focus:ring-offset-0'
+        className='peer sr-only'
         name={`cartItem-${itemId}`}
         id={`cartItem-${itemId}`}
         checked={isChecked}
         onChange={handleOnChange}
       />
-      <span className={isChecked ? 'block' : 'hidden'}>
-        <CheckIco size={10} color='white' />
-      </span>
-    </label>
+      <label
+        htmlFor={`cartItem-${itemId}`}
+        className={`flex h-4 w-4 cursor-pointer items-center justify-center border border-gray300 transition-colors duration-300 peer-checked:bg-primary`}
+      >
+        {isChecked && <CheckIco size={10} color='white' />}
+      </label>
+    </div>
   );
 };
 

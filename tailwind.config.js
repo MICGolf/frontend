@@ -9,6 +9,7 @@ export default {
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
         'fade-out': 'fadeOut 0.5s ease-in-out',
+        shimmer: 'shimmer 1.3s linear infinite'
       },
       keyframes: {
         fadeIn: {
@@ -18,6 +19,11 @@ export default {
         fadeOut: {
           '0%': { opacity: '1' },
           '100%': { opacity: '0' },
+        },
+        shimmer: {
+          '100%': {
+            transform: 'translateX(100%)'
+          }
         },
       },
       boxShadow: {

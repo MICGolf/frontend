@@ -10,12 +10,14 @@ import PaymentStickyBox from './components/PaymentStickyBox';
 import CartItem from './components/CartItem';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import SelectAllCheckBox from './components/SelectAllCheckBox';
+import CartItemSkeleton from './components/skeletons/CartItemSkeleton';
 // import { useCart } from '@/hooks/useCart';
 
 const CartPage = () => {
   const { user } = useUserStore();
   // const { cartItems, syncGuestCartToUser } = useCart();
   const [cartItems] = useLocalStorage('cartItems', []);
+  const [isLoading, setIsLoading] = useState(true);
   const {
     cartItemArr,
     selectedItems,
@@ -52,6 +54,14 @@ const CartPage = () => {
     setGlobalSelectCount(selectedProducts.length);
   }, [selectedProducts, cartItemArr]);
 
+  useEffect(() => {
+    (async () => {
+      setIsLoading(true);
+      await new Promise((resolve) => setTimeout(resolve, 15000));
+      setIsLoading(false);
+    })();
+  }, []);
+
   return (
     <article className='mx-auto w-full max-w-[1660px] px-[24px] py-[160px] transition-all duration-300 ease-in-out xl:px-[130px]'>
       {/* 타이틀 */}
@@ -70,23 +80,28 @@ const CartPage = () => {
           </div>
           {/* 장바구니 리스트 영역 */}
           <ul className='my-6 flex w-full flex-col gap-8'>
-            {cartItemArr.map((item, idx) => (
-              <CartItem
-                key={idx}
-                data={item}
-                selectedItems={selectedItems}
-                handleModalOpen={handleModalOpen}
-                handleCartSelectToggle={handleCartSelectToggle}
-                handleUpdateCount={handleUpdateCount}
-                handleRemoveSingleItem={handleRemoveSingleItem}
-              />
-            ))}
+            {isLoading ? (
+              <CartItemSkeleton />
+            ) : (
+              cartItemArr.map((item, idx) => (
+                <CartItem
+                  key={idx}
+                  data={item}
+                  selectedItems={selectedItems}
+                  handleModalOpen={handleModalOpen}
+                  handleCartSelectToggle={handleCartSelectToggle}
+                  handleUpdateCount={handleUpdateCount}
+                  handleRemoveSingleItem={handleRemoveSingleItem}
+                />
+              ))
+            )}
           </ul>
         </div>
 
         {/* 결제 창 : 모달타입 OR 배너타입 */}
         {shouldResponsive ? (
           <PaymentModal
+            isLoading={isLoading}
             selectedItems={selectedItems}
             totalPrice={totalPrice}
             totalDeliveryFee={totalDeliveryFee}
@@ -96,6 +111,7 @@ const CartPage = () => {
           />
         ) : (
           <PaymentStickyBox
+            isLoading={isLoading}
             selectedItems={selectedItems}
             totalPrice={totalPrice}
             totalDeliveryFee={totalDeliveryFee}

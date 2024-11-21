@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import ProductStatusDashboard from '../../components/ProductStatusDashboard';
 import OrderingList from './components/OrderList';
 import OrderStatePopup from './components/OrderStatePopup';
+import { OrderingListType } from './type';
 
 const productStatusArray = [
   { title: '발주 전', count: 0 },
@@ -9,6 +10,7 @@ const productStatusArray = [
 ];
 
 const SaleOrdering = () => {
+  const [checkedList, setCheckedList] = useState<OrderingListType[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
     if (isOpen) {
@@ -23,8 +25,8 @@ const SaleOrdering = () => {
   return (
     <>
       <ProductStatusDashboard productStatusArray={productStatusArray} />
-      <OrderingList handleShowPopup={() => setIsOpen(true)} />
-      {isOpen && <OrderStatePopup onClose={() => setIsOpen(false)} />}
+      <OrderingList handleShowPopup={() => setIsOpen(true)} checkedList={checkedList} setCheckedList={setCheckedList} />
+      {isOpen && <OrderStatePopup onClose={() => setIsOpen(false)} checkedList={checkedList} />}
     </>
   );
 };
