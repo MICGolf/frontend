@@ -4,6 +4,9 @@ import Footer from './Footer';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useMobileScrollStore } from '@/config/store';
 import { useMediaQuery } from 'react-responsive';
+import HistoryFab from './HistoryFab';
+import EventPopup from './EventPopup';
+import { Homeimages1 } from '@/assets/dummys/productListDatas';
 
 const PublicLayout = () => {
   const isMobileMode = useMobileScrollStore((state) => state.isMobileMode);
@@ -57,6 +60,8 @@ const PublicLayout = () => {
         <Outlet />
       </main>
       <Footer />
+      <HistoryFab />
+      <EventPopup images={Homeimages1} />
     </div>
   );
 };

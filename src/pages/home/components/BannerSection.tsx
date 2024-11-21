@@ -4,8 +4,19 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 
 import { bannerImage } from '@/assets/dummys/productListDatas';
+import { useQuery } from '@tanstack/react-query';
+import { homeApi } from '@/api';
 
-export const BannerSection = () => {
+const BannerSection = () => {
+  const { data: bannerData } = useQuery({
+    queryKey: ['banner'],
+    queryFn: async () => {
+      const response = await homeApi.getBannersOrPromotions({ type: 'banner' });
+      return response.data;
+    },
+  });
+  console.log('bannerData', bannerData);
+
   return (
     <div className='fixed top-0 z-[-1] h-[100vh] w-full'>
       <Swiper
@@ -30,3 +41,5 @@ export const BannerSection = () => {
     </div>
   );
 };
+
+export default BannerSection;

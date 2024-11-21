@@ -11,6 +11,8 @@ import HamburgerMenu from './HamburgerMenu';
 import MobileMenu from './MobileMenu';
 import CartIco from '@/assets/icons/CartIco';
 import UserIco from '@/assets/icons/UserIco';
+import { useQuery } from '@tanstack/react-query';
+import { categoryApi } from '@/api';
 
 const Header = () => {
   const [isHeaderVisible, setIsHeaderVisible] = useState<boolean>(true);
@@ -59,6 +61,15 @@ const Header = () => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
+  const { data: categoryData } = useQuery({
+    queryKey: ['category'],
+    queryFn: async () => {
+      const response = await categoryApi.getCategory();
+      return response.data;
+    },
+  });
+  console.log('categoryData', categoryData);
+
   return (
     <>
       {/* 모바일 전용 메뉴 영역 */}
@@ -88,7 +99,7 @@ const Header = () => {
             <div className='flex gap-10'>
               {/* 로고 영역 */}
               <Link to={'/'} className='h-[26px] w-[73px]'>
-                <img src={logoBlack} alt='믹골프 로고' className='object-contain w-full h-full' />
+                <img src={logoBlack} alt='믹골프 로고' className='h-full w-full object-contain' />
               </Link>
 
               {/* 네비게이션 영역 */}

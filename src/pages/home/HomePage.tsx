@@ -1,17 +1,26 @@
+import BannerSection from './components/BannerSection';
+import Section from './components/Section';
+import PromotionSection from './components/PromotionSection';
+import Intro from './components/Intro';
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Homeimages1, Homeimages2, promotionImage } from '@/assets/dummys/productListDatas';
-import { BannerSection } from './components/BannerSection';
-import logoWhite from '@/assets/imgs/logoWhite.svg';
 import { useMobileScrollStore } from '@/config/store';
-import { Section } from './components/Section';
-import { PromotionSection } from './components/PromotionSection';
 import { useQuery } from '@tanstack/react-query';
-import { bannersApi } from '@/api';
+import { homeApi } from '@/api';
+import { client } from '@/api/client';
 
 const HomePage = () => {
   const [showIntro, setShowIntro] = useState(false); // 애니메이션 실행 여부
   const { setIsMobileMode } = useMobileScrollStore();
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      const { data } = await client.get('products?page=1&page_size=10&sort=created_at&order=desc');
+      console.log(data);
+    };
+    fetchApi();
+  }, []);
 
   useEffect(() => {
     const isIntroShown = sessionStorage.getItem('introShown');
@@ -30,47 +39,28 @@ const HomePage = () => {
     }
   }, []);
 
-  const { data: bannerData } = useQuery({
-    queryKey: ['banner'],
+  const { data: bestProductData } = useQuery({
+    queryKey: ['BestProduct'],
     queryFn: async () => {
-      const response = await bannersApi.getBanners();
+      const response = await homeApi.getBestProductOrMdsChoice({ type: 'best' });
       return response.data;
     },
   });
-  console.log(bannerData);
+  console.log('bestProductData', bestProductData);
+
+  const { data: mdsChoiceData } = useQuery({
+    queryKey: ['BestProduct'],
+    queryFn: async () => {
+      const response = await homeApi.getBestProductOrMdsChoice({ type: 'md_pick' });
+      return response.data;
+    },
+  });
+  console.log('mdsChoiceData', mdsChoiceData);
 
   return (
     <div className='relative'>
       {/* 인트로 */}
-      <AnimatePresence>
-        {showIntro && (
-          <motion.div
-            initial={{ opacity: 1 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1, ease: 'easeInOut' }}
-            className='fixed inset-0 z-[100] flex items-center justify-center bg-black'
-          >
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 1.2, opacity: 0 }}
-              transition={{ duration: 1.5, ease: 'easeInOut' }}
-              className='flex flex-col items-center space-y-4'
-            >
-              <img src={logoWhite} alt='믹골프 로고' className='w-64 md:w-80' />
-              <motion.span
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 1 }}
-                className='text-3xl font-light text-white md:text-4xl lg:text-5xl'
-              >
-                Make It Count
-              </motion.span>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <Intro showIntro={showIntro} />
 
       {/* 배너 */}
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5, duration: 1 }}>
