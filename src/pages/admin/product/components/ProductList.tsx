@@ -28,10 +28,10 @@ const ProductList = ({
   setPageLimit,
   isPending,
   error,
+  setQuantitPopupData,
 }: ProductListProps) => {
   const queryClient = useQueryClient();
   const [checkedList, setCheckedList] = useState<ProductListType[]>([]);
-
   const deleteMutation = useMutation({
     mutationFn: (id: number) => adminApi.deleteProduct(id),
     onSuccess: () => {
@@ -43,7 +43,27 @@ const ProductList = ({
       alert('상품 삭제에 실패했습니다.');
     },
   });
+  const patchStatusMutation = useMutation({
+    mutationFn: ({ id, status }: { id: number[]; status: string }) => adminApi.patchProductsStatus(id, status),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['productFilterData'] });
+      alert('상품상태가 변경되었습니다.');
+    },
+    onError: (error) => {
+      console.error('상태변경 실패:', error);
+      alert('상태변경에 실패했습니다.');
+    },
+  });
 
+  const handleDelete = (id: number) => {
+    if (window.confirm('정말로 이 상품을 삭제하시겠습니까?')) {
+      deleteMutation.mutate(id);
+    }
+  };
+  const handlePatchStatus = (id: number[], status: string) => {
+    patchStatusMutation.mutate({ id, status });
+  };
+  console.log(checkedList);
   return (
     <SectionBox title={`상품목록 총(${productListArray?.length}개)`} selectOptions={true} setPageLimit={setPageLimit}>
       <div className='px-5'>
@@ -88,7 +108,7 @@ const ProductList = ({
                 <div className='flex w-2/12 items-center justify-center'>
                   <button
                     type='button'
-                    onClick={() => deleteMutation.mutate(item.product.id)}
+                    onClick={() => handleDelete(item.product.id)}
                     className='block w-3/4 rounded-md bg-red-500 px-4 py-2 text-base text-white duration-300 ease-in-out hover:scale-105'
                   >
                     삭제
@@ -103,6 +123,7 @@ const ProductList = ({
                   <button
                     type='button'
                     onClick={() => {
+                      setQuantitPopupData(item);
                       handleShowPopup();
                     }}
                     className='block rounded-md border-[1px] border-neutral-200 bg-white px-4 py-2 text-base text-black duration-300 ease-in-out hover:scale-105 hover:bg-black hover:text-white'
@@ -134,7 +155,12 @@ const ProductList = ({
           </button>
           <button
             type='button'
-            onClick={() => {}}
+            onClick={() => {
+              handlePatchStatus(
+                checkedList.map((item) => item.product.id),
+                'Y'
+              );
+            }}
             className='block w-1/4 rounded-md border-[1px] border-neutral-200 bg-white px-4 py-2 text-base text-black duration-300 ease-in-out hover:scale-105 hover:bg-black hover:text-white'
           >
             판매중

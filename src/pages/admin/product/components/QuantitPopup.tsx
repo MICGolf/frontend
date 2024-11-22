@@ -1,22 +1,23 @@
 import { useState } from 'react';
 
-const colors = ['red', 'yellow', 'green', 'blue', 'purple'];
-
-const QuantitPopup = ({ onClose }: { onClose: () => void }) => {
-  const [color, setColor] = useState('red');
+const QuantitPopup = ({ onClose, quantitPopupData }: { onClose: () => void; quantitPopupData: any }) => {
+  const [color, setColor] = useState(quantitPopupData.options[0]);
+  console.log(quantitPopupData);
   return (
-    <div className='overflow-hidden'>
-      <div onClick={onClose} className='absolute left-0 top-0 flex h-full w-full bg-black/50' />
-      <div className='absolute left-1/2 top-1/2 m-auto w-2/3 translate-x-[-50%] translate-y-[-50%] rounded-lg bg-white p-4'>
-        <h4 className='text-xl font-semibold'>상품이름</h4>
+    <div className='fixed left-0 top-0 flex h-full w-full items-center justify-center'>
+      <div onClick={onClose} className='absolute h-full w-full bg-black/50' />
+      <div className='z-10 w-2/3 rounded-lg bg-white p-4'>
+        <h4 className='text-xl font-semibold'>{quantitPopupData.product.name}</h4>
         <ul className='mt-4'>
-          {colors.map((colorInfo) => {
+          {quantitPopupData.options.map((data: any) => {
             return (
               <li
-                key={colorInfo}
-                className={`inline-block cursor-pointer rounded-md px-4 py-2 ${color === colorInfo ? 'text-bold bg-primary text-white' : ''}`}
+                key={data.id}
+                className={`inline-block cursor-pointer rounded-md px-4 py-2 ${color.color === data.color ? 'text-bold bg-primary text-white' : ''}`}
               >
-                <a onClick={() => setColor(colorInfo)}>{colorInfo}</a>
+                <button type='button' onClick={() => setColor(data)}>
+                  {data.color}
+                </button>
               </li>
             );
           })}
@@ -25,11 +26,15 @@ const QuantitPopup = ({ onClose }: { onClose: () => void }) => {
           <p className='text-base font-semibold text-neutral-700'>색상정보</p>
           <p className='mt-2 text-base'>
             <span className='mr-2 text-sm font-semibold text-neutral-500'>이름</span>
-            {color}
+            {color.color}
           </p>
-          <p className='mt-2 text-base'>
+          <p className='mt-2 flex items-center text-base'>
             <span className='mr-2 text-sm font-semibold text-neutral-500'>코드</span>
-            {color}
+            <div
+              style={{ backgroundColor: color.color_code }}
+              className='mr-1 inline-block w-fit rounded-md px-2 py-2'
+            ></div>
+            {color.color_code}
           </p>
           <p className='mt-5 text-base font-semibold text-neutral-700'>사이즈 및 재고</p>
           <div className='mt-2 text-base'>
@@ -41,14 +46,14 @@ const QuantitPopup = ({ onClose }: { onClose: () => void }) => {
                 </tr>
               </thead>
               <tbody className='text-center text-lg'>
-                <tr className='border-b border-neutral-200'>
-                  <td className='py-2'>S</td>
-                  <td className='py-2'>100</td>
-                </tr>
-                <tr className='border-b border-neutral-200'>
-                  <td className='py-2'>M</td>
-                  <td className='py-2'>100</td>
-                </tr>
+                {quantitPopupData.options[0].sizes.map((size: any) => {
+                  return (
+                    <tr className='border-b border-neutral-200'>
+                      <td className='py-2'>{size.size}</td>
+                      <td className='py-2'>{size.stock}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

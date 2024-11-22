@@ -39,6 +39,7 @@ export interface ProductListProps {
   page: number;
   setPage: (page: number) => void;
   setPageLimit: (limit: string) => void;
+  setQuantitPopupData: (data: any) => void;
 }
 export interface ProductFilterProps {
   setSearchParams: (params: any) => void;

@@ -36,7 +36,6 @@ const ProductFilter = ({ setSearchParams, onSubmit }: ProductFilterProps) => {
     searchParamsData.append('sort', 'created_at');
     setSearchParams(searchParamsData);
     onSubmit();
-    console.log(data);
   };
 
   return (
