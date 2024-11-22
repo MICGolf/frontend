@@ -82,8 +82,8 @@ export const SideBar = () => {
         <img src={logoWhite} alt='믹골프 로고' />
       </div>
       <div>
-        <p className='text-center'>믹골프</p>
-        <p className='text-center'>계정 : ddd </p>
+        {/* <p className='text-center'>믹골프</p>
+        <p className='text-center'>계정 : ddd </p> */}
       </div>
       {/* FIX
       <form onSubmit={handleSubmit(handlerSubmit)} className='px-8'>

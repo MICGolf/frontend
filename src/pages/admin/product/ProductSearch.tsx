@@ -15,6 +15,7 @@ const productStatusArray = [
 
 const ProductSearch = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [quantitPopupData, setQuantitPopupData] = useState();
   const [page, setPage] = useState(1);
   const [pageLimit, setPageLimit] = useState(localStorage.getItem('pageListLimit') || '100');
   const [searchParams, setSearchParams] = useSearchParams();
@@ -40,12 +41,10 @@ const ProductSearch = () => {
     queryFn: async () => {
       const response = await adminApi.getAdminProducts(searchParams);
       if (!response) return null;
+      console.log(response.data);
       return response.data;
     },
   });
-
-  console.log('productFilterData', productFilterData);
-  console.log('searchParams', searchParams);
 
   return (
     <>
@@ -59,8 +58,11 @@ const ProductSearch = () => {
         isPending={isPending}
         error={error}
         setPageLimit={setPageLimit}
+        setQuantitPopupData={setQuantitPopupData}
       />
-      {isOpen && <QuantitPopup onClose={() => setIsOpen(false)} />}
+      {isOpen && quantitPopupData && (
+        <QuantitPopup onClose={() => setIsOpen(false)} quantitPopupData={quantitPopupData} />
+      )}
     </>
   );
 };
