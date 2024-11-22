@@ -61,6 +61,7 @@ const HistoryFab = () => {
   return (
     <>
       <button
+        type='button'
         onClick={toggleModal}
         className='fixed bottom-20 right-20 z-[11] h-[50px] w-[50px] rounded-full bg-primary'
       >
@@ -77,7 +78,7 @@ const HistoryFab = () => {
         >
           <div className='flex justify-between'>
             <h2>히스토리</h2>
-            <button>
+            <button type='button' onClick={toggleModal}>
               <X />
             </button>
           </div>
