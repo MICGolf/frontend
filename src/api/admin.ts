@@ -10,7 +10,7 @@ export const getAdminProducts = async (params?: any) => {
 };
 export const patchProductsStatus = async (id?: number[], status?: string) => {
   return client
-    .patch(`products/products/status`, { id, status })
+    .patch(`products/products/status`, { product_ids: id, status: status?.toUpperCase() })
     .then((response) => response)
     .catch((error) => {
       console.log(error);

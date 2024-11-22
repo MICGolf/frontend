@@ -41,28 +41,36 @@ const ProductFilter = ({ setSearchParams, onSubmit }: ProductFilterProps) => {
   return (
     <FormProvider {...methods}>
       <form className='mt-6 grid grid-cols-6 rounded-lg bg-white px-8 py-5' onSubmit={handleSubmit(handlerSubmit)}>
-        <p className='col-span-1 mt-4 flex items-center text-base font-semibold text-neutral-500'>검색어</p>
-        <div className='col-span-5'>
-          <div className='flex items-center gap-4'>
+        <div className='col-span-6'>
+          <label htmlFor='productNumber' className='col-span-6 grid grid-cols-6 items-center gap-4'>
+            <p className='col-span-1 mt-4 text-base font-semibold text-neutral-500'>상품번호</p>
             <input
               type='number'
               placeholder='상품번호'
               {...register('productNumber')}
-              className='mt-4 w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
+              className='col-span-5 mt-4 w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
             />
+          </label>
+          <label htmlFor='productName' className='col-span-6 grid grid-cols-6 items-center gap-4'>
+            <p className='col-span-1 mt-4 text-base font-semibold text-neutral-500'>상품명</p>
             <input
               type='text'
               placeholder='상품명'
               {...register('productName')}
-              className='mt-4 w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
+              className='col-span-5 mt-4 w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
             />
+          </label>
+
+          <label htmlFor='sellerProductCode' className='col-span-6 grid grid-cols-6 items-center gap-4'>
+            <p className='col-span-1 mt-4 text-base font-semibold text-neutral-500'>판매자 상품코드</p>
             <input
               type='text'
               placeholder='판매자 상품코드'
               {...register('sellerProductCode')}
-              className='mt-4 w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
+              className='col-span-5 mt-4 w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
             />
-          </div>
+          </label>
+
           <p className='flex items-center text-sm text-red-500'>{errors.productName?.message as string}</p>
         </div>
         <p className='col-span-1 mt-4 flex items-center text-base font-semibold text-neutral-500'>판매상태</p>

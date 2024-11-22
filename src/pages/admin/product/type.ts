@@ -2,7 +2,7 @@ interface Image {
   id: number;
   image_url: string;
 }
-interface Sizes {
+export interface Sizes {
   size: string;
   stock: number;
 }
@@ -20,7 +20,7 @@ export interface ProductListType {
     name: string;
     price: number;
     discount: number;
-    discount_option: 'string';
+    discount_option: 'percent' | 'price';
     origin_price: number;
     description: string;
     detail: string;

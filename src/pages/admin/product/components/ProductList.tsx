@@ -5,6 +5,7 @@ import { ProductListProps, ProductListType } from '../type';
 import Pagination from '../../components/Pagination';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { adminApi } from '@/api';
+import { useNavigate } from 'react-router-dom';
 
 const ListHeaderArray = [
   { className: 'w-1/12', title: '체크박스' },
@@ -30,6 +31,7 @@ const ProductList = ({
   error,
   setQuantitPopupData,
 }: ProductListProps) => {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [checkedList, setCheckedList] = useState<ProductListType[]>([]);
   const deleteMutation = useMutation({
@@ -46,8 +48,8 @@ const ProductList = ({
   const patchStatusMutation = useMutation({
     mutationFn: ({ id, status }: { id: number[]; status: string }) => adminApi.patchProductsStatus(id, status),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['productFilterData'] });
       alert('상품상태가 변경되었습니다.');
+      navigate(0);
     },
     onError: (error) => {
       console.error('상태변경 실패:', error);
@@ -136,6 +138,7 @@ const ProductList = ({
                 </div>
                 <div className='w-2/12'>
                   {item.product.discount.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}
+                  {item.product.discount_option === 'percent' ? '%' : '원'}
                 </div>
                 <div className='w-2/12'>
                   {(item.product.price - item.product.discount)
@@ -148,7 +151,16 @@ const ProductList = ({
         <div className='mt-5 flex justify-start gap-2'>
           <button
             type='button'
-            onClick={() => {}}
+            onClick={() => {
+              if (checkedList.length === 0) {
+                alert('상품을 선택해주세요.');
+                return;
+              }
+              handlePatchStatus(
+                checkedList.map((item) => item.product.id),
+                'N'
+              );
+            }}
             className='block w-1/4 rounded-md border-[1px] border-neutral-200 bg-white px-4 py-2 text-base text-black duration-300 ease-in-out hover:scale-105 hover:bg-black hover:text-white'
           >
             판매중지
@@ -156,6 +168,10 @@ const ProductList = ({
           <button
             type='button'
             onClick={() => {
+              if (checkedList.length === 0) {
+                alert('상품을 선택해주세요.');
+                return;
+              }
               handlePatchStatus(
                 checkedList.map((item) => item.product.id),
                 'Y'

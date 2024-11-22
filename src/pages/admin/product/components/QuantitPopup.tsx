@@ -1,8 +1,8 @@
 import { useState } from 'react';
+import { Sizes } from '../type';
 
 const QuantitPopup = ({ onClose, quantitPopupData }: { onClose: () => void; quantitPopupData: any }) => {
   const [color, setColor] = useState(quantitPopupData.options[0]);
-  console.log(quantitPopupData);
   return (
     <div className='fixed left-0 top-0 flex h-full w-full items-center justify-center'>
       <div onClick={onClose} className='absolute h-full w-full bg-black/50' />
@@ -30,10 +30,10 @@ const QuantitPopup = ({ onClose, quantitPopupData }: { onClose: () => void; quan
           </p>
           <p className='mt-2 flex items-center text-base'>
             <span className='mr-2 text-sm font-semibold text-neutral-500'>코드</span>
-            <div
+            <span
               style={{ backgroundColor: color.color_code }}
               className='mr-1 inline-block w-fit rounded-md px-2 py-2'
-            ></div>
+            />
             {color.color_code}
           </p>
           <p className='mt-5 text-base font-semibold text-neutral-700'>사이즈 및 재고</p>
@@ -46,9 +46,9 @@ const QuantitPopup = ({ onClose, quantitPopupData }: { onClose: () => void; quan
                 </tr>
               </thead>
               <tbody className='text-center text-lg'>
-                {quantitPopupData.options[0].sizes.map((size: any) => {
+                {quantitPopupData.options[0].sizes.map((size: Sizes) => {
                   return (
-                    <tr className='border-b border-neutral-200'>
+                    <tr className='border-b border-neutral-200' key={size.size}>
                       <td className='py-2'>{size.size}</td>
                       <td className='py-2'>{size.stock}</td>
                     </tr>
