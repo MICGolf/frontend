@@ -34,8 +34,6 @@ const CategorySelcet = () => {
     },
   });
 
-  console.log('categoryList', categoryData);
-
   return (
     <div className='col-span-5 flex items-center gap-4'>
       <select
