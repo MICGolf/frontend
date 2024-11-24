@@ -36,7 +36,7 @@ const CartItem = ({
         <CheckBox handleCartSelectToggle={handleCartSelectToggle} itemId={data.id} isChecked={isChecked} />
       </div>
 
-      <Link to={`/shop/detail/${data.productId}`} className='h-full min-w-[100px] overflow-hidden md:min-w-[200px]'>
+      <Link to={`/product/detail/${data.productId}`} className='h-full min-w-[100px] overflow-hidden md:min-w-[200px]'>
         <img
           src={data.image}
           alt={data.name}
@@ -48,7 +48,7 @@ const CartItem = ({
         <>
           <div className='flex h-full w-full flex-col justify-between'>
             <div className='flex flex-col'>
-              <Link to={`/shop/detail/${data.productId}`}>
+              <Link to={`/product/detail/${data.productId}`}>
                 <h3 className='mb-1 cursor-pointer text-sm font-semibold md:text-lg'>{data.name}</h3>
               </Link>
 
@@ -88,7 +88,7 @@ const CartItem = ({
           <div className='flex h-full w-full flex-col gap-2'>
             <div className='flex justify-between'>
               <div className='flex flex-col'>
-                <Link to={`/shop/detail/${data.productId}`}>
+                <Link to={`/product/detail/${data.productId}`}>
                   <h3 className='mb-1 cursor-pointer text-sm font-semibold md:text-lg'>{data.name}</h3>
                 </Link>
                 <p className='text-xs text-gray700'>

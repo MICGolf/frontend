@@ -1,62 +1,50 @@
 import { useState } from 'react';
-import { ProductDetailViewProps } from '../types';
-import { Color, Size } from '@/assets/dummys/types';
-import useSoldOutState from '@/hooks/useSoldoutState';
-import useSaleState from '@/hooks/useSaleState';
+import { OptionState, ProductDetailViewProps } from '../types';
 import { useMediaQuery } from 'react-responsive';
 import useModalState from '@/hooks/useModalState/useModalState';
 import OptionSelectBox from './OptionSelectBox';
 import MobileOptionSelectBox from './MobileOptionSelectBox';
-import DetailImageSkeleton from './skeletons/DetailImageSkeleton';
+import { ProductImage } from '@/api/type';
+import ProductDetailImage from './ProductDetailImage';
 
-const ProductDetailView = ({ data, isLoading }: ProductDetailViewProps) => {
-  const [detailImage, setDetailImage] = useState<string[]>(data.colors[0]?.images);
-  const [selectedColor, setSelectedColor] = useState<Color | null>(null);
-  const [selectedSize, setSelectedSize] = useState<Size | null>(null);
-  const [count, setCount] = useState<number>(1);
-  const [maxCount, setMaxCount] = useState<number>(1);
-  const [isOpen, setIsOpen] = useState<boolean>(true);
-  const isMobile = useMediaQuery({ maxWidth: 767 });
-  const { isSoldOut } = useSoldOutState(data);
-  const { isSale, saleLabelText, labelClassNames } = useSaleState(data);
+const ProductDetailView = ({ data }: ProductDetailViewProps) => {
+  const shouldResponsive = useMediaQuery({ maxWidth: 767 });
   const { handleModalOpen, renderModalContent } = useModalState();
+  const [detailImage, setDetailImage] = useState<ProductImage[] | []>([]);
+  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [selectedOption, setSelectedOption] = useState<OptionState>({
+    optionData: data.options[0],
+    selectedColor: null,
+    selectedSize: null,
+    amount: 1,
+    stock: 0,
+  });
+
   const optionSelectBoxProps = {
     data,
-    count,
-    maxCount,
-    isSale,
-    isLoading,
-    isSoldOut,
+    selectedOption,
     isOpen,
-    labelClassNames,
-    saleLabelText,
-    selectedSize,
-    selectedColor,
     detailImage,
-    setMaxCount,
-    setCount,
+    setSelectedOption,
     setIsOpen,
-    setSelectedColor,
-    setDetailImage,
-    setSelectedSize,
     handleModalOpen,
   };
 
   return (
-    <section className='flex min-h-screen flex-col transition-all duration-300 ease-in-out md:flex-row'>
-      <div className='flex w-full flex-col gap-[2px] transition-all duration-300 ease-in-out md:w-1/2'>
-        {isLoading ? (
-          <DetailImageSkeleton />
-        ) : (
-          detailImage.map((img, idx) => (
-            <div key={idx} className='h-screen w-full transition-transform duration-500 ease-in-out md:h-full'>
-              <img src={img} alt={`상품 이미지 ${idx + 1}`} className='h-full w-full object-cover' />
-            </div>
-          ))
-        )}
-      </div>
+    <section className='flex flex-col min-h-screen transition-all duration-300 ease-in-out md:flex-row'>
+      {/* 디테일 이미지 영역 */}
+      <ProductDetailImage
+        data={data}
+        selectedOption={selectedOption}
+        detailImage={detailImage}
+        setDetailImage={setDetailImage}
+      />
       {/* 옵션 선택 박스 영역 */}
-      {isMobile ? <MobileOptionSelectBox {...optionSelectBoxProps} /> : <OptionSelectBox {...optionSelectBoxProps} />}
+      {shouldResponsive ? (
+        <MobileOptionSelectBox {...optionSelectBoxProps} />
+      ) : (
+        <OptionSelectBox {...optionSelectBoxProps} />
+      )}
       {/* 모달 영역 */}
       {renderModalContent()}
     </section>

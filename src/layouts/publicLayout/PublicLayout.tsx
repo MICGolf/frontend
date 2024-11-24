@@ -50,7 +50,7 @@ const PublicLayout = () => {
 
   const paddingBottomByLocation = () => {
     if (
-      (isShopMobileView && location.pathname.startsWith('/shop/detail')) ||
+      (isShopMobileView && location.pathname.startsWith('/product/detail')) ||
       (isFooterMobileView && location.pathname.startsWith('/cart'))
     ) {
       return '40px';

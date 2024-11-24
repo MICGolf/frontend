@@ -8,7 +8,6 @@ import SignUpPage from './pages/auth/SignUpPage';
 import SignUpCompletePage from './pages/auth/SignUpCompletePage';
 import MyPage from './pages/mypage/MyPage';
 import AdminPage from './pages/admin/main/AdminPage';
-import DetailPage from './pages/shop/detailPage/DetailPage';
 import CartPage from './pages/cart/CartPage';
 import NoticePage from './pages/notice/NoticePage';
 import AdminLayout from './layouts/adminLayout/AdminLayout';
@@ -30,6 +29,7 @@ import BannerPage from './pages/admin/store/BannerPage';
 import { PromotionPage } from './pages/admin/store/PromotionPage';
 import ProductSearch from './pages/admin/product/ProductSearch';
 import ProtectPrivateRoute from './routes/ProtectPrivateRoute';
+import DetailPage from './pages/shop/detailPage/DetailPage';
 
 function App() {
   return (
@@ -47,7 +47,7 @@ function App() {
           <Route path='/shop' element={<ShopPage />} />
           <Route path='/shop/:majorCategory' element={<CategoryPage />} />
           <Route path='/shop/:majorCategory/:middleCategory' element={<CategoryPage />} />
-          <Route path='/shop/detail/:id' element={<DetailPage />} />
+          <Route path='/product/detail/:id' element={<DetailPage />} />
 
           {/* 이벤트 */}
           <Route path='/event' element={<EventMainPage />} />

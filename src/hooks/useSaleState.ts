@@ -1,33 +1,36 @@
-import { CartItemData2, ProductDetail } from '@/assets/dummys/types';
 import { useEffect, useState } from 'react';
 
-const useSaleState = (product: ProductDetail | CartItemData2) => {
+interface useSaleStateParams {
+  discount: number;
+  discountOption: 'percent' | 'amount'; // 할인 방식
+}
+
+const useSaleState = ({ discount, discountOption }: useSaleStateParams) => {
   const [isSale, setIsSale] = useState<boolean>(true);
-  const { sale } = product;
-  const { unit, value } = sale;
 
+  // 할인 상태의 조건 : discount가 0보다 클때(초과)
   useEffect(() => {
-    setIsSale(sale.is_active);
-  }, [sale.is_active]);
+    if (discount > 0) setIsSale(true);
+  }, [discount]);
 
-  const renderPriceTextByUnit = (unit: string, value: number) => {
-    switch (unit) {
-      case '%':
-        return `${value}${unit} 할인`;
-      case '-':
-        return `${value}원 할인`;
+  const renderPriceTextByOption = (discountOption: 'percent' | 'amount', discount: number) => {
+    switch (discountOption) {
+      case 'percent':
+        return `${discount}% 할인`;
+      case 'amount':
+        return `${discount}원 할인`;
       default:
         return '';
     }
   };
 
-  const saleLabelText = renderPriceTextByUnit(unit, value);
+  const saleLabelText = renderPriceTextByOption(discountOption, discount);
 
   // 할인 라벨 조건부 스타일
   const labelClassNames =
-    unit === '%'
-      ? 'bg-primary text-white' // %일 경우 배경색
-      : 'border border-primary text-primary'; // -일 경우 테두리 색과 글자색
+    discountOption === 'percent'
+      ? 'bg-primary text-white' // 'percent'일 경우 배경색
+      : 'border border-primary text-primary'; // 'amount'일 경우 테두리 색과 글자색
 
   return { isSale, saleLabelText, labelClassNames };
 };

@@ -1,8 +1,8 @@
 import CardSkeletonUI from './CardSkeletonUI';
 
-const skeletonArr = new Array(10).fill(null);
+const skeletonArr = new Array(4).fill(null);
 
-const ProductCartSkeleton = () => {
+const ProductCardSkeleton = () => {
   return (
     <>
       {skeletonArr.map((_, idx) => (
@@ -12,4 +12,4 @@ const ProductCartSkeleton = () => {
   );
 };
 
-export default ProductCartSkeleton;
+export default ProductCardSkeleton;

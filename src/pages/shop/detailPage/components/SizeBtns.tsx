@@ -1,50 +1,68 @@
 import { useEffect, useState } from 'react';
-import { SizeBtnsProps } from '../types';
-import { Size } from '@/assets/dummys/types';
+import { OptionState } from '../types';
+import { ProductOption, ProductSize } from '@/api/type';
 
-const SizeBtns = ({ data, onSelect }: SizeBtnsProps) => {
-  const [selectedSize, setSelectedSize] = useState('');
+interface SizeBtnsProps {
+  data: ProductOption[];
+  selectedOption: OptionState;
+  onSelect: (prevOption: OptionState) => void;
+}
 
-  const handleSizeChange = (size: Size) => {
-    if (selectedSize === size.name) {
-      // 동일한 사이즈를 클릭하면 선택 해제
-      setSelectedSize('');
-      onSelect(null); // 선택 해제 시 null 전달
-    } else {
-      // 다른 사이즈를 클릭하면 선택 설정
-      setSelectedSize(size.name);
-      onSelect(size);
-    }
+const SizeBtns = ({ data, selectedOption, onSelect }: SizeBtnsProps) => {
+  const [selectedSizeName, setSelectedSizeName] = useState<string>('');
+  const isColorSelected = !!selectedOption.selectedColor;
+
+  // 선택한 컬러에 해당하는 사이즈 데이터 필터링
+  const filteredSizes = isColorSelected
+    ? data.find((option) => option.color === selectedOption.selectedColor?.color)?.sizes || []
+    : [];
+
+  const handleSizeChange = (size: ProductSize) => {
+    const isSelected = selectedSizeName === size.size;
+    setSelectedSizeName(isSelected ? '' : size.size);
+
+    onSelect({
+      ...selectedOption,
+      selectedSize: isSelected ? null : size,
+      amount: 1,
+    });
   };
 
   useEffect(() => {
-    setSelectedSize('');
-  }, [data]);
+    setSelectedSizeName('');
+  }, [selectedOption.selectedColor]); // 색상이 변경되면 사이즈 초기화
 
   return (
-    <div className='flex w-full flex-col gap-2'>
+    <div className='flex flex-col w-full gap-2'>
       <h3 className='text-lg font-light md:text-2xl'>사이즈</h3>
-      <ul className='flex flex-wrap gap-2'>
-        {data ? (
-          data.sizes?.map((size, idx) => (
-            <li key={idx}>
-              <button
-                type='button'
-                onClick={() => handleSizeChange(size)}
-                className={`flex h-[30px] w-[30px] cursor-pointer items-center justify-center border-b border-black font-light transition-colors duration-300 hover:bg-black hover:text-white md:h-[40px] md:w-[40px] ${
-                  selectedSize === size.name ? 'bg-black text-white' : 'bg-white text-black'
-                }`}
-                aria-label={`사이즈: ${size.name}`}
-              >
-                <span className='text-sm md:text-base'>{size.name}</span>
-              </button>
-            </li>
-          ))
-        ) : (
-          <p className='flex h-[10px] w-full items-center text-sm text-gray-400 md:text-base'>색상을 선택해주세요!</p>
+      <div className='flex flex-wrap gap-2' role='radiogroup' aria-label='사이즈 선택'>
+        {!isColorSelected && (
+          <p className='h-[30px] w-full text-sm text-gray-400 md:h-[40px] md:text-base'>색상을 선택해주세요!</p>
         )}
-        {}
-      </ul>
+        {isColorSelected &&
+          filteredSizes &&
+          filteredSizes.map((item) => (
+            <label
+              key={item.size}
+              htmlFor={`${item.size.trim()}RadioButton`}
+              className={`flex h-[30px] w-[30px] cursor-pointer items-center justify-center border-b border-black font-light transition-colors duration-300 hover:bg-black hover:text-white md:h-[40px] md:w-[40px] ${
+                selectedSizeName === item.size ? 'bg-black text-white' : 'bg-white text-black'
+              }`}
+            >
+              <input
+                type='radio'
+                id={`${item.size.trim()}RadioButton`}
+                name={`${item.size.trim()}RadioButton`}
+                value={item.size}
+                checked={selectedSizeName.trim() === item.size.trim()}
+                onChange={() => handleSizeChange(item)}
+                className='sr-only'
+                aria-label={`사이즈: ${item.size}`}
+              />
+              <span className='text-sm md:text-base'>{item.size}</span>
+            </label>
+          ))}
+      </div>
     </div>
   );
 };

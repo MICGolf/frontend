@@ -1,10 +1,11 @@
-import { ProductDetail } from '@/assets/dummys/types';
+import { ProductOption } from '@/api/type';
 import { useMemo } from 'react';
 
-const useSoldOutState = (product: ProductDetail) => {
+const useSoldOutState = (optionData: ProductOption | null) => {
   const isSoldOut = useMemo(() => {
-    return product.colors.every((color) => color.sizes.every((size) => size.stock === 0));
-  }, [product]);
+    if (!optionData) return false;
+    return optionData.sizes.every((size) => size.stock === 0);
+  }, [optionData]);
 
   return { isSoldOut };
 };

@@ -6,115 +6,87 @@ import SizeBtns from './SizeBtns';
 import CounterBtn from './CounterBtn';
 import AddCartBtn from './AddCartBtn';
 import NaverPayBtn from './NaverPayBtn';
-import { Color, ProductDetail, Size } from '@/assets/dummys/types';
 import { SignUpModalType } from '@/hooks/useModalState/useModalState';
-import OptionSelectBoxSkeleton from './skeletons/OptionSelectBoxSkeleton';
+import { ProductData, ProductImage } from '@/api/type';
+import { OptionState } from '../types';
+import useSaleState from '@/hooks/useSaleState';
+import useSoldOutState from '@/hooks/useSoldoutState';
 
 interface OptionSelectBoxProps {
-  data: ProductDetail;
-  count: number;
-  maxCount: number;
-  isLoading: boolean;
-  isSale: boolean;
-  isSoldOut: boolean;
-  labelClassNames: string;
-  saleLabelText: string;
-  selectedColor: Color | null;
-  selectedSize: Size | null;
-  detailImage: string[];
+  data: ProductData;
+  selectedOption: OptionState;
+  isOpen: boolean;
+  detailImage: ProductImage[] | null;
+  setSelectedOption: (prevOption: OptionState) => void;
+  setIsOpen: (isOpen: boolean) => void;
   handleModalOpen: (type: SignUpModalType) => void;
-  setCount: (count: number) => void;
-  setMaxCount: (maxCount: number) => void;
-  setSelectedColor: (color: Color | null) => void;
-  setSelectedSize: (size: Size | null) => void;
-  setDetailImage: (image: string[]) => void;
 }
 
 const OptionSelectBox = ({
   data,
-  count,
-  maxCount,
-  isSale,
-  isLoading,
-  isSoldOut,
-  labelClassNames,
-  saleLabelText,
-  selectedColor,
-  selectedSize,
+  selectedOption,
   detailImage,
-  setCount,
-  setSelectedColor,
-  setDetailImage,
-  setMaxCount,
-  setSelectedSize,
+  setSelectedOption,
   handleModalOpen,
 }: OptionSelectBoxProps) => {
+  const { isSale } = useSaleState({
+    discount: data.product.discount,
+    discountOption: data.product.discount_option,
+  });
+  const { isSoldOut } = useSoldOutState(selectedOption?.optionData);
   return (
     <div className='sticky top-0 flex h-[100vh] w-1/2 flex-col overflow-auto border-l border-primary bg-white px-[50px] pb-[50px] pt-[150px] transition-all duration-300 ease-in-out md:border-l'>
-      {isLoading ? (
-        <OptionSelectBoxSkeleton />
-      ) : (
-        <div className='flex h-full flex-col gap-12'>
-          <div className='flex flex-col gap-4'>
-            <div className='flex gap-2'>
-              <div className='flex w-full flex-col gap-3'>
-                <h2 className='text-2xl font-bold transition-transform duration-300 ease-in-out md:text-4xl'>
-                  {data.name}
-                </h2>
-                <SaleProvider data={data}>
-                  <SaleLabel classString={labelClassNames} text={saleLabelText} />
-                </SaleProvider>
-              </div>
+      <div className='flex flex-col h-full gap-12'>
+        <div className='flex flex-col gap-4'>
+          <div className='flex gap-2'>
+            <div className='flex flex-col w-full gap-3'>
+              <h2 className='text-2xl font-bold transition-transform duration-300 ease-in-out md:text-4xl'>
+                {data.product.name}
+              </h2>
+              <SaleProvider discount={data.product.discount} discountOption={data.product.discount_option}>
+                <SaleLabel />
+              </SaleProvider>
             </div>
-            {isSale ? (
-              <SalePrice data={data} />
-            ) : (
-              <div>
-                <p className='text-2xl font-light'>₩{data.price.toLocaleString()}</p>
-                <p className='text-2xl font-bold'>₩{data.sale.result.toLocaleString()}</p>
+          </div>
+          {isSale ? (
+            <SalePrice price={data.product.price} originPrice={data.product.origin_price} />
+          ) : (
+            <div>
+              <p className='text-2xl font-bold text-primary'>₩{data.product.origin_price.toLocaleString()}</p>
+            </div>
+          )}
+        </div>
+
+        <div className='flex flex-col gap-6 mt-auto'>
+          {/* 옵션 선택 영역 */}
+          <div className='flex flex-col w-full gap-6 md:justify-start'>
+            <ColorBtns data={data.options} selectedOption={selectedOption} onSelect={setSelectedOption} />
+            <SizeBtns data={data.options} selectedOption={selectedOption} onSelect={setSelectedOption} />
+            <CounterBtn
+              data={data.options}
+              selectedOption={selectedOption}
+              onSelect={setSelectedOption}
+              isSoldOut={isSoldOut}
+            />
+          </div>
+
+          {/* 장바구니 & 네이버페이 버튼 영역 */}
+          <div className='relative flex flex-col gap-4 transition-all duration-300 ease-in-out xl:flex-row'>
+            {isSoldOut && (
+              <div className='absolute z-50 flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.45)] text-2xl text-white'>
+                <span className='absolute animate-pulse'>Sold Out</span>
               </div>
             )}
-          </div>
-
-          <div className='mt-auto flex flex-col gap-6'>
-            {/* 옵션 선택 영역 */}
-            <div className='flex w-full flex-col gap-6 md:justify-start'>
-              <ColorBtns data={data.colors} onSelect={setSelectedColor} onChange={setDetailImage} />
-
-              <SizeBtns data={selectedColor} onSelect={setSelectedSize} />
-
-              <CounterBtn
-                count={count}
-                setCount={setCount}
-                maxCount={maxCount}
-                setMaxCount={setMaxCount}
-                selectedSize={selectedSize}
-                selectedColor={selectedColor}
-                isSoldOut={isSoldOut}
-              />
-            </div>
-
-            {/* 장바구니 & 네이버페이 버튼 영역 */}
-            <div className='relative flex flex-col gap-4 transition-all duration-300 ease-in-out xl:flex-row'>
-              {isSoldOut && (
-                <div className='absolute z-50 flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.45)] text-2xl text-white'>
-                  <span className='absolute animate-pulse'>Sold Out</span>
-                </div>
-              )}
-              <AddCartBtn
-                data={data}
-                count={count}
-                maxCount={maxCount}
-                selectedColor={selectedColor}
-                selectedSize={selectedSize}
-                detailImage={detailImage}
-                handleModalOpen={handleModalOpen}
-              />
-              <NaverPayBtn />
-            </div>
+            <AddCartBtn
+              productData={data.product}
+              selectedOption={selectedOption}
+              detailImage={detailImage}
+              handleModalOpen={handleModalOpen}
+            />
+            <NaverPayBtn />
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };
