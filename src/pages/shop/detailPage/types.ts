@@ -4,7 +4,9 @@ export interface ProductDetailViewProps {
   data: ProductData;
 }
 
-export interface ProductDetailsProps extends ProductDetailViewProps {}
+export interface ProductDetailsProps extends ProductDetailViewProps {
+  isFetching: boolean;
+}
 
 export interface OptionState {
   productCode: string;

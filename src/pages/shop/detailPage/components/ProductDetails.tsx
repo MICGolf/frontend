@@ -5,18 +5,18 @@ import ReviewDropdown from './ReviewDropDown';
 import { ProductDetailsProps } from '../types';
 import RefundPolicy from './RefundPolicy';
 
-const ProductDetails = ({ data, isPending }: ProductDetailsProps) => {
+const ProductDetails = ({ data, isFetching }: ProductDetailsProps) => {
   const detailBoxes = [
     {
       id: 1,
       title: '제품 설명',
-      content: <TextContent content={data.product.description} isPending={isPending} />,
+      content: <TextContent content={data.product.description} isFetching={isFetching} />,
       show: true,
     },
     {
       id: 2,
       title: '제품 특징',
-      content: <TextContent content={data.product.detail} isPending={isPending} />,
+      content: <TextContent content={data.product.detail} isFetching={isFetching} />,
       show: true,
     },
     {
@@ -42,10 +42,10 @@ const ProductDetails = ({ data, isPending }: ProductDetailsProps) => {
           <div key={item.id} className='flex flex-col border-t border-t-gray500 py-[38px]'>
             <div className='flex flex-col gap-4 xl:flex-row xl:justify-between'>
               <h3 className='flex-1 text-xl font-semibold md:text-4xl'>{item.title}</h3>
-              <div className='flex flex-col flex-1'>{item.content}</div>
+              <div className='flex flex-1 flex-col'>{item.content}</div>
             </div>
             {item.hasCarousel && (
-              <div className='flex flex-col w-full mt-7'>
+              <div className='mt-7 flex w-full flex-col'>
                 <ReviewCarousel />
                 <ReviewCard />
               </div>

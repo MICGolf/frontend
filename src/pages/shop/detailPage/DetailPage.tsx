@@ -31,7 +31,7 @@ const DetailPage = () => {
   return (
     <article className='w-full'>
       {isError && (
-        <div className='flex items-center justify-center w-full h-screen text-2xl text-primary'>
+        <div className='flex h-screen w-full items-center justify-center text-2xl text-primary'>
           <p>{error.message}</p>
         </div>
       )}
@@ -39,7 +39,7 @@ const DetailPage = () => {
       {productDetailData && (
         <>
           <ProductDetailView data={productDetailData} />
-          <ProductDetails data={productDetailData} />
+          <ProductDetails data={productDetailData} isFetching={isFetching} />
         </>
       )}
     </article>
