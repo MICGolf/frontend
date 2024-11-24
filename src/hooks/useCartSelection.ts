@@ -1,11 +1,11 @@
-import { CartItemData2 } from '@/assets/dummys/types';
+import { CartItemData } from '@/assets/dummys/types';
 import { useEffect, useMemo, useState } from 'react';
 import useLocalStorage from './useLocalStorage';
 
-export const useCartSelection = (cartItems: CartItemData2[]) => {
+export const useCartSelection = (cartItems: CartItemData[]) => {
   const [_, setValue] = useLocalStorage('cartItems', []);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
-  const [cartItemArr, setCartItemArr] = useState<CartItemData2[]>(cartItems); // 상태로 cartItems 배열을 관리
+  const [cartItemArr, setCartItemArr] = useState<CartItemData[]>(cartItems); // 상태로 cartItems 배열을 관리
   const [selectAll, setSelectAll] = useState(false); // 전체 선택 상태 추적
 
   // 장바구니 아이템 리스트 선택(체크박스) 토글

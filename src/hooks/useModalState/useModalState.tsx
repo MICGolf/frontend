@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import TermsOfServiceModal from './TermsOfServiceModal';
 import LoginOrPaymentModal from './LoginOrPaymentModal';
-import { CartItemData2 } from '@/assets/dummys/types';
+import { CartItemData } from '@/assets/dummys/types';
 import AddCartModal from './AddCartModal';
 import { UserPrivacyModal } from './UserPrivacyModal';
 
@@ -9,7 +9,7 @@ export type SignUpModalType = '개인정보' | '이용약관' | '결제모달' |
 
 type useModalStateProps = {
   paymentData?: {
-    items: CartItemData2[];
+    items: CartItemData[];
     totalPrice: number;
     totalDeliveryFee: number;
   };

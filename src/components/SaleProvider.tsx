@@ -1,5 +1,4 @@
 import { createContext, useContext, ReactNode } from 'react';
-import { CartItemData2, ProductDetail } from '@/assets/dummys/types';
 import useSaleState from '@/hooks/useSaleState';
 
 // Sale Context 정의
@@ -14,12 +13,13 @@ const SaleContext = createContext<SaleContextType | null>(null);
 
 // SaleProvider Props 타입 정의
 interface SaleProviderProps {
-  data: ProductDetail | CartItemData2;
-  children: ReactNode;
+  discount: number;
+  discountOption: 'percent' | 'amount';
+  children?: ReactNode;
 }
 
-export const SaleProvider = ({ data, children }: SaleProviderProps) => {
-  const saleState = useSaleState(data);
+export const SaleProvider = ({ discount, discountOption, children }: SaleProviderProps) => {
+  const saleState = useSaleState({ discount, discountOption });
 
   return <SaleContext.Provider value={saleState}>{children}</SaleContext.Provider>;
 };

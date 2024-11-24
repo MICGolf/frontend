@@ -6,55 +6,38 @@ import SizeBtns from './SizeBtns';
 import CounterBtn from './CounterBtn';
 import AddCartBtn from './AddCartBtn';
 import NaverPayBtn from './NaverPayBtn';
-import { Color, ProductDetail, Size } from '@/assets/dummys/types';
 import { SignUpModalType } from '@/hooks/useModalState/useModalState';
 import MobileModalToggler from './MobileModalToggler';
 import { motion, AnimatePresence } from 'framer-motion';
-import MobileOptionSelectBoxSkeleton from './skeletons/MobileOptionSelectBoxSkeleton';
+import useSaleState from '@/hooks/useSaleState';
+import useSoldOutState from '@/hooks/useSoldoutState';
+import { ProductData, ProductImage } from '@/api/type';
+import { OptionState } from '../types';
 
 interface MobileOptionSelectBoxProps {
-  data: ProductDetail;
-  count: number;
-  maxCount: number;
-  isLoading: boolean;
+  data: ProductData;
+  selectedOption: OptionState;
   isOpen: boolean;
-  isSale: boolean;
-  isSoldOut: boolean;
-  labelClassNames: string;
-  saleLabelText: string;
-  selectedColor: Color | null;
-  selectedSize: Size | null;
-  detailImage: string[];
+  detailImage: ProductImage[] | null;
+  setSelectedOption: (prevOption: OptionState) => void;
   setIsOpen: (isOpen: boolean) => void;
   handleModalOpen: (type: SignUpModalType) => void;
-  setCount: (count: number) => void;
-  setMaxCount: (maxCount: number) => void;
-  setSelectedColor: (color: Color | null) => void;
-  setSelectedSize: (size: Size | null) => void;
-  setDetailImage: (image: string[]) => void;
 }
 
 const MobileOptionSelectBox = ({
   data,
-  count,
-  maxCount,
+  selectedOption,
   isOpen,
-  isSale,
-  isLoading,
-  isSoldOut,
-  labelClassNames,
-  saleLabelText,
-  selectedColor,
-  selectedSize,
   detailImage,
-  setCount,
-  setSelectedColor,
-  setDetailImage,
-  setMaxCount,
+  setSelectedOption,
   setIsOpen,
-  setSelectedSize,
   handleModalOpen,
 }: MobileOptionSelectBoxProps) => {
+  const { isSale } = useSaleState({
+    discount: data.product.discount,
+    discountOption: data.product.discount_option,
+  });
+  const { isSoldOut } = useSoldOutState(selectedOption?.optionData);
   const handleOnClose = () => {
     setIsOpen(false);
   };
@@ -63,7 +46,7 @@ const MobileOptionSelectBox = ({
       <motion.div
         key='optionSelectBoxContainer'
         initial={{ y: '100%' }}
-        animate={{ y: isOpen ? 0 : isLoading ? '90%' : '92%' }}
+        animate={{ y: isOpen ? 0 : '92%' }}
         exit={{ y: '100%' }}
         transition={{ type: 'spring', stiffness: 500, damping: 35 }}
         className='fixed bottom-0 left-0 z-50 w-full bg-secondary'
@@ -72,68 +55,52 @@ const MobileOptionSelectBox = ({
         <MobileModalToggler isOpen={isOpen} setIsOpen={setIsOpen} />
 
         {/* 메인 컨텐츠 시작 */}
-        {isLoading ? (
-          <MobileOptionSelectBoxSkeleton />
-        ) : (
-          <div className='flex h-full flex-col gap-4 p-6'>
-            <div className='flex flex-col gap-4'>
-              <div className='flex gap-2'>
-                <div className='flex flex-col gap-3'>
-                  <h2 className='text-2xl font-bold transition-transform duration-300 ease-in-out md:text-4xl'>
-                    {data.name}
-                  </h2>
-                  <SaleProvider data={data}>
-                    <SaleLabel classString={labelClassNames} text={saleLabelText} />
-                  </SaleProvider>
-                </div>
+        <div className='flex flex-col h-full gap-4 p-6'>
+          <div className='flex flex-col gap-4'>
+            <div className='flex gap-2'>
+              <div className='flex flex-col gap-3'>
+                <h2 className='text-2xl font-bold transition-transform duration-300 ease-in-out md:text-4xl'>
+                  {data.product.name}
+                </h2>
+                <SaleProvider discount={data.product.discount} discountOption={data.product.discount_option}>
+                  <SaleLabel />
+                </SaleProvider>
               </div>
-              {isSale ? (
-                <SalePrice data={data} />
-              ) : (
-                <div>
-                  <p className='text-2xl font-light'>₩{data.price.toLocaleString()}</p>
-                  <p className='text-2xl font-bold'>₩{data.sale.result.toLocaleString()}</p>
+            </div>
+            {isSale ? (
+              <SalePrice price={data.product.price} originPrice={data.product.origin_price} />
+            ) : (
+              <div>
+                <p className='text-2xl font-bold text-primary'>₩{data.product.origin_price.toLocaleString()}</p>
+              </div>
+            )}
+          </div>
+
+          {/* 옵션 선택 영역 */}
+          <div className='flex flex-col gap-4 mt-auto'>
+            <div className='flex flex-col w-full gap-4 md:justify-start'>
+              <ColorBtns data={data} selectedOption={selectedOption} onSelect={setSelectedOption} />
+              <SizeBtns data={data} selectedOption={selectedOption} onSelect={setSelectedOption} />
+              <CounterBtn selectedOption={selectedOption} onSelect={setSelectedOption} isSoldOut={isSoldOut} />
+            </div>
+
+            {/* 장바구니 & 네이버페이 버튼 영역 */}
+            <div className='relative flex flex-col gap-2 transition-all duration-300 ease-in-out xl:flex-row'>
+              {isSoldOut && (
+                <div className='absolute z-50 flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.45)] text-2xl text-white'>
+                  <span className='absolute animate-pulse'>Sold Out</span>
                 </div>
               )}
-            </div>
-
-            {/* 옵션 선택 영역 */}
-            <div className='mt-auto flex flex-col gap-4'>
-              <div className='flex w-full flex-col gap-4 md:justify-start'>
-                <ColorBtns data={data.colors} onSelect={setSelectedColor} onChange={setDetailImage} />
-                <SizeBtns data={selectedColor} onSelect={setSelectedSize} />
-                <CounterBtn
-                  count={count}
-                  setCount={setCount}
-                  maxCount={maxCount}
-                  setMaxCount={setMaxCount}
-                  selectedSize={selectedSize}
-                  selectedColor={selectedColor}
-                  isSoldOut={isSoldOut}
-                />
-              </div>
-
-              {/* 장바구니 & 네이버페이 버튼 영역 */}
-              <div className='relative flex flex-col gap-2 transition-all duration-300 ease-in-out xl:flex-row'>
-                {isSoldOut && (
-                  <div className='absolute z-50 flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.45)] text-2xl text-white'>
-                    <span className='absolute animate-pulse'>Sold Out</span>
-                  </div>
-                )}
-                <AddCartBtn
-                  data={data}
-                  count={count}
-                  maxCount={maxCount}
-                  selectedColor={selectedColor}
-                  selectedSize={selectedSize}
-                  detailImage={detailImage}
-                  handleModalOpen={handleModalOpen}
-                />
-                <NaverPayBtn />
-              </div>
+              <AddCartBtn
+                productData={data.product}
+                selectedOption={selectedOption}
+                detailImage={detailImage}
+                handleModalOpen={handleModalOpen}
+              />
+              <NaverPayBtn />
             </div>
           </div>
-        )}
+        </div>
       </motion.div>
       {isOpen && (
         <motion.div
@@ -141,7 +108,7 @@ const MobileOptionSelectBox = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className='fixed inset-0 z-10 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm'
+          className='fixed inset-0 z-10 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm'
           onClick={handleOnClose}
         />
       )}

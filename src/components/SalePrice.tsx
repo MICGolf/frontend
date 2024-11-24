@@ -1,14 +1,20 @@
-import { CartItemData2, ProductDetail } from '@/assets/dummys/types';
-
 interface SalePriceProps {
-  data: ProductDetail | CartItemData2;
+  price: number;
+  originPrice: number;
   originalSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   saleSize?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   flex?: 'row' | 'col';
   align?: 'start' | 'center' | 'between';
 }
 
-const SalePrice = ({ data, originalSize = 'lg', saleSize = 'xl', flex = 'col', align = 'start' }: SalePriceProps) => {
+const SalePrice = ({
+  price,
+  originPrice,
+  originalSize = 'lg',
+  saleSize = 'xl',
+  flex = 'col',
+  align = 'start',
+}: SalePriceProps) => {
   // Tailwind CSS의 텍스트 크기 클래스 매핑
   const sizeClasses = {
     xs: 'text-xs',
@@ -34,11 +40,11 @@ const SalePrice = ({ data, originalSize = 'lg', saleSize = 'xl', flex = 'col', a
   return (
     <div className={`${flexClasses[flex]} ${alignClasses[align]}`}>
       {/* 취소선 가격 */}
-      <p className={`font-light text-gray700 line-through ${sizeClasses[originalSize]}`}>
-        ₩{data.price.toLocaleString()}
+      <p className={`text-sm font-light text-gray700 line-through ${sizeClasses[originalSize]}`}>
+        ₩{originPrice.toLocaleString()}
       </p>
       {/* 할인 가격 */}
-      <p className={`font-bold ${sizeClasses[saleSize]}`}>₩{data.sale.result.toLocaleString()}</p>
+      <p className={`font-bold ${sizeClasses[saleSize]}`}>₩{price.toLocaleString()}</p>
     </div>
   );
 };

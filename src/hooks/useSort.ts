@@ -1,33 +1,45 @@
-import { useState, useEffect } from 'react';
-import { ProductDetail } from '@/assets/dummys/types';
+import { useState, useCallback, useEffect } from 'react';
 
-export type SortMode = '최신순' | '가격 낮은순' | '가격 높은순';
+export type SortMode = '최신순' | '오래된 순' | '가격 낮은순' | '가격 높은순';
+export type OrderMode = 'desc' | 'asc';
+export type SortModeSync = 'created_at' | 'price';
 
-const useSort = (initialSort: SortMode, products: ProductDetail[]) => {
-  const [currentSort, setCurrentSort] = useState<SortMode>(initialSort);
-  const [sortedProducts, setSortedProducts] = useState<ProductDetail[]>([]);
+const useSort = () => {
+  const [currentSort, setCurrentSort] = useState<SortMode>('최신순');
+  const [sortResult, setSortResult] = useState<SortModeSync>('created_at');
+  const [currentOrder, setCurrentOrder] = useState<OrderMode>('desc');
 
-  useEffect(() => {
-    let sorted: ProductDetail[] = [...products];
-
-    switch (currentSort) {
+  // currentSort 값에 따라 sortResult와 currentOrder를 자동으로 설정하는 함수
+  const updateSortSettings = useCallback((sort: SortMode) => {
+    switch (sort) {
       case '최신순':
-        sorted = sorted.sort((a, b) => b.timestamp - a.timestamp);
+        setSortResult('created_at');
+        setCurrentOrder('desc');
+        break;
+      case '오래된 순':
+        setSortResult('created_at');
+        setCurrentOrder('asc');
         break;
       case '가격 낮은순':
-        sorted = sorted.sort((a, b) => a.price - b.price);
+        setSortResult('price');
+        setCurrentOrder('asc');
         break;
       case '가격 높은순':
-        sorted = sorted.sort((a, b) => b.price - a.price);
+        setSortResult('price');
+        setCurrentOrder('desc');
         break;
       default:
-        sorted = products;
+        setSortResult('created_at');
+        setCurrentOrder('desc');
     }
+  }, []);
 
-    setSortedProducts(sorted);
-  }, [currentSort, products]);
+  // currentSort 값이 변경될 때마다 updateSortSettings 함수 호출
+  useEffect(() => {
+    updateSortSettings(currentSort);
+  }, [currentSort, updateSortSettings]);
 
-  return { currentSort, setCurrentSort, sortedProducts };
+  return { currentSort, currentOrder, setCurrentSort, sortResult };
 };
 
 export default useSort;

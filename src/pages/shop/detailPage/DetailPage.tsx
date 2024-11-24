@@ -1,49 +1,47 @@
-import { allProductDatas } from '@/assets/dummys/productListDatas';
 import ProductDetailView from './components/ProductDetailView';
 import ProductDetails from './components/ProductDetails';
-import { useParams } from 'react-router-dom';
-// import { useQuery } from '@tanstack/react-query';
-// import { productsApi } from '@/api';
-import { useEffect, useState } from 'react';
+import { productsApi } from '@/api';
+import { useQuery } from '@tanstack/react-query';
+import { ProductData } from '@/api/type';
+import { useCachedData } from '@/hooks/useCachedData';
+import DetailPageSkeleton from './components/skeletons/DetailPageSkeleton';
+import { handleApiError } from '@/utils/handleApiError';
 
 const DetailPage = () => {
-  const { id } = useParams<{ id: string }>();
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 5000));
-      setIsLoading(false);
-    })();
-  }, []);
-
-  const product = allProductDatas.find((item) => item.id === id);
-  if (!product) {
-    return (
-      <div className='flex h-screen w-full items-center justify-center'>
-        <p>상품을 찾을 수 없습니다.</p>
-      </div>
-    ); // 상품이 없을 경우
-  }
-
-  // const {
-  //   data: productData,
-  //   isLoading,
-  //   isError,
-  //   error,
-  // } = useQuery({
-  //   queryKey: ['productData'],
-  //   queryFn: async () => {
-  //     const response = await productsApi.getProductDetail(13);
-  //     return response.data;
-  //   },
-  // });
+  const { cachedData, id, hasCachedData } = useCachedData();
+  const {
+    data: productDetailData,
+    isFetching,
+    isError,
+    error,
+  } = useQuery<ProductData | null>({
+    queryKey: ['productData', id],
+    queryFn: async () => {
+      try {
+        const response = await productsApi.getSingleProduct(Number(id));
+        return response.data;
+      } catch (err: unknown) {
+        handleApiError(err);
+      }
+    },
+    initialData: cachedData,
+    enabled: !hasCachedData,
+  });
 
   return (
     <article className='w-full'>
-      <ProductDetailView data={product} isLoading={isLoading} />
-      <ProductDetails data={product} isLoading={isLoading} />
+      {isError && (
+        <div className='flex h-screen w-full items-center justify-center text-2xl text-primary'>
+          <p>{error.message}</p>
+        </div>
+      )}
+      {isFetching && <DetailPageSkeleton />}
+      {productDetailData && (
+        <>
+          <ProductDetailView data={productDetailData} />
+          <ProductDetails data={productDetailData} isFetching={isFetching} />
+        </>
+      )}
     </article>
   );
 };

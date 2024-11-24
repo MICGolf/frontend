@@ -1,10 +1,10 @@
-import { CartItemData2 } from '@/assets/dummys/types';
+import { CartItemData } from '@/assets/dummys/types';
 import { useMemo } from 'react';
 
-const useCartCalculations = (selectedProducts: CartItemData2[]) => {
+const useCartCalculations = (selectedProducts: CartItemData[]) => {
   const totalPrice = useMemo(() => {
     return selectedProducts.reduce((sum, item) => {
-      const finalPrice = item.sale.is_active ? item.sale.result : item.price;
+      const finalPrice = item.discount > 0 ? item.price : item.originPrice;
       return sum + finalPrice * item.amount;
     }, 0);
   }, [selectedProducts]);

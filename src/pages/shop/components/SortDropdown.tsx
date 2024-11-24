@@ -1,16 +1,18 @@
-import { SortMode } from '@/hooks/useSort';
+import { SortMode, SortModeSync } from '@/hooks/useSort';
 import { ChevronDown } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 
 interface SortDropdownProps {
-  currentSort: string;
+  currentSort: SortMode;
   setCurrentSort: (value: SortMode) => void;
+  sortResult: SortModeSync;
 }
 
 const sortModes = [
   { id: 1, mode: '최신순' },
-  { id: 2, mode: '가격 낮은순' },
-  { id: 3, mode: '가격 높은순' },
+  { id: 2, mode: '오래된 순' },
+  { id: 3, mode: '가격 낮은순' },
+  { id: 4, mode: '가격 높은순' },
 ];
 
 const SortDropdown = ({ currentSort, setCurrentSort }: SortDropdownProps) => {

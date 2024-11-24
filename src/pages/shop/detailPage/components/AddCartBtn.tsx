@@ -1,62 +1,64 @@
-import { CartItemData2, Color, ProductDetail, Size } from '@/assets/dummys/types';
+import { ProductDetail2, ProductImage } from '@/api/type';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import { SignUpModalType } from '@/hooks/useModalState/useModalState';
 import { nanoid } from 'nanoid';
 import { useState } from 'react';
+import { OptionState } from '../types';
+import { CartItemData } from '@/assets/dummys/types';
 
 interface AddCartBtnProps {
-  data: ProductDetail;
-  count: number;
-  maxCount: number;
-  selectedColor: Color | null;
-  selectedSize: Size | null;
-  detailImage: string[];
+  productData: ProductDetail2;
+  selectedOption: OptionState;
+  detailImage: ProductImage[] | null;
   handleModalOpen: (type: SignUpModalType) => void;
 }
 
-const AddCartBtn = ({
-  data,
-  count,
-  maxCount,
-  selectedColor,
-  selectedSize,
-  detailImage,
-  handleModalOpen,
-}: AddCartBtnProps) => {
-  const [storedValue, setValue] = useLocalStorage<CartItemData2[] | []>('cartItems', []);
-  const [cartItems, setCartItems] = useState<CartItemData2[]>(storedValue);
-
-  const isValid = !!(selectedColor && selectedSize);
+const AddCartBtn = ({ productData, selectedOption, detailImage, handleModalOpen }: AddCartBtnProps) => {
+  const [storedValue, setValue] = useLocalStorage<CartItemData[] | []>('cartItems', []);
+  const [cartItems, setCartItems] = useState<CartItemData[]>(storedValue);
+  const isCartButtonEnabled =
+    !!selectedOption.selectedColor && !!selectedOption.selectedSize && selectedOption.amount > 0;
 
   const handleAddCart = () => {
-    const existingCartItemIndex = cartItems.findIndex(
-      (item: CartItemData2) => item.color?.id === selectedColor?.id && item.size === selectedSize?.name
-    );
+    const existingCartItemIndex = cartItems.findIndex((item: CartItemData) => {
+      console.log('Comparing Item:', item);
+
+      const isProductIdMatch = item.productId === selectedOption.productData?.id;
+      const isColorMatch =
+        item.color.name?.trim().toLowerCase() === selectedOption.selectedColor?.color.trim().toLowerCase();
+      const isProductCodeMatch =
+        item.productCode.trim().toLowerCase() === selectedOption.productCode.trim().toLowerCase();
+      const isSizeMatch = item.size?.trim().toLowerCase() === selectedOption.selectedSize?.size.trim().toLowerCase();
+
+      return isProductIdMatch && isColorMatch && isProductCodeMatch && isSizeMatch;
+    });
 
     let updatedCartItems;
 
     if (existingCartItemIndex > -1) {
-      // 이미 같은 상품이 있을 경우 갯수만 업데이트
-      updatedCartItems = cartItems.map((item: CartItemData2, index: number) =>
-        index === existingCartItemIndex ? { ...item, amount: item.amount + count } : item
+      console.log('Item already exists, updating quantity.');
+      updatedCartItems = cartItems.map((item: CartItemData, index: number) =>
+        index === existingCartItemIndex ? { ...item, amount: item.amount + selectedOption.amount } : item
       );
     } else {
-      // 새로운 상품 추가
-      const newCartItem: CartItemData2 = {
-        id: nanoid(), // FIX: 상품 아이디가 아니라 주문 아이디 생성
-        productId: data.id,
-        name: data.name,
-        image: detailImage[0],
-        stock: maxCount,
+      console.log('Adding new item to cart.');
+      const newCartItem: CartItemData = {
+        id: nanoid(),
+        productId: productData.id,
+        productCode: productData.product_code,
+        name: productData.name,
+        image: detailImage?.[0].image_url,
+        stock: selectedOption.stock,
         color: {
-          id: selectedColor?.id,
-          name: selectedColor?.name,
-          hex: selectedColor?.hex,
+          name: selectedOption.selectedColor?.color,
+          code: selectedOption.selectedColor?.color_code,
         },
-        size: selectedSize?.name,
-        amount: count,
-        price: data.price,
-        sale: data.sale,
+        size: selectedOption.selectedSize?.size,
+        amount: selectedOption.amount,
+        originPrice: productData.origin_price,
+        price: productData.price,
+        discount: productData.discount,
+        discountOption: productData.discount_option,
       };
 
       updatedCartItems = [...cartItems, newCartItem];
@@ -71,13 +73,13 @@ const AddCartBtn = ({
     <button
       type='button'
       className={`flex w-full flex-1 items-center justify-center border ${
-        isValid
+        isCartButtonEnabled
           ? 'border-primary bg-primary text-secondary hover:bg-white hover:text-primary'
           : 'cursor-not-allowed border border-gray300 bg-gray100 text-gray300'
       } px-[10px] py-[4px] font-light transition-colors duration-700 md:px-[30px] md:py-[10px]`}
       aria-label='장바구니에 상품 추가'
       onClick={handleAddCart}
-      disabled={!isValid}
+      disabled={!isCartButtonEnabled}
     >
       <span className='text-lg md:text-2xl'>장바구니 추가하기</span>
     </button>

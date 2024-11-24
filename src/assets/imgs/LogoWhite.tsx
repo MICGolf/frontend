@@ -1,6 +1,7 @@
-const LogoWhite = ({ size = 'm' }: { size?: 's' | 'm' | 'l' }) => {
+const LogoWhite = ({ size = 'm' }: { size?: 'xs' | 's' | 'm' | 'l' }) => {
   const matchedSize = {
-    s: 50, // Small size width
+    xs: 50, // Small size width
+    s: 70,
     m: 100, // Medium size width
     l: 150, // Large size width
   };

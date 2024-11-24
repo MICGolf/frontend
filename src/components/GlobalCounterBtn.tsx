@@ -3,22 +3,23 @@ import plus from '@/assets/icons/plus.svg';
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import CounterMessage from './CounterMessage';
-import { CartItemData2 } from '@/assets/dummys/types';
+import { CartItemData } from '@/assets/dummys/types';
 
 interface CounterBtnProps {
-  data: CartItemData2;
+  data: CartItemData;
   isMobile: boolean;
-  maxCount: number;
+  stock: number | undefined;
   size?: 's' | 'm' | 'l';
   handleUpdateCount: (id: string, newCount: number) => void;
 }
 
-const GlobalCounterBtn = ({ data, isMobile, maxCount, size = 'l', handleUpdateCount }: CounterBtnProps) => {
+const GlobalCounterBtn = ({ data, isMobile, stock, size = 'l', handleUpdateCount }: CounterBtnProps) => {
+  const maxCount = stock ?? 0;
   const [isMaxStock, setIsMaxStock] = useState<boolean>(false);
   const [count, setCount] = useState(data.amount || 1);
 
   useEffect(() => {
-    if (count === maxCount) {
+    if (count >= maxCount) {
       setIsMaxStock(true);
     } else {
       setIsMaxStock(false);

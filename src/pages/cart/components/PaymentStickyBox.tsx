@@ -1,4 +1,4 @@
-import { CartItemData2 } from '@/assets/dummys/types';
+import { CartItemData } from '@/assets/dummys/types';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { useEffect, useState } from 'react';
 
@@ -8,7 +8,7 @@ interface PaymentStickyBoxProps {
   totalPrice: number;
   totalDeliveryFee: number;
   globalSelectCount: number;
-  cartItemArr: CartItemData2[];
+  cartItemArr: CartItemData[];
   handlePayment: () => void | React.ReactNode;
 }
 

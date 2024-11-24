@@ -67,13 +67,13 @@ const Categories = ({ activeNav, categoryData }: CategoriesProps) => {
       <ul className='flex gap-12'>
         {categories?.map((category, i) => (
           <li key={i} className='flex flex-col gap-2'>
-            <Link to={`/shop/${category.name}`} className='text-[18px]'>
+            <Link to={`/shop/${category.id}`} className='text-[18px]'>
               {category.name}
             </Link>
             <ul className='flex flex-col gap-2'>
               {category.subCategories?.map((subCategory, i) => (
                 <li key={i}>
-                  <Link to={`/shop/${category.name}/${subCategory.name}`} className='text-[14px] text-gray-700'>
+                  <Link to={`/shop/${category.id}/${subCategory.id}`} className='text-[14px] text-gray-700'>
                     {subCategory.name}
                   </Link>
                 </li>

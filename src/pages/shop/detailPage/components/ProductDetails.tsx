@@ -5,18 +5,18 @@ import ReviewDropdown from './ReviewDropDown';
 import { ProductDetailsProps } from '../types';
 import RefundPolicy from './RefundPolicy';
 
-const ProductDetails = ({ data, isLoading }: ProductDetailsProps) => {
+const ProductDetails = ({ data, isFetching }: ProductDetailsProps) => {
   const detailBoxes = [
     {
       id: 1,
       title: '제품 설명',
-      content: <TextContent content={data.description} isLoading={isLoading} />,
+      content: <TextContent content={data.product.description} isFetching={isFetching} />,
       show: true,
     },
     {
       id: 2,
       title: '제품 특징',
-      content: <TextContent content={data.feature} isLoading={isLoading} />,
+      content: <TextContent content={data.product.detail} isFetching={isFetching} />,
       show: true,
     },
     {
