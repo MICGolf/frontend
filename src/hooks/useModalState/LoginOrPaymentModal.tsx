@@ -1,4 +1,4 @@
-import { CartItemData2 } from '@/assets/dummys/types';
+import { CartItemData } from '@/assets/dummys/types';
 import CloseIco from '@/assets/icons/CloseIco';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 type LoginOrPaymentModalProps = {
   onClose: () => void;
   paymentData: {
-    items: CartItemData2[];
+    items: CartItemData[];
     totalPrice: number;
     totalDeliveryFee: number;
   };
@@ -65,16 +65,16 @@ const LoginOrPaymentModal = ({ isOpen, onClose, paymentData }: LoginOrPaymentMod
           >
             <button
               onClick={onClose}
-              className='absolute flex items-center justify-center w-8 h-8 transition-all duration-300 right-4 top-4 hover:rotate-180'
+              className='absolute right-4 top-4 flex h-8 w-8 items-center justify-center transition-all duration-300 hover:rotate-180'
             >
               <CloseIco size={16} />
             </button>
             <div className='flex flex-col items-center gap-6 pt-12 sm:gap-8 sm:pt-16 md:gap-10 md:pt-20'>
-              <h3 className='text-xl font-semibold text-center text-primary sm:text-2xl md:text-4xl'>
+              <h3 className='text-center text-xl font-semibold text-primary sm:text-2xl md:text-4xl'>
                 로그인이 안돼있어요 !<br />
                 비회원으로 주문하시겠습니까?
               </h3>
-              <div className='flex flex-col items-center w-full gap-4'>
+              <div className='flex w-full flex-col items-center gap-4'>
                 <button
                   onClick={handleLoginClick}
                   className='w-full max-w-[700px] bg-primary px-3 py-2 font-light text-secondary transition-all duration-300 hover:scale-105 hover:bg-primary hover:text-white hover:opacity-70 sm:px-6 sm:py-4 md:px-8 md:py-5'

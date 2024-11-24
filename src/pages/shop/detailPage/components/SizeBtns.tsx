@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { OptionState } from '../types';
-import { ProductOption, ProductSize } from '@/api/type';
+import { ProductData, ProductSize } from '@/api/type';
 
 interface SizeBtnsProps {
-  data: ProductOption[];
+  data: ProductData;
   selectedOption: OptionState;
   onSelect: (prevOption: OptionState) => void;
 }
@@ -14,7 +14,7 @@ const SizeBtns = ({ data, selectedOption, onSelect }: SizeBtnsProps) => {
 
   // 선택한 컬러에 해당하는 사이즈 데이터 필터링
   const filteredSizes = isColorSelected
-    ? data.find((option) => option.color === selectedOption.selectedColor?.color)?.sizes || []
+    ? data.options.find((option) => option.color === selectedOption.selectedColor?.color)?.sizes || []
     : [];
 
   const handleSizeChange = (size: ProductSize) => {
@@ -25,6 +25,7 @@ const SizeBtns = ({ data, selectedOption, onSelect }: SizeBtnsProps) => {
       ...selectedOption,
       selectedSize: isSelected ? null : size,
       amount: 1,
+      stock: isSelected ? 0 : size.stock,
     });
   };
 

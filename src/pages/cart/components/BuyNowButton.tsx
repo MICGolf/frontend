@@ -1,8 +1,8 @@
-import { CartItemData2 } from '@/assets/dummys/types';
+import { CartItemData } from '@/assets/dummys/types';
 import { SignUpModalType } from '@/hooks/useModalState/useModalState';
 
 interface BuyNowButtonProps {
-  data: CartItemData2;
+  data: CartItemData;
   size?: 's' | 'm' | 'l';
   handleModalOpen: (type: SignUpModalType) => void;
   handleCartSelectToggle: (itemId: string) => void;

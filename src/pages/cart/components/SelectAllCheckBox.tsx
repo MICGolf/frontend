@@ -1,11 +1,11 @@
-import { CartItemData2 } from '@/assets/dummys/types';
+import { CartItemData } from '@/assets/dummys/types';
 import CheckIco from '@/assets/icons/CheckIco';
 import { useEffect, useState } from 'react';
 
 interface SelectAllCheckBoxProps {
   handleSelectAll: () => void;
   isChecked: boolean;
-  cartItemArr: CartItemData2[];
+  cartItemArr: CartItemData[];
 }
 
 const SelectAllCheckBox = ({ handleSelectAll, isChecked, cartItemArr }: SelectAllCheckBoxProps) => {

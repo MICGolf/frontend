@@ -4,16 +4,6 @@ export interface UserData {
 }
 
 export interface CartItemData {
-  id: number;
-  image: string;
-  name: string;
-  color: string;
-  size: string;
-  amount: number;
-  price: number;
-}
-
-export interface CartItemData2 {
   id: string; // 장바구니 id
   productId: number; // 상품 id
   productCode: string; // 상품 코드
@@ -30,37 +20,6 @@ export interface CartItemData2 {
   price: number; // 최종가
   discount: number; // 할인률 또는 할인금액
   discountOption: 'percent' | 'amount';
-}
-
-export interface Size {
-  name: string;
-  stock: number;
-}
-
-export interface Color {
-  id: string;
-  name: string;
-  hex: string;
-  images: string[];
-  sizes: Size[];
-}
-
-export interface Sale {
-  is_active: boolean;
-  unit: string;
-  value: number;
-  result: number;
-}
-
-export interface ProductDetail {
-  name: string;
-  id: string;
-  timestamp: number;
-  price: number;
-  sale: Sale;
-  description: string;
-  feature: string;
-  colors: Color[];
 }
 
 // 중분류 타입 정의

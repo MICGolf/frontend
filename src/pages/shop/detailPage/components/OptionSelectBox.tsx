@@ -60,14 +60,9 @@ const OptionSelectBox = ({
         <div className='flex flex-col gap-6 mt-auto'>
           {/* 옵션 선택 영역 */}
           <div className='flex flex-col w-full gap-6 md:justify-start'>
-            <ColorBtns data={data.options} selectedOption={selectedOption} onSelect={setSelectedOption} />
-            <SizeBtns data={data.options} selectedOption={selectedOption} onSelect={setSelectedOption} />
-            <CounterBtn
-              data={data.options}
-              selectedOption={selectedOption}
-              onSelect={setSelectedOption}
-              isSoldOut={isSoldOut}
-            />
+            <ColorBtns data={data} selectedOption={selectedOption} onSelect={setSelectedOption} />
+            <SizeBtns data={data} selectedOption={selectedOption} onSelect={setSelectedOption} />
+            <CounterBtn selectedOption={selectedOption} onSelect={setSelectedOption} isSoldOut={isSoldOut} />
           </div>
 
           {/* 장바구니 & 네이버페이 버튼 영역 */}

@@ -2,12 +2,10 @@ import minus from '@/assets/icons/minus.svg';
 import plus from '@/assets/icons/plus.svg';
 import { AnimatePresence, motion } from 'framer-motion';
 import CounterMessage from '@/components/CounterMessage';
-import { ProductOption } from '@/api/type';
 import { OptionState } from '../types';
 import { useEffect, useState } from 'react';
 
 interface CounterBtnProps {
-  data: ProductOption[];
   selectedOption: OptionState;
   isSoldOut: boolean;
   onSelect: (updatedOption: OptionState) => void;

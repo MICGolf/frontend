@@ -1,4 +1,4 @@
-import { CartItemData2 } from '@/assets/dummys/types';
+import { CartItemData } from '@/assets/dummys/types';
 import useModalState from '@/hooks/useModalState/useModalState';
 import { useEffect, useState } from 'react';
 import { Address, useDaumPostcodePopup } from 'react-daum-postcode';
@@ -106,7 +106,7 @@ const CheckoutPage = () => {
 
   // FIXME: 로케이션 상태로 받아오는게 아니라 주문번호 요청 및 응답을 통해 받아온 데이터로 처리
   const { items, totalDeliveryFee, totalPrice } = location.state as {
-    items: CartItemData2[];
+    items: CartItemData[];
     totalDeliveryFee: number;
     totalPrice: number;
   };
@@ -263,20 +263,20 @@ const CheckoutPage = () => {
             {/* step 4 */}
             <div className='flex flex-col gap-[10px]'>
               <h2 className='text-2xl'>개인정보 수집/제공</h2>
-              <label className='flex cursor-pointer items-center gap-2'>
+              <label className='flex items-center gap-2 cursor-pointer'>
                 <input type='checkbox' hidden checked={isAllChecked} onChange={handleToggleAll} />
                 <span
                   className={`flex h-5 w-5 items-center justify-center rounded-sm border-2 ${isAllChecked ? 'bg-black' : 'bg-white'}`}
                 >
                   {isAllChecked && (
-                    <svg className='h-5 w-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+                    <svg className='w-5 h-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
                       <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
                     </svg>
                   )}
                 </span>
                 전체 동의
               </label>
-              <label className='flex cursor-pointer items-center gap-2'>
+              <label className='flex items-center gap-2 cursor-pointer'>
                 <input
                   type='checkbox'
                   hidden
@@ -287,7 +287,7 @@ const CheckoutPage = () => {
                   className={`flex h-5 w-5 items-center justify-center rounded-sm border-2 ${selectedCheckbox.includes('개인정보') ? 'bg-black' : 'bg-white'}`}
                 >
                   {selectedCheckbox.includes('개인정보') && (
-                    <svg className='h-5 w-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+                    <svg className='w-5 h-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
                       <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
                     </svg>
                   )}
@@ -298,12 +298,12 @@ const CheckoutPage = () => {
                     e.preventDefault();
                     handleModalOpen('개인정보');
                   }}
-                  className='cursor-pointer border-b border-blue700 text-blue700'
+                  className='border-b cursor-pointer border-blue700 text-blue700'
                 >
                   약관 보기 →
                 </span>
               </label>
-              <label className='flex cursor-pointer items-center gap-2'>
+              <label className='flex items-center gap-2 cursor-pointer'>
                 <input
                   type='checkbox'
                   hidden
@@ -314,7 +314,7 @@ const CheckoutPage = () => {
                   className={`flex h-5 w-5 items-center justify-center rounded-sm border-2 ${selectedCheckbox.includes('이용약관') ? 'bg-black' : 'bg-white'}`}
                 >
                   {selectedCheckbox.includes('이용약관') && (
-                    <svg className='h-5 w-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+                    <svg className='w-5 h-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
                       <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
                     </svg>
                   )}
@@ -325,7 +325,7 @@ const CheckoutPage = () => {
                     e.preventDefault();
                     handleModalOpen('이용약관');
                   }}
-                  className='cursor-pointer border-b border-blue700 text-blue700'
+                  className='border-b cursor-pointer border-blue700 text-blue700'
                 >
                   약관 보기 →
                 </span>
@@ -336,26 +336,26 @@ const CheckoutPage = () => {
           {/* 웹 뷰 결제 */}
           <div className='hidden lg:block lg:min-w-[500px]'>
             <div className='bg-white lg:sticky xl:top-[260px]'>
-              <div className='flex flex-col gap-2 border border-gray200 p-4'>
-                <div className='flex flex-col gap-6 border-b border-gray200 p-6'>
-                  <div className='text-left text-2xl'>총 상품 {items.length || 0}개</div>
+              <div className='flex flex-col gap-2 p-4 border border-gray200'>
+                <div className='flex flex-col gap-6 p-6 border-b border-gray200'>
+                  <div className='text-2xl text-left'>총 상품 {items.length || 0}개</div>
                   {items.map((item) => (
-                    <div key={item.id} className='flex items-center border-b border-gray-100 py-5'>
+                    <div key={item.id} className='flex items-center py-5 border-b border-gray-100'>
                       <div className='max-h-[100px] max-w-[100px] overflow-hidden'>
                         <img
                           src={item.image}
-                          className='h-full w-full border border-gray-200 bg-gray-100 object-cover'
+                          className='object-cover w-full h-full bg-gray-100 border border-gray-200'
                         ></img>
                       </div>
 
                       <div className='flex-grow px-5 text-base lg:text-lg xl:text-xl'>
                         <h3 className='mb-1 text-sm font-semibold md:text-lg'>{item.name}</h3>
                         <p className='text-xs text-gray700'>
-                          [옵션: {item.color.name} / {item.size}]
+                          [옵션: {item.color.name} / {item.size} / {item.amount}개]
                         </p>
                       </div>
 
-                      <div className='whitespace-nowrap text-center text-base font-bold lg:text-lg xl:text-xl'>
+                      <div className='text-base font-bold text-center whitespace-nowrap lg:text-lg xl:text-xl'>
                         {item.price.toLocaleString()} 원
                       </div>
                     </div>
@@ -372,7 +372,7 @@ const CheckoutPage = () => {
                     </div>
                   </div>
                 </div>
-                <div className='flex flex-col gap-2 p-6 text-right text-xl'>
+                <div className='flex flex-col gap-2 p-6 text-xl text-right'>
                   <div>결제예상금액</div>
                   <strong>{(totalPrice + totalDeliveryFee).toLocaleString()}원</strong>
                 </div>
@@ -392,9 +392,9 @@ const CheckoutPage = () => {
             className={`${isVisible ? 'fixed inset-0 z-[100] bg-black bg-opacity-50 backdrop-blur-sm' : null} lg:hidden`}
           >
             <div className='fixed bottom-0 left-0 right-0 z-[100] min-w-[300px] bg-white'>
-              <div className='flex flex-col gap-2 border-gray200 p-4 lg:border'>
+              <div className='flex flex-col gap-2 p-4 border-gray200 lg:border'>
                 <div className='flex justify-between px-4'>
-                  <div className='mb- text-left text-xl'>총 상품 {items.length || 0}개</div>
+                  <div className='text-xl text-left mb-'>총 상품 {items.length || 0}개</div>
                   <button
                     type='button'
                     onClick={handleTogglePayment}
@@ -411,24 +411,24 @@ const CheckoutPage = () => {
                 <div
                   className={`overflow-hidden transition-all duration-300 ${isVisible ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}
                 >
-                  <div className='flex flex-col gap-2 border-b border-gray200 p-4'>
+                  <div className='flex flex-col gap-2 p-4 border-b border-gray200'>
                     {items.map((item) => (
-                      <div key={item.id} className='flex items-center border-b border-gray-100 py-5'>
+                      <div key={item.id} className='flex items-center py-5 border-b border-gray-100'>
                         <div className='max-h-[100px] max-w-[100px] overflow-hidden'>
                           <img
                             src={item.image}
-                            className='h-full w-full border border-gray-200 bg-gray-100 object-cover'
+                            className='object-cover w-full h-full bg-gray-100 border border-gray-200'
                           ></img>
                         </div>
 
                         <div className='flex-grow px-5 text-base lg:text-lg xl:text-xl'>
                           <h3 className='mb-1 text-sm font-semibold md:text-lg'>{item.name}</h3>
                           <p className='text-xs text-gray700'>
-                            [옵션: {item.color.name} / {item.size}]
+                            [옵션: {item.color.name} / {item.size} / {item.amount}개]
                           </p>
                         </div>
 
-                        <div className='whitespace-nowrap text-center text-base font-bold lg:text-lg xl:text-xl'>
+                        <div className='text-base font-bold text-center whitespace-nowrap lg:text-lg xl:text-xl'>
                           {item.price.toLocaleString()} 원
                         </div>
                       </div>
@@ -445,7 +445,7 @@ const CheckoutPage = () => {
                       </div>
                     </div>
                   </div>
-                  <div className='flex flex-col gap-2 p-4 text-right text-xl'>
+                  <div className='flex flex-col gap-2 p-4 text-xl text-right'>
                     <div>결제예상금액</div>
                     <strong>{(totalPrice + totalDeliveryFee).toLocaleString()}원</strong>
                   </div>
@@ -465,14 +465,14 @@ const CheckoutPage = () => {
       {/* 결제중 loading 모달 */}
       {loadingflag && (
         <div className='fixed inset-0 z-[100] flex items-center justify-center bg-black/50'>
-          <div className='mx-4 w-full max-w-md bg-white p-8 shadow-xl'>
-            <div className='mb-6 flex items-center justify-center'>
-              <div className='relative h-16 w-16'>
-                <div className='absolute inset-0 rounded-full border-4 border-gray-200'></div>
-                <div className='absolute inset-0 animate-spin rounded-full border-4 border-primary border-t-transparent'></div>
+          <div className='w-full max-w-md p-8 mx-4 bg-white shadow-xl'>
+            <div className='flex items-center justify-center mb-6'>
+              <div className='relative w-16 h-16'>
+                <div className='absolute inset-0 border-4 border-gray-200 rounded-full'></div>
+                <div className='absolute inset-0 border-4 rounded-full animate-spin border-primary border-t-transparent'></div>
               </div>
             </div>
-            <h2 className='mb-4 text-center text-2xl font-bold text-gray-800'>결제 중입니다</h2>
+            <h2 className='mb-4 text-2xl font-bold text-center text-gray-800'>결제 중입니다</h2>
             <p className='text-center text-gray-600'>
               결제 처리에는 약간의 시간이 소요될 수 있습니다. <br />
               잠시만 기다려 주세요.

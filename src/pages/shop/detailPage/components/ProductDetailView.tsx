@@ -13,6 +13,8 @@ const ProductDetailView = ({ data }: ProductDetailViewProps) => {
   const [detailImage, setDetailImage] = useState<ProductImage[] | []>([]);
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [selectedOption, setSelectedOption] = useState<OptionState>({
+    productCode: data.product.product_code,
+    productData: data.product,
     optionData: data.options[0],
     selectedColor: null,
     selectedSize: null,

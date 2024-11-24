@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { OptionState } from '../types';
-import { ProductOption } from '@/api/type';
+import { ProductData, ProductOption } from '@/api/type';
 
 interface ColorBtnsProps {
-  data: ProductOption[];
+  data: ProductData;
   selectedOption: OptionState;
   onSelect: (prevOption: OptionState) => void;
 }
@@ -22,10 +22,13 @@ const ColorBtns = ({ data, selectedOption, onSelect }: ColorBtnsProps) => {
     // 컬러가 변경될 때 사이즈와 수량 초기화
     onSelect({
       ...selectedOption,
+      productCode: data.product.product_code,
+      productData: data.product,
       optionData: isSelected ? null : item,
       selectedColor: isSelected ? null : { color: item.color, color_code: item.color_code },
       selectedSize: null, // 사이즈 초기화
       amount: 1,
+      ...(isSelected && { stock: 0 }),
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -34,7 +37,7 @@ const ColorBtns = ({ data, selectedOption, onSelect }: ColorBtnsProps) => {
     <div className='flex flex-col w-full gap-2 md:border-none'>
       <h3 className='text-lg font-light md:text-2xl'>색상</h3>
       <div className='flex flex-wrap gap-[7px]' role='radiogroup' aria-label='색상 선택'>
-        {data.map((item) => (
+        {data.options.map((item) => (
           <label
             key={item.color}
             htmlFor={`${item.color.trim()}RadioButton`}

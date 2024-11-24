@@ -1,10 +1,10 @@
 import { ProductDetail2, ProductImage } from '@/api/type';
-import { CartItemData2 } from '@/assets/dummys/types';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import { SignUpModalType } from '@/hooks/useModalState/useModalState';
 import { nanoid } from 'nanoid';
 import { useState } from 'react';
 import { OptionState } from '../types';
+import { CartItemData } from '@/assets/dummys/types';
 
 interface AddCartBtnProps {
   productData: ProductDetail2;
@@ -14,28 +14,36 @@ interface AddCartBtnProps {
 }
 
 const AddCartBtn = ({ productData, selectedOption, detailImage, handleModalOpen }: AddCartBtnProps) => {
-  const [storedValue, setValue] = useLocalStorage<CartItemData2[] | []>('cartItems', []);
-  const [cartItems, setCartItems] = useState<CartItemData2[]>(storedValue);
+  const [storedValue, setValue] = useLocalStorage<CartItemData[] | []>('cartItems', []);
+  const [cartItems, setCartItems] = useState<CartItemData[]>(storedValue);
   const isCartButtonEnabled =
     !!selectedOption.selectedColor && !!selectedOption.selectedSize && selectedOption.amount > 0;
 
   const handleAddCart = () => {
-    const existingCartItemIndex = cartItems.findIndex(
-      (item: CartItemData2) =>
-        item.color.name === selectedOption.selectedColor?.color && item.size === selectedOption.selectedSize?.size
-    );
+    const existingCartItemIndex = cartItems.findIndex((item: CartItemData) => {
+      console.log('Comparing Item:', item);
+
+      const isProductIdMatch = item.productId === selectedOption.productData?.id;
+      const isColorMatch =
+        item.color.name?.trim().toLowerCase() === selectedOption.selectedColor?.color.trim().toLowerCase();
+      const isProductCodeMatch =
+        item.productCode.trim().toLowerCase() === selectedOption.productCode.trim().toLowerCase();
+      const isSizeMatch = item.size?.trim().toLowerCase() === selectedOption.selectedSize?.size.trim().toLowerCase();
+
+      return isProductIdMatch && isColorMatch && isProductCodeMatch && isSizeMatch;
+    });
 
     let updatedCartItems;
 
     if (existingCartItemIndex > -1) {
-      // 이미 같은 상품이 있을 경우 갯수만 업데이트
-      updatedCartItems = cartItems.map((item: CartItemData2, index: number) =>
+      console.log('Item already exists, updating quantity.');
+      updatedCartItems = cartItems.map((item: CartItemData, index: number) =>
         index === existingCartItemIndex ? { ...item, amount: item.amount + selectedOption.amount } : item
       );
     } else {
-      // 새로운 상품 추가
-      const newCartItem: CartItemData2 = {
-        id: nanoid(), // FIX: 상품 아이디가 아니라 주문 아이디 생성
+      console.log('Adding new item to cart.');
+      const newCartItem: CartItemData = {
+        id: nanoid(),
         productId: productData.id,
         productCode: productData.product_code,
         name: productData.name,
