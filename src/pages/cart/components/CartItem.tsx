@@ -13,6 +13,7 @@ import { SignUpModalType } from '@/hooks/useModalState/useModalState';
 interface CartItemProps {
   data: CartItemData;
   selectedItems: string[];
+  handleBuyNow: (itemId: string) => void;
   handleModalOpen: (type: SignUpModalType) => void;
   handleCartSelectToggle: (itemId: string) => void;
   handleUpdateCount: (id: string, newCount: number) => void;
@@ -22,6 +23,7 @@ interface CartItemProps {
 const CartItem = ({
   data,
   selectedItems,
+  handleBuyNow,
   handleCartSelectToggle,
   handleUpdateCount,
   handleRemoveSingleItem,
@@ -41,16 +43,16 @@ const CartItem = ({
         <img
           src={image}
           alt={name}
-          className='object-cover object-center w-full h-full transition-all duration-300 hover:scale-105'
+          className='h-full w-full object-cover object-center transition-all duration-300 hover:scale-105'
         />
       </Link>
 
       {!isMobile && (
         <>
-          <div className='flex flex-col justify-between w-full h-full'>
+          <div className='flex h-full w-full flex-col justify-between'>
             <div className='flex flex-col'>
               <Link to={`/product/detail/${productId}`}>
-                <h3 className='mb-1 text-sm font-semibold cursor-pointer md:text-lg'>{name}</h3>
+                <h3 className='mb-1 cursor-pointer text-sm font-semibold md:text-lg'>{name}</h3>
               </Link>
 
               <p className='text-xs text-gray700'>
@@ -64,7 +66,7 @@ const CartItem = ({
 
             <SalePrice price={price} originPrice={originPrice} originalSize='sm' saleSize='md' />
           </div>
-          <div className='flex flex-col items-end justify-center w-full h-full gap-2'>
+          <div className='flex h-full w-full flex-col items-end justify-center gap-2'>
             <GlobalCounterBtn
               data={data}
               stock={stock}
@@ -72,12 +74,7 @@ const CartItem = ({
               size='m'
               isMobile={isMobile}
             />
-            <BuyNowButton
-              size='m'
-              handleModalOpen={handleModalOpen}
-              handleCartSelectToggle={handleCartSelectToggle}
-              data={data}
-            />
+            <BuyNowButton size='m' handleModalOpen={handleModalOpen} handleBuyNow={handleBuyNow} data={data} />
           </div>
           <button className='hidden h-full cursor-pointer xl:block' onClick={() => handleRemoveSingleItem(id)}>
             <CloseIco />
@@ -85,12 +82,12 @@ const CartItem = ({
         </>
       )}
       {isMobile && (
-        <div className='flex flex-col justify-between w-full h-full'>
-          <div className='flex flex-col w-full h-full gap-2'>
+        <div className='flex h-full w-full flex-col justify-between'>
+          <div className='flex h-full w-full flex-col gap-2'>
             <div className='flex justify-between'>
               <div className='flex flex-col'>
                 <Link to={`/product/detail/${productId}`}>
-                  <h3 className='mb-1 text-sm font-semibold cursor-pointer md:text-lg'>{name}</h3>
+                  <h3 className='mb-1 cursor-pointer text-sm font-semibold md:text-lg'>{name}</h3>
                 </Link>
                 <p className='text-xs text-gray700'>
                   [옵션: {color.name} / {size}]
@@ -100,7 +97,7 @@ const CartItem = ({
 
             <SalePrice price={price} originPrice={originPrice} originalSize='xs' saleSize='md' flex='col' />
           </div>
-          <div className='flex items-end justify-between w-full h-full gap-2'>
+          <div className='flex h-full w-full items-end justify-between gap-2'>
             <GlobalCounterBtn
               data={data}
               stock={stock}
@@ -108,12 +105,7 @@ const CartItem = ({
               handleUpdateCount={handleUpdateCount}
               isMobile={isMobile}
             />
-            <BuyNowButton
-              size='s'
-              handleModalOpen={handleModalOpen}
-              handleCartSelectToggle={handleCartSelectToggle}
-              data={data}
-            />
+            <BuyNowButton size='s' handleModalOpen={handleModalOpen} handleBuyNow={handleBuyNow} data={data} />
           </div>
         </div>
       )}
