@@ -1,5 +1,3 @@
-import { CartItemData, ProductDetail } from '@/assets/dummys/types';
-
 interface SalePriceProps {
   price: number;
   originPrice: number;
