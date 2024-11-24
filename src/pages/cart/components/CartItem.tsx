@@ -9,6 +9,9 @@ import { CartItemData } from '@/assets/dummys/types';
 import { useMediaQuery } from 'react-responsive';
 import BuyNowButton from './BuyNowButton';
 import { SignUpModalType } from '@/hooks/useModalState/useModalState';
+import useDefaultImage from '@/hooks/useDefaultImage';
+import ImageOnLoadSkeleton from '@/pages/shop/detailPage/components/skeletons/ImageOnLoadSkeleton';
+import DefaultImage from '@/pages/shop/detailPage/components/DefaultImage';
 
 interface CartItemProps {
   data: CartItemData;
@@ -32,6 +35,8 @@ const CartItem = ({
   const isChecked = selectedItems.includes(data.id);
   const isMobile = useMediaQuery({ maxWidth: 468 });
   const { discount, discountOption, price, originPrice, productId, name, id, image, size, color, stock } = data;
+  const { isImageError, setDefaultImage, isImageLoading, setIsImageLoading } = useDefaultImage();
+  const isThumbnailExist = !!image;
 
   return (
     <li className={`flex h-[150px] items-center ${isMobile ? 'gap-3' : 'gap-6'}`}>
@@ -39,12 +44,28 @@ const CartItem = ({
         <CheckBox handleCartSelectToggle={handleCartSelectToggle} itemId={id} isChecked={isChecked} />
       </div>
 
-      <Link to={`/product/detail/${productId}`} className='h-full min-w-[100px] overflow-hidden md:min-w-[200px]'>
-        <img
-          src={image}
-          alt={name}
-          className='h-full w-full object-cover object-center transition-all duration-300 hover:scale-105'
-        />
+      <Link
+        to={`/product/detail/${productId}`}
+        className='relative h-full min-w-[100px] max-w-[200px] overflow-hidden bg-gray-200 md:min-w-[200px]'
+      >
+        {isImageLoading && <ImageOnLoadSkeleton option='썸네일' />}
+        {!isImageLoading && !isThumbnailExist && <DefaultImage />}
+        {isThumbnailExist && (
+          <div
+            className={
+              isImageError ? 'absolute flex h-full w-full flex-col items-center justify-center gap-2' : 'h-full w-full'
+            }
+          >
+            <img
+              src={image}
+              alt={name}
+              className={`${isImageError ? 'w-12 object-contain' : 'h-full w-full object-cover'} transition-all duration-300 hover:scale-105`}
+              onError={setDefaultImage}
+              onLoad={() => setIsImageLoading(false)}
+            />
+            {isImageError && <p className='text-xs text-secondary'>이미지 로드 실패</p>}
+          </div>
+        )}
       </Link>
 
       {!isMobile && (

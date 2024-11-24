@@ -28,9 +28,9 @@ const ProductDetailImage = ({ data, selectedOption, detailImage, setDetailImage 
   return (
     <div className='flex w-full flex-col gap-[2px] transition-all duration-300 ease-in-out md:w-1/2'>
       {/* 이미지 로드 중 스켈레톤UI */}
-      {isImageLoading && <ImageOnLoadSkeleton />}
+      {isImageLoading && <ImageOnLoadSkeleton option='디테일' />}
       {/* 이미지 없을때 디폴트 이미지 */}
-      {!isDetailImagesExist && <DefaultImage />}
+      {!isImageLoading && !isDetailImagesExist && <DefaultImage />}
       {/* 디테일 이미지 영역 (이미지 로드 중 에러 발생 시 디폴트 이미지 포함) */}
       {isDetailImagesExist &&
         detailImage?.map(
