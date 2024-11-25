@@ -4,11 +4,11 @@ import { SignUpModalType } from '@/hooks/useModalState/useModalState';
 interface BuyNowButtonProps {
   data: CartItemData;
   size?: 's' | 'm' | 'l';
+  handleBuyNow: (itemId: string) => void;
   handleModalOpen: (type: SignUpModalType) => void;
-  handleCartSelectToggle: (itemId: string) => void;
 }
 
-const BuyNowButton = ({ size = 'm', data, handleModalOpen, handleCartSelectToggle }: BuyNowButtonProps) => {
+const BuyNowButton = ({ size = 'm', data, handleModalOpen, handleBuyNow }: BuyNowButtonProps) => {
   // 사이즈별 클래스 매핑
   const sizeClasses = {
     s: 'h-[30px] w-[80px] text-xs',
@@ -17,7 +17,7 @@ const BuyNowButton = ({ size = 'm', data, handleModalOpen, handleCartSelectToggl
   };
 
   const handleClick = () => {
-    handleCartSelectToggle(data.id);
+    handleBuyNow(data.id);
     handleModalOpen('결제모달');
   };
 

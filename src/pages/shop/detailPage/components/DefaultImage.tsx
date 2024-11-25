@@ -5,7 +5,7 @@ const DefaultImage = ({ option = '디테일' }: { option?: '디테일' | '썸네
     <>
       {option === '디테일' && (
         <div className={`relative h-screen w-full overflow-hidden bg-gray-200 md:h-full`}>
-          <div className='absolute flex items-center justify-center w-full h-full z-1'>
+          <div className='z-1 absolute flex h-full w-full items-center justify-center object-cover'>
             <LogoWhite />
           </div>
         </div>

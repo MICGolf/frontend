@@ -31,7 +31,7 @@ const ProductCard = ({ productData, optionData, queryKey }: ProductCardProps) =>
       className='block h-full'
       aria-label={isSoldOut ? `${name} 품절` : `${name} 디테일 보러가기`}
     >
-      <div className='flex flex-col h-full'>
+      <div className='flex h-full flex-col'>
         <div
           className={`relative w-full overflow-hidden pt-[133%] ${isImageError && 'flex flex-col items-center justify-center gap-2 bg-gray-200'}`}
         >
@@ -46,9 +46,9 @@ const ProductCard = ({ productData, optionData, queryKey }: ProductCardProps) =>
             </>
           )}
           {isImageLoading && <ImageOnLoadSkeleton option='썸네일' />}
-          {!isThumbnailExist && <DefaultImage option='썸네일' />}
+          {!isImageLoading && !isThumbnailExist && <DefaultImage option='썸네일' />}
           {isThumbnailExist && (
-            <div className='absolute top-0 left-0 flex flex-col items-center justify-center w-full h-full gap-2'>
+            <div className='absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center gap-2'>
               <img
                 src={thumbnail}
                 alt={`${name} 썸네일 이미지`}
@@ -64,8 +64,8 @@ const ProductCard = ({ productData, optionData, queryKey }: ProductCardProps) =>
             </div>
           )}
         </div>
-        <div className='flex flex-col justify-between flex-grow py-4'>
-          <div className='flex flex-col gap-2 mb-3'>
+        <div className='flex flex-grow flex-col justify-between py-4'>
+          <div className='mb-3 flex flex-col gap-2'>
             <h3 className='text-lg font-semibold'>{name}</h3>
             <SaleProvider discount={discount} discountOption={discountOption}>
               <SaleLabel />
