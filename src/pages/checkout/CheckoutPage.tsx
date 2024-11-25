@@ -146,7 +146,7 @@ const CheckoutPage = () => {
       setLoadingFlag(true);
       await new Promise((resolve) => setTimeout(resolve, 3000));
       setLoadingFlag(false);
-      navigate('/checkout/success');
+      navigate('/checkout/success', { state: { from: '/checkout' } });
     }
   };
 
