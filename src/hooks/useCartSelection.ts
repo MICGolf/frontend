@@ -8,6 +8,11 @@ export const useCartSelection = (cartItems: CartItemData[]) => {
   const [cartItemArr, setCartItemArr] = useState<CartItemData[]>(cartItems); // 상태로 cartItems 배열을 관리
   const [selectAll, setSelectAll] = useState(false); // 전체 선택 상태 추적
 
+  // 바로구매 기능
+  const handleBuyNow = (itemId: string) => {
+    setSelectedItems([itemId]);
+  };
+
   // 장바구니 아이템 리스트 선택(체크박스) 토글
   const handleCartSelectToggle = (itemId: string) => {
     setSelectedItems(
@@ -67,6 +72,7 @@ export const useCartSelection = (cartItems: CartItemData[]) => {
     selectedItems,
     selectedProducts,
     selectAll, // 전체 선택 상태
+    handleBuyNow,
     handleCartSelectToggle,
     handleUpdateCount,
     handleSelectAll, // 전체 선택/해제 함수

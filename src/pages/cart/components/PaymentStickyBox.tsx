@@ -52,17 +52,17 @@ const PaymentStickyBox = ({
             <div className='mb-4 flex flex-col gap-2'>
               <div className='flex justify-between text-sm'>
                 <span>상품금액</span>
-                <span>{totalPrice.toLocaleString()}원</span>
+                <span>₩{totalPrice.toLocaleString()}</span>
               </div>
               <div className='flex justify-between text-sm'>
                 <span>배송비</span>
-                <span>{totalDeliveryFee.toLocaleString()}원</span>
+                <span>₩{totalDeliveryFee.toLocaleString()}</span>
               </div>
             </div>
 
             <div className='flex flex-col items-end border-y border-gray300 py-4 text-xl font-semibold'>
               <span>결제 예상 금액</span>
-              <span>{calculateTotal().toLocaleString()}원</span>
+              <span>₩{calculateTotal().toLocaleString()}</span>
             </div>
             <button
               className={`mt-4 w-full border py-2 text-sm transition-all duration-300 ${
