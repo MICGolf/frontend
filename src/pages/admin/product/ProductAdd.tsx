@@ -5,38 +5,47 @@ import setting from '@/assets/icons/setting.svg';
 import { useEffect, useState } from 'react';
 import { ImageCarousel } from './components/ImageCarousel';
 import { Category } from '@/pages/admin/components/Category';
-import CategorySelcet from '../components/CategorySelcet';
+import { categoryApi, productsApi } from '@/api';
+import { CategoryData } from '../components/type';
+import { ColorOption } from './components/ColorOption';
+import SizeArray from './components/SizeArray';
 
-type Size = {
+interface Size {
   sizeName: string;
   stock: string;
-};
+}
 
-export type ImageFile = {
+export interface ImageFile {
   file: File | null;
   previewUrl?: string;
-};
+}
 
-interface ProductFormData {
+interface ColorOption {
   colorName: string;
   hexCode: string;
+  sizes: Size[];
+  images: ImageFile[];
+}
+
+interface ProductFormData {
   productCode: string;
   productName: string;
   productPrice: number;
   discountPrice: number;
-  discountOption: string;
-  sizes: Size[];
+  discountOption: 'amount' | 'percent';
   subCategory: string;
   subSubCategory: string;
-  images: ImageFile[];
   mainCategory: string;
+  description: string;
+  features: string;
+  colorOptions: ColorOption[];
 }
 
 const ProductAdd = () => {
   const [showCategory, setShowCategory] = useState(false);
   const methods = useForm<ProductFormData>({
     defaultValues: {
-      discountOption: 'won',
+      discountOption: 'amount',
     },
   });
   const {
@@ -44,53 +53,59 @@ const ProductAdd = () => {
     register,
     control,
     watch,
+    setValue,
     formState: { errors },
   } = methods;
   const [isOpen, setIsOpen] = useState(false);
 
-  const handlePostProduct = (data: ProductFormData) => console.log(data);
-
   const {
-    fields: sizeFields,
-    append: appendSize,
-    remove: removeSize,
+    fields: colorFields,
+    append: appendColorOption,
+    remove: removeColorOption,
+    update: updateColorOption,
   } = useFieldArray({
     control,
-    name: 'sizes',
+    name: 'colorOptions',
   });
 
-  const {
-    fields: imageFields,
-    append: appendImage,
-    remove: removeImage,
-  } = useFieldArray({
-    control,
-    name: 'images',
-  });
-
-  const onAddSize = () => {
-    appendSize({ sizeName: '', stock: '' });
+  const handleAddOption = () => {
+    appendColorOption({
+      colorName: '',
+      hexCode: '',
+      sizes: [{ sizeName: '', stock: '' }],
+      images: [],
+    });
   };
 
-  const onRevmoveSize = (index: number) => {
-    removeSize(index);
+  const handleRemoveOption = (index: number) => {
+    removeColorOption(index);
   };
 
-  const onAddImage = (file: File) => {
+  const handleAddImage = (file: File, colorIndex: number) => {
     const imageUrl = URL.createObjectURL(file);
-    appendImage({ file, previewUrl: imageUrl });
+
+    const updateImages = [
+      ...colorFields[colorIndex].images,
+      {
+        file,
+        previewUrl: imageUrl,
+      },
+    ];
+    updateColorOption(colorIndex, { ...colorFields[colorIndex], images: updateImages });
   };
 
-  const onRemoveImage = (index: number) => {
-    removeImage(index);
+  const handleRemoveImage = (imageIndex: number, colorIndex: number) => {
+    const updatedImages = [...colorFields[colorIndex].images];
+    updatedImages.splice(imageIndex, 1);
+    updateColorOption(colorIndex, { ...colorFields[colorIndex], images: updatedImages });
   };
 
   const productPrice = watch('productPrice', 0);
   const discountPrice = watch('discountPrice', 0);
-  const discountOption = watch('discountOption', 'won');
+  const discountOption = watch('discountOption', 'amount');
 
   const calcurateSalePrice = (productPrice: number, discountPrice: number, discountOption: string) => {
-    if (discountOption === 'won') {
+    if (discountOption === 'amount') {
       return productPrice - discountPrice;
     }
     return productPrice - productPrice * (discountPrice / 100);
@@ -111,44 +126,134 @@ const ProductAdd = () => {
     };
   }, [showCategory]);
 
-  // const fetchPostProducts = async () => {
-  //   const response = await productsApi.createProduct({
-  //     category_id: 1,
-  //     product: {
-  //       name: '',
-  //       price: 1,
-  //       discount: 1,
-  //       discount_option: 'percent',
-  //       origin_price: 1,
-  //       description: '',
-  //       detail: '',
-  //       product_code: '',
-  //     },
-  //     options: [
-  //       {
-  //         color: '1', // 예: 'Black', 'White'
-  //         color_code: '1', // 예: '#000000', '#FFFFFF'
-  //         sizes: [
-  //           {
-  //             size: '1', // 예: 'M', 'L'
-  //             stock: 0, // 재고 수량
-  //           },
-  //         ],
-  //       },
-  //     ],
-  //     image_mapping: {
-  //       '#000': ['image1, image2'],
-  //     },
-  //   });
+  type CategoryWithChildren = CategoryData & {
+    subCategories?: CategoryWithChildren[];
+  };
 
-  //   console.log(response);
-  // };
+  const [categories, setCategories] = useState<CategoryWithChildren[]>([]);
+
+  const fetchCategories = async () => {
+    const mainResponse = await categoryApi.getCategory();
+    const mainCategories: CategoryData[] = mainResponse.data;
+
+    const categoriesWithChildren = await Promise.all(
+      mainCategories.map(async (mainCategory) => {
+        const subResponse = await categoryApi.getCategory(mainCategory.id);
+        const subCategories: CategoryData[] = subResponse.data;
+
+        const subCategoriesWithChildren = await Promise.all(
+          subCategories.map(async (subCategory) => {
+            const subSubResponse = await categoryApi.getCategory(subCategory.id);
+            const subSubCategories: CategoryData[] = subSubResponse.data;
+
+            return { ...subCategory, subCategories: subSubCategories };
+          })
+        );
+
+        return { ...mainCategory, subCategories: subCategoriesWithChildren };
+      })
+    );
+
+    setCategories(categoriesWithChildren);
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const mainCategory = watch('mainCategory');
+  const subCategory = watch('subCategory');
+
+  // 선택된 대분류에 따른 중분류 옵션
+  const subCategories = categories.find((cate) => cate.id === Number(mainCategory))?.subCategories || [];
+
+  // 선택된 중분류에 따른 소분류 옵션
+  const subSubCategories = subCategories.find((subCate) => subCate.id === Number(subCategory))?.subCategories || [];
+
+  // 대분류 변경 시 하위 카테고리 초기화
+  useEffect(() => {
+    setValue('subCategory', '');
+    setValue('subSubCategory', '');
+  }, [mainCategory]);
+
+  // 중분류 변경 시 소분류 초기화
+  useEffect(() => {
+    setValue('subSubCategory', '');
+  }, [subCategory]);
+
+  const handlePostProducts = async (data: ProductFormData) => {
+    // 가장 하위 카테고리 ID를 추출
+    const selectedCategoryId = data.subSubCategory // 소분류 ID가 존재하면 사용
+      ? Number(data.subSubCategory)
+      : data.subCategory // 중분류 ID가 존재하면 사용
+        ? Number(data.subCategory)
+        : Number(data.mainCategory); // 대분류 ID가 존재하면 사용
+
+    const requestPayload = {
+      category_id: selectedCategoryId,
+      product: {
+        name: data.productName,
+        price: data.productPrice,
+        discount: data.discountPrice,
+        discount_option: data.discountOption,
+        origin_price: Math.floor(calcurateSalePrice(data.productPrice, data.discountPrice, data.discountOption)),
+        description: data.description,
+        detail: data.features,
+        product_code: data.productCode,
+      },
+      options: data.colorOptions.map((colorOpt) => ({
+        color: colorOpt.colorName,
+        color_code: colorOpt.hexCode,
+        sizes: colorOpt.sizes.map((size) => ({
+          size: size.sizeName,
+          stock: size.stock,
+        })),
+      })),
+      image_mapping: data.colorOptions.reduce(
+        (mapping, colorOpt) => {
+          const imageNames: string[] = [];
+          colorOpt.images.forEach((image) => {
+            if (image.file) {
+              imageNames.push(image.file.name); // 원본 파일명 사용
+            }
+          });
+          mapping[colorOpt.hexCode] = imageNames;
+          return mapping;
+        },
+        {} as { [key: string]: string[] }
+      ),
+    };
+
+    // `files`만 담을 FormData 생성
+    const formData = new FormData();
+
+    // 파일 추가
+    data.colorOptions.forEach((colorOpt) => {
+      colorOpt.images.forEach((image, index) => {
+        if (image.file) {
+          const uniqueFileName = `${colorOpt.hexCode}_${index}_${image.file.name}`;
+          formData.append('files', new File([image.file], uniqueFileName, { type: image.file.type }));
+        }
+      });
+    });
+
+    // `request`를 FormData로 추가
+    formData.append('request', JSON.stringify(requestPayload));
+
+    // 서버에 POST 요청
+    try {
+      const response = await productsApi.createProduct(formData);
+      console.log('등록 성공:', response.data);
+    } catch (error) {
+      console.error('등록 실패:', error);
+    }
+  };
 
   return (
     <div>
       {showCategory && <Category onClose={() => setShowCategory(false)} />}
       <FormProvider {...methods}>
-        <form className='mt-6 w-full' onSubmit={handleSubmit(handlePostProduct)}>
+        <form className='mt-6 w-full' onSubmit={handleSubmit(handlePostProducts)}>
           {/* section 1 */}
           <div className='mb-10 rounded-lg bg-white px-8 py-5 shadow-md'>
             <div className='grid w-2/3 grid-cols-7'>
@@ -174,7 +279,62 @@ const ProductAdd = () => {
                 <p>판매상태</p>
               </div>
               <div className='col-span-5 flex items-center gap-4'>
-                <CategorySelcet />
+                <select
+                  {...register('mainCategory', { required: '대분류를 선택해주세요' })}
+                  className={`mt-4 w-full appearance-none rounded-md border border-neutral-300 bg-[length:36px_36px] bg-[center_right_1rem] bg-no-repeat px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300`}
+                  style={{
+                    backgroundImage: `url(${isOpen ? arrowDropUp : arrowDropDown})`,
+                  }}
+                  onClick={(prev) => setIsOpen(!prev)}
+                  defaultValue=''
+                >
+                  <option value='' disabled>
+                    대분류
+                  </option>
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  {...register('subCategory')}
+                  className={`mt-4 w-full appearance-none rounded-md border border-neutral-300 bg-[length:36px_36px] bg-[center_right_1rem] bg-no-repeat px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300`}
+                  style={{
+                    backgroundImage: `url(${isOpen ? arrowDropUp : arrowDropDown})`,
+                  }}
+                  onClick={(prev) => setIsOpen(!prev)}
+                  defaultValue=''
+                  disabled={!mainCategory}
+                >
+                  <option value='' disabled>
+                    중분류
+                  </option>
+                  {subCategories.map((subCategory) => (
+                    <option key={subCategory.id} value={subCategory.id}>
+                      {subCategory.name}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  {...register('subSubCategory')}
+                  className={`mt-4 w-full appearance-none rounded-md border border-neutral-300 bg-[length:36px_36px] bg-[center_right_1rem] bg-no-repeat px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300`}
+                  style={{
+                    backgroundImage: `url(${isOpen ? arrowDropUp : arrowDropDown})`,
+                  }}
+                  onClick={(prev) => setIsOpen(!prev)}
+                  defaultValue=''
+                  disabled={!subCategory}
+                >
+                  <option value='' disabled>
+                    소분류
+                  </option>
+                  {subSubCategories.map((subSubCategory) => (
+                    <option key={subSubCategory.id} value={subSubCategory.id}>
+                      {subSubCategory.name}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className='col-span-1 flex items-center justify-center whitespace-nowrap'>
                 <div onClick={() => setShowCategory((prev) => !prev)} className='ml-10 mt-4 flex items-center gap-2'>
@@ -209,13 +369,19 @@ const ProductAdd = () => {
               <div className='mb-4 flex items-center text-base font-semibold text-neutral-800'>
                 <p>제품설명</p>
               </div>
-              <textarea className='mt-4 h-[200px] w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300' />
+              <textarea
+                {...register('description', { required: '제품 설명을 입력해주세요' })}
+                className='mt-4 h-[200px] w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
+              />
             </div>
             <div className='mb-10'>
               <div className='mb-4 flex items-center text-base font-semibold text-neutral-800'>
                 <p>제품특징</p>
               </div>
-              <textarea className='mt-4 h-[200px] w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300' />
+              <textarea
+                {...register('features', { required: '제품 특징을 입력해주세요' })}
+                className='mt-4 h-[200px] w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
+              />
             </div>
           </div>
 
@@ -256,7 +422,7 @@ const ProductAdd = () => {
                   }}
                   onClick={(prev) => setIsOpen(!prev)}
                 >
-                  <option value='won'>원</option>
+                  <option value='amount'>원</option>
                   <option value='percent'>%</option>
                 </select>
               </div>
@@ -270,104 +436,62 @@ const ProductAdd = () => {
           </div>
 
           {/* section 4 */}
-          <div className='mb-10 rounded-lg bg-white px-8 py-5 shadow-md'>
-            <div className='mb-10'>
-              <div className='mb-4 flex items-center text-base font-semibold text-neutral-800'>
-                <p>옵션</p>
-              </div>
-            </div>
+          <div className='space-y-4'>
+            {colorFields.map((field, colorIndex) => (
+              <div key={field.id} className='space-y-4 rounded-lg border bg-gray-50 p-4'>
+                <h3 className='font-semibold'>옵션 {colorIndex + 1}</h3>
 
-            <div className='flex gap-10'>
-              {/* section left */}
-              <div className='w-[60%]'>
+                {/* 컬러명 */}
+                <input
+                  type='text'
+                  placeholder='컬러명'
+                  {...register(`colorOptions.${colorIndex}.colorName`, { required: '컬러명을 입력해주세요.' })}
+                  className='block w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring focus:ring-indigo-200'
+                />
+                {errors.colorOptions?.[colorIndex]?.colorName && (
+                  <p className='text-sm text-red-500'>{errors.colorOptions[colorIndex].colorName?.message}</p>
+                )}
+
+                {/* 헥스코드 */}
+                <input
+                  type='text'
+                  placeholder='Hex 코드'
+                  {...register(`colorOptions.${colorIndex}.hexCode`, { required: 'Hex 코드를 입력해주세요.' })}
+                  className='block w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring focus:ring-indigo-200'
+                />
+                {errors.colorOptions?.[colorIndex]?.hexCode && (
+                  <p className='text-sm text-red-500'>{errors.colorOptions[colorIndex].hexCode?.message}</p>
+                )}
+
+                {/* 사이즈 추가 */}
+                <SizeArray control={control} colorIndex={colorIndex} register={register} errors={errors} />
+
+                {/* 이미지 업로드 */}
                 <ImageCarousel
-                  images={imageFields}
-                  onAddImage={onAddImage}
-                  onRemoveImage={onRemoveImage}
+                  images={field.images || []}
+                  onAddImage={(file) => handleAddImage(file, colorIndex)}
+                  onRemoveImage={(imageIndex) => handleRemoveImage(imageIndex, colorIndex)}
                   maxImages={6}
                 />
-              </div>
 
-              {/* section right */}
-              <div className='w-[40%]'>
-                <div className='grid grid-cols-4'>
-                  <div className='col-span-1 mt-4 flex items-center text-base font-semibold text-neutral-500'>
-                    <p>컬러</p>
-                  </div>
-                  <div className='col-span-3'>
-                    <div className='flex items-center gap-4'>
-                      <div className='flex-1'>
-                        <input
-                          type='text'
-                          placeholder='컬러명'
-                          {...register('colorName', { required: '컬러명을 입력해주세요' })}
-                          className={`${inputStyle}`}
-                        />
-                        <p className='text-sm text-red-500'>{errors.colorName?.message}</p>
-                      </div>
-                      <div className='flex-1'>
-                        <input
-                          type='text'
-                          placeholder='Hex 코드'
-                          {...register('hexCode', { required: 'Hex 코드를 입력해주세요' })}
-                          className={`${inputStyle}`}
-                        />
-                        <p className='text-sm text-red-500'>{errors.hexCode?.message}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <div className='mt-4 flex items-center text-base font-semibold text-neutral-500'>
-                    <p>사이즈 및 재고</p>
-                  </div>
-                  {sizeFields.map((_, index) => (
-                    <div key={index}>
-                      <div className='flex items-center gap-4'>
-                        <div className='flex-1'>
-                          <input
-                            type='text'
-                            placeholder='사이즈 명'
-                            {...register(`sizes.${index}.sizeName`, { required: '사이즈 명을 입력해주세요' })}
-                            className={`${inputStyle}`}
-                          />
-                          <p className='text-sm text-red-500'>
-                            {errors.sizes && errors.sizes[index]?.sizeName?.message}
-                          </p>
-                        </div>
-                        <div className='flex-1'>
-                          <input
-                            type='number'
-                            placeholder='재고 수량'
-                            {...register(`sizes.${index}.stock`, {
-                              required: '재고 수량을 입력해주세요.',
-                              min: { value: 1, message: '재고 수량은 1 이상이어야 합니다.' },
-                            })}
-                            className={`${inputStyle}`}
-                          />
-                          <p className='text-sm text-red-500'>{errors.sizes && errors.sizes[index]?.stock?.message}</p>
-                        </div>
-                        <button type='button' onClick={() => onRevmoveSize(index)} className='mt-4'>
-                          -
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                  <div className='mt-2 text-right text-sm font-light text-gray-500'>
-                    <span onClick={onAddSize} className='cursor-pointer py-4'>
-                      사이즈 추가 +
-                    </span>
-                  </div>
-                </div>
+                <button
+                  type='button'
+                  onClick={() => handleRemoveOption(colorIndex)}
+                  className='text-sm text-red-500 underline'
+                >
+                  옵션 삭제
+                </button>
               </div>
-            </div>
-          </div>
+            ))}
 
-          <div className='flex justify-end'>
-            <button type='submit' className='rounded-md bg-black px-4 py-2 text-white'>
-              등록
+            <button type='button' onClick={handleAddOption} className='rounded-lg bg-indigo-500 px-4 py-2 text-white'>
+              옵션 추가
             </button>
           </div>
+
+          <button type='submit' className='rounded-md bg-black px-4 py-2 text-white'>
+            등록
+          </button>
         </form>
       </FormProvider>
     </div>

@@ -2,30 +2,12 @@ import { categoryApi } from '@/api';
 import { MajorCategory } from '@/assets/dummys/types';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
+import { CategoryData, CategoryWithSubCategories } from '../admin/components/type';
 
 interface CategoriesProps {
   activeNav: string | null;
   categoryData: MajorCategory[];
 }
-
-type CategoryData = {
-  id: number;
-  name: string;
-  parent_id: number | null;
-  depth: number;
-  created_at: string;
-  updated_at: string;
-};
-
-type CategoryWithSubCategories = {
-  id: number;
-  name: string;
-  parent_id: number | null;
-  depth: number;
-  created_at: string;
-  updated_at: string;
-  subCategories: CategoryData[];
-};
 
 const Categories = ({ activeNav, categoryData }: CategoriesProps) => {
   if (activeNav !== 'shop' || categoryData.length === 0) return null;
