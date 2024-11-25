@@ -35,8 +35,8 @@ const CartItem = ({
   const isChecked = selectedItems.includes(data.id);
   const isMobile = useMediaQuery({ maxWidth: 468 });
   const { discount, discountOption, price, originPrice, productId, name, id, image, size, color, stock } = data;
-  const { isImageError, setDefaultImage, isImageLoading, setIsImageLoading } = useDefaultImage();
   const isThumbnailExist = !!image;
+  const { isImageError, handleOnError, isImageLoading, handleOnLoad } = useDefaultImage(isThumbnailExist);
 
   return (
     <li className={`flex h-[150px] items-center ${isMobile ? 'gap-3' : 'gap-6'}`}>
@@ -49,8 +49,7 @@ const CartItem = ({
         className='relative h-full min-w-[100px] max-w-[200px] overflow-hidden bg-gray-200 md:min-w-[200px]'
       >
         {isImageLoading && <ImageOnLoadSkeleton option='썸네일' />}
-        {!isImageLoading && !isThumbnailExist && <DefaultImage />}
-        {isThumbnailExist && (
+        {isThumbnailExist ? (
           <div
             className={
               isImageError ? 'absolute flex h-full w-full flex-col items-center justify-center gap-2' : 'h-full w-full'
@@ -60,11 +59,13 @@ const CartItem = ({
               src={image}
               alt={name}
               className={`${isImageError ? 'w-12 object-contain' : 'h-full w-full object-cover'} transition-all duration-300 hover:scale-105`}
-              onError={setDefaultImage}
-              onLoad={() => setIsImageLoading(false)}
+              onError={handleOnError}
+              onLoad={handleOnLoad}
             />
             {isImageError && <p className='text-xs text-secondary'>이미지 로드 실패</p>}
           </div>
+        ) : (
+          <DefaultImage />
         )}
       </Link>
 

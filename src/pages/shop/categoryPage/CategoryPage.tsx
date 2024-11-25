@@ -10,7 +10,6 @@ import { handleApiError } from '@/utils/handleApiError';
 
 const CategoryPage = () => {
   const { majorCategory, middleCategory, subCategory } = useParams();
-  console.log('카테고리페이지 렌더링');
 
   const parseCategoryId = (param: string | undefined): number | null => {
     if (!param) return null;
@@ -21,8 +20,6 @@ const CategoryPage = () => {
   const majorCategoryId = parseCategoryId(majorCategory);
   const middleCategoryId = parseCategoryId(middleCategory);
   const subCategoryId = parseCategoryId(subCategory);
-
-  console.log(majorCategoryId, middleCategoryId, subCategoryId);
 
   if (majorCategoryId === null) {
     return (
@@ -85,6 +82,8 @@ const CategoryPage = () => {
     );
   }
 
+  console.log(categoryProductData);
+
   return (
     <article className='container mx-auto px-4 py-[160px] transition-all duration-300 ease-in-out'>
       {isError && (
@@ -101,7 +100,7 @@ const CategoryPage = () => {
               <li key={item.product.id}>
                 <ProductCard
                   productData={item.product}
-                  optionData={item.options[0]}
+                  optionData={item?.options?.[0]}
                   queryKey={['categoryProducts', sortResult, currentOrder, currentCategory]}
                 />
               </li>
