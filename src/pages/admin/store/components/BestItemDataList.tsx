@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Banner } from '../type';
+import { useQuery } from '@tanstack/react-query';
+import { homeApi } from '@/api';
 
 type Props = {
   data: Banner[];
@@ -14,10 +16,26 @@ const TableHeadArray = [
   { className: 'w-2/12', title: '삭제/수정' },
 ];
 
-export const BestItemDataList = ({ data }: Props) => {
+export const BestItemDataList = () => {
+  const {
+    data: bestItemList,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['bestItemList'],
+    queryFn: async () => {
+      const response = await homeApi.getBestProductOrMdsChoice({ type: 'best' });
+      return response.data;
+    },
+  });
+
+  if (isLoading || isError) return null;
+
+  console.log(bestItemList);
+
   return (
     <div className='rounded-lg bg-secondary px-5 py-6 text-base'>
-      <p className='mb-4 border-black text-xl font-bold'>배너목록 총({data.length}개)</p>
+      <p className='mb-4 border-black text-xl font-bold'>배너목록 총({bestItemList.length}개)</p>
       <div>
         <table className='w-full table-fixed border border-neutral-200 px-5 text-center'>
           <thead>
@@ -30,7 +48,7 @@ export const BestItemDataList = ({ data }: Props) => {
             </tr>
           </thead>
           <tbody>
-            {data.map((item) => (
+            {bestItemList.map((item: any) => (
               <tr key={item.id} className=''>
                 <td className='w-2/12 border border-neutral-200 py-2'>{item.title}</td>
                 <td className='w-2/12 border border-neutral-200 py-2'>{item.subTitle}</td>

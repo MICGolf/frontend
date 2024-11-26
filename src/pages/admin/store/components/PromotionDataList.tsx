@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Banner } from '../type';
+import { useQuery } from '@tanstack/react-query';
+import { homeApi } from '@/api';
 
 type Props = {
   data: Banner[];
@@ -15,9 +17,26 @@ const TableHeadArray = [
 ];
 
 export const PromotionDataList = ({ data }: Props) => {
+  const {
+    data: promotionList,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['promotionList'],
+    queryFn: async () => {
+      const response = await homeApi.getBannersOrPromotions({ type: 'promotion' });
+      return response.data;
+    },
+  });
+
+  if (isLoading) return null;
+  if (isError) return null;
+
+  console.log(promotionList.items);
+
   return (
     <div className='rounded-lg bg-secondary px-5 py-6 text-base'>
-      <p className='mb-4 border-black text-xl font-bold'>배너목록 총({data.length}개)</p>
+      <p className='mb-4 border-black text-xl font-bold'>프로모션 목록 총({data.length}개)</p>
       <div>
         <table className='w-full table-fixed border border-neutral-200 px-5 text-center'>
           <thead>
@@ -30,7 +49,7 @@ export const PromotionDataList = ({ data }: Props) => {
             </tr>
           </thead>
           <tbody>
-            {data.map((item) => (
+            {promotionList.items.map((item: Banner) => (
               <tr key={item.id} className=''>
                 <td className='w-2/12 border border-neutral-200 py-2'>{item.title}</td>
                 <td className='w-2/12 border border-neutral-200 py-2'>{item.subTitle}</td>

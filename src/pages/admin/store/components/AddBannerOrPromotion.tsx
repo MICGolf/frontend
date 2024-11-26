@@ -75,7 +75,7 @@ const AddBannerOrPromotion = ({ location }: { location: locationType }) => {
 
   return (
     <div className='rounded-lg bg-white py-6 text-base'>
-      <p className='mb-4 border-black px-5 pb-4 text-xl font-bold'>배너</p>
+      <p className='mb-4 border-black px-5 pb-4 text-xl font-bold'>{location === 'banner' ? '배너' : '프로모션'}</p>
       <form onSubmit={handleSubmit(handlerSubmit)} className='px-5'>
         <div className='flex'>
           <div className='flex w-1/2 flex-col items-center justify-center overflow-hidden rounded-md'>

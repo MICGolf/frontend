@@ -5,7 +5,7 @@ type BannersOrPromotionsType = {
 };
 
 export const getBannersOrPromotions = async ({ type }: BannersOrPromotionsType) => {
-  return client.get('/banners', { params: { type } });
+  return client.get('/banners', { params: { query: type } });
 };
 
 type BannerFormData = {

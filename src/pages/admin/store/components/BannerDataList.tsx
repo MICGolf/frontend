@@ -12,22 +12,27 @@ const TableHeadArray = [
   { className: 'w-2/12', title: '삭제/수정' },
 ];
 
-type Props = {
-  data: Banner[];
-};
-
-export const BannerDataList = ({ data }: Props) => {
-  const { data: bannerList } = useQuery({
+export const BannerDataList = () => {
+  const {
+    data: bannerList,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ['bannerList'],
     queryFn: async () => {
-      const response = await homeApi.getBestProductOrMdsChoice({ type: 'best' });
+      const response = await homeApi.getBannersOrPromotions({ type: 'banner' });
       return response.data;
     },
   });
 
+  if (isLoading) return null;
+  if (isError) return null;
+
+  console.log(bannerList.items);
+
   return (
     <div className='rounded-lg bg-secondary px-5 py-6 text-base'>
-      <p className='mb-4 border-black text-xl font-bold'>배너목록 총({data.length}개)</p>
+      <p className='mb-4 border-black text-xl font-bold'>배너목록 총({bannerList.length}개)</p>
       <div>
         <table className='w-full table-fixed border border-neutral-200 px-5 text-center'>
           <thead>
@@ -40,7 +45,7 @@ export const BannerDataList = ({ data }: Props) => {
             </tr>
           </thead>
           <tbody>
-            {bannerList.map((item) => (
+            {bannerList?.items?.map((item: Banner) => (
               <tr key={item.id} className=''>
                 <td className='w-2/12 border border-neutral-200 py-2'>{item.title}</td>
                 <td className='w-2/12 border border-neutral-200 py-2'>{item.subTitle}</td>
