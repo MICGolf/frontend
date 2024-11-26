@@ -18,45 +18,48 @@ import NoticePage from '@/pages/notice/NoticePage';
 import SignUpCompletePage from '@/pages/auth/SignUpCompletePage';
 import FindPwPage from '@/pages/auth/FindPwPage';
 import FindIdPage from '@/pages/auth/FindIdPage';
+import AuthInitializer from './AuthInitializer';
 
 const PublicRoutes = () => (
   <Routes>
-    <Route element={<PublicLayout />}>
-      {/* 쇼핑 */}
-      <Route path='/shop' element={<ShopPage />} />
-      <Route path='/shop/:majorCategory' element={<CategoryPage />} />
-      <Route path='/shop/:majorCategory/:middleCategory' element={<CategoryPage />} />
-      <Route path='/product/detail/:id' element={<DetailPage />} />
+    <Route element={<AuthInitializer />}>
+      <Route element={<PublicLayout />}>
+        {/* 쇼핑 */}
+        <Route path='/shop' element={<ShopPage />} />
+        <Route path='/shop/:majorCategory' element={<CategoryPage />} />
+        <Route path='/shop/:majorCategory/:middleCategory' element={<CategoryPage />} />
+        <Route path='/product/detail/:id' element={<DetailPage />} />
 
-      {/* 이벤트 */}
-      <Route path='/event' element={<EventMainPage />} />
-      <Route path='/event/:id' element={<EventDetailPage />} />
+        {/* 이벤트 */}
+        <Route path='/event' element={<EventMainPage />} />
+        <Route path='/event/:id' element={<EventDetailPage />} />
 
-      {/* 인증 */}
-      <Route path='/auth/signin' element={<SignInPage />} />
-      <Route path='/auth/signup' element={<SignUpPage />} />
-      <Route path='/auth/signup/complete' element={<SignUpCompletePage />} />
-      <Route path='/auth/findPw' element={<FindPwPage />} />
-      <Route path='/auth/findId' element={<FindIdPage />} />
-      <Route path='/auth/callback' element={<OauthCallbackPage />} />
+        {/* 인증 */}
+        <Route path='/auth/signin' element={<SignInPage />} />
+        <Route path='/auth/signup' element={<SignUpPage />} />
+        <Route path='/auth/signup/complete' element={<SignUpCompletePage />} />
+        <Route path='/auth/findPw' element={<FindPwPage />} />
+        <Route path='/auth/findId' element={<FindIdPage />} />
+        <Route path='/auth/callback' element={<OauthCallbackPage />} />
 
-      {/* 장바구니 */}
-      <Route path='/cart' element={<CartPage />} />
+        {/* 장바구니 */}
+        <Route path='/cart' element={<CartPage />} />
 
-      {/* 결제 */}
-      <Route path='/checkout' element={<CheckoutPage />} />
-      <Route path='/checkout/success' element={<CheckoutCompletePage />} />
+        {/* 결제 */}
+        <Route path='/checkout' element={<CheckoutPage />} />
+        <Route path='/checkout/success' element={<CheckoutCompletePage />} />
 
-      {/* 공지사항 */}
-      <Route path='/notice' element={<NoticePage />} />
+        {/* 공지사항 */}
+        <Route path='/notice' element={<NoticePage />} />
 
-      {/* 메인 */}
-      <Route path='/' element={<HomePage />} />
+        {/* 메인 */}
+        <Route path='/' element={<HomePage />} />
 
-      {/* PublicRoute */}
+        {/* PublicRoute */}
 
-      <Route element={<ProtectPrivateRoute />}>
-        <Route path='/mypage' element={<MyPage />} />
+        <Route element={<ProtectPrivateRoute />}>
+          <Route path='/mypage' element={<MyPage />} />
+        </Route>
       </Route>
     </Route>
   </Routes>
