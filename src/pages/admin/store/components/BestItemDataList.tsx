@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { homeApi } from '@/api';
 import { SectionDataType } from './MdsChoiceDataList';
+import { client } from '@/api/client';
 
 const TableHeadArray = [
   { className: 'w-2/12', title: '제목' },

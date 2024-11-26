@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Banner } from '../type';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { homeApi } from '@/api';
+import { client } from '@/api/client';
 
 const TableHeadArray = [
   { className: 'w-2/12', title: '제목' },
@@ -22,6 +23,21 @@ export const PromotionDataList = () => {
     queryFn: async () => {
       const response = await homeApi.getBannersOrPromotions({ type: 'promotion' });
       return response.data;
+    },
+  });
+
+  const toggleMutation = useMutation({
+    mutationFn: async (id: number) => {
+      const response = await client.patch(`/banners/${id}/toggle`);
+      return response.data;
+    },
+    onSuccess: (data) => {
+      console.log('data:', data);
+      alert('성공적으로 변경되었습니다.');
+    },
+    onError: (error) => {
+      console.log(error);
+      alert('오류가 발생했습니다.');
     },
   });
 
@@ -59,7 +75,13 @@ export const PromotionDataList = () => {
                 </td>
                 <td className='w-2/12 border border-neutral-200 py-2'>
                   <label className='flex justify-center'>
-                    <input name='promotionCheckbox' className='peer sr-only' value='' type='radio' />
+                    <input
+                      name='promotionCheckbox'
+                      className='peer sr-only'
+                      value=''
+                      type='checkbox'
+                      onChange={() => toggleMutation.mutate(item.id)}
+                    />
                     <div className="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700"></div>
                   </label>
                 </td>

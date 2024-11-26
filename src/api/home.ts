@@ -14,7 +14,7 @@ interface BannerFormData {
   event_url: string;
   banner_type: string;
   is_active?: boolean;
-  image: File;
+  image_url: File;
 }
 
 export const postBannersOrPromotions = async (formData: BannerFormData) => {
