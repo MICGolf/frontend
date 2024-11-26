@@ -9,9 +9,8 @@ interface AddCartModalProps {
 
 const AddCartModal = ({ onClose, isOpen }: AddCartModalProps) => {
   const navigate = useNavigate();
-  const handleOpenCartPage = () => {
-    navigate('/cart');
-    onClose();
+  const handleOnClick = (path: string) => {
+    navigate(`/${path}`);
   };
 
   return (
@@ -64,13 +63,13 @@ const AddCartModal = ({ onClose, isOpen }: AddCartModalProps) => {
               <div className='flex w-full flex-col items-center gap-4'>
                 <button
                   className='w-full max-w-[700px] bg-primary px-3 py-2 font-light text-secondary transition-all duration-300 hover:scale-105 hover:bg-primary hover:text-white hover:opacity-70 sm:px-6 sm:py-4 md:px-8 md:py-5'
-                  onClick={onClose}
+                  onClick={() => handleOnClick('shop')}
                 >
                   상품 더 둘러보기
                 </button>
                 <button
                   className='w-full max-w-[700px] bg-primary px-3 py-2 font-light text-secondary transition-all duration-300 hover:scale-105 hover:bg-primary hover:text-white hover:opacity-70 sm:px-6 sm:py-4 md:px-8 md:py-5'
-                  onClick={handleOpenCartPage}
+                  onClick={() => handleOnClick('cart')}
                 >
                   구매하기
                 </button>

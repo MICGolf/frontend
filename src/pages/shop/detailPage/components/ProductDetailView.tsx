@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { OptionState, ProductDetailViewProps } from '../types';
 import { useMediaQuery } from 'react-responsive';
 import useModalState from '@/hooks/useModalState/useModalState';
@@ -32,8 +32,13 @@ const ProductDetailView = ({ data }: ProductDetailViewProps) => {
     handleModalOpen,
   };
 
+  // 첫 렌더링시 스크롤 최상단으로
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   return (
-    <section className='flex flex-col min-h-screen transition-all duration-300 ease-in-out md:flex-row'>
+    <section className='flex min-h-screen flex-col transition-all duration-300 ease-in-out md:flex-row'>
       {/* 디테일 이미지 영역 */}
       <ProductDetailImage
         data={data}

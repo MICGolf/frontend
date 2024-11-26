@@ -16,11 +16,11 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ productData, optionData, queryKey }: ProductCardProps) => {
-  const { isImageError, setDefaultImage, isImageLoading, setIsImageLoading } = useDefaultImage();
   const { id, name, price, discount, discount_option: discountOption, origin_price: originPrice } = productData;
-  const { images } = optionData;
-  const thumbnail = images[0].image_url;
-  const isThumbnailExist = !!images[0];
+  const images = optionData?.images || [];
+  const thumbnail = images.length > 0 ? images[0].image_url : '';
+  const isThumbnailExist = images.length > 0;
+  const { isImageError, handleOnError, isImageLoading, handleOnLoad } = useDefaultImage(isThumbnailExist);
   const { isSoldOut } = useSoldOutState(optionData);
   const { isSale } = useSaleState({ discount, discountOption });
 
@@ -46,8 +46,7 @@ const ProductCard = ({ productData, optionData, queryKey }: ProductCardProps) =>
             </>
           )}
           {isImageLoading && <ImageOnLoadSkeleton option='썸네일' />}
-          {!isImageLoading && !isThumbnailExist && <DefaultImage option='썸네일' />}
-          {isThumbnailExist && (
+          {isThumbnailExist ? (
             <div className='absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center gap-2'>
               <img
                 src={thumbnail}
@@ -57,10 +56,14 @@ const ProductCard = ({ productData, optionData, queryKey }: ProductCardProps) =>
                     ? 'w-[60px] object-contain'
                     : 'absolute left-0 top-0 h-full w-full object-cover transition-transform duration-300 hover:scale-105'
                 }
-                onError={setDefaultImage}
-                onLoad={() => setIsImageLoading(false)}
+                onError={handleOnError}
+                onLoad={handleOnLoad}
               />
               {isImageError && <p className='text-xs text-secondary'>이미지 로드 실패</p>}
+            </div>
+          ) : (
+            <div className='absolute left-0 top-0 h-full w-full'>
+              <DefaultImage option='썸네일' />
             </div>
           )}
         </div>

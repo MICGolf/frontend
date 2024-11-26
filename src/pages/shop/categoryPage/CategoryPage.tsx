@@ -1,63 +1,118 @@
-import { useParams } from 'react-router-dom';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInView } from 'react-intersection-observer';
+import { useEffect } from 'react';
 import ProductCard from '../components/ProductCard';
 import SortDropdown from '../components/SortDropdown';
 import useSort from '@/hooks/useSort';
 import ProductCardSkeleton from '../components/skeletons/ProductCardSkeleton';
 import { productsApi } from '@/api';
-import { useQuery } from '@tanstack/react-query';
 import { ProductData } from '@/api/type';
+import { handleApiError } from '@/utils/handleApiError';
+import { useParams } from 'react-router-dom';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 const CategoryPage = () => {
-  const { majorCategory, middleCategory } = useParams();
-  console.log('카테고리페이지 렌더링');
+  const { majorCategory, middleCategory, subCategory } = useParams();
+  const { ref, inView } = useInView({
+    threshold: 1,
+  });
 
-  // majorCategory와 middleCategory를 숫자로 변환하되 NaN이 될 경우 null을 기본값으로 사용
-  const majorCategoryId = majorCategory ? Number(majorCategory) : null;
-  const middleCategoryId = middleCategory ? Number(middleCategory) : null;
+  const parseCategoryId = (param: string | undefined): number | null => {
+    if (!param) return null;
+    const id = Number(param);
+    return isNaN(id) ? null : id;
+  };
 
-  // middleCategoryId가 있을 경우 middleCategoryId를 사용하고, 그렇지 않으면 majorCategoryId 사용
-  const currentCategory = middleCategoryId !== null ? middleCategoryId : majorCategoryId;
+  const majorCategoryId = parseCategoryId(majorCategory as string);
+  const middleCategoryId = parseCategoryId(middleCategory as string);
+  const subCategoryId = parseCategoryId(subCategory as string);
+
+  if (majorCategoryId === null) {
+    return (
+      <div className='flex h-screen w-full items-center justify-center'>
+        <span className='text-lg'>유효하지 않은 카테고리입니다. 다시 시도해주세요.</span>
+      </div>
+    );
+  }
+
+  if (middleCategory && middleCategoryId === null) {
+    return (
+      <div className='flex h-screen w-full items-center justify-center'>
+        <span className='text-lg'>유효하지 않은 중간 카테고리입니다. 다시 시도해주세요.</span>
+      </div>
+    );
+  }
+
+  if (subCategory && subCategoryId === null) {
+    return (
+      <div className='flex h-screen w-full items-center justify-center'>
+        <span className='text-lg'>유효하지 않은 소분류입니다. 다시 시도해주세요.</span>
+      </div>
+    );
+  }
+
+  const currentCategory =
+    subCategoryId !== null ? subCategoryId : middleCategoryId !== null ? middleCategoryId : majorCategoryId;
 
   const { currentSort, currentOrder, sortResult, setCurrentSort } = useSort();
 
-  const {
-    data: categoryProductData,
-    isPending,
-    isError,
-    error,
-  } = useQuery<ProductData[]>({
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending, isError, error } = useInfiniteQuery<
+    ProductData[]
+  >({
     queryKey: ['categoryProducts', sortResult, currentOrder, currentCategory],
-    queryFn: async () => {
-      // 유효한 currentCategory 값이 아닌 경우 오류 처리
-      if (currentCategory === null) {
-        throw new Error('해당 카테고리는 없어요.');
+    queryFn: async ({ pageParam }) => {
+      try {
+        const response = await productsApi.getProductsData({
+          page: pageParam as number,
+          pageSize: 8,
+          sort: sortResult,
+          order: currentOrder,
+          categoryId: currentCategory,
+        });
+        return response.data;
+      } catch (err) {
+        handleApiError(err);
       }
-
-      const response = await productsApi.getProductsData({
-        page: 1,
-        pageSize: 20,
-        sort: sortResult,
-        order: currentOrder,
-        categoryId: currentCategory,
-      });
-      return response.data;
     },
-    staleTime: 5 * 60 * 1000, // 5분 동안 최신으로 간주
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length === 8 ? allPages.length + 1 : undefined;
+    },
+    staleTime: 1000 * 5 * 60,
   });
 
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, isFetchingNextPage]);
+
+  const categoryProductData = data?.pages.flat();
+
+  if (isError) {
+    return (
+      <div className='flex h-screen w-full items-center justify-center text-2xl text-primary'>
+        <p>{(error as Error).message}</p>
+      </div>
+    );
+  }
+
+  if (categoryProductData?.length === 0) {
+    return (
+      <div className='flex h-screen w-full items-center justify-center'>
+        <span className='text-lg'>상품이 없어요.</span>
+      </div>
+    );
+  }
+
   return (
-    <article className='container mx-auto px-4 py-[160px] transition-all duration-300 ease-in-out'>
-      {isError && (
-        <div className='flex items-center justify-center w-full h-screen text-2xl text-primary'>
-          <p>{error.message}</p>
-        </div>
-      )}
+    <article className={`container mx-auto h-full px-4 pt-[160px] transition-all duration-300 ease-in-out`}>
       <div className='flex w-full flex-col gap-[24px]'>
-        {<SortDropdown currentSort={currentSort} setCurrentSort={setCurrentSort} sortResult={sortResult} />}
-        <ul className='grid w-full h-full grid-cols-1 gap-6 transition-all duration-300 ease-in-out sm:grid-cols-2 lg:grid-cols-4'>
+        <SortDropdown currentSort={currentSort} setCurrentSort={setCurrentSort} sortResult={sortResult} />
+        <ul className='grid h-full w-full grid-cols-1 gap-6 transition-all duration-300 ease-in-out sm:grid-cols-2 lg:grid-cols-4'>
           {isPending && <ProductCardSkeleton />}
           {categoryProductData &&
-            categoryProductData?.map((item) => (
+            categoryProductData.map((item) => (
               <li key={item.product.id}>
                 <ProductCard
                   productData={item.product}
@@ -67,6 +122,14 @@ const CategoryPage = () => {
               </li>
             ))}
         </ul>
+        {isFetchingNextPage && (
+          <div className='grid h-full w-full grid-cols-1 gap-6 transition-all duration-300 ease-in-out sm:grid-cols-2 lg:grid-cols-4'>
+            <ProductCardSkeleton />
+          </div>
+        )}
+      </div>
+      <div ref={ref} className='mt-[160px] flex h-[20px] w-full items-center justify-center'>
+        {(isFetchingNextPage || hasNextPage) && <LoadingSpinner size='s' />}
       </div>
     </article>
   );

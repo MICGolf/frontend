@@ -1,27 +1,68 @@
 import ProductCard from '../components/ProductCard';
 import SortDropdown from '../components/SortDropdown';
 import useSort from '@/hooks/useSort';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { productsApi } from '@/api';
 import ProductCardSkeleton from '../components/skeletons/ProductCardSkeleton';
 import { ProductData } from '@/api/type';
+import { useInView } from 'react-intersection-observer';
+import { handleApiError } from '@/utils/handleApiError';
+import { useEffect } from 'react';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 const ShopPage = () => {
-  console.log('샵페이지 렌더링');
   const { currentSort, currentOrder, sortResult, setCurrentSort } = useSort();
-  const { data: shopProductData, isPending } = useQuery<ProductData[]>({
-    queryKey: ['allProducts', sortResult, currentOrder],
-    queryFn: async () => {
-      const response = await productsApi.getProductsData({
-        page: 1,
-        pageSize: 20,
-        sort: sortResult,
-        order: currentOrder,
-      });
-      return response.data;
-    },
-    staleTime: 5 * 60 * 1000, // 5분 동안 최신으로 간주
+  const { ref, inView } = useInView({
+    threshold: 1,
   });
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending, isError, error } = useInfiniteQuery<
+    ProductData[]
+  >({
+    queryKey: ['allProducts', sortResult, currentOrder],
+    queryFn: async ({ pageParam }) => {
+      try {
+        const response = await productsApi.getProductsData({
+          page: pageParam as number,
+          pageSize: 8,
+          sort: sortResult,
+          order: currentOrder,
+        });
+        return response.data;
+      } catch (err) {
+        handleApiError(err);
+      }
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length === 8 ? allPages.length + 1 : undefined;
+    },
+    staleTime: 1000 * 5 * 60,
+  });
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage]);
+
+  const shopProductData = data?.pages.flat();
+
+  if (isError) {
+    return (
+      <div className='flex h-screen w-full items-center justify-center text-2xl text-primary'>
+        <p>{(error as Error).message}</p>
+      </div>
+    );
+  }
+
+  if (shopProductData?.length === 0) {
+    return (
+      <div className='flex h-screen w-full items-center justify-center'>
+        <span className='text-lg'>상품이 없어요.</span>
+      </div>
+    );
+  }
 
   return (
     <article className='container mx-auto px-4 py-[160px] transition-all duration-300 ease-in-out'>
@@ -40,6 +81,14 @@ const ShopPage = () => {
               </li>
             ))}
         </ul>
+        {isFetchingNextPage && (
+          <div className='grid h-full w-full grid-cols-1 gap-6 transition-all duration-300 ease-in-out sm:grid-cols-2 lg:grid-cols-4'>
+            <ProductCardSkeleton />
+          </div>
+        )}
+      </div>
+      <div ref={ref} className='mt-[160px] flex h-[20px] w-full items-center justify-center'>
+        {(isFetchingNextPage || hasNextPage) && <LoadingSpinner size='s' />}
       </div>
     </article>
   );
