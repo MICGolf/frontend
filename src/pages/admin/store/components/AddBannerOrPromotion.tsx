@@ -1,6 +1,6 @@
-import { client } from '@/api/client';
 import { Input } from '@/components/Input';
 import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
 import { Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -22,12 +22,16 @@ const AddBannerOrPromotion = ({ location }: { location: locationType }) => {
     handleSubmit,
     register,
     watch,
+
     formState: { errors },
   } = useForm<BannerFormData>();
 
   const mutation = useMutation<FormData, unknown, FormData>({
     mutationFn: async (formData) => {
-      const { data } = await client.post('/banners', formData);
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_PUBLIC_BASEURL}banners`,
+        formData // Content-Type 자동 설정
+      );
       return data;
     },
     onSuccess: (data) => {
@@ -41,8 +45,6 @@ const AddBannerOrPromotion = ({ location }: { location: locationType }) => {
   });
 
   const handlerSubmit = (data: BannerFormData) => {
-    console.log(data);
-
     const formData = new FormData();
     formData.append('title', data.title);
     formData.append('subTitle', data.subTitle);
@@ -51,13 +53,12 @@ const AddBannerOrPromotion = ({ location }: { location: locationType }) => {
 
     if (data.image && data.image.length > 0) {
       Array.from(data.image).forEach((file) => {
-        formData.append('images', file);
+        formData.append('image', file);
       });
     }
 
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
-    }
+    console.log(formData instanceof FormData); // true여야 정상
+    console.log(formData.get('images')); // 이미지 데이터가 제대로 추가되었는지 확인
 
     mutation.mutate(formData);
   };
