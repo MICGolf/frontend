@@ -40,7 +40,7 @@ const Section = ({ title, images }: SectionProps) => {
       viewport={{ once: true, amount: 0.3 }}
       className='px-6 py-16 md:px-12 md:py-24 lg:px-16 lg:py-32'
     >
-      <motion.h2 variants={itemVariant} className='mb-8 text-4xl font-bold md:text-5xl lg:text-6xl'>
+      <motion.h2 variants={itemVariant} className='mb-8 text-2xl font-bold md:text-3xl lg:text-4xl'>
         {title}
       </motion.h2>
       <motion.div variants={itemVariant}>
@@ -49,7 +49,7 @@ const Section = ({ title, images }: SectionProps) => {
             modules={[Pagination]}
             slidesPerView={1}
             slidesPerGroup={1}
-            spaceBetween={20}
+            spaceBetween={70}
             navigation
             pagination={{
               clickable: true,
@@ -61,7 +61,7 @@ const Section = ({ title, images }: SectionProps) => {
                 <button 
                   class="${className} relative focus:outline-none !my-6 !py-4 !bg-transparent !m-0 w-full"
                 >
-                  <div class="h-2 w-full transition-all duration-300 bg-black">
+                  <div class="h-1 w-full transition-all duration-300 bg-black">
                   </div>
                 </button>
                 `;
@@ -84,7 +84,7 @@ const Section = ({ title, images }: SectionProps) => {
           >
             {images.map((image, index) => (
               <SwiperSlide key={index}>
-                <div className='flex h-[465px] items-center justify-center bg-gray-100'>
+                <div className='flex h-[600px] items-center justify-center bg-gray-100'>
                   <img src={image} alt={`Slide ${index}`} className='h-full w-full object-cover' />
                 </div>
               </SwiperSlide>

@@ -42,7 +42,7 @@ const Footer = () => {
       {isMobile ? (
         <MobileFooter />
       ) : (
-        <footer className='flex flex-col gap-10 bg-black px-[130px] py-[50px] text-gray700'>
+        <footer className='flex flex-col gap-20 bg-black px-[130px] py-[50px] text-gray700'>
           <section className='flex justify-between'>
             <div>
               <div className='w-[220px] border-b border-white'>
@@ -72,7 +72,7 @@ const Footer = () => {
             </div>
             <div className='flex gap-[60px] text-sm'>
               <div className='flex flex-col gap-[6px]'>
-                <h3 className='text-lg text-secondary'>Social Media</h3>
+                <h3 className='text-base text-secondary'>Social Media</h3>
                 <p onClick={() => handleFooterLinkClick('facebook')} className='cursor-pointer'>
                   Facebook
                 </p>
@@ -87,13 +87,13 @@ const Footer = () => {
                 </p>
               </div>
               <div className='flex flex-col gap-[6px]'>
-                <h3 className='text-lg text-secondary'>Customer Service</h3>
+                <h3 className='text-base text-secondary'>Customer Service</h3>
                 <p className='cursor-pointer'>문의하기</p>
                 <p className='cursor-pointer'>자주 물어보는 질문</p>
                 <p className='cursor-pointer'>FAQ</p>
               </div>
               <div className='flex flex-col gap-[6px]'>
-                <h3 className='text-lg text-secondary'>회사</h3>
+                <h3 className='text-base text-secondary'>회사</h3>
                 <p onClick={() => handleFooterLinkClick('papatalabs')} className='cursor-pointer'>
                   PAPATALABS
                 </p>
@@ -108,7 +108,7 @@ const Footer = () => {
                 </p>
               </div>
               <div className='flex flex-col gap-[6px]'>
-                <h3 className='text-lg text-secondary'>법적 고지 및 이용약관</h3>
+                <h3 className='text-base text-secondary'>법적 고지 및 이용약관</h3>
                 <p className='cursor-pointer'>이용 약관</p>
                 <p className='cursor-pointer'>개인정보 처리방침</p>
                 <p className='cursor-pointer'>쿠키 정책</p>
@@ -117,10 +117,10 @@ const Footer = () => {
             </div>
           </section>
           <section className='w-full'>
-            <p className='w-full px-3 py-4 text-sm text-center whitespace-nowrap border-y border-gray300 text-gray700'>
+            <p className='w-full whitespace-nowrap border-y border-gray300 px-3 py-4 text-center text-sm text-gray700'>
               &copy;MICGOLF 2024
             </p>
-            <p className='mt-4 text-center text-[10px]'>
+            <p className='mt-4 text-center text-[14px]'>
               상호: 믹골프 MICGOLF | 대표: 신강식 | 주소: 서울시 강서구 양천로30길 67 3층 | 통신판매업신고증:
               2021-서울강서-4168호 | 사업자등록증: 173-27-01298 | 개인정보책임자: 신강식 | 고객센터: 070-8827-6220
             </p>

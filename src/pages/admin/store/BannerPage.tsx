@@ -1,6 +1,6 @@
 import DefaultImg from '@/assets/imgs/logoText.svg';
 import { BannerDataList } from './components/BannerDataList';
-import { AddData } from './components/AddData';
+import AddBannerOrPromotion from './components/AddBannerOrPromotion';
 import { Banner } from './type';
 
 const bannerListArray: Banner[] = [
@@ -33,7 +33,7 @@ const bannerListArray: Banner[] = [
 const BannerPage = () => {
   return (
     <>
-      <AddData location='banner' />
+      <AddBannerOrPromotion location='banner' />
       <BannerDataList data={bannerListArray} />
     </>
   );

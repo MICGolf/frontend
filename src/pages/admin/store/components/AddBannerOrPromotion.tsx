@@ -10,9 +10,9 @@ type BannerFormData = {
   image: File[];
 };
 
-type locationType = 'banner' | 'promotion' | 'bestItem' | 'mdsChoice';
+type locationType = 'banner' | 'promotion';
 
-export const AddData = ({ location }: { location: locationType }) => {
+const AddBannerOrPromotion = ({ location }: { location: locationType }) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   console.log(location);
 
@@ -46,14 +46,6 @@ export const AddData = ({ location }: { location: locationType }) => {
       }
       case 'promotion': {
         // 프로모션 데이터 추가 API 호출
-        break;
-      }
-      case 'bestItem': {
-        // 베스트 아이템 데이터 추가 API 호출
-        break;
-      }
-      case 'mdsChoice': {
-        // MDS 추천 데이터 추가 API 호출
         break;
       }
     }
@@ -138,3 +130,5 @@ export const AddData = ({ location }: { location: locationType }) => {
     </div>
   );
 };
+
+export default AddBannerOrPromotion;

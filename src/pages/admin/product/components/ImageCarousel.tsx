@@ -70,12 +70,14 @@ export const ImageCarousel = ({ images = [], onAddImage, onRemoveImage, maxImage
       {images.length > 0 && (
         <>
           <button
+            type='button'
             onClick={() => scroll('left')}
             className='absolute -left-4 top-1/2 -translate-y-1/2 rounded-full bg-white p-2 shadow-md hover:bg-neutral-50'
           >
             <ChevronLeft className='h-5 w-5 text-neutral-600' />
           </button>
           <button
+            type='button'
             onClick={() => scroll('right')}
             className='absolute -right-4 top-1/2 -translate-y-1/2 rounded-full bg-white p-2 shadow-md hover:bg-neutral-50'
           >

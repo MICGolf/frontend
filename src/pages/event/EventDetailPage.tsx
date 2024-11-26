@@ -18,7 +18,7 @@ const EventDetailPage = () => {
   };
 
   return (
-    <div className='mx-auto w-[1024px] px-8 py-10'>
+    <div className='mx-auto mt-10 w-full max-w-[1120px] px-[130px] py-5 pt-[100px]'>
       {/* Event Header */}
       <div className='mb-8'>
         <h1 className='mb-2 text-3xl font-semibold'>제목</h1>

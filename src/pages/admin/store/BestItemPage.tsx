@@ -1,7 +1,7 @@
 import DefaultImg from '@/assets/imgs/logoText.svg';
-import { AddData } from './components/AddData';
 import { Banner } from './type';
 import { BestItemDataList } from './components/BestItemDataList';
+import AddBestItemOrMdsChoice from './components/AddBestItemOrMdsChoice';
 
 const bannerListArray: Banner[] = [
   {
@@ -33,7 +33,7 @@ const bannerListArray: Banner[] = [
 const BestItemPage = () => {
   return (
     <>
-      <AddData location='bestItem' />
+      <AddBestItemOrMdsChoice location='best' />
       <BestItemDataList data={bannerListArray} />
     </>
   );
