@@ -17,13 +17,6 @@ const CategorySelcet = () => {
     middle: 0,
     small: 0,
   });
-  useEffect(() => {
-    setCategoryId({
-      large: Number(categoryLarge) || 0,
-      middle: Number(categoryMiddle) || 0,
-      small: Number(categorySmall) || 0,
-    });
-  }, [categoryLarge, categoryMiddle, categorySmall]);
 
   const { data: categoryData } = useQuery({
     queryKey: ['productFilter', categoryId],
@@ -33,7 +26,14 @@ const CategorySelcet = () => {
       return response.data;
     },
   });
-
+  useEffect(() => {
+    setCategoryId({
+      large: Number(categoryLarge) || 0,
+      middle: Number(categoryMiddle) || 0,
+      small: Number(categorySmall) || 0,
+    });
+  }, [categoryLarge, categoryMiddle, categorySmall, categoryData]);
+  console.log(categoryData);
   return (
     <div className='col-span-5 flex items-center gap-4'>
       <select

@@ -6,7 +6,7 @@ import DatePickInputs from '@/pages/admin/components/DatePickInputs';
 import CategorySelcet from '@/pages/admin/components/CategorySelcet';
 import { ProductFilterFormData, ProductFilterProps } from '../type';
 
-const ProductFilter = ({ setSearchParams, onSubmit }: ProductFilterProps) => {
+const ProductFilter = ({ setSearchParams, onSubmit, pageLimit }: ProductFilterProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const methods = useForm<ProductFilterFormData>();
@@ -32,7 +32,7 @@ const ProductFilter = ({ setSearchParams, onSubmit }: ProductFilterProps) => {
     if (data.endDate) searchParamsData.append('end_date', data.endDate);
 
     searchParamsData.append('page', '1');
-    searchParamsData.append('page_size', localStorage.getItem('pageListLimit') || '100');
+    searchParamsData.append('page_size', String(pageLimit));
     searchParamsData.append('sort', 'created_at');
     setSearchParams(searchParamsData);
     onSubmit();
@@ -47,7 +47,10 @@ const ProductFilter = ({ setSearchParams, onSubmit }: ProductFilterProps) => {
             <input
               type='number'
               placeholder='상품번호'
-              {...register('productNumber')}
+              {...(register('productNumber'),
+              {
+                valueAsNumber: true,
+              })}
               className='col-span-5 mt-4 w-full rounded-md border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
             />
           </label>
