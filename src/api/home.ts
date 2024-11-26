@@ -5,16 +5,17 @@ type BannersOrPromotionsType = {
 };
 
 export const getBannersOrPromotions = async ({ type }: BannersOrPromotionsType) => {
-  return client.get('/banners', { params: { type } });
+  return client.get('/banners', { params: { query: type } });
 };
 
-type BannerFormData = {
+interface BannerFormData {
   title: string;
-  redirect_url: string;
+  sub_title: string;
+  event_url: string;
   banner_type: string;
-  is_active: boolean;
-  image: File;
-};
+  is_active?: boolean;
+  image_url: File;
+}
 
 export const postBannersOrPromotions = async (formData: BannerFormData) => {
   return client.post('/banners', { formData });

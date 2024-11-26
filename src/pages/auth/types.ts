@@ -1,1 +1,1 @@
-export type SignUpType = 'email' | 'kakao' | 'naver';
+export type LoginType = 'email' | 'kakao' | 'naver';
