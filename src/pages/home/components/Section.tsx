@@ -40,7 +40,7 @@ const Section = ({ title, images }: SectionProps) => {
       viewport={{ once: true, amount: 0.3 }}
       className='px-6 py-16 md:px-12 md:py-24 lg:px-16 lg:py-32'
     >
-      <motion.h2 variants={itemVariant} className='mb-8 text-4xl font-bold md:text-5xl lg:text-6xl'>
+      <motion.h2 variants={itemVariant} className='mb-8 text-3xl font-bold md:text-4xl lg:text-5xl'>
         {title}
       </motion.h2>
       <motion.div variants={itemVariant}>

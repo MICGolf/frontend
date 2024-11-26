@@ -31,17 +31,17 @@ const EventMainPage = () => {
   const { startPage, endPage } = getPageRange();
 
   return (
-    <div className='mx-auto w-full px-[130px] py-5 pt-[100px]'>
-      <p className='mb-[75px] text-[40px] text-primary'>Event</p>
+    <div className='mx-auto mt-10 w-full px-[130px] py-5 pt-[100px]'>
+      <p className='mb-8 text-3xl text-[40px] font-bold text-primary md:text-4xl lg:text-5xl'>Event</p>
 
-      <div className='mb-[93px] flex gap-3'>
-        <button className='h-[41px] w-[307px] border border-primary bg-secondary text-[20px] font-thin text-primary transition hover:bg-primary hover:text-secondary'>
+      <div className='mb-[93px] flex justify-center gap-3'>
+        <button className='h-[41px] w-[200px] border border-primary bg-secondary text-[20px] font-thin text-primary transition hover:bg-primary hover:text-secondary'>
           전체({dummyData.length})
         </button>
-        <button className='h-[41px] w-[307px] bg-primary text-[20px] font-thin text-secondary transition hover:border hover:border-primary hover:bg-secondary hover:text-primary'>
+        <button className='h-[41px] w-[200px] bg-primary text-[20px] font-thin text-secondary transition hover:border hover:border-primary hover:bg-secondary hover:text-primary'>
           진행중(0)
         </button>
-        <button className='h-[41px] w-[307px] bg-primary text-[20px] font-thin text-secondary transition hover:border hover:border-primary hover:bg-secondary hover:text-primary'>
+        <button className='h-[41px] w-[200px] bg-primary text-[20px] font-thin text-secondary transition hover:border hover:border-primary hover:bg-secondary hover:text-primary'>
           종료(0)
         </button>
       </div>
@@ -57,7 +57,9 @@ const EventMainPage = () => {
         {dummyData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((item) => (
           <Link key={item.id} to={`/event/${item.id}`}>
             <div className='flex flex-col items-start bg-secondary'>
-              <div className='mb-5 h-[591px] w-full bg-[#f6f6f6]'></div>
+              {/* 이미지 */}
+              <div className='mb-2 h-[591px] w-full bg-[#f6f6f6]'></div>
+              {/* 타이틀, 날짜 */}
               <p className='mb-[6px] text-lg font-semibold text-primary'>{item.title}</p>
               <p className='text-sm text-primary'>{item.date}</p>
             </div>
