@@ -1,11 +1,17 @@
+import { client } from '@/api/client';
 import { Input } from '@/components/Input';
+import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 
 type FormValues = {
   productCode: string;
 };
 
-const AddBestItemOrMdsChoice = () => {
+type Props = {
+  location: 'best' | 'md_pick';
+};
+
+const AddBestItemOrMdsChoice = ({ location }: Props) => {
   const methods = useForm<FormValues>();
   const {
     handleSubmit,
@@ -13,8 +19,26 @@ const AddBestItemOrMdsChoice = () => {
     formState: { errors },
   } = methods;
 
+  const mutation = useMutation({
+    mutationFn: async (data: FormValues) => {
+      const response = await client.post('/promotion-products', {
+        promotion_type: location,
+        product_code: data.productCode,
+      });
+
+      return response;
+    },
+    onSuccess: () => {
+      alert('등록되었습니다.');
+    },
+    onError: (error) => {
+      console.error(error);
+      alert('등록에 실패했습니다.');
+    },
+  });
+
   const handlerSubmit = (data: FormValues) => {
-    console.log(data);
+    mutation.mutate(data);
   };
 
   return (

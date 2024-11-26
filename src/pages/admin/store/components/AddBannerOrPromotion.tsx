@@ -10,7 +10,7 @@ type BannerFormData = {
   image: File[];
 };
 
-type locationType = 'banner' | 'promotion' | 'bestItem' | 'mdsChoice';
+type locationType = 'banner' | 'promotion';
 
 const AddBannerOrPromotion = ({ location }: { location: locationType }) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -46,14 +46,6 @@ const AddBannerOrPromotion = ({ location }: { location: locationType }) => {
       }
       case 'promotion': {
         // 프로모션 데이터 추가 API 호출
-        break;
-      }
-      case 'bestItem': {
-        // 베스트 아이템 데이터 추가 API 호출
-        break;
-      }
-      case 'mdsChoice': {
-        // MDS 추천 데이터 추가 API 호출
         break;
       }
     }

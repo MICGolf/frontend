@@ -33,7 +33,7 @@ const bannerListArray: Banner[] = [
 const BestItemPage = () => {
   return (
     <>
-      <AddBestItemOrMdsChoice />
+      <AddBestItemOrMdsChoice location='best' />
       <BestItemDataList data={bannerListArray} />
     </>
   );
