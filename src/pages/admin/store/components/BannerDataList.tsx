@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Banner } from '../type';
+import { useQuery } from '@tanstack/react-query';
+import { homeApi } from '@/api';
 
 const TableHeadArray = [
   { className: 'w-2/12', title: '제목' },
@@ -15,6 +17,14 @@ type Props = {
 };
 
 export const BannerDataList = ({ data }: Props) => {
+  const { data: bannerList } = useQuery({
+    queryKey: ['bannerList'],
+    queryFn: async () => {
+      const response = await homeApi.getBestProductOrMdsChoice({ type: 'best' });
+      return response.data;
+    },
+  });
+
   return (
     <div className='rounded-lg bg-secondary px-5 py-6 text-base'>
       <p className='mb-4 border-black text-xl font-bold'>배너목록 총({data.length}개)</p>
@@ -30,7 +40,7 @@ export const BannerDataList = ({ data }: Props) => {
             </tr>
           </thead>
           <tbody>
-            {data.map((item) => (
+            {bannerList.map((item) => (
               <tr key={item.id} className=''>
                 <td className='w-2/12 border border-neutral-200 py-2'>{item.title}</td>
                 <td className='w-2/12 border border-neutral-200 py-2'>{item.subTitle}</td>

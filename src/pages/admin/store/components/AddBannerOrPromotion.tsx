@@ -1,6 +1,6 @@
+import { client } from '@/api/client';
 import { Input } from '@/components/Input';
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
 import { Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -28,10 +28,11 @@ const AddBannerOrPromotion = ({ location }: { location: locationType }) => {
 
   const mutation = useMutation<FormData, unknown, FormData>({
     mutationFn: async (formData) => {
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_PUBLIC_BASEURL}banners`,
-        formData // Content-Type 자동 설정
-      );
+      const { data } = await client.post('banners', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       return data;
     },
     onSuccess: (data) => {

@@ -190,6 +190,17 @@ const ProductAdd = () => {
         ? Number(data.subCategory)
         : Number(data.mainCategory); // 대분류 ID가 존재하면 사용
 
+    const image_mapping = data.colorOptions.reduce((mapping: { [key: string]: string[] }, colorOpt) => {
+      const imageNames: string[] = [];
+      colorOpt.images.forEach((image) => {
+        if (image.file) {
+          imageNames.push(image.file.name);
+        }
+      });
+      mapping[colorOpt.hexCode] = imageNames;
+      return mapping;
+    }, {});
+
     const requestPayload = {
       category_id: selectedCategoryId,
       product: {
@@ -210,29 +221,19 @@ const ProductAdd = () => {
           stock: size.stock,
         })),
       })),
-      image_mapping: data.colorOptions.reduce(
-        (mapping, colorOpt) => {
-          const imageNames: string[] = [];
-          colorOpt.images.forEach((image) => {
-            if (image.file) {
-              imageNames.push(image.file.name); // 원본 파일명 사용
-            }
-          });
-          mapping[colorOpt.hexCode] = imageNames;
-          return mapping;
-        },
-        {} as { [key: string]: string[] }
-      ),
+      image_mapping,
     };
+
+    console.log('request', requestPayload);
 
     // `files`만 담을 FormData 생성
     const formData = new FormData();
 
     // 파일 추가
     data.colorOptions.forEach((colorOpt) => {
-      colorOpt.images.forEach((image, index) => {
+      colorOpt.images.forEach((image) => {
         if (image.file) {
-          const uniqueFileName = `${colorOpt.hexCode}_${index}_${image.file.name}`;
+          const uniqueFileName = image.file.name;
           formData.append('files', new File([image.file], uniqueFileName, { type: image.file.type }));
         }
       });
