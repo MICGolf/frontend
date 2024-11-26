@@ -4,17 +4,12 @@ import DefaultImage from '@/pages/shop/detailPage/components/DefaultImage';
 import ImageOnLoadSkeleton from '@/pages/shop/detailPage/components/skeletons/ImageOnLoadSkeleton';
 
 const PaymentItem = ({ data, isThumbnailExist }: { data: CartItemData; isThumbnailExist: boolean }) => {
-  const { isImageError, setDefaultImage, isImageLoading, setIsImageLoading } = useDefaultImage();
+  const { isImageError, handleOnError, isImageLoading, handleOnLoad } = useDefaultImage(isThumbnailExist);
   return (
     <div key={data.id} className='flex items-center border-b border-gray-100 py-5'>
       <div className='relative h-[100px] w-[100px] overflow-hidden bg-gray-200'>
         {isImageLoading && <ImageOnLoadSkeleton option='썸네일' />}
-        {!isImageLoading && !isThumbnailExist && (
-          <div className='absolute h-full w-full'>
-            <DefaultImage option='썸네일' />
-          </div>
-        )}
-        {isThumbnailExist && (
+        {isThumbnailExist ? (
           <div
             className={
               isImageError
@@ -26,10 +21,14 @@ const PaymentItem = ({ data, isThumbnailExist }: { data: CartItemData; isThumbna
               src={data.image}
               className={`${isImageError ? 'w-12 object-contain' : 'h-full w-full object-cover'} border border-gray-200`}
               alt={data.name}
-              onError={setDefaultImage}
-              onLoad={() => setIsImageLoading(false)}
+              onError={handleOnError}
+              onLoad={handleOnLoad}
             />
             {isImageError && <p className='text-xs text-secondary'>이미지 로드 실패</p>}
+          </div>
+        ) : (
+          <div className='absolute h-full w-full'>
+            <DefaultImage option='썸네일' />
           </div>
         )}
       </div>
