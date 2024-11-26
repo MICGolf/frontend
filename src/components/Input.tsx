@@ -1,11 +1,11 @@
 import { InputHTMLAttributes } from 'react';
-import { RegisterOptions, UseFormRegister } from 'react-hook-form';
+import { FieldValues, RegisterOptions, UseFormRegister } from 'react-hook-form';
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   name: string;
   type: string;
-  register: UseFormRegister<any>;
+  register: UseFormRegister<FieldValues>;
   registerOptions?: RegisterOptions;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   maxLength?: number;
@@ -49,15 +49,16 @@ export const Input = ({
   registerOptions,
   error,
   onChange,
-  type = 'text',
+  type,
   maxLength,
 }: InputProps) => {
   const { onChange: registerOnChange, ...registerRest } = register(name, registerOptions);
 
-  const inputStyle = `${className} peer w-full border border-neutral-300 px-4 py-3 placeholder-transparent focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary`;
+  const inputStyle = `${className} ${
+    error ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-primary'
+  } peer w-full border border-neutral-300 px-4 py-3 placeholder-transparent focus:outline-none focus:ring-1 focus:ring-inset `;
 
-  const FloatinglabelStyle =
-    'absolute left-3 -top-3 bg-white px-1 text-sm text-gray-600 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-3 peer-focus:text-sm peer-focus:text-gray-600';
+  const FloatinglabelStyle = `${error ? 'text-red-500 peer-focus:text-red-500 peer-placeholder-shown:text-red-500' : 'text-gray-600 peer-focus:text-gray-600 peer-placeholder-shown:text-gray-400'} absolute left-3 -top-3 bg-white px-1 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:-top-3 peer-focus:text-sm`;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (onChange) {

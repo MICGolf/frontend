@@ -33,7 +33,6 @@ const bannerListArray: Banner[] = [
 export const MdsChoicePage = () => {
   return (
     <>
-      <AddData location='mdsChoice' />
       <MdsChoiceDataList data={bannerListArray} />
     </>
   );

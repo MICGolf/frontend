@@ -115,6 +115,7 @@ const ProductAdd = () => {
 
   const inputStyle =
     'mt-4 w-full border-[1px] border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300';
+
   useEffect(() => {
     if (showCategory) {
       document.body.style.overflow = 'hidden';
