@@ -1,11 +1,11 @@
 import { InputHTMLAttributes } from 'react';
-import { FieldValues, RegisterOptions, UseFormRegister } from 'react-hook-form';
+import { RegisterOptions, UseFormRegister } from 'react-hook-form';
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   name: string;
   type: string;
-  register: UseFormRegister<FieldValues>;
+  register: UseFormRegister<any>;
   registerOptions?: RegisterOptions;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   maxLength?: number;

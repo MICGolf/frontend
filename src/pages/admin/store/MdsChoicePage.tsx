@@ -1,7 +1,7 @@
 import DefaultImg from '@/assets/imgs/logoText.svg';
-import { AddData } from './components/AddData';
 import { Banner } from './type';
 import { MdsChoiceDataList } from './components/MdsChoiceDataList';
+import AddBestItemOrMdsChoice from './components/AddBestItemOrMdsChoice';
 
 const bannerListArray: Banner[] = [
   {
@@ -33,6 +33,7 @@ const bannerListArray: Banner[] = [
 export const MdsChoicePage = () => {
   return (
     <>
+      <AddBestItemOrMdsChoice />
       <MdsChoiceDataList data={bannerListArray} />
     </>
   );

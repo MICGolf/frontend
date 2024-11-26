@@ -12,7 +12,7 @@ type BannerFormData = {
 
 type locationType = 'banner' | 'promotion' | 'bestItem' | 'mdsChoice';
 
-export const AddData = ({ location }: { location: locationType }) => {
+const AddBannerOrPromotion = ({ location }: { location: locationType }) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   console.log(location);
 
@@ -138,3 +138,5 @@ export const AddData = ({ location }: { location: locationType }) => {
     </div>
   );
 };
+
+export default AddBannerOrPromotion;
