@@ -4,6 +4,8 @@ import kakao from '@/assets/icons/kakao.svg';
 import naver from '@/assets/icons/naver.svg';
 import { SignUpType } from './types';
 
+const { VITE_REST_API_KEY, VITE_REDIRECT_URI } = import.meta.env;
+
 const SignInPage = () => {
   const navigate = useNavigate();
 
@@ -14,7 +16,7 @@ const SignInPage = () => {
         break;
       }
       case 'kakao': {
-        window.location.href = 'https://www.kakao.com';
+        window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${VITE_REST_API_KEY}&redirect_uri=${VITE_REDIRECT_URI}`;
         break;
       }
       case 'naver': {

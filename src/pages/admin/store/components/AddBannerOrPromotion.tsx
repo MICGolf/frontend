@@ -1,4 +1,6 @@
+import { client } from '@/api/client';
 import { Input } from '@/components/Input';
+import { useMutation } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -23,11 +25,29 @@ const AddBannerOrPromotion = ({ location }: { location: locationType }) => {
     formState: { errors },
   } = useForm<BannerFormData>();
 
+  const mutation = useMutation<FormData, unknown, FormData>({
+    mutationFn: async (formData) => {
+      const { data } = await client.post('/banners', formData);
+      return data;
+    },
+    onSuccess: (data) => {
+      console.log('성공', data);
+      alert('배너가 등록되었습니다.');
+    },
+    onError: (error) => {
+      console.log('에러', error);
+      alert('배너 등록에 실패했습니다.');
+    },
+  });
+
   const handlerSubmit = (data: BannerFormData) => {
+    console.log(data);
+
     const formData = new FormData();
     formData.append('title', data.title);
     formData.append('subTitle', data.subTitle);
     formData.append('eventUrl', data.eventUrl);
+    formData.append('banner_type', location);
 
     if (data.image && data.image.length > 0) {
       Array.from(data.image).forEach((file) => {
@@ -39,16 +59,7 @@ const AddBannerOrPromotion = ({ location }: { location: locationType }) => {
       console.log(`${key}:`, value);
     }
 
-    switch (location) {
-      case 'banner': {
-        // 배너 데이터 추가 API 호출
-        break;
-      }
-      case 'promotion': {
-        // 프로모션 데이터 추가 API 호출
-        break;
-      }
-    }
+    mutation.mutate(formData);
   };
 
   const image = watch('image');
@@ -109,7 +120,6 @@ const AddBannerOrPromotion = ({ location }: { location: locationType }) => {
               type='text'
               label='클릭 시 이동할 이벤트 페이지 링크'
               name='eventUrl'
-              maxLength={20}
               register={register}
               registerOptions={{ required: '이벤트 프로모션 게시글이 작성된 URL을 작성하세요' }}
               error={errors.eventUrl?.message}

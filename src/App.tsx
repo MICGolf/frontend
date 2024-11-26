@@ -30,6 +30,7 @@ import { PromotionPage } from './pages/admin/store/PromotionPage';
 import ProductSearch from './pages/admin/product/ProductSearch';
 import ProtectPrivateRoute from './routes/ProtectPrivateRoute';
 import DetailPage from './pages/shop/detailPage/DetailPage';
+import OauthCallbackPage from './pages/auth/OauthCallbackPage';
 
 function App() {
   return (
@@ -59,6 +60,7 @@ function App() {
           <Route path='/auth/signup/complete' element={<SignUpCompletePage />} />
           <Route path='/auth/findPw' element={<FindPwPage />} />
           <Route path='/auth/findId' element={<FindIdPage />} />
+          <Route path='/auth/callback' element={<OauthCallbackPage />} />
 
           {/* 장바구니 */}
           <Route path='/cart' element={<CartPage />} />
