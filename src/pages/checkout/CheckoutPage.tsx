@@ -115,7 +115,12 @@ const CheckoutPage = () => {
 
   // INFO: PortOne 결제 로직
   const handlePaymentClick = async (data: any) => {
-    console.log(data); // data: formData
+    if (data) {
+      setLoadingFlag(true);
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      setLoadingFlag(false);
+      navigate('/checkout/success', { state: { from: '/checkout' } });
+    }
 
     // 결제하기 버튼 클릭 시 로직
     const response = await PortOne.requestPayment({
@@ -142,12 +147,6 @@ const CheckoutPage = () => {
     // });
 
     // FIXME: notified.status === 200으로 변경해야함
-    if (data) {
-      setLoadingFlag(true);
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      setLoadingFlag(false);
-      navigate('/checkout/success', { state: { from: '/checkout' } });
-    }
   };
 
   return (
