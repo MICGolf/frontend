@@ -102,7 +102,7 @@ const HistoryFab = () => {
           </div>
           <div className='relative py-8'>
             {dummyHistory.map((item) => (
-              <div className='relative z-50'>
+              <div key={item.date} className='relative z-50'>
                 <div className='flex pb-4 font-light'>
                   <div className='rounded-full border border-neutral-200 bg-white px-2 py-1 text-neutral-600'>
                     {item.date}

@@ -205,10 +205,10 @@ const ProductAdd = () => {
       category_id: selectedCategoryId,
       product: {
         name: data.productName,
-        price: data.productPrice,
+        price: Math.floor(calcurateSalePrice(data.productPrice, data.discountPrice, data.discountOption)),
         discount: data.discountPrice,
         discount_option: data.discountOption,
-        origin_price: Math.floor(calcurateSalePrice(data.productPrice, data.discountPrice, data.discountOption)),
+        origin_price: data.productPrice,
         description: data.description,
         detail: data.features,
         product_code: data.productCode,
