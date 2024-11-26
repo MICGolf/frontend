@@ -1,3 +1,5 @@
+import { homeApi } from '@/api';
+import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 
@@ -8,6 +10,15 @@ type PromotionSectionProps = {
 // WARNING: images 의 데이터 형식이 어떻게 되는지 확인 후 타입 변경이 필요할 수 있음.
 // WARNING: 또는 직접적으로 데이터를 컴포넌트에서 불러오는 방식도 고려해야함.
 const PromotionSection = ({ image }: PromotionSectionProps) => {
+  const { data: promotionData } = useQuery({
+    queryKey: ['promotionData'],
+    queryFn: async () => {
+      const response = await homeApi.getBannersOrPromotions({ type: 'promotion' });
+      return response.data;
+    },
+  });
+  console.log('promotionData', promotionData);
+
   return (
     <motion.section
       initial={{ opacity: 0 }}
