@@ -61,7 +61,7 @@ const Section = ({ title, images }: SectionProps) => {
                 <button 
                   class="${className} relative focus:outline-none !my-6 !py-4 !bg-transparent !m-0 w-full"
                 >
-                  <div class="h-2 w-full transition-all duration-300 bg-black">
+                  <div class="h-1 w-full transition-all duration-300 bg-black">
                   </div>
                 </button>
                 `;
@@ -84,7 +84,7 @@ const Section = ({ title, images }: SectionProps) => {
           >
             {images.map((image, index) => (
               <SwiperSlide key={index}>
-                <div className='flex h-[465px] items-center justify-center bg-gray-100'>
+                <div className='flex h-[600px] items-center justify-center bg-gray-100'>
                   <img src={image} alt={`Slide ${index}`} className='h-full w-full object-cover' />
                 </div>
               </SwiperSlide>
