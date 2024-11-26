@@ -1,10 +1,9 @@
-import { useFieldArray, useForm, UseFormRegister } from 'react-hook-form';
+import { useFieldArray, UseFormRegister } from 'react-hook-form';
 
 const SizeArray = ({
   control,
   colorIndex,
   register,
-  errors,
 }: {
   control: any;
   colorIndex: number;
