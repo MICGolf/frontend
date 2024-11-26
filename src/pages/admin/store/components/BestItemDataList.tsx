@@ -26,6 +26,21 @@ export const BestItemDataList = () => {
     },
   });
 
+  const deleteMutation = useMutation({
+    mutationFn: async (id: number) => {
+      const response = await client.delete(`/promotion-products/${id}`);
+      return response.data;
+    },
+    onSuccess: (data) => {
+      console.log('data:', data);
+      alert('성공적으로 삭제되었습니다.');
+    },
+    onError: (error) => {
+      console.log(error);
+      alert('삭제에 실패했습니다.');
+    },
+  });
+
   if (isLoading || isError) return null;
 
   console.log(bestItemList);
@@ -66,12 +81,9 @@ export const BestItemDataList = () => {
                 <td className='w-2/12 border border-neutral-200 py-2'>
                   <button
                     type='button'
-                    onClick={() => {}}
-                    className='mb-2 w-3/4 rounded-md bg-blue-500 px-4 py-1 text-white'
+                    onClick={() => deleteMutation.mutate(item.product_id)}
+                    className='w-3/4 rounded-md bg-red-500 px-4 py-1 text-white'
                   >
-                    수정
-                  </button>
-                  <button type='button' onClick={() => {}} className='w-3/4 rounded-md bg-red-500 px-4 py-1 text-white'>
                     삭제
                   </button>
                 </td>

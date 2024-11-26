@@ -7,8 +7,8 @@ import { useForm } from 'react-hook-form';
 
 type BannerFormData = {
   title: string;
-  subTitle: string;
-  eventUrl: string;
+  sub_title: string;
+  event_url: string;
   image: File[];
 };
 
@@ -16,7 +16,6 @@ type locationType = 'banner' | 'promotion';
 
 const AddBannerOrPromotion = ({ location }: { location: locationType }) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  console.log(location);
 
   const {
     handleSubmit,
@@ -48,9 +47,9 @@ const AddBannerOrPromotion = ({ location }: { location: locationType }) => {
   const handlerSubmit = (data: BannerFormData) => {
     const formData = new FormData();
     formData.append('title', data.title);
-    formData.append('sub_title', data.subTitle);
-    formData.append('event_url', data.eventUrl);
-    formData.append('banner_type', location);
+    formData.append('sub_title', data.sub_title);
+    formData.append('event_url', data.event_url);
+    formData.append('category_type', location);
 
     if (data.image && data.image.length > 0) {
       Array.from(data.image).forEach((file) => {
@@ -116,7 +115,7 @@ const AddBannerOrPromotion = ({ location }: { location: locationType }) => {
               maxLength={20}
               register={register}
               registerOptions={{ required: '최대 20자, 메인 노출 텍스트를 작성하세요' }}
-              error={errors.subTitle?.message}
+              error={errors.sub_title?.message}
             />
             <Input
               type='text'
@@ -124,7 +123,7 @@ const AddBannerOrPromotion = ({ location }: { location: locationType }) => {
               name='eventUrl'
               register={register}
               registerOptions={{ required: '이벤트 프로모션 게시글이 작성된 URL을 작성하세요' }}
-              error={errors.eventUrl?.message}
+              error={errors.event_url?.message}
             />
             <p className='text-right text-sm text-neutral-500'>권장 해상도 : 1920 x 1080px / JPG 권장</p>
 
