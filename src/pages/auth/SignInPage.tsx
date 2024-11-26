@@ -44,7 +44,7 @@ const SignInPage = () => {
   const handleEmailLogin = async (data: SignInFormData) => {
     try {
       const response = await client.post('/auth/login', {
-        loginType: 'email',
+        type: 'email',
         id: data.id,
         password: data.password,
       });
