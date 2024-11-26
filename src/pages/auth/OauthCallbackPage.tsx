@@ -4,17 +4,15 @@ import { useSearchParams } from 'react-router-dom';
 
 type LoginType = 'kakao' | 'naver';
 
-type Props = {
-  type: LoginType;
-};
-
-const OauthCallbackPage = ({ type }: Props) => {
+const OauthCallbackPage = () => {
   const [searchParams] = useSearchParams();
 
   const code = searchParams.get('code');
 
   useEffect(() => {
     const fetchOauthCodePost = async () => {
+      const type = localStorage.getItem('loginType') as LoginType;
+
       const response = await client.post('/auth/callback', {
         type: type,
         code: code,

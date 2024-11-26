@@ -48,8 +48,8 @@ const AddBannerOrPromotion = ({ location }: { location: locationType }) => {
   const handlerSubmit = (data: BannerFormData) => {
     const formData = new FormData();
     formData.append('title', data.title);
-    formData.append('subTitle', data.subTitle);
-    formData.append('eventUrl', data.eventUrl);
+    formData.append('sub_title', data.subTitle);
+    formData.append('event_url', data.eventUrl);
     formData.append('banner_type', location);
 
     if (data.image && data.image.length > 0) {
@@ -59,7 +59,7 @@ const AddBannerOrPromotion = ({ location }: { location: locationType }) => {
     }
 
     console.log(formData instanceof FormData); // true여야 정상
-    console.log(formData.get('images')); // 이미지 데이터가 제대로 추가되었는지 확인
+    console.log(formData.get('image')); // 이미지 데이터가 제대로 추가되었는지 확인
 
     mutation.mutate(formData);
   };

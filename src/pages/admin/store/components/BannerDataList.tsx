@@ -45,17 +45,17 @@ export const BannerDataList = () => {
             </tr>
           </thead>
           <tbody>
-            {bannerList?.items?.map((item: Banner) => (
+            {bannerList.items.map((item: Banner) => (
               <tr key={item.id} className=''>
                 <td className='w-2/12 border border-neutral-200 py-2'>{item.title}</td>
-                <td className='w-2/12 border border-neutral-200 py-2'>{item.subTitle}</td>
+                <td className='w-2/12 border border-neutral-200 py-2'>{item.sub_title}</td>
                 <td className='w-2/12 border border-neutral-200 py-2'>
-                  <Link to={item.eventUrl} className='break-words border-b border-blue-700 text-blue-700'>
-                    {item.eventUrl}
+                  <Link to={item.event_url} className='break-words border-b border-blue-700 text-blue-700'>
+                    {item.event_url}
                   </Link>
                 </td>
                 <td className='w-full border border-neutral-200 py-2'>
-                  <img src={item.image} alt={item.title} />
+                  <img src={item.image_url} alt={item.title} />
                 </td>
                 <td className='w-2/12 border border-neutral-200 py-2'>
                   <label className='flex justify-center'>

@@ -1,8 +1,8 @@
 export interface Banner {
   id: number;
   title: string;
-  subTitle: string;
-  eventUrl: string;
-  image: string;
-  isActive: boolean;
+  sub_title: string;
+  event_url: string;
+  image_url: string;
+  is_active: boolean;
 }
