@@ -9,7 +9,7 @@ import { ProductData } from '@/api/type';
 import { handleApiError } from '@/utils/handleApiError';
 
 const CategoryPage = () => {
-  const { majorCategory, middleCategory } = useParams();
+  const { majorCategory, middleCategory, subCategory } = useParams();
   console.log('카테고리페이지 렌더링');
 
   const parseCategoryId = (param: string | undefined): number | null => {
@@ -18,9 +18,11 @@ const CategoryPage = () => {
     return isNaN(id) ? null : id;
   };
 
-  // majorCategory와 middleCategory를 숫자로 변환하되 NaN이 될 경우 null을 기본값으로 사용
   const majorCategoryId = parseCategoryId(majorCategory);
   const middleCategoryId = parseCategoryId(middleCategory);
+  const subCategoryId = parseCategoryId(subCategory);
+
+  console.log(majorCategoryId, middleCategoryId, subCategoryId);
 
   if (majorCategoryId === null) {
     return (
@@ -33,23 +35,23 @@ const CategoryPage = () => {
   if (middleCategory && middleCategoryId === null) {
     return (
       <div className='flex h-screen w-full items-center justify-center'>
-        <span className='text-lg'>유효하지 않은 서브 카테고리입니다. 다시 시도해주세요.</span>
+        <span className='text-lg'>유효하지 않은 중간 카테고리입니다. 다시 시도해주세요.</span>
       </div>
     );
   }
 
-  // middleCategoryId가 있을 경우 middleCategoryId를 사용하고, 그렇지 않으면 majorCategoryId 사용
-  const currentCategory = middleCategoryId !== null ? middleCategoryId : majorCategoryId;
-
-  const { currentSort, currentOrder, sortResult, setCurrentSort } = useSort();
-
-  if (currentCategory === null) {
+  if (subCategory && subCategoryId === null) {
     return (
       <div className='flex h-screen w-full items-center justify-center'>
-        <span className='text-lg'>유효하지 않은 경로입니다. 다시 시도해주세요.</span>
+        <span className='text-lg'>유효하지 않은 소분류입니다. 다시 시도해주세요.</span>
       </div>
     );
   }
+
+  const currentCategory =
+    subCategoryId !== null ? subCategoryId : middleCategoryId !== null ? middleCategoryId : majorCategoryId;
+
+  const { currentSort, currentOrder, sortResult, setCurrentSort } = useSort();
 
   const {
     data: categoryProductData,
@@ -78,7 +80,7 @@ const CategoryPage = () => {
   if (categoryProductData?.length === 0) {
     return (
       <div className='flex h-screen w-full items-center justify-center'>
-        <span className='text-lg'>존재하지않는 카테고리이거나 상품이 없어요.</span>
+        <span className='text-lg'>존재하지 않는 카테고리이거나 상품이 없어요.</span>
       </div>
     );
   }
