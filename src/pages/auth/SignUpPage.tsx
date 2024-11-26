@@ -30,7 +30,7 @@ const SignUpPage = () => {
   }, [selectedCheckbox]);
 
   return (
-    <div className='mx-auto flex max-w-[700px] flex-col gap-[64px] py-[88px]'>
+    <div className='mx-auto mt-[100px] flex max-w-[700px] flex-col gap-[64px] py-[88px]'>
       {/* section 1 */}
       <h1 className='text-4xl font-[500]'>회원 정보 입력</h1>
 
