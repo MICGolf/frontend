@@ -41,6 +41,21 @@ export const BannerDataList = () => {
     },
   });
 
+  const deleteMutation = useMutation({
+    mutationFn: async (id: number) => {
+      const response = await client.delete(`/banners/${id}`);
+      return response.data;
+    },
+    onSuccess: (data) => {
+      console.log('data:', data);
+      alert('성공적으로 삭제되었습니다.');
+    },
+    onError: (error) => {
+      console.log(error);
+      alert('삭제에 실패했습니다.');
+    },
+  });
+
   if (isLoading) return null;
   if (isError) return null;
 
@@ -92,7 +107,11 @@ export const BannerDataList = () => {
                   >
                     수정
                   </button>
-                  <button type='button' onClick={() => {}} className='w-3/4 rounded-md bg-red-500 px-4 py-1 text-white'>
+                  <button
+                    type='button'
+                    onClick={() => deleteMutation.mutate(item.id)}
+                    className='w-3/4 rounded-md bg-red-500 px-4 py-1 text-white'
+                  >
                     삭제
                   </button>
                 </td>
