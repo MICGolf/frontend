@@ -64,7 +64,7 @@ const SignInPage = () => {
   };
 
   return (
-    <div className='mx-auto mt-[100px] flex max-w-[700px] flex-col gap-[64px] py-[88px]'>
+    <div className='mx-auto mt-[100px] flex max-w-[700px] flex-col gap-[32px] px-[20px] py-[88px] md:gap-[64px]'>
       {/* section 1 */}
       <div className='text-4xl font-[500]'>로그인</div>
 
@@ -87,27 +87,28 @@ const SignInPage = () => {
             registerOptions={{ required: '비밀번호를 입력해주세요' }}
             error={errors?.password?.message}
           />
-          <button type='submit' className='w-full bg-black px-6 py-4 text-left text-2xl text-white'>
+          <button
+            type='submit'
+            className='w-full border border-primary bg-black px-[20px] py-[14px] text-left text-xl text-white transition-colors duration-500 hover:bg-secondary hover:text-primary'
+          >
             로그인
           </button>
-          <div className='flex items-center gap-2'>
-            <label className='flex gap-2'>
-              <input type='checkbox' />
-              <span>자동 로그인</span>
-            </label>
-          </div>
         </form>
-        <div className='flex py-4 text-lg'>
-          <Link to={'/auth/findId'}>아이디 찾기</Link>
+        <div className='flex py-4 text-base'>
+          <Link to={'/auth/findId'} className='hover:text-gray-500'>
+            아이디 찾기
+          </Link>
           <span>&nbsp;|&nbsp;</span>
-          <Link to={'/auth/findPw'}>비밀번호 찾기</Link>
+          <Link to={'/auth/findPw'} className='hover:text-gray-500'>
+            비밀번호 찾기
+          </Link>
         </div>
       </div>
 
       {/* section 3 */}
-      <div className='border-t border-gray200 py-[78px] text-[20px]'>
+      <div className='border-t border-gray200 py-[48px] text-[20px] md:py-[78px]'>
         <div className='mx-auto flex max-w-[394px] flex-col items-center gap-4'>
-          <div className='flex w-full items-center rounded-md bg-black px-[20px] py-[14px] text-white transition-all duration-300 hover:bg-opacity-60'>
+          <div className='flex w-full items-center bg-black px-[20px] py-[14px] text-white transition-all duration-300 hover:bg-opacity-60'>
             <img src={logoWhite} className='max-h-[18px] max-w-[50px]' alt='' />
             <button onClick={() => navigate('/auth/signup')} className='flex-1'>
               회원가입
