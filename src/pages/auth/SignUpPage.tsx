@@ -136,7 +136,17 @@ const SignUpPage = () => {
               name='phone'
               type='number'
               register={register}
-              registerOptions={{ required: '' }}
+              registerOptions={{
+                required: '전화번호는 필수 입력값입니다.',
+                minLength: {
+                  value: 11,
+                  message: '전화번호는 11자여야 합니다.',
+                },
+                maxLength: {
+                  value: 11,
+                  message: '전화번호는 11자여야 합니다.',
+                },
+              }}
               error={errors?.phone?.message}
             />
           </div>
