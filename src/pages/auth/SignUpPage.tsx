@@ -1,5 +1,7 @@
+import { Input } from '@/components/Input';
 import useTermsModalState from '@/hooks/useModalState/useModalState';
 import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 type CheckboxType = '개인정보' | '이용약관';
@@ -9,6 +11,12 @@ const SignUpPage = () => {
   const { handleModalOpen, renderModalContent } = useTermsModalState();
   const [selectedCheckbox, setSelectedCheckbox] = useState<CheckboxType[]>([]);
   const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm();
 
   const handleToggle = (type: CheckboxType) => {
     setSelectedCheckbox((prev) => (prev.includes(type) ? prev.filter((v) => v !== type) : [...prev, type]));
@@ -40,11 +48,24 @@ const SignUpPage = () => {
           {/* step 1 */}
           <div className='flex flex-col gap-[10px]'>
             <h2 className='text-2xl'>회원 정보</h2>
-            <input
-              className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl'
-              type='text'
-              placeholder='이름'
+
+            <Input label='이름' name='name' type='text' register={register} registerOptions={{ required: '' }} />
+            <Input label='아이디' name='id' type='text' register={register} registerOptions={{ required: '' }} />
+            <Input
+              label='비밀번호(대문자,숫자 포함, 8자 이상)'
+              name='password'
+              type='password'
+              register={register}
+              registerOptions={{ required: '' }}
             />
+            <Input
+              label='비밀번호 확인'
+              name='passwordRe'
+              type='password'
+              register={register}
+              registerOptions={{ required: '' }}
+            />
+
             <input
               className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl'
               type='text'
@@ -68,15 +89,14 @@ const SignUpPage = () => {
           {/* step 2 */}
           <div className='flex flex-col gap-[10px]'>
             <h2 className='text-2xl'>회원 연락처</h2>
-            <input
-              className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl'
-              type='text'
-              placeholder='이메일'
-            />
-            <input
-              className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl'
-              type='text'
-              placeholder='전화번호 "-" 없이 입력'
+
+            <Input label='이메일' name='email' type='email' register={register} registerOptions={{ required: '' }} />
+            <Input
+              label='전화번호 "-" 없이 입력'
+              name='phone'
+              type='number'
+              register={register}
+              registerOptions={{ required: '' }}
             />
           </div>
 
