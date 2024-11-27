@@ -15,6 +15,18 @@ export const postCategory = (parent_id?: number, name?: string) => {
 
   return client.post('/category', params);
 };
+export const putCategory = async (category_id: number, parent_id?: number, name?: string) => {
+  const params: any = {};
+  if (parent_id !== undefined) params.parent_id = parent_id;
+  if (name !== undefined) params.name = name;
+
+  return client
+    .put(`category/${category_id}`, params)
+    .then((response) => response)
+    .catch((error) => {
+      console.log(error);
+    });
+};
 
 export const deleteCategory = async (params: number) => {
   return client
