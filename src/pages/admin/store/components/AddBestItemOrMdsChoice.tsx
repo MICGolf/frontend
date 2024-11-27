@@ -52,9 +52,8 @@ const AddBestItemOrMdsChoice = ({ location }: Props) => {
             type='text'
             label='상품 번호'
             name='productCode'
-            maxLength={20}
             register={register}
-            registerOptions={{ required: '상품 코드를 작성하세요.' }}
+            registerOptions={{ required: '상품 코드를 작성하세요.', maxLength: 20 }}
             error={errors.productCode?.message}
           />
         </div>

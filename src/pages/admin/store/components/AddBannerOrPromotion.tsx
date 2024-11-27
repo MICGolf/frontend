@@ -103,18 +103,16 @@ const AddBannerOrPromotion = ({ location }: { location: locationType }) => {
               type='text'
               label='배너 제목'
               name='title'
-              maxLength={20}
               register={register}
-              registerOptions={{ required: '최대 20자, 메인 노출 텍스트를 작성하세요' }}
+              registerOptions={{ required: '최대 20자, 메인 노출 텍스트를 작성하세요', maxLength: 20 }}
               error={errors.title?.message}
             />
             <Input
               type='text'
               label='배너 소제목'
               name='subTitle'
-              maxLength={20}
               register={register}
-              registerOptions={{ required: '최대 20자, 메인 노출 텍스트를 작성하세요' }}
+              registerOptions={{ required: '최대 20자, 메인 노출 텍스트를 작성하세요', maxLength: 20 }}
               error={errors.sub_title?.message}
             />
             <Input

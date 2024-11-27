@@ -11,6 +11,12 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+/* 자동완성 input 배경색 제거 */
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px white inset !important; /* 배경색 제거 */
+  -webkit-text-fill-color: black !important; /* 텍스트 색상 설정 */
+}
+
 /* Firefox */
 input[type='number'] {
   -moz-appearance: textfield;
