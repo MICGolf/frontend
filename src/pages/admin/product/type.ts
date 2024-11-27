@@ -35,23 +35,27 @@ export interface ProductListProps {
   productListArray: ProductListType[];
   isPending: boolean;
   error: any;
+  pageLimit: number;
   handleShowPopup: () => void;
   page: number;
   setPage: (page: number) => void;
-  setPageLimit: (limit: string) => void;
+  setPageLimit: (limit: number) => void;
   setQuantitPopupData: (data: any) => void;
+  setSearchParams: (params: any) => void;
 }
 export interface ProductFilterProps {
+  pageLimit: number;
   setSearchParams: (params: any) => void;
   onSubmit: () => void;
 }
 
 export interface ProductFilterFormData {
-  productName: string;
-  productNumber: string;
-  sellerProductCode: string;
-  productStatus: string;
-  category_id: string;
-  startDate: string;
-  endDate: string;
+  productName?: string;
+  productNumber?: string;
+  sellerProductCode?: string;
+  productStatus?: string;
+  category_id?: string;
+  startDate?: string;
+  endDate?: string;
+  pageLimit?: number;
 }

@@ -252,7 +252,7 @@ const ProductAdd = () => {
   };
 
   return (
-    <div>
+    <>
       {showCategory && <Category onClose={() => setShowCategory(false)} />}
       <FormProvider {...methods}>
         <form className='mt-6 w-full' onSubmit={handleSubmit(handlePostProducts)}>
@@ -496,7 +496,7 @@ const ProductAdd = () => {
           </button>
         </form>
       </FormProvider>
-    </div>
+    </>
   );
 };
 

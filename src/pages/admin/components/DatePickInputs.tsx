@@ -10,33 +10,39 @@ const DatePickInputs = () => {
   const startDateWatch = watch('startDate');
 
   useEffect(() => {
-    if (dateWatch) {
+    if (dateWatch && startDateWatch) {
       const startDate = new Date(startDateWatch);
       switch (dateWatch) {
-        case 'year':
+        case 'year': {
           const endDateYear = new Date(startDate.getFullYear() - 1, startDate.getMonth(), startDate.getDate());
           setValue('endDate', endDateYear.toISOString().split('T')[0]);
           break;
-        case 'month':
+        }
+        case 'month': {
           const endDateMonth = new Date(startDate.getFullYear(), startDate.getMonth() - 1, startDate.getDate());
           setValue('endDate', endDateMonth.toISOString().split('T')[0]);
           break;
-        case 'week':
+        }
+        case 'week': {
           const endDateWeek = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() - 7);
           setValue('endDate', endDateWeek.toISOString().split('T')[0]);
           break;
+        }
+        default:
+          break;
       }
     }
-  }, [dateWatch, startDateWatch]);
+  }, [dateWatch, startDateWatch, setValue]);
+
   return (
     <div className='flex w-full items-center gap-4'>
       <select
         {...register('date')}
-        className={`mt-4 w-full appearance-none rounded-md border border-neutral-300 bg-[length:36px_36px] bg-[center_right_1rem] bg-no-repeat px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300`}
+        className='mt-4 w-full appearance-none rounded-md border border-neutral-300 bg-[length:36px_36px] bg-[center_right_1rem] bg-no-repeat px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
         style={{
           backgroundImage: `url(${isOpen ? arrowDropUp : arrowDropDown})`,
         }}
-        onClick={(prev) => setIsOpen(!prev)}
+        onClick={() => setIsOpen((prev) => !prev)}
         defaultValue='custom'
       >
         <option value='custom'>직접선택</option>
@@ -50,23 +56,28 @@ const DatePickInputs = () => {
           1주
         </option>
       </select>
+
       <input
         type='date'
-        {...register('startDate')}
+        {...register('startDate', {
+          onChange: (e) => {
+            const newStartDate = new Date(e.target.value);
+            setValue('startDate', newStartDate.toISOString().split('T')[0]);
+          },
+        })}
         className='mt-4 w-full rounded-md border border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
-        onChange={(e) => {
-          const newStartDate = new Date(e.target.value);
-          setValue('startDate', newStartDate.toISOString().split('T')[0]);
-        }}
       />
+
       <input
         type='date'
-        {...register('endDate')}
+        {...register('endDate', {
+          onChange: (e) => {
+            const newEndDate = new Date(e.target.value);
+            setValue('date', 'custom');
+            setValue('endDate', newEndDate.toISOString().split('T')[0]);
+          },
+        })}
         className='mt-4 w-full rounded-md border border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
-        onChange={(e) => {
-          const newEndDate = new Date(e.target.value);
-          setValue('endDate', newEndDate.toISOString().split('T')[0]);
-        }}
       />
     </div>
   );

@@ -17,7 +17,7 @@ const ProductSearch = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [quantitPopupData, setQuantitPopupData] = useState();
   const [page, setPage] = useState(1);
-  const [pageLimit, setPageLimit] = useState(localStorage.getItem('pageListLimit') || '100');
+  const [pageLimit, setPageLimit] = useState<number>(10);
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
@@ -41,15 +41,16 @@ const ProductSearch = () => {
     queryFn: async () => {
       const response = await adminApi.getAdminProducts(searchParams);
       if (!response) return null;
-      console.log(response.data);
       return response.data;
     },
   });
-
+  useEffect(() => {
+    refetch();
+  }, [pageLimit, refetch]);
   return (
     <>
       <ProductStatusDashboard productStatusArray={productStatusArray} />
-      <ProductFilter setSearchParams={setSearchParams} onSubmit={() => refetch()} />
+      <ProductFilter setSearchParams={setSearchParams} onSubmit={() => refetch()} pageLimit={pageLimit} />
       <ProductList
         page={page}
         setPage={setPage}
@@ -57,8 +58,10 @@ const ProductSearch = () => {
         productListArray={productFilterData}
         isPending={isPending}
         error={error}
+        pageLimit={pageLimit}
         setPageLimit={setPageLimit}
         setQuantitPopupData={setQuantitPopupData}
+        setSearchParams={setSearchParams}
       />
       {isOpen && quantitPopupData && (
         <QuantitPopup onClose={() => setIsOpen(false)} quantitPopupData={quantitPopupData} />
