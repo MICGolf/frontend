@@ -7,6 +7,7 @@ import { useCachedData } from '@/hooks/useCachedData';
 import DetailPageSkeleton from './components/skeletons/DetailPageSkeleton';
 import { handleApiError } from '@/utils/handleApiError';
 import { useCallback, useEffect } from 'react';
+import { HistoryType } from '@/layouts/publicLayout/types';
 
 const DetailPage = () => {
   const { cachedData, id, hasCachedData } = useCachedData();
@@ -29,7 +30,7 @@ const DetailPage = () => {
     enabled: !hasCachedData,
   });
 
-  console.log(productDetailData);
+  console.log(new Date().toISOString().slice(0, 10));
 
   const getHistoryFromLocalStorage = useCallback(() => {
     const history = localStorage.getItem('history');
@@ -39,22 +40,57 @@ const DetailPage = () => {
   const saveHistoryToLocalStorage = useCallback(
     (data: ProductData) => {
       const currentHistory = getHistoryFromLocalStorage();
+      const today = new Date().toISOString().slice(0, 10);
 
       // 중복 확인
-      const isDuplicate = currentHistory.some((item: ProductData) => item.product.id === data.product.id);
+      // 1. 날짜 확인, 2. 상품 id 확인
+      const isDuplicate = currentHistory.some((item: HistoryType) => {
+        // 1. 날짜 확인, 같으면 상품 id를 map 돌면서 확인
+        if (item.date === today) {
+          return item.products.some((product) => product.id === data.product.id);
+        }
+      });
       if (isDuplicate) return;
 
       // 아이템 가공
       const newItem = {
+        date: today,
         product: {
           id: data.product.id,
           name: data.product.name,
           origin_price: data.product.origin_price,
-          img: data.options[0].images[0].image_url || '', // default image 필요
+          image: data.options[0].images[0].image_url || '', // default image 필요
         },
       };
 
-      const updatedHistory = [newItem, ...currentHistory];
+      let updatedHistory: HistoryType[] = [];
+      const todayHistoryIndex = currentHistory.findIndex((item: HistoryType) => item.date === today);
+
+      // 오늘 날짜에 기록이 있는경우
+      if (todayHistoryIndex !== -1) {
+        const updatedTodayHistory = {
+          ...currentHistory[todayHistoryIndex],
+          products: [newItem.product, ...currentHistory[todayHistoryIndex].products],
+        };
+        console.log('updatedTodayHistory', updatedTodayHistory);
+
+        updatedHistory = [
+          ...currentHistory.slice(0, todayHistoryIndex),
+          updatedTodayHistory,
+          ...currentHistory.slice(todayHistoryIndex + 1),
+        ];
+      } else {
+        // 오늘 날짜에 기록이 없으면 새로 추가
+        const newHistoryItem = {
+          date: today,
+          products: [newItem.product],
+        };
+
+        updatedHistory = [newHistoryItem, ...currentHistory];
+      }
+
+      // FIXME: 최대 100개까지 저장, 100개가 넘으면 마지막 아이템 삭제, 현재 달 기준 + 1달이 넘으면 아이템 삭제
+
       localStorage.setItem('history', JSON.stringify(updatedHistory));
     },
     [getHistoryFromLocalStorage]

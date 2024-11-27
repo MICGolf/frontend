@@ -1,6 +1,9 @@
+import { ProductData } from '@/api/type';
 import DefaultImg from '@/assets/imgs/logoWhite.svg';
 import { X } from 'lucide-react';
 import { useState } from 'react';
+import { HistoryType } from './types';
+import { Link } from 'react-router-dom';
 
 const HistoryFab = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -10,9 +13,6 @@ const HistoryFab = () => {
     setIsModalOpen((prev) => !prev);
   };
 
-  // const history = localStorage.getItem('history');
-  // const dataHistory = history ? JSON.parse(history) : [];
-
   const dummyHistory = [
     {
       date: '2024-11-21',
@@ -20,14 +20,14 @@ const HistoryFab = () => {
         {
           id: 1,
           name: '믹골프 파우치',
-          price: 10000,
-          img: 'https://via.placeholder.com/60',
+          origin_price: 10000,
+          image: 'https://via.placeholder.com/60',
         },
         {
           id: 2,
           name: '믹골프 파우치',
-          price: 20000,
-          img: 'https://via.placeholder.com/60',
+          origin_price: 20000,
+          image: 'https://via.placeholder.com/60',
         },
       ],
     },
@@ -37,14 +37,14 @@ const HistoryFab = () => {
         {
           id: 3,
           name: '믹골프 골프채 1 blue',
-          price: 30000,
-          img: 'https://via.placeholder.com/60',
+          origin_price: 30000,
+          image: 'https://via.placeholder.com/60',
         },
         {
           id: 4,
           name: '믹골프 골프채 2 red',
-          price: 40000,
-          img: 'https://via.placeholder.com/60',
+          origin_price: 40000,
+          image: 'https://via.placeholder.com/60',
         },
       ],
     },
@@ -57,6 +57,11 @@ const HistoryFab = () => {
 
     return text;
   };
+
+  const history = localStorage.getItem('history');
+  const historyData: HistoryType[] = history ? JSON.parse(history) : [];
+
+  console.log('historyData', historyData);
 
   return (
     <>
@@ -101,29 +106,34 @@ const HistoryFab = () => {
             </button>
           </div>
           <div className='relative py-8'>
-            {dummyHistory.map((item) => (
-              <div key={item.date} className='relative z-50'>
-                <div className='flex pb-4 font-light'>
-                  <div className='rounded-full border border-neutral-200 bg-white px-2 py-1 text-neutral-600'>
-                    {item.date}
+            {historyData &&
+              historyData.map((item) => (
+                <div key={item.date} className='relative z-50'>
+                  <div className='flex pb-4 font-light'>
+                    <div className='rounded-full border border-neutral-200 bg-white px-2 py-1 text-neutral-600'>
+                      {item.date}
+                    </div>
+                  </div>
+                  <div>
+                    {item.products.map((product) => (
+                      <Link
+                        to={`/product/detail/${product.id}`}
+                        key={product.id}
+                        className='mb-6 ml-8 flex items-center gap-2 font-light hover:bg-neutral-300'
+                      >
+                        <div className='h-[66px] w-[66px]'>
+                          <img src={product.image} alt={product.name} className='h-full w-full' />
+                        </div>
+                        <div>
+                          <div className='mb-[10px] text-[10px] text-primary'>MIC GOLF</div>
+                          <div className='text-[16px]'>[MIC GOLF] {validateTextLength(product.name, 10)}</div>
+                          <div className='text-[16px]'>{product.origin_price.toLocaleString()}원</div>
+                        </div>
+                      </Link>
+                    ))}
                   </div>
                 </div>
-                <div>
-                  {item.products.map((product) => (
-                    <div key={product.id} className='flex items-center gap-2 pb-6 pl-8 font-light'>
-                      <div className='h-[66px] w-[66px]'>
-                        <img src={product.img} alt={product.name} className='h-full w-full' />
-                      </div>
-                      <div>
-                        <div className='mb-[10px] text-[10px] text-primary'>MIC GOLF</div>
-                        <div className='text-[16px]'>[MIC GOLF] {validateTextLength(product.name, 10)}</div>
-                        <div className='text-[16px]'>{product.price.toLocaleString()}원</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
+              ))}
             <div className='absolute left-[64px] top-0 h-full w-[1px] bg-neutral-200'></div>
           </div>
           <div className='flex justify-center py-8 font-light'>
