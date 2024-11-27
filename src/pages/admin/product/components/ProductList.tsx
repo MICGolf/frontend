@@ -67,7 +67,6 @@ const ProductList = ({
   const handlePatchStatus = (id: number[], status: string) => {
     patchStatusMutation.mutate({ id, status });
   };
-  console.log(checkedList);
   return (
     <SectionBox
       title={`상품목록 총(${productListArray?.length}개)`}
