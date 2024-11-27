@@ -2,7 +2,6 @@ import { Input } from '@/components/Input';
 import useTermsModalState from '@/hooks/useModalState/useModalState';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 
 type CheckboxType = '개인정보' | '이용약관';
 
@@ -17,7 +16,6 @@ type SignUpFormData = {
 };
 
 const SignUpPage = () => {
-  const navigate = useNavigate();
   const { handleModalOpen, renderModalContent } = useTermsModalState();
   const [selectedCheckbox, setSelectedCheckbox] = useState<CheckboxType[]>([]);
   const [isAllChecked, setIsAllChecked] = useState<boolean>(false);

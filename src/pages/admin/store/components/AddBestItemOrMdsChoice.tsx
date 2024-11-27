@@ -21,8 +21,9 @@ const AddBestItemOrMdsChoice = ({ location }: Props) => {
 
   const mutation = useMutation({
     mutationFn: async (data: FormValues) => {
-      const response = await client.post('/promotion-products', {
+      const response = await client.post('/promotion-products/add', {
         promotion_type: location,
+        is_active: true,
         product_code: data.productCode,
       });
 

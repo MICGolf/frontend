@@ -13,12 +13,12 @@ interface UserInfo {
 
 const FindPwPage = () => {
   const [isVerified, setIsVerified] = useState<boolean>(false);
-  const [userInfo, setUserInfo] = useState<UserInfo>({
-    name: null,
-    email: null,
-    phone: null,
-    verification: null,
-  });
+  // const [userInfo, setUserInfo] = useState<UserInfo>({
+  //   name: null,
+  //   email: null,
+  //   phone: null,
+  //   verification: null,
+  // });
   const [newPw, setNewPw] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
