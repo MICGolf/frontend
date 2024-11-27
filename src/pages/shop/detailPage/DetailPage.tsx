@@ -89,9 +89,31 @@ const DetailPage = () => {
         updatedHistory = [newHistoryItem, ...currentHistory];
       }
 
-      // FIXME: 최대 100개까지 저장, 100개가 넘으면 마지막 아이템 삭제, 현재 달 기준 + 1달이 넘으면 아이템 삭제
+      // 1. 한 달 기준으로 날짜 필터링
+      const todayDate = new Date(today);
+      updatedHistory = updatedHistory.filter((item: HistoryType) => {
+        const itemDate = new Date(item.date);
+        const daysDifference = (todayDate.getTime() - itemDate.getTime()) / (1000 * 60 * 60 * 24);
+        return daysDifference <= 30;
+      });
 
-      localStorage.setItem('history', JSON.stringify(updatedHistory));
+      // 2. 최대 100개 상품 제한
+      const flattenedProducts = updatedHistory.flatMap((item) =>
+        item.products.map((product) => ({ ...product, date: item.date }))
+      );
+      const limitedProducts = flattenedProducts.slice(0, 100);
+
+      const finalHistory: HistoryType[] = [];
+      for (const product of limitedProducts) {
+        const dateGroup = finalHistory.find((item) => item.date === product.date);
+        if (dateGroup) {
+          dateGroup.products.push(product);
+        } else {
+          finalHistory.push({ date: product.date, products: [product] });
+        }
+      }
+
+      localStorage.setItem('history', JSON.stringify(finalHistory));
     },
     [getHistoryFromLocalStorage]
   );
