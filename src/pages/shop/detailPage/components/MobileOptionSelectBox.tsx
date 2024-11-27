@@ -5,7 +5,6 @@ import ColorBtns from './ColorBtns';
 import SizeBtns from './SizeBtns';
 import CounterBtn from './CounterBtn';
 import AddCartBtn from './AddCartBtn';
-import NaverPayBtn from './NaverPayBtn';
 import { SignUpModalType } from '@/hooks/useModalState/useModalState';
 import MobileModalToggler from './MobileModalToggler';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -13,12 +12,17 @@ import useSaleState from '@/hooks/useSaleState';
 import useSoldOutState from '@/hooks/useSoldoutState';
 import { ProductData, ProductImage } from '@/api/type';
 import { OptionState } from '../types';
+import { CartItemData } from '@/assets/dummys/types';
+import BuyNowButton from './BuyNowButton';
 
 interface MobileOptionSelectBoxProps {
   data: ProductData;
   selectedOption: OptionState;
   isOpen: boolean;
   detailImage: ProductImage[] | null;
+  instanceCartData: CartItemData[];
+  handleBuyNow: (itemId: string) => void;
+  setInstanceCartData: React.Dispatch<React.SetStateAction<CartItemData[]>>;
   setSelectedOption: (prevOption: OptionState) => void;
   setIsOpen: (isOpen: boolean) => void;
   handleModalOpen: (type: SignUpModalType) => void;
@@ -29,6 +33,9 @@ const MobileOptionSelectBox = ({
   selectedOption,
   isOpen,
   detailImage,
+  instanceCartData,
+  handleBuyNow,
+  setInstanceCartData,
   setSelectedOption,
   setIsOpen,
   handleModalOpen,
@@ -55,7 +62,7 @@ const MobileOptionSelectBox = ({
         <MobileModalToggler isOpen={isOpen} setIsOpen={setIsOpen} />
 
         {/* 메인 컨텐츠 시작 */}
-        <div className='flex flex-col h-full gap-4 p-6'>
+        <div className='flex h-full flex-col gap-4 p-6'>
           <div className='flex flex-col gap-4'>
             <div className='flex gap-2'>
               <div className='flex flex-col gap-3'>
@@ -77,8 +84,8 @@ const MobileOptionSelectBox = ({
           </div>
 
           {/* 옵션 선택 영역 */}
-          <div className='flex flex-col gap-4 mt-auto'>
-            <div className='flex flex-col w-full gap-4 md:justify-start'>
+          <div className='mt-auto flex flex-col gap-4'>
+            <div className='flex w-full flex-col gap-4 md:justify-start'>
               <ColorBtns data={data} selectedOption={selectedOption} onSelect={setSelectedOption} />
               <SizeBtns data={data} selectedOption={selectedOption} onSelect={setSelectedOption} />
               <CounterBtn selectedOption={selectedOption} onSelect={setSelectedOption} isSoldOut={isSoldOut} />
@@ -97,7 +104,15 @@ const MobileOptionSelectBox = ({
                 detailImage={detailImage}
                 handleModalOpen={handleModalOpen}
               />
-              <NaverPayBtn />
+              <BuyNowButton
+                productData={data.product}
+                selectedOption={selectedOption}
+                detailImage={detailImage}
+                handleModalOpen={handleModalOpen}
+                instanceCartData={instanceCartData}
+                setInstanceCartData={setInstanceCartData}
+                handleBuyNow={handleBuyNow}
+              />
             </div>
           </div>
         </div>
@@ -108,7 +123,7 @@ const MobileOptionSelectBox = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className='fixed inset-0 z-10 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm'
+          className='fixed inset-0 z-10 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm'
           onClick={handleOnClose}
         />
       )}

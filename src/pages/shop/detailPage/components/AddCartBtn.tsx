@@ -21,8 +21,6 @@ const AddCartBtn = ({ productData, selectedOption, detailImage, handleModalOpen 
 
   const handleAddCart = () => {
     const existingCartItemIndex = cartItems.findIndex((item: CartItemData) => {
-      console.log('Comparing Item:', item);
-
       const isProductIdMatch = item.productId === selectedOption.productData?.id;
       const isColorMatch =
         item.color.name?.trim().toLowerCase() === selectedOption.selectedColor?.color.trim().toLowerCase();
@@ -36,12 +34,10 @@ const AddCartBtn = ({ productData, selectedOption, detailImage, handleModalOpen 
     let updatedCartItems;
 
     if (existingCartItemIndex > -1) {
-      console.log('Item already exists, updating quantity.');
       updatedCartItems = cartItems.map((item: CartItemData, index: number) =>
         index === existingCartItemIndex ? { ...item, amount: item.amount + selectedOption.amount } : item
       );
     } else {
-      console.log('Adding new item to cart.');
       const newCartItem: CartItemData = {
         id: nanoid(),
         productId: productData.id,

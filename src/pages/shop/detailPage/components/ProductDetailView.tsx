@@ -6,12 +6,23 @@ import OptionSelectBox from './OptionSelectBox';
 import MobileOptionSelectBox from './MobileOptionSelectBox';
 import { ProductImage } from '@/api/type';
 import ProductDetailImage from './ProductDetailImage';
+import { CartItemData } from '@/assets/dummys/types';
+import useCartCalculations from '@/hooks/useCartCalculations';
+import { useCartSelection } from '@/hooks/useCartSelection';
 
 const ProductDetailView = ({ data }: ProductDetailViewProps) => {
   const shouldResponsive = useMediaQuery({ maxWidth: 767 });
-  const { handleModalOpen, renderModalContent } = useModalState();
   const [detailImage, setDetailImage] = useState<ProductImage[] | []>([]);
   const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [instanceCartData, setInstanceCartData] = useState<CartItemData[]>([]);
+  const { totalPrice, totalDeliveryFee } = useCartCalculations(instanceCartData);
+  const { handleBuyNow } = useCartSelection(instanceCartData);
+  const paymentData = {
+    items: instanceCartData,
+    totalPrice,
+    totalDeliveryFee,
+  };
+  const { handleModalOpen, renderModalContent } = useModalState({ paymentData });
   const [selectedOption, setSelectedOption] = useState<OptionState>({
     productCode: data.product.product_code,
     productData: data.product,
@@ -27,6 +38,9 @@ const ProductDetailView = ({ data }: ProductDetailViewProps) => {
     selectedOption,
     isOpen,
     detailImage,
+    instanceCartData,
+    handleBuyNow,
+    setInstanceCartData,
     setSelectedOption,
     setIsOpen,
     handleModalOpen,

@@ -36,7 +36,7 @@ const ProductDetailImage = ({ data, selectedOption, detailImage, setDetailImage 
             idx !== 0 /* 첫번째 사진은 썸네일용이므로 렌더링하지 않음 */ && (
               <div
                 key={img.id}
-                className={`${isImageError && 'flex flex-col items-center justify-center gap-2 bg-gray-200'} h-screen w-full transition-transform duration-500 ease-in-out md:h-full`}
+                className={`${isImageError && 'flex flex-col items-center justify-center gap-2 bg-gray-200'} h-screen w-full transition-transform duration-500 ease-in-out`}
               >
                 <img
                   src={img.image_url}

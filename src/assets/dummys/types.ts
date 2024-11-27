@@ -3,7 +3,7 @@ export interface UserData {
   email: string;
 }
 
-export interface CartItemData {
+export type CartItemData = {
   id: string; // 장바구니 id
   productId: number; // 상품 id
   productCode: string; // 상품 코드
@@ -20,7 +20,7 @@ export interface CartItemData {
   price: number; // 최종가
   discount: number; // 할인률 또는 할인금액
   discountOption: 'percent' | 'amount';
-}
+};
 
 // 중분류 타입 정의
 export interface MiddleCategory {
