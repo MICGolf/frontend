@@ -58,7 +58,7 @@ const DetailPage = () => {
         product: {
           id: data.product.id,
           name: data.product.name,
-          origin_price: data.product.origin_price,
+          price: data.product.price,
           image: data.options[0].images[0].image_url || '', // default image 필요
         },
       };

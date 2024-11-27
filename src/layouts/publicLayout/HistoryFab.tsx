@@ -1,4 +1,3 @@
-import { ProductData } from '@/api/type';
 import DefaultImg from '@/assets/imgs/logoWhite.svg';
 import { X } from 'lucide-react';
 import { useState } from 'react';
@@ -12,43 +11,6 @@ const HistoryFab = () => {
   const toggleModal = () => {
     setIsModalOpen((prev) => !prev);
   };
-
-  const dummyHistory = [
-    {
-      date: '2024-11-21',
-      products: [
-        {
-          id: 1,
-          name: '믹골프 파우치',
-          origin_price: 10000,
-          image: 'https://via.placeholder.com/60',
-        },
-        {
-          id: 2,
-          name: '믹골프 파우치',
-          origin_price: 20000,
-          image: 'https://via.placeholder.com/60',
-        },
-      ],
-    },
-    {
-      date: '2024-11-20',
-      products: [
-        {
-          id: 3,
-          name: '믹골프 골프채 1 blue',
-          origin_price: 30000,
-          image: 'https://via.placeholder.com/60',
-        },
-        {
-          id: 4,
-          name: '믹골프 골프채 2 red',
-          origin_price: 40000,
-          image: 'https://via.placeholder.com/60',
-        },
-      ],
-    },
-  ];
 
   const validateTextLength = (text: string, maxLength: number) => {
     if (text.length > maxLength) {
@@ -127,7 +89,7 @@ const HistoryFab = () => {
                         <div>
                           <div className='mb-[10px] text-[10px] text-primary'>MIC GOLF</div>
                           <div className='text-[16px]'>[MIC GOLF] {validateTextLength(product.name, 10)}</div>
-                          <div className='text-[16px]'>{product.origin_price.toLocaleString()}원</div>
+                          <div className='text-[16px]'>{product.price.toLocaleString()}원</div>
                         </div>
                       </Link>
                     ))}

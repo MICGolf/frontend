@@ -2,7 +2,7 @@ type Product = {
   id: number;
   image: string;
   name: string;
-  origin_price: number;
+  price: number;
 };
 
 export type HistoryType = {
