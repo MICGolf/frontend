@@ -1,7 +1,7 @@
 import AddBannerOrPromotion from './components/AddBannerOrPromotion';
-import { PromotionDataList } from './components/PromotionDataList';
+import PromotionDataList from './components/PromotionDataList';
 
-export const PromotionPage = () => {
+const PromotionPage = () => {
   return (
     <>
       <AddBannerOrPromotion location='promotion' />

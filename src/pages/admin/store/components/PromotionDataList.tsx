@@ -13,7 +13,7 @@ const TableHeadArray = [
   { className: 'w-2/12', title: '삭제/수정' },
 ];
 
-export const PromotionDataList = () => {
+const PromotionDataList = () => {
   const {
     data: promotionList,
     isLoading,
@@ -124,3 +124,5 @@ export const PromotionDataList = () => {
     </div>
   );
 };
+
+export default PromotionDataList;

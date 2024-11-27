@@ -1,4 +1,4 @@
-import { BannerDataList } from './components/BannerDataList';
+import BannerDataList from './components/BannerDataList';
 import AddBannerOrPromotion from './components/AddBannerOrPromotion';
 
 const BannerPage = () => {

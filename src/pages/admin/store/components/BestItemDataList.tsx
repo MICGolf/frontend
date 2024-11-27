@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { homeApi } from '@/api';
 import { SectionDataType } from './MdsChoiceDataList';
 import { client } from '@/api/client';
@@ -13,7 +13,9 @@ const TableHeadArray = [
   { className: 'w-2/12', title: '삭제/수정' },
 ];
 
-export const BestItemDataList = () => {
+const BestItemDataList = () => {
+  const queryClient = useQueryClient();
+
   const {
     data: bestItemList,
     isLoading,
@@ -27,13 +29,19 @@ export const BestItemDataList = () => {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: async (id: number) => {
-      const response = await client.delete(`/promotion-products/${id}`);
+    mutationFn: async (id: string) => {
+      const response = await client.delete('/promotion-products/delete', {
+        params: {
+          product_code: id,
+          promotion_type: 'best',
+        },
+      });
       return response.data;
     },
     onSuccess: (data) => {
       console.log('data:', data);
       alert('성공적으로 삭제되었습니다.');
+      queryClient.invalidateQueries({ queryKey: ['bestItemList'] });
     },
     onError: (error) => {
       console.log(error);
@@ -43,7 +51,7 @@ export const BestItemDataList = () => {
 
   if (isLoading || isError) return null;
 
-  console.log(bestItemList);
+  console.log(bestItemList.items);
 
   return (
     <div className='rounded-lg bg-secondary px-5 py-6 text-base'>
@@ -81,7 +89,7 @@ export const BestItemDataList = () => {
                 <td className='w-2/12 border border-neutral-200 py-2'>
                   <button
                     type='button'
-                    onClick={() => deleteMutation.mutate(item.product_id)}
+                    onClick={() => deleteMutation.mutate(item.product_code)}
                     className='w-3/4 rounded-md bg-red-500 px-4 py-1 text-white'
                   >
                     삭제
@@ -95,3 +103,5 @@ export const BestItemDataList = () => {
     </div>
   );
 };
+
+export default BestItemDataList;
