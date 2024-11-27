@@ -110,7 +110,7 @@ const HistoryFab = () => {
                 </div>
                 <div>
                   {item.products.map((product) => (
-                    <div className='flex items-center gap-2 pb-6 pl-8 font-light'>
+                    <div key={product.id} className='flex items-center gap-2 pb-6 pl-8 font-light'>
                       <div className='h-[66px] w-[66px]'>
                         <img src={product.img} alt={product.name} className='h-full w-full' />
                       </div>

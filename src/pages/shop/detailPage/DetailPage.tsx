@@ -6,6 +6,7 @@ import { ProductData } from '@/api/type';
 import { useCachedData } from '@/hooks/useCachedData';
 import DetailPageSkeleton from './components/skeletons/DetailPageSkeleton';
 import { handleApiError } from '@/utils/handleApiError';
+import { useCallback, useEffect } from 'react';
 
 const DetailPage = () => {
   const { cachedData, id, hasCachedData } = useCachedData();
@@ -27,6 +28,43 @@ const DetailPage = () => {
     initialData: cachedData,
     enabled: !hasCachedData,
   });
+
+  console.log(productDetailData);
+
+  const getHistoryFromLocalStorage = useCallback(() => {
+    const history = localStorage.getItem('history');
+    return history ? JSON.parse(history) : [];
+  }, []);
+
+  const saveHistoryToLocalStorage = useCallback(
+    (data: ProductData) => {
+      const currentHistory = getHistoryFromLocalStorage();
+
+      // 중복 확인
+      const isDuplicate = currentHistory.some((item: ProductData) => item.product.id === data.product.id);
+      if (isDuplicate) return;
+
+      // 아이템 가공
+      const newItem = {
+        product: {
+          id: data.product.id,
+          name: data.product.name,
+          origin_price: data.product.origin_price,
+          img: data.options[0].images[0].image_url || '', // default image 필요
+        },
+      };
+
+      const updatedHistory = [newItem, ...currentHistory];
+      localStorage.setItem('history', JSON.stringify(updatedHistory));
+    },
+    [getHistoryFromLocalStorage]
+  );
+
+  useEffect(() => {
+    if (productDetailData) {
+      saveHistoryToLocalStorage(productDetailData);
+    }
+  }, [productDetailData, saveHistoryToLocalStorage]);
 
   return (
     <article className='w-full'>
