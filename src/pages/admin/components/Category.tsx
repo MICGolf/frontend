@@ -33,30 +33,62 @@ export const Category = ({ onClose }: { onClose: () => void }) => {
   }, [category_id]);
 
   const deleteMutation = useMutation({
-    mutationFn: (id: number) => categoryApi.deleteCategory(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['CategoryDeleteData'] });
+    mutationFn: ({ id }: { id: number }) => categoryApi.deleteCategory(id),
+    onSuccess: (_, variables) => {
+      if (variables.id && variables.id === mainCategoryId) {
+        console.log('1');
+        queryClient.invalidateQueries({ queryKey: ['productSubCategory'] });
+      }
+      if (variables.id && variables.id === subCategoryId) {
+        console.log('2');
+        queryClient.invalidateQueries({ queryKey: ['productSubSubCategory', mainCategoryId] });
+      }
+      if (variables.id && variables.id === subSubCategoryId) {
+        console.log('3');
+        queryClient.invalidateQueries({ queryKey: ['productSubSubCategory', subCategoryId] });
+      }
       alert('카테고리가 삭제되었습니다.');
+      setIsCategoryEdit((prevState) => ({
+        ...prevState,
+        state: false,
+      }));
     },
     onError: (error) => {
       console.error('삭제 실패:', error);
       alert('카테고리 삭제에 실패했습니다.');
     },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['productCategory'] });
+    },
   });
   const putCategoryMutation = useMutation({
     mutationFn: ({ category_id, parent_id, name }: { category_id: number; parent_id: number; name: string }) =>
       categoryApi.putCategory(category_id, parent_id, name),
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
+      if (!variables.parent_id) {
+        queryClient.invalidateQueries({ queryKey: ['productCategory'] });
+      }
+      if (variables.parent_id && variables.parent_id === mainCategoryId) {
+        queryClient.invalidateQueries({ queryKey: ['productSubCategory', mainCategoryId] });
+      }
+      if (variables.parent_id && variables.parent_id === subCategoryId) {
+        queryClient.invalidateQueries({ queryKey: ['productSubSubCategory', subCategoryId] });
+      }
       alert('카테고리가 변경되었습니다.');
+      setValue('addCategoryName', '');
+      setIsCategoryEdit((prevState) => ({
+        ...prevState,
+        state: false,
+      }));
     },
     onError: (error) => {
       console.error('카테고리변경 실패:', error);
       alert('카테고리 변경에 실패했습니다.');
     },
   });
-  const handleDelete = (id: number) => {
-    if (window.confirm('정말로 카테고리를 삭제하시겠습니까?')) {
-      deleteMutation.mutate(id);
+  const handleDelete = (category: CategoryData) => {
+    if (window.confirm(`${category.name} 카테고리를 삭제하시겠습니까?`)) {
+      deleteMutation.mutate({ id: category.id });
     }
   };
   const { data: productCategoryData } = useQuery({
@@ -88,9 +120,23 @@ export const Category = ({ onClose }: { onClose: () => void }) => {
     enabled: !!mainCategoryId && !!subCategoryId,
   });
 
-  const postStatusMutation = useMutation({
+  const postCategoryMutation = useMutation({
     mutationFn: ({ parent_id, name }: { parent_id: number; name: string }) => categoryApi.postCategory(parent_id, name),
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
+      if (!variables.parent_id) {
+        queryClient.invalidateQueries({ queryKey: ['productCategory'] });
+      }
+      if (variables.parent_id && variables.parent_id === mainCategoryId) {
+        queryClient.invalidateQueries({ queryKey: ['productSubCategory', mainCategoryId] });
+      }
+      if (variables.parent_id && variables.parent_id === subCategoryId) {
+        queryClient.invalidateQueries({ queryKey: ['productSubSubCategory', subCategoryId] });
+      }
+      setValue('addCategoryName', '');
+      setIsCategoryEdit((prevState) => ({
+        ...prevState,
+        state: false,
+      }));
       alert('카테고리가 추가되었습니다.');
     },
     onError: (error) => {
@@ -99,7 +145,7 @@ export const Category = ({ onClose }: { onClose: () => void }) => {
     },
   });
   const onSubmit = (data: any) => {
-    postStatusMutation.mutate({ parent_id, name: data.addCategoryName });
+    postCategoryMutation.mutate({ parent_id, name: data.addCategoryName });
   };
   return (
     <div className='fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center'>
@@ -132,20 +178,30 @@ export const Category = ({ onClose }: { onClose: () => void }) => {
             {productCategoryData?.map((category: CategoryData) => (
               <label className='block cursor-pointer' key={category.id}>
                 <input
+                  type='radio'
+                  value={category.id}
+                  className='peer hidden'
+                  name='mainCategoryList'
+                  checked={watch('mainCategoryList') === category.id}
                   {...(register('mainCategoryList'),
                   {
                     onChange: (e) => {
+                      setIsCategoryEdit((prevState) => ({
+                        ...prevState,
+                        state: false,
+                      }));
+                      setValue('mainCategoryList', e.target.value);
                       setValue('subCategoryList', '');
                       setValue('subSubCategoryList', '');
-                      setValue('mainCategoryList', e.target.value);
                     },
                   })}
-                  type='radio'
-                  name='mainCategoryList'
-                  value={category.id}
-                  className='peer hidden'
                 />
-                <div className='peer-checked:bg-blue-100'>
+                <div
+                  className='peer-checked:bg-blue-100'
+                  onClick={() => {
+                    setValue('mainCategoryList', category.id);
+                  }}
+                >
                   <div
                     key={category.id}
                     className='flex justify-between border-b border-neutral-200 px-2 py-1 group-checked/input:bg-neutral-200'
@@ -156,10 +212,9 @@ export const Category = ({ onClose }: { onClose: () => void }) => {
                         className='mr-2 rounded-md border border-neutral-400 bg-white px-2 py-1 text-sm text-neutral-500'
                         type='button'
                         value={category.id}
-                        onClick={(e) => {
-                          const buttonValue = (e.currentTarget as HTMLButtonElement).value;
+                        onClick={() => {
                           parent_id = null;
-                          setValue('mainCategoryList', buttonValue);
+                          setValue('mainCategoryList', category.id);
                           setIsCategoryEdit({ state: true, type: 'edit' });
                         }}
                       >
@@ -168,7 +223,7 @@ export const Category = ({ onClose }: { onClose: () => void }) => {
                       <button
                         className='rounded-md border border-red-400 bg-red-50 px-2 py-1 text-sm text-red-500'
                         type='button'
-                        onClick={() => handleDelete(category.id)}
+                        onClick={() => handleDelete(category)}
                       >
                         삭제
                       </button>
@@ -204,6 +259,11 @@ export const Category = ({ onClose }: { onClose: () => void }) => {
                 productSubCategoryData?.map((category: CategoryData) => (
                   <label className='block cursor-pointer' key={category.id}>
                     <input
+                      type='radio'
+                      name='subCategoryList'
+                      value={category.id}
+                      className='peer hidden'
+                      checked={watch('subCategoryList') === category.id}
                       {...(register('subCategoryList'),
                       {
                         onChange: (e) => {
@@ -212,12 +272,13 @@ export const Category = ({ onClose }: { onClose: () => void }) => {
                           productSubCategoryrefetch();
                         },
                       })}
-                      type='radio'
-                      name='subCategoryList'
-                      value={category.id}
-                      className='peer hidden'
                     />
-                    <div className='peer-checked:bg-blue-100'>
+                    <div
+                      className='peer-checked:bg-blue-100'
+                      onClick={() => {
+                        setValue('subCategoryList', category.id);
+                      }}
+                    >
                       <div
                         key={category.id}
                         className='flex justify-between border-b border-neutral-200 px-2 py-1 group-checked/input:bg-neutral-200'
@@ -227,13 +288,18 @@ export const Category = ({ onClose }: { onClose: () => void }) => {
                           <button
                             className='mr-2 rounded-md border border-neutral-400 bg-white px-2 py-1 text-sm text-neutral-500'
                             type='button'
-                            onClick={() => setIsCategoryEdit({ state: true, type: 'edit' })}
+                            value={category.id}
+                            onClick={() => {
+                              setValue('subCategoryList', category.id);
+                              setIsCategoryEdit({ state: true, type: 'edit' });
+                            }}
                           >
                             수정
                           </button>
                           <button
                             className='rounded-md border border-red-400 bg-red-50 px-2 py-1 text-sm text-red-500'
                             type='button'
+                            onClick={() => handleDelete(category)}
                           >
                             삭제
                           </button>
@@ -285,8 +351,14 @@ export const Category = ({ onClose }: { onClose: () => void }) => {
                       name='subSubCategoryList'
                       value={category.id}
                       className='peer hidden'
+                      checked={watch('subSubCategoryList') === category.id}
                     />
-                    <div className='peer-checked:bg-blue-100'>
+                    <div
+                      className='peer-checked:bg-blue-100'
+                      onClick={() => {
+                        setValue('subSubCategoryList', category.id);
+                      }}
+                    >
                       <div
                         key={category.id}
                         className='flex justify-between border-b border-neutral-200 px-2 py-1 group-checked/input:bg-neutral-200'
@@ -296,13 +368,19 @@ export const Category = ({ onClose }: { onClose: () => void }) => {
                           <button
                             className='mr-2 rounded-md border border-neutral-400 bg-white px-2 py-1 text-sm text-neutral-500'
                             type='button'
-                            onClick={() => setIsCategoryEdit({ state: true, type: 'edit' })}
+                            value={category.id}
+                            onClick={(e) => {
+                              const buttonValue = (e.currentTarget as HTMLButtonElement).value;
+                              setValue('subSubCategoryList', buttonValue);
+                              setIsCategoryEdit({ state: true, type: 'edit' });
+                            }}
                           >
                             수정
                           </button>
                           <button
                             className='rounded-md border border-red-400 bg-red-50 px-2 py-1 text-sm text-red-500'
                             type='button'
+                            onClick={() => handleDelete(category)}
                           >
                             삭제
                           </button>
@@ -337,8 +415,8 @@ export const Category = ({ onClose }: { onClose: () => void }) => {
                       <div className='mx-2'>
                         <p className='text-sm text-neutral-500'>
                           {isCategoryEdit.type === 'add'
-                            ? `상위 카테고리 : ${selectedCategory?.id}${selectedCategory ? selectedCategory.name : '없음'}`
-                            : `선택 카테고리 : ${selectedCategory?.id}${selectedCategory?.name}`}
+                            ? `상위 카테고리 : ${selectedCategory ? selectedCategory.name : '없음'}`
+                            : `선택 카테고리 : ${selectedCategory?.name}`}
                         </p>
                         <input
                           {...register('addCategoryName')}
