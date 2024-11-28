@@ -11,8 +11,8 @@ import SaleOrdering from '@/pages/admin/sale/ordering/SaleOrdering';
 import SaleDelivery from '@/pages/admin/sale/delivery/SaleDelivery';
 import BannerPage from '@/pages/admin/store/BannerPage';
 import BestItemPage from '@/pages/admin/store/BestItemPage';
-import { MdsChoicePage } from '@/pages/admin/store/MdsChoicePage';
-import { PromotionPage } from '@/pages/admin/store/PromotionPage';
+import MdsChoicePage from '@/pages/admin/store/MdsChoicePage';
+import PromotionPage from '@/pages/admin/store/PromotionPage';
 
 const AdminRoutes = () => (
   <Routes>

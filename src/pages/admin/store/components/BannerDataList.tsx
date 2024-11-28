@@ -13,7 +13,11 @@ const TableHeadArray = [
   { className: 'w-2/12', title: '삭제/수정' },
 ];
 
-export const BannerDataList = () => {
+type Props = {
+  onEdit: (data: Banner) => void;
+};
+
+const BannerDataList = ({ onEdit }: Props) => {
   const {
     data: bannerList,
     isLoading,
@@ -102,7 +106,7 @@ export const BannerDataList = () => {
                 <td className='w-2/12 border border-neutral-200 py-2'>
                   <button
                     type='button'
-                    onClick={() => {}}
+                    onClick={() => onEdit(item)}
                     className='mb-2 w-3/4 rounded-md bg-blue-500 px-4 py-1 text-white'
                   >
                     수정
@@ -123,3 +127,5 @@ export const BannerDataList = () => {
     </div>
   );
 };
+
+export default BannerDataList;

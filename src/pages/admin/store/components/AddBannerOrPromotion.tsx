@@ -4,6 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { Banner } from '../type';
 
 type BannerFormData = {
   title: string;
@@ -14,20 +15,32 @@ type BannerFormData = {
 
 type locationType = 'banner' | 'promotion';
 
-const AddBannerOrPromotion = ({ location }: { location: locationType }) => {
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+type Props = {
+  location: locationType;
+  isEditing: boolean;
+  editingData: Banner | null;
+  onEditSubmit: () => void;
+};
 
+const AddBannerOrPromotion = ({ location, isEditing, editingData, onEditSubmit }: Props) => {
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const {
     handleSubmit,
     register,
     watch,
-
+    setValue,
     formState: { errors },
   } = useForm<BannerFormData>();
+  const image = watch('image');
 
   const mutation = useMutation<FormData, unknown, FormData>({
     mutationFn: async (formData) => {
-      const { data } = await client.post('banners', formData, {
+      const url = isEditing ? `banners/${editingData?.id}` : 'banners';
+      const method = isEditing ? 'patch' : 'post';
+      const { data } = await client({
+        url,
+        method,
+        data: formData,
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -36,11 +49,12 @@ const AddBannerOrPromotion = ({ location }: { location: locationType }) => {
     },
     onSuccess: (data) => {
       console.log('성공', data);
-      alert('배너가 등록되었습니다.');
+      alert(isEditing ? '수정되었습니다.' : '등록되었습니다.');
+      onEditSubmit();
     },
     onError: (error) => {
       console.log('에러', error);
-      alert('배너 등록에 실패했습니다.');
+      alert(isEditing ? '수정에 실패했습니다.' : '등록에 실패했습니다.');
     },
   });
 
@@ -63,7 +77,15 @@ const AddBannerOrPromotion = ({ location }: { location: locationType }) => {
     mutation.mutate(formData);
   };
 
-  const image = watch('image');
+  useEffect(() => {
+    if (isEditing && editingData) {
+      const { title, sub_title, event_url, image_url } = editingData;
+      setValue('title', title);
+      setValue('sub_title', sub_title);
+      setValue('event_url', event_url);
+      setImagePreview(image_url);
+    }
+  }, [isEditing, editingData, setValue]);
 
   useEffect(() => {
     if (image && image[0]) {
@@ -91,7 +113,9 @@ const AddBannerOrPromotion = ({ location }: { location: locationType }) => {
               <input
                 type='file'
                 accept='image/*'
-                {...register('image', { required: '이미지가 등록되지 않았습니다' })}
+                {...register('image', {
+                  required: !isEditing ? '이미지가 등록되지 않았습니다' : false, // 수정 상태일 때 필수값 제외
+                })}
                 hidden
               />
             </label>
@@ -103,18 +127,16 @@ const AddBannerOrPromotion = ({ location }: { location: locationType }) => {
               type='text'
               label='배너 제목'
               name='title'
-              maxLength={20}
               register={register}
-              registerOptions={{ required: '최대 20자, 메인 노출 텍스트를 작성하세요' }}
+              registerOptions={{ required: '최대 20자, 메인 노출 텍스트를 작성하세요', maxLength: 20 }}
               error={errors.title?.message}
             />
             <Input
               type='text'
               label='배너 소제목'
               name='subTitle'
-              maxLength={20}
               register={register}
-              registerOptions={{ required: '최대 20자, 메인 노출 텍스트를 작성하세요' }}
+              registerOptions={{ required: '최대 20자, 메인 노출 텍스트를 작성하세요', maxLength: 20 }}
               error={errors.sub_title?.message}
             />
             <Input
@@ -132,7 +154,7 @@ const AddBannerOrPromotion = ({ location }: { location: locationType }) => {
                 type='submit'
                 className='block w-1/2 border border-primary bg-primary px-4 py-2 text-base text-secondary duration-700 ease-in-out hover:bg-secondary hover:text-primary'
               >
-                등록
+                {isEditing ? '수정' : '등록'}
               </button>
             </div>
           </div>

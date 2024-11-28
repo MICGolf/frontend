@@ -1,14 +1,31 @@
+import { Input } from '@/components/Input';
 import useTermsModalState from '@/hooks/useModalState/useModalState';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 
 type CheckboxType = '개인정보' | '이용약관';
 
+type SignUpFormData = {
+  id: string;
+  name: string;
+  password: string;
+  passwordRe: string;
+  email: string;
+  phone: string;
+  verification: number;
+};
+
 const SignUpPage = () => {
-  const navigate = useNavigate();
   const { handleModalOpen, renderModalContent } = useTermsModalState();
   const [selectedCheckbox, setSelectedCheckbox] = useState<CheckboxType[]>([]);
   const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
+
+  const {
+    handleSubmit,
+    register,
+    watch,
+    formState: { errors },
+  } = useForm<SignUpFormData>();
 
   const handleToggle = (type: CheckboxType) => {
     setSelectedCheckbox((prev) => (prev.includes(type) ? prev.filter((v) => v !== type) : [...prev, type]));
@@ -19,8 +36,9 @@ const SignUpPage = () => {
     setIsAllChecked((prev) => !prev);
   };
 
-  const handleSignUpSubmit = () => {
-    navigate('/auth/signup/complete', { replace: true });
+  const handleSignUpSubmit = (data: SignUpFormData) => {
+    console.log(data);
+    // navigate('/auth/signup/complete', { replace: true });
   };
 
   useEffect(() => {
@@ -36,47 +54,98 @@ const SignUpPage = () => {
 
       {/* section 2 */}
       <div>
-        <form onSubmit={() => handleSignUpSubmit()} className='flex flex-col gap-[64px]'>
+        <form onSubmit={handleSubmit(handleSignUpSubmit)} className='flex flex-col gap-[64px]'>
           {/* step 1 */}
           <div className='flex flex-col gap-[10px]'>
             <h2 className='text-2xl'>회원 정보</h2>
-            <input
-              className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl'
+            <Input
+              label='이름'
+              name='name'
               type='text'
-              placeholder='이름'
+              register={register}
+              registerOptions={{
+                required: '이름은 필수 입력값입니다.',
+                minLength: {
+                  value: 2,
+                  message: '이름은 최소 2자 이상이어야 합니다.',
+                },
+                maxLength: {
+                  value: 10,
+                  message: '이름은 최대 10자까지 입력 가능합니다.',
+                },
+                pattern: {
+                  value: /^[가-힣a-zA-Z\s]+$/,
+                  message: '이름은 한글, 영문, 공백만 입력 가능합니다.',
+                },
+              }}
+              error={errors?.name?.message}
             />
-            <input
-              className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl'
+            <Input
+              label='아이디'
+              name='id'
               type='text'
-              placeholder='아이디'
+              register={register}
+              registerOptions={{
+                required: '아이디는 필수 입력값입니다.',
+                minLength: {
+                  value: 2,
+                  message: '아이디는 최소 8자 이상이어야 합니다.',
+                },
+                maxLength: {
+                  value: 10,
+                  message: '아이디는 최대 20자까지 입력 가능합니다.',
+                },
+              }}
+              error={errors?.id?.message}
             />
-            <div className='text-right text-error text-opacity-60'>이미 사용중인 아이디 입니다</div>
-            <input
-              className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl'
+            <Input
+              label='비밀번호(특수문자,대문자,숫자 포함, 8자 이상)'
+              name='password'
               type='password'
-              placeholder='비밀번호(대문자,숫자 포함, 8자 이상)'
+              register={register}
+              registerOptions={{
+                required: '비밀번호는 필수 입력값입니다.',
+                pattern: {
+                  value: /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                  message: '비밀번호는 대문자, 숫자, 특수기호를 포함한 8자 이상이어야 합니다.',
+                },
+              }}
+              error={errors?.password?.message}
             />
-            <div className='text-right text-error text-opacity-60'>비밀번호 양식이 올바르지 않습니다</div>
-            <input
-              className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl'
+            <Input
+              label='비밀번호 확인'
+              name='passwordRe'
               type='password'
-              placeholder='비밀번호 확인'
+              register={register}
+              registerOptions={{
+                required: '비밀번호 확인은 필수 입력값입니다',
+                validate: (value) => value === watch('password') || '비밀번호가 일치하지 않습니다',
+              }}
+              error={errors?.passwordRe?.message}
             />
-            <div className='text-right text-error text-opacity-60'>입력한 비밀번호와 일치하지 않습니다</div>
           </div>
 
           {/* step 2 */}
           <div className='flex flex-col gap-[10px]'>
             <h2 className='text-2xl'>회원 연락처</h2>
-            <input
-              className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl'
-              type='text'
-              placeholder='이메일'
-            />
-            <input
-              className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl'
-              type='text'
-              placeholder='전화번호 "-" 없이 입력'
+            <Input label='이메일' name='email' type='email' register={register} registerOptions={{ required: '' }} />
+            <Input
+              label='전화번호 "-" 없이 입력'
+              name='phone'
+              type='number'
+              register={register}
+              registerOptions={{
+                required: '전화번호는 필수 입력값입니다.',
+                minLength: {
+                  value: 11,
+                  message: '전화번호는 11자여야 합니다.',
+                },
+                maxLength: {
+                  value: 11,
+                  message: '전화번호는 11자여야 합니다.',
+                },
+              }}
+              error={errors?.phone?.message}
             />
           </div>
 
@@ -84,12 +153,25 @@ const SignUpPage = () => {
           <div className='flex flex-col gap-[10px]'>
             <h2 className='text-2xl'>전화번호 인증</h2>
             <div className='flex'>
-              <input
-                className='w-full border border-gray100 px-6 py-4 placeholder:text-2xl'
+              <Input
+                label='인증번호'
+                name='verification'
                 type='number'
-                placeholder='인증번호'
+                register={register}
+                registerOptions={{
+                  required: '인증번호를 입력해주세요.',
+                  minLength: {
+                    value: 6,
+                    message: '인증번호는 6자리여야 합니다.',
+                  },
+                  maxLength: {
+                    value: 6,
+                    message: '인증번호는 6자리여야 합니다.',
+                  },
+                }}
+                error={errors?.verification?.message}
               />
-              <button type='button' className='whitespace-nowrap bg-gray100 px-4 py-5 text-gray200'>
+              <button type='button' className='h-[50px] whitespace-nowrap bg-gray100 px-4 py-3 text-gray200'>
                 인증번호 전송
               </button>
             </div>
@@ -160,6 +242,14 @@ const SignUpPage = () => {
               </span>
             </label>
           </div>
+
+          <button
+            type='submit'
+            disabled={!isAllChecked}
+            className={`${isAllChecked ? 'hover:bg-secondary hover:text-primary' : 'opacity-50'} border border-primary bg-primary px-4 py-3 text-secondary transition-colors duration-500`}
+          >
+            가입하기
+          </button>
         </form>
       </div>
       {renderModalContent()}

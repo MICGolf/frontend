@@ -38,7 +38,7 @@ const Section = ({ title, images }: SectionProps) => {
       initial='hidden'
       whileInView='visible'
       viewport={{ once: true, amount: 0.3 }}
-      className='px-6 py-16 md:px-12 md:py-24 lg:px-16 lg:py-32'
+      className='mx-auto max-w-[1920px] px-6 py-16 md:px-12 md:py-24 lg:px-[130px] lg:py-32'
     >
       <motion.h2 variants={itemVariant} className='mb-8 text-2xl font-bold md:text-3xl lg:text-4xl'>
         {title}
@@ -61,7 +61,7 @@ const Section = ({ title, images }: SectionProps) => {
                 <button 
                   class="${className} relative focus:outline-none !my-6 !py-4 !bg-transparent !m-0 w-full"
                 >
-                  <div class="h-1 w-full transition-all duration-300 bg-black">
+                  <div class="h-[2px] w-full transition-all duration-300 bg-black">
                   </div>
                 </button>
                 `;

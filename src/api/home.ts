@@ -26,5 +26,5 @@ type PromotionOrMdsChoiceType = {
 };
 
 export const getBestProductOrMdsChoice = async ({ type }: PromotionOrMdsChoiceType) => {
-  return client.get('/promotion-products', { params: { promotion_type: type } });
+  return client.get('/promotion-products/get-list', { params: { promotion_type: type } });
 };

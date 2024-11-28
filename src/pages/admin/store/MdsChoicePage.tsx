@@ -1,7 +1,7 @@
-import { MdsChoiceDataList } from './components/MdsChoiceDataList';
+import MdsChoiceDataList from './components/MdsChoiceDataList';
 import AddBestItemOrMdsChoice from './components/AddBestItemOrMdsChoice';
 
-export const MdsChoicePage = () => {
+const MdsChoicePage = () => {
   return (
     <>
       <AddBestItemOrMdsChoice location='md_pick' />

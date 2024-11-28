@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { homeApi } from '@/api';
 import { client } from '@/api/client';
 
@@ -20,9 +20,12 @@ export type SectionDataType = {
   product_name: string;
   promotion_type: 'best' | 'md_pick';
   image_url: string;
+  product_code: string;
 };
 
-export const MdsChoiceDataList = () => {
+const MdsChoiceDataList = () => {
+  const queryClient = useQueryClient();
+
   const {
     data: mdsChoiceList,
     isLoading,
@@ -36,13 +39,19 @@ export const MdsChoiceDataList = () => {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: async (id: number) => {
-      const response = await client.delete(`/promotion-products/${id}`);
+    mutationFn: async (product_code: string) => {
+      const response = await client.delete(`/promotion-products/delete`, {
+        params: {
+          product_code,
+          promotion_type: 'md_pick',
+        },
+      });
       return response.data;
     },
     onSuccess: (data) => {
       console.log('data:', data);
       alert('성공적으로 삭제되었습니다.');
+      queryClient.invalidateQueries({ queryKey: ['mdsChoiceList'] });
     },
     onError: (error) => {
       console.log(error);
@@ -90,7 +99,7 @@ export const MdsChoiceDataList = () => {
                 <td className='w-2/12 border border-neutral-200 py-2'>
                   <button
                     type='button'
-                    onClick={() => deleteMutation.mutate(item.product_id)}
+                    onClick={() => deleteMutation.mutate(item.product_code)}
                     className='w-3/4 rounded-md bg-red-500 px-4 py-1 text-white'
                   >
                     삭제
@@ -104,3 +113,5 @@ export const MdsChoiceDataList = () => {
     </div>
   );
 };
+
+export default MdsChoiceDataList;

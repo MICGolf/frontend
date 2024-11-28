@@ -21,8 +21,9 @@ const AddBestItemOrMdsChoice = ({ location }: Props) => {
 
   const mutation = useMutation({
     mutationFn: async (data: FormValues) => {
-      const response = await client.post('/promotion-products', {
+      const response = await client.post('/promotion-products/add', {
         promotion_type: location,
+        is_active: true,
         product_code: data.productCode,
       });
 
@@ -52,9 +53,8 @@ const AddBestItemOrMdsChoice = ({ location }: Props) => {
             type='text'
             label='상품 번호'
             name='productCode'
-            maxLength={20}
             register={register}
-            registerOptions={{ required: '상품 코드를 작성하세요.' }}
+            registerOptions={{ required: '상품 코드를 작성하세요.', maxLength: 20 }}
             error={errors.productCode?.message}
           />
         </div>

@@ -8,7 +8,6 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   register: UseFormRegister<any>;
   registerOptions?: RegisterOptions;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  maxLength?: number;
   error?: string;
   className?: string;
 }
@@ -36,22 +35,11 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
  * @param {UseFormRegister<any>} props.register - react-hook-form의 register 함수
  * @param {RegisterOptions} props.registerOptions - react-hook-form의 register 함수의 옵션
  * @param {(e: React.ChangeEvent<HTMLInputElement>) => void} props.onChange - input 필드의 onChange 이벤트 핸들러
- * @param {number} props.maxLength - input 필드의 최대 길이
  * @param {string} props.error - input 필드의 에러 메시지
  * @param {string} props.className - 추가적인 CSS 클래스 (tailwindcss)
  * @returns
  */
-export const Input = ({
-  className,
-  label,
-  name,
-  register,
-  registerOptions,
-  error,
-  onChange,
-  type,
-  maxLength,
-}: InputProps) => {
+export const Input = ({ className, label, name, register, registerOptions, error, onChange, type }: InputProps) => {
   const { onChange: registerOnChange, ...registerRest } = register(name, registerOptions);
 
   const inputStyle = `${className} ${
@@ -74,7 +62,6 @@ export const Input = ({
         id={name}
         type={type}
         placeholder={label}
-        maxLength={maxLength}
         className={inputStyle}
         {...registerRest}
         onChange={handleChange}

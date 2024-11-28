@@ -1,4 +1,4 @@
-import { BestItemDataList } from './components/BestItemDataList';
+import BestItemDataList from './components/BestItemDataList';
 import AddBestItemOrMdsChoice from './components/AddBestItemOrMdsChoice';
 
 const BestItemPage = () => {

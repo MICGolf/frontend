@@ -195,9 +195,8 @@ const CheckoutPage = () => {
                   label='우편번호'
                   name='zoneCode'
                   register={register}
-                  registerOptions={{ required: '우편번호를 입력해주세요' }}
+                  registerOptions={{ required: '우편번호를 입력해주세요', maxLength: 5 }}
                   error={errors.zoneCode?.message}
-                  maxLength={5}
                   onChange={(e) => {
                     const value = e.target.value.replace(/[^0-9]/g, ''); // 숫자만 입력
                     setValue('zoneCode', value, { shouldValidate: true }); // 검증 실행
