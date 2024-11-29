@@ -65,7 +65,11 @@ const ProductList = ({
   const handlePatchStatus = (id: number[], status: string) => {
     patchStatusMutation.mutate({ id, status });
   };
-  console.log(checkedList);
+
+  const handleChangeClick = (product: ProductListType) => {
+    navigate('/admin/product/add', { state: { editingData: product } });
+  };
+
   return (
     <SectionBox title={`상품목록 총(${productListArray?.length}개)`} selectOptions={true} setPageLimit={setPageLimit}>
       <div className='px-5'>
@@ -101,7 +105,7 @@ const ProductList = ({
                 <div className='flex w-2/12 items-center justify-center'>
                   <button
                     type='button'
-                    onClick={() => {}}
+                    onClick={() => handleChangeClick(item)}
                     className='block w-3/4 rounded-md bg-blue-500 px-4 py-2 text-base text-white duration-300 ease-in-out hover:scale-105'
                   >
                     수정
