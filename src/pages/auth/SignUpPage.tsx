@@ -1,7 +1,10 @@
+import { client } from '@/api/client';
 import { Input } from '@/components/Input';
+import { useAuthStore } from '@/config/store';
 import useTermsModalState from '@/hooks/useModalState/useModalState';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 type CheckboxType = '개인정보' | '이용약관';
 
@@ -19,12 +22,16 @@ const SignUpPage = () => {
   const { handleModalOpen, renderModalContent } = useTermsModalState();
   const [selectedCheckbox, setSelectedCheckbox] = useState<CheckboxType[]>([]);
   const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const { setUser } = useAuthStore();
 
   const {
     handleSubmit,
     register,
     watch,
     formState: { errors },
+    setError,
+    clearErrors,
   } = useForm<SignUpFormData>();
 
   const handleToggle = (type: CheckboxType) => {
@@ -36,9 +43,39 @@ const SignUpPage = () => {
     setIsAllChecked((prev) => !prev);
   };
 
-  const handleSignUpSubmit = (data: SignUpFormData) => {
-    console.log(data);
-    // navigate('/auth/signup/complete', { replace: true });
+  const handleSignUpSubmit = async (data: SignUpFormData) => {
+    const signUp = async () => {
+      return client.post('auth/sign-up', {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        login_id: data.id,
+        password: data.password,
+        password2: data.passwordRe,
+      });
+    };
+
+    const login = async () => {
+      return client.post('auth/login', { login_id: data.id, password: data.password });
+    };
+
+    try {
+      const signUpResponse = await signUp();
+
+      if (signUpResponse.status === 201) {
+        const loginResponse = await login();
+
+        setUser({
+          id: loginResponse.data.login_id,
+          name: loginResponse.data.name,
+        });
+        localStorage.setItem('accessToken', loginResponse.data.access_token);
+
+        navigate('/auth/signup/complete', { state: { user: data }, replace: true });
+      }
+    } catch (error) {
+      console.error('회원가입 중 오류 발생: ', error);
+    }
   };
 
   useEffect(() => {
@@ -46,6 +83,19 @@ const SignUpPage = () => {
       ? setIsAllChecked(true)
       : setIsAllChecked(false);
   }, [selectedCheckbox]);
+
+  const handleDuplicateCheckId = async () => {
+    try {
+      const response = await client.get(`auth/check-login-id?login_id=${watch('id')}`);
+      if (response.status === 422) {
+        setError('id', { type: 'manual', message: '이미 사용중인 아이디입니다.' });
+      } else {
+        clearErrors('id');
+      }
+    } catch (error) {
+      setError('id', { type: 'manual', message: '중복 확인 중 문제가 발생했습니다. 다시 시도해주세요.' });
+    }
+  };
 
   return (
     <div className='mx-auto mt-[100px] flex max-w-[700px] flex-col gap-[64px] py-[88px]'>
@@ -80,24 +130,33 @@ const SignUpPage = () => {
               }}
               error={errors?.name?.message}
             />
-            <Input
-              label='아이디'
-              name='id'
-              type='text'
-              register={register}
-              registerOptions={{
-                required: '아이디는 필수 입력값입니다.',
-                minLength: {
-                  value: 2,
-                  message: '아이디는 최소 8자 이상이어야 합니다.',
-                },
-                maxLength: {
-                  value: 10,
-                  message: '아이디는 최대 20자까지 입력 가능합니다.',
-                },
-              }}
-              error={errors?.id?.message}
-            />
+            <div className='flex'>
+              <Input
+                label='아이디'
+                name='id'
+                type='text'
+                register={register}
+                registerOptions={{
+                  required: '아이디는 필수 입력값입니다.',
+                  minLength: {
+                    value: 2,
+                    message: '아이디는 최소 8자 이상이어야 합니다.',
+                  },
+                  maxLength: {
+                    value: 10,
+                    message: '아이디는 최대 20자까지 입력 가능합니다.',
+                  },
+                }}
+                error={errors?.id?.message}
+              />
+              <button
+                onClick={handleDuplicateCheckId}
+                type='button'
+                className='h-[50px] w-[124px] whitespace-nowrap bg-primary px-4 py-3 text-secondary'
+              >
+                중복확인
+              </button>
+            </div>
             <Input
               label='비밀번호(특수문자,대문자,숫자 포함, 8자 이상)'
               name='password'
@@ -171,7 +230,10 @@ const SignUpPage = () => {
                 }}
                 error={errors?.verification?.message}
               />
-              <button type='button' className='h-[50px] whitespace-nowrap bg-gray100 px-4 py-3 text-gray200'>
+              <button
+                type='button'
+                className='h-[50px] w-[124px] whitespace-nowrap bg-primary px-4 py-3 text-secondary'
+              >
                 인증번호 전송
               </button>
             </div>
