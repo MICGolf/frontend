@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useAuthStore } from '@/config/store';
 import { useCartSelection } from '@/hooks/useCartSelection';
 import useCartCalculations from '@/hooks/useCartCalculations';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +10,7 @@ import CartItem from './components/CartItem';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import SelectAllCheckBox from './components/SelectAllCheckBox';
 import CartItemSkeleton from './components/skeletons/CartItemSkeleton';
+import { useAuthStore } from '@/config/store';
 // import { useCart } from '@/hooks/useCart';
 
 const CartPage = () => {
