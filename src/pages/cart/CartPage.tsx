@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useUserStore } from '@/config/store';
+import { useAuthStore } from '@/config/store';
 import { useCartSelection } from '@/hooks/useCartSelection';
 import useCartCalculations from '@/hooks/useCartCalculations';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +14,7 @@ import CartItemSkeleton from './components/skeletons/CartItemSkeleton';
 // import { useCart } from '@/hooks/useCart';
 
 const CartPage = () => {
-  const { user } = useUserStore();
+  const { user } = useAuthStore();
   // const { cartItems, syncGuestCartToUser } = useCart();
   const [cartItems] = useLocalStorage('cartItems', []);
   const [isLoading, setIsLoading] = useState(true);

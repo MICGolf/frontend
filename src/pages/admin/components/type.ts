@@ -11,7 +11,9 @@ export interface SectionBoxProps {
   title: string;
   selectOptions?: boolean;
   border?: boolean;
-  setPageLimit?: (limit: string) => void;
+  pageLimit?: number;
+  setPageLimit?: (limit: number) => void;
+  setSearchParams?: (params: number) => void;
 }
 
 export interface CategoryData {

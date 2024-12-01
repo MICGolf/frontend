@@ -26,10 +26,12 @@ const ProductList = ({
   handleShowPopup,
   page,
   setPage,
+  pageLimit,
   setPageLimit,
   isPending,
   error,
   setQuantitPopupData,
+  setSearchParams,
 }: ProductListProps) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -71,7 +73,13 @@ const ProductList = ({
   };
 
   return (
-    <SectionBox title={`상품목록 총(${productListArray?.length}개)`} selectOptions={true} setPageLimit={setPageLimit}>
+    <SectionBox
+      title={`상품목록 총(${productListArray?.length}개)`}
+      selectOptions={true}
+      pageLimit={pageLimit}
+      setPageLimit={setPageLimit}
+      setSearchParams={setSearchParams}
+    >
       <div className='px-5'>
         <ListHeader
           HeaderListArray={ListHeaderArray}

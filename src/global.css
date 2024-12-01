@@ -52,3 +52,8 @@ input[type='number'] {
 .swiper-pagination-bullet-active {
   background-color: black; /* 활성화된 점 색상 */
 }
+
+select:disabled {
+  z-index: 1;
+  position: relative;
+}
