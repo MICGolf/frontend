@@ -177,8 +177,8 @@ const SignUpPage = () => {
               type='password'
               register={register}
               registerOptions={{
-                required: '비밀번호 확인은 필수 입력값입니다',
-                validate: (value) => value === watch('password') || '비밀번호가 일치하지 않습니다',
+                required: '비밀번호 확인은 필수 입력값입니다.',
+                validate: (value) => value === watch('password') || '비밀번호가 일치하지 않습니다.',
               }}
               error={errors?.passwordRe?.message}
             />

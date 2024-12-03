@@ -1,4 +1,4 @@
-import comepleteCheck from '@/assets/icons/completeCheck.svg';
+import completeCheck from '@/assets/icons/completeCheck.svg';
 import { Link, useLocation } from 'react-router-dom';
 
 type FindIdData = {
@@ -16,7 +16,7 @@ const FindIdCompletePage = () => {
   return (
     <div className='mx-auto flex max-w-[700px] flex-col items-center gap-[64px] py-[88px]'>
       <div className='flex flex-col items-center gap-4'>
-        <img src={comepleteCheck} alt='성공 체크 아이콘' />
+        <img src={completeCheck} alt='성공 체크 아이콘' />
         <div className='text-5xl font-[500]'>회원 정보를 찾았어요!</div>
       </div>
 
