@@ -29,13 +29,11 @@ const SignInPage = () => {
   const handleSocialLogin = (type: LoginType) => {
     switch (type) {
       case 'kakao': {
-        localStorage.setItem('loginType', 'kakao');
         window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${VITE_KAKAO_REST_API_KEY}&redirect_uri=${VITE_KAKAO_REDIRECT_URI}`;
         break;
       }
       case 'naver': {
-        localStorage.setItem('loginType', 'naver');
-        window.location.href = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${VITE_NAVER_CLIENT_ID}&redirect_uri=${VITE_NAVER_REDIRECT_URI}&state=STATE_STRING`;
+        window.location.href = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${VITE_NAVER_CLIENT_ID}&redirect_uri=${VITE_NAVER_REDIRECT_URI}&state=${Date.now()}`;
         break;
       }
     }

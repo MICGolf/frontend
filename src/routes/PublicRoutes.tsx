@@ -9,7 +9,6 @@ import EventMainPage from '@/pages/event/EventMainPage';
 import EventDetailPage from '@/pages/event/EventDetailPage';
 import SignInPage from '@/pages/auth/SignInPage';
 import SignUpPage from '@/pages/auth/SignUpPage';
-import OauthCallbackPage from '@/pages/auth/OauthCallbackPage';
 import MyPage from '@/pages/mypage/MyPage';
 import CartPage from '@/pages/cart/CartPage';
 import CheckoutPage from '@/pages/checkout/CheckoutPage';
@@ -22,6 +21,8 @@ import AuthInitializer from './AuthInitializer';
 import FindIdCompletePage from '@/pages/auth/FindIdCompletePage';
 import FindPwCompletePage from '@/pages/auth/FindPwCompletePage';
 import FindPwChangePage from '@/pages/auth/FindPwChangePage';
+import KakaoCallbackPage from '@/pages/auth/KakaoCallbackPage';
+import NaverCallbackPage from '@/pages/auth/NaverCallbackPage';
 
 const PublicRoutes = () => (
   <Routes>
@@ -46,7 +47,8 @@ const PublicRoutes = () => (
         <Route path='/auth/findPw' element={<FindPwPage />} />
         <Route path='/auth/reset-password' element={<FindPwChangePage />} />
         <Route path='/auth/findPw/complete' element={<FindPwCompletePage />} />
-        <Route path='/auth/callback' element={<OauthCallbackPage />} />
+        <Route path='/auth/callback/kakao' element={<KakaoCallbackPage />} />
+        <Route path='/auth/callback/naver' element={<NaverCallbackPage />} />
 
         {/* 장바구니 */}
         <Route path='/cart' element={<CartPage />} />
