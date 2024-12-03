@@ -10,7 +10,6 @@ const NaverCallbackPage = () => {
     const fetchOauthCodePost = async () => {
       const code = searchParams.get('code');
       const state = searchParams.get('state');
-      console.log(state);
 
       if (!code) {
         throw new Error('인가 코드가 누락되었습니다.');
@@ -25,12 +24,12 @@ const NaverCallbackPage = () => {
         console.log('인가코드 전송성공: ', response.data);
         localStorage.setItem('accessToken', response.data.access_token);
 
-        // navigate('/');
+        navigate('/');
         return response.data;
       } catch (error) {
         console.error(error);
         alert('로그인 중 에러가 발생했습니다.');
-        // navigate('/auth/signin', { replace: true });
+        navigate('/auth/signin', { replace: true });
       }
     };
 
