@@ -71,7 +71,7 @@ const SignUpPage = () => {
         });
         localStorage.setItem('accessToken', loginResponse.data.access_token);
 
-        navigate('/auth/signup/complete', { state: { user: data }, replace: true });
+        navigate('/auth/signup/complete', { state: { user: data } });
       }
     } catch (error) {
       console.error('회원가입 중 오류 발생: ', error);

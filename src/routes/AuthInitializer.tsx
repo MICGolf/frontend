@@ -10,6 +10,9 @@ const AuthInitializer = () => {
 
   useEffect(() => {
     const initializeAuth = async () => {
+      // INFO: 첫 요청 이후 발생되는 훅 실행 막기 위한 장치
+      if (isInitialized) return;
+
       const accessToken = localStorage.getItem('accessToken');
 
       if (!accessToken) {
@@ -20,7 +23,7 @@ const AuthInitializer = () => {
 
       // INFO: 사용자 정보 조회, accessToken이 유효한지 체크하는 API
       try {
-        const response = await client.get('/auth/validate', {
+        const response = await client.get('/auth/protected', {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
 
@@ -40,7 +43,7 @@ const AuthInitializer = () => {
     };
 
     initializeAuth();
-  }, [setUser, clearUser, navigate]);
+  }, [navigate, setUser, clearUser]);
 
   if (!isInitialized) return;
 
