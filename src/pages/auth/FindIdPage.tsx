@@ -59,7 +59,7 @@ const FindIdPage = () => {
 
   return (
     <div className='mx-auto mt-[100px] flex max-w-[700px] flex-col gap-[64px] py-[88px]'>
-      <div className='text-4xl font-[500]'>이메일 찾기</div>
+      <div className='text-4xl font-[500]'>아이디 찾기</div>
       <div>
         <form onSubmit={handleSubmit(handleFindIdClick)} className='flex flex-col'>
           <div className='flex flex-col gap-[10px]'>

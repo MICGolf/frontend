@@ -19,6 +19,8 @@ import SignUpCompletePage from '@/pages/auth/SignUpCompletePage';
 import FindPwPage from '@/pages/auth/FindPwPage';
 import FindIdPage from '@/pages/auth/FindIdPage';
 import AuthInitializer from './AuthInitializer';
+import FindIdCompletePage from '@/pages/auth/FindIdCompletePage';
+import FindPwCompletePage from '@/pages/auth/FindPwCompletePage';
 
 const PublicRoutes = () => (
   <Routes>
@@ -38,8 +40,10 @@ const PublicRoutes = () => (
         <Route path='/auth/signin' element={<SignInPage />} />
         <Route path='/auth/signup' element={<SignUpPage />} />
         <Route path='/auth/signup/complete' element={<SignUpCompletePage />} />
-        <Route path='/auth/findPw' element={<FindPwPage />} />
         <Route path='/auth/findId' element={<FindIdPage />} />
+        <Route path='/auth/findId/complete' element={<FindIdCompletePage />} />
+        <Route path='/auth/findPw' element={<FindPwPage />} />
+        <Route path='/auth/findPw/complete' element={<FindPwCompletePage />} />
         <Route path='/auth/callback' element={<OauthCallbackPage />} />
 
         {/* 장바구니 */}
@@ -54,8 +58,6 @@ const PublicRoutes = () => (
 
         {/* 메인 */}
         <Route path='/' element={<HomePage />} />
-
-        {/* PublicRoute */}
 
         <Route element={<ProtectPrivateRoute />}>
           <Route path='/mypage' element={<MyPage />} />

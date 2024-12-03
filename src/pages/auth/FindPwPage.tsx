@@ -3,62 +3,56 @@ import { Link } from 'react-router-dom';
 import comepleteCheck from '@/assets/icons/completeCheck.svg';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/Input';
+import { client } from '@/api/client';
 
 interface UserInfo {
   name: string | null;
-  email: string | null;
-  phone: number | null;
-  verification: number | null;
+  id: string | null;
 }
 
 const FindPwPage = () => {
   const [isVerified, setIsVerified] = useState<boolean>(false);
-  // const [userInfo, setUserInfo] = useState<UserInfo>({
-  //   name: null,
-  //   email: null,
-  //   phone: null,
-  //   verification: null,
-  // });
   const [newPw, setNewPw] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<UserInfo>();
 
   const handleFindPwClick = async () => {
-    // try {
-    //   // TODO: email, 휴대폰 인증 번호에 대한 값을 validation 할 수 있는 뭔가가 필요함.
-    //   const response = await client.post('/api/auth/findPw', {
-    //     name: userInfo.name,
-    //     email: userInfo.email,
-    //     number: userInfo.verification,
-    //   });
+    console.log(watch('id'));
+    console.log(watch('name'));
+    try {
+      // TODO: email, 휴대폰 인증 번호에 대한 값을 validation 할 수 있는 뭔가가 필요함.
+      const response = await client.post('/auth/request-password-reset', {
+        name: watch('name'),
+        login_id: watch('id'),
+      });
 
-    //   if (response.status === 200) {
-    //     setIsVerified(true);
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // }
-    setIsVerified(true);
+      if (response.status === 200) {
+        setIsVerified(true);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleChangePwClick = async () => {
-    // if (isVerified) {
-    //   try {
-    //     const response = await client.post('/api/auth/changePw', { newPw });
+    if (isVerified) {
+      try {
+        const response = await client.post('/reset-password', { newPw });
 
-    //     if (response.status === 200) {
-    //       setIsSuccess(true);
-    //       alert('비밀번호가 변경되었습니다');
-    //     }
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // }
+        if (response.status === 200) {
+          setIsSuccess(true);
+          alert('비밀번호가 변경되었습니다');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
     console.log(newPw);
 
     if (isVerified) {
@@ -124,56 +118,13 @@ const FindPwPage = () => {
                 }}
                 error={errors?.name?.message}
               />
-              <Input label='이메일' name='email' type='email' register={register} registerOptions={{ required: '' }} />
               <Input
-                label='전화번호 "-" 없이 입력'
-                name='phone'
-                type='number'
+                label='아이디'
+                name='id'
+                type='text'
                 register={register}
-                registerOptions={{
-                  required: '전화번호는 필수 입력값입니다.',
-                  minLength: {
-                    value: 11,
-                    message: '전화번호 형식이 올바르지 않습니다.',
-                  },
-                  maxLength: {
-                    value: 11,
-                    message: '전화번호 형식이 올바르지 않습니다.',
-                  },
-                }}
-                error={errors?.phone?.message}
+                registerOptions={{ required: '아이디는 필수 항목입니다.' }}
               />
-            </div>
-
-            <div className='flex flex-col gap-[10px]'>
-              <div className='text-2xl'>전화번호 인증</div>
-              <div className='flex'>
-                <Input
-                  label='인증번호'
-                  name='verification'
-                  type='number'
-                  register={register}
-                  registerOptions={{
-                    required: '인증번호를 입력해주세요.',
-                    minLength: {
-                      value: 6,
-                      message: '인증번호는 6자리여야 합니다.',
-                    },
-                    maxLength: {
-                      value: 6,
-                      message: '인증번호는 6자리여야 합니다.',
-                    },
-                  }}
-                  error={errors?.verification?.message}
-                />
-                <button
-                  onClick={() => handleVerifyCodeClick()}
-                  type='button'
-                  className='h-[50px] whitespace-nowrap bg-gray100 px-4 py-3 text-gray200'
-                >
-                  인증번호 전송
-                </button>
-              </div>
             </div>
           </form>
         )}
