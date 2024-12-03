@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const FindPwCompletePage = () => {
   return (
-    <div className='mx-auto flex max-w-[700px] flex-col items-center gap-[64px] py-[88px]'>
+    <div className='mx-auto mt-[100px] flex max-w-[700px] flex-col items-center gap-[64px] py-[88px]'>
       <div className='flex flex-col items-center gap-4'>
         <img src={completeCheck} alt='성공 체크 아이콘' />
         <div className='text-5xl font-[500]'>비밀번호 변경이 완료되었습니다!</div>

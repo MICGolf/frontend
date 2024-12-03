@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/Input';
 import { client } from '@/api/client';
@@ -9,8 +9,6 @@ type UserInfo = {
 };
 
 const FindPwPage = () => {
-  const navigate = useNavigate();
-
   const {
     register: registerInfo,
     handleSubmit: handleSubmitInfo,
@@ -26,10 +24,11 @@ const FindPwPage = () => {
       });
 
       if (response.status === 200) {
-        navigate('/auth/findPw/change', { replace: true, state: response.data });
+        alert('가입 시 입력하신 이메일 주소로 비밀번호 재설정 링크가 전송되었습니다. 메일을 확인해주세요.');
       }
     } catch (error) {
       console.error(error);
+      alert('일치하는 정보가 없습니다.');
     }
   };
 

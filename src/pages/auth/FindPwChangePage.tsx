@@ -1,6 +1,8 @@
 import { client } from '@/api/client';
 import { Input } from '@/components/Input';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 type Pw = {
   password: string | null;
@@ -8,22 +10,37 @@ type Pw = {
 };
 
 const FindPwChangePage = () => {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  console.log(searchParams.get('token'));
+
+  useEffect(() => {
+    if (searchParams.get('token') === null) {
+      navigate('/', { replace: true });
+    }
+  }, []);
+
   const {
     register,
     handleSubmit,
-    watch: watchPw,
+    watch,
     formState: { errors },
   } = useForm<Pw>();
 
   const handleChangePwClick = async () => {
     try {
-      const response = await client.post('/reset-password', {});
-
+      const response = await client.post('/reset-password', {
+        token: searchParams.get('token'),
+        new_password: watch('password'),
+        new_password2: watch('passwordRe'),
+      });
       if (response.status === 200) {
         alert('비밀번호가 변경되었습니다');
+        navigate('/auth/signin/complete', { replace: true });
       }
     } catch (error) {
       console.error(error);
+      alert('비밀번호 변경에 실패했습니다. 다시 시도해주세요.');
     }
   };
 
@@ -57,7 +74,7 @@ const FindPwChangePage = () => {
             register={register}
             registerOptions={{
               required: '비밀번호 확인은 필수 항목입니다.',
-              validate: (value) => value === watchPw('password') || '비밀번호가 일치하지 않습니다.',
+              validate: (value) => value === watch('password') || '비밀번호가 일치하지 않습니다.',
             }}
             error={errors.passwordRe?.message}
           />

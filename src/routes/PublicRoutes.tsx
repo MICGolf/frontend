@@ -21,6 +21,7 @@ import FindIdPage from '@/pages/auth/FindIdPage';
 import AuthInitializer from './AuthInitializer';
 import FindIdCompletePage from '@/pages/auth/FindIdCompletePage';
 import FindPwCompletePage from '@/pages/auth/FindPwCompletePage';
+import FindPwChangePage from '@/pages/auth/FindPwChangePage';
 
 const PublicRoutes = () => (
   <Routes>
@@ -43,6 +44,7 @@ const PublicRoutes = () => (
         <Route path='/auth/findId' element={<FindIdPage />} />
         <Route path='/auth/findId/complete' element={<FindIdCompletePage />} />
         <Route path='/auth/findPw' element={<FindPwPage />} />
+        <Route path='/auth/reset-password' element={<FindPwChangePage />} />
         <Route path='/auth/findPw/complete' element={<FindPwCompletePage />} />
         <Route path='/auth/callback' element={<OauthCallbackPage />} />
 
