@@ -25,8 +25,6 @@ const HistoryFab = () => {
   const history = localStorage.getItem('history');
   const historyData: HistoryType[] = history ? JSON.parse(history) : [];
 
-  console.log('historyData', historyData);
-
   return (
     showHistoryFabViewMinWidth && (
       <>

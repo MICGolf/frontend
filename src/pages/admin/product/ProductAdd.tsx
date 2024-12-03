@@ -9,6 +9,7 @@ import { categoryApi, productsApi } from '@/api';
 import { CategoryData } from '../components/type';
 import { ColorOption } from './components/ColorOption';
 import SizeArray from './components/SizeArray';
+import { useLocation } from 'react-router-dom';
 
 interface Size {
   sizeName: string;
@@ -48,6 +49,9 @@ const ProductAdd = () => {
       discountOption: 'amount',
     },
   });
+  const location = useLocation();
+  const editingData = location.state?.editingData;
+
   const {
     handleSubmit,
     register,
@@ -162,6 +166,15 @@ const ProductAdd = () => {
     fetchCategories();
   }, []);
 
+  console.log();
+
+  useEffect(() => {
+    if (editingData) {
+      setValue('productName', editingData.product.name);
+      setValue('productPrice', editingData.product.price);
+    }
+  }, []);
+
   const mainCategory = watch('mainCategory');
   const subCategory = watch('subCategory');
 
@@ -181,6 +194,19 @@ const ProductAdd = () => {
   useEffect(() => {
     setValue('subSubCategory', '');
   }, [subCategory]);
+
+  useEffect(() => {
+    if (editingData) {
+      setValue('productName', editingData.product.name);
+      setValue('productCode', editingData.product.product_code);
+      setValue('description', editingData.product.description);
+      setValue('features', editingData.product.detail);
+      setValue('productPrice', editingData.product.origin_price);
+      setValue('discountOption', editingData.product.discount_option);
+    }
+  }, [editingData, setValue]);
+
+  console.log(Object.entries(editingData));
 
   const handlePostProducts = async (data: ProductFormData) => {
     // 가장 하위 카테고리 ID를 추출

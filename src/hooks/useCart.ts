@@ -1,10 +1,10 @@
 import { client } from '@/api/client';
 import { CartItemData } from '@/assets/dummys/types';
-import { useUserStore } from '@/config/store';
+import { useAuthStore } from '@/config/store';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const useCart = () => {
-  const { user } = useUserStore();
+  const { user } = useAuthStore();
   const queryClient = useQueryClient();
 
   const getGuestCartItems = () => {
