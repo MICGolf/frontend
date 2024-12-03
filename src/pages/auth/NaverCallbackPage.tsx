@@ -16,9 +16,8 @@ const NaverCallbackPage = () => {
       }
 
       try {
-        const response = await client.post('/oauth/naver', {
+        const response = await client.post(`oauth/naver?state=${state}`, {
           social_type: 'naver',
-          state,
           code,
         });
         console.log('인가코드 전송성공: ', response.data);
