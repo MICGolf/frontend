@@ -30,8 +30,6 @@ const DetailPage = () => {
     enabled: !hasCachedData,
   });
 
-  console.log(new Date().toISOString().slice(0, 10));
-
   const getHistoryFromLocalStorage = useCallback(() => {
     const history = localStorage.getItem('history');
     return history ? JSON.parse(history) : [];

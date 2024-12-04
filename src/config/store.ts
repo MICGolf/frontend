@@ -11,9 +11,17 @@ export const useMobileScrollStore = create<MobileStore>((set) => ({
   setIsMobileMode: () => set((state) => ({ isMobileMode: !state.isMobileMode })),
 }));
 
+type User = {
+  isa: string;
+  iss: string;
+  user_id: number;
+  user_name: string;
+  user_type: 'guest' | 'admin';
+};
+
 type AuthState = {
-  user: { id: string; name: string } | null;
-  setUser: (user: { id: string; name: string } | null) => void;
+  user: User | null;
+  setUser: (user: User | null) => void;
   clearUser: () => void;
 };
 

@@ -11,8 +11,6 @@ const FindIdCompletePage = () => {
   const { data }: { data: FindIdData } = location.state;
   console.log(location);
 
-  data.login_type;
-
   return (
     <div className='mx-auto mt-[100px] flex max-w-[700px] flex-col items-center gap-[64px] py-[88px]'>
       <div className='flex flex-col items-center gap-4'>

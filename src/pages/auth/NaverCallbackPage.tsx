@@ -16,11 +16,15 @@ const NaverCallbackPage = () => {
       }
 
       try {
-        const response = await client.post('/oauth/naver', {
-          social_type: 'naver',
-          state,
-          code,
-        });
+        const response = await client.post(
+          `oauth/naver?state=${state}`,
+          {},
+          {
+            headers: {
+              code,
+            },
+          }
+        );
         console.log('인가코드 전송성공: ', response.data);
         localStorage.setItem('accessToken', response.data.access_token);
 

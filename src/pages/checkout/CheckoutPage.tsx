@@ -7,7 +7,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import dropDownIco from '@/assets/icons/dropDownIco.svg';
 import kakaopay from '@/assets/icons/kakaopay.svg';
 import { Input } from '@/components/Input';
-import * as PortOne from '@portone/browser-sdk/v2';
 import PaymentItem from './\bcomponents/PaymentItem';
 import PaymentItemMobile from './\bcomponents/PaymentItemMobile';
 
@@ -29,9 +28,8 @@ const CheckoutPage = () => {
   const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
   const disabled = selectedCheckbox.includes('개인정보') && selectedCheckbox.includes('이용약관') ? false : true;
 
-  const methods = useForm<CheckoutFormData>({
-    mode: 'onChange',
-  });
+  const methods = useForm<CheckoutFormData>();
+
   const {
     handleSubmit,
     register,
@@ -95,17 +93,6 @@ const CheckoutPage = () => {
       : setIsAllChecked(false);
   }, [selectedCheckbox]);
 
-  if (!location.state) {
-    return (
-      <div className='flex items-center justify-center pt-[300px]'>
-        <div className='text-[48px]'>
-          1. POST 주문번호 요청 <br />
-          2. Response.주문번호를 기반으로 결제 요청
-        </div>
-      </div>
-    );
-  }
-
   // FIXME: 로케이션 상태로 받아오는게 아니라 주문번호 요청 및 응답을 통해 받아온 데이터로 처리
   const { items, totalDeliveryFee, totalPrice } = location.state as {
     items: CartItemData[];
@@ -114,7 +101,8 @@ const CheckoutPage = () => {
   };
 
   // INFO: PortOne 결제 로직
-  const handlePaymentClick = async (data: any) => {
+  const handlePaymentClick = async (data: CheckoutFormData) => {
+    console.log(data);
     if (data) {
       setLoadingFlag(true);
       await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -123,19 +111,33 @@ const CheckoutPage = () => {
     }
 
     // 결제하기 버튼 클릭 시 로직
-    const response = await PortOne.requestPayment({
-      storeId: '',
-      channelKey: '',
-      paymentId: '',
-      orderName: '',
-      totalAmount: 1,
-      currency: 'CURRENCY_KRW',
-      payMethod: 'CARD',
-    });
+    // const fetchPayment = async () => {
+    //   return client.post('order', {
+    //     name: data.senderName,
+    //     phone: data.phoneNumber,
+    //     shipping_address: data.fullAddress,
+    //     detail_address: data.detailAddress,
+    //     request: data.deliveryRequest,
+    //     products: items.map((item) => ({
+    //       product_id: item.productId,
+    //       option_id: item.
+    //     }))
+    //   });
+    // };
 
-    if (response?.code !== undefined) {
-      return alert(response?.message);
-    }
+    // const response = await PortOne.requestPayment({
+    //   storeId: '',
+    //   channelKey: '',
+    //   paymentId: '',
+    //   orderName: '',
+    //   totalAmount: 1,
+    //   currency: 'CURRENCY_KRW',
+    //   payMethod: 'CARD',
+    // });
+
+    // if (response?.code !== undefined) {
+    //   return alert(response?.message);
+    // }
 
     // INFO: 백엔드 결제 로직 처리 api
     // const notified = await fetch(`${import.meta.env.VITE_PUBLIC_BASEURL}/payment/complete`, {

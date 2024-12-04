@@ -6,17 +6,20 @@ import { LoginType } from './types';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/Input';
 import { client } from '@/api/client';
+import { useAuthStore } from '@/config/store';
+import { decodeJwt } from '@/utils/decodeJwt';
 
 const { VITE_KAKAO_REST_API_KEY, VITE_KAKAO_REDIRECT_URI, VITE_NAVER_CLIENT_ID, VITE_NAVER_REDIRECT_URI } = import.meta
   .env;
 
 type SignInFormData = {
-  id: string;
+  login_id: string;
   password: string;
 };
 
 const SignInPage = () => {
   const navigate = useNavigate();
+  const { setUser } = useAuthStore();
 
   const methods = useForm<SignInFormData>();
   const {
@@ -40,22 +43,23 @@ const SignInPage = () => {
   };
 
   const handleEmailLogin = async (data: SignInFormData) => {
+    console.log(data);
     try {
       const response = await client.post('/auth/login', {
-        type: 'email',
-        id: data.id,
+        login_id: data.login_id,
         password: data.password,
       });
 
-      console.log('로그인 성공', response.data);
-
+      const decodeToken = decodeJwt(response.data.access_token);
+      setUser(decodeToken);
       localStorage.setItem('accessToken', response.data.access_token);
+
       navigate('/');
 
-      return response.data;
+      return decodeToken;
     } catch (error) {
       console.error(error);
-      setValue('id', '');
+      setValue('login_id', '');
       setValue('password', '');
       alert('로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.');
     }
@@ -71,11 +75,11 @@ const SignInPage = () => {
         <form onSubmit={handleSubmit(handleEmailLogin)} className='flex flex-col gap-[10px]'>
           <Input
             label='아이디'
-            name='id'
+            name='login_id'
             type='text'
             register={register}
             registerOptions={{ required: '아이디를 입력해주세요' }}
-            error={errors?.id?.message}
+            error={errors?.login_id?.message}
           />
           <Input
             label='비밀번호'

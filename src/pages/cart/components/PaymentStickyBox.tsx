@@ -65,6 +65,7 @@ const PaymentStickyBox = ({
               <span>₩{calculateTotal().toLocaleString()}</span>
             </div>
             <button
+              type='button'
               className={`mt-4 w-full border py-2 text-sm transition-all duration-300 ${
                 isDisabled
                   ? 'cursor-not-allowed border-gray300 bg-gray100 text-gray300'

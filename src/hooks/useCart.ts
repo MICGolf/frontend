@@ -15,7 +15,7 @@ export const useCart = () => {
   const { data: cartItems = [] } = useQuery<CartItemData[]>({
     queryKey: ['cartItems'],
     queryFn: async () => {
-      const response = await client.get(`/api/v1/cart/${user?.id}`);
+      const response = await client.get(`cart`);
       return response.data.cartItems || getGuestCartItems();
     },
     enabled: Boolean(user),
@@ -28,10 +28,10 @@ export const useCart = () => {
     const guestItems = getGuestCartItems();
     if (guestItems.length > 0) {
       try {
-        const response = await client.post(`/api/v1/cart/${user.id}`, { cartItems: guestItems });
+        const response = await client.post(`cart/${user.user_id}`, { cartItems: guestItems });
         if (response.status === 200) {
           localStorage.removeItem('cartItems');
-          queryClient.invalidateQueries({ queryKey: ['cartItems', user.id] });
+          queryClient.invalidateQueries({ queryKey: ['cartItems', user.user_id] });
         }
       } catch (err) {
         console.error(err);
