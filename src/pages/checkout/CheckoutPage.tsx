@@ -103,12 +103,12 @@ const CheckoutPage = () => {
   // INFO: PortOne 결제 로직
   const handlePaymentClick = async (data: CheckoutFormData) => {
     console.log(data);
-    // if (data) {
-    //   setLoadingFlag(true);
-    //   await new Promise((resolve) => setTimeout(resolve, 3000));
-    //   setLoadingFlag(false);
-    //   navigate('/checkout/success', { state: { from: '/checkout' } });
-    // }
+    if (data) {
+      setLoadingFlag(true);
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      setLoadingFlag(false);
+      navigate('/checkout/success', { state: { from: '/checkout' } });
+    }
 
     // 결제하기 버튼 클릭 시 로직
     // const fetchPayment = async () => {
