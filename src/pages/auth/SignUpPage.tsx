@@ -2,6 +2,7 @@ import { client } from '@/api/client';
 import { Input } from '@/components/Input';
 import { useAuthStore } from '@/config/store';
 import useTermsModalState from '@/hooks/useModalState/useModalState';
+import { decodeJwt } from '@/utils/decodeJwt';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -65,10 +66,7 @@ const SignUpPage = () => {
       if (signUpResponse.status === 201) {
         const loginResponse = await login();
 
-        setUser({
-          id: loginResponse.data.login_id,
-          name: loginResponse.data.name,
-        });
+        setUser(decodeJwt(signUpResponse.data));
         localStorage.setItem('accessToken', loginResponse.data.access_token);
 
         navigate('/auth/signup/complete', { state: { user: data } });

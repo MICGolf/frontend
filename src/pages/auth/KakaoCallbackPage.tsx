@@ -6,19 +6,23 @@ const KakaoCallbackPage = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
+  const code = searchParams.get('code');
   useEffect(() => {
     const fetchOauthCodePost = async () => {
-      const code = searchParams.get('code');
-
       if (!code) {
         throw new Error('인가 코드가 누락되었습니다.');
       }
 
       try {
-        const response = await client.post('/oauth/kakao', {
-          social_type: 'kakao',
-          code,
-        });
+        const response = await client.post(
+          '/oauth/kakao',
+          {},
+          {
+            headers: {
+              code,
+            },
+          }
+        );
         console.log('인가코드 전송성공: ', response.data);
         localStorage.setItem('accessToken', response.data.access_token);
 
@@ -33,6 +37,7 @@ const KakaoCallbackPage = () => {
 
     fetchOauthCodePost();
   }, []);
+
   return <div className='flex h-[1000px] items-center justify-center'>로그인 처리</div>;
 };
 
