@@ -5,9 +5,10 @@ import CloseIco from '@/assets/icons/CloseIco';
 interface AddCartFailedModalProps {
   onClose: () => void;
   isOpen: boolean;
+  errMsg: string | undefined;
 }
 
-const AddUserCartFailedModal = ({ onClose, isOpen }: AddCartFailedModalProps) => {
+const AddUserCartFailedModal = ({ onClose, isOpen, errMsg }: AddCartFailedModalProps) => {
   const navigate = useNavigate();
   const handleOnClick = (path: string) => {
     navigate(`/${path}`);
@@ -56,8 +57,8 @@ const AddUserCartFailedModal = ({ onClose, isOpen }: AddCartFailedModalProps) =>
               <CloseIco size={16} />
             </button>
             <div className='flex flex-col items-center gap-6 pt-12 sm:gap-8 sm:pt-16 md:gap-10 md:pt-20'>
-              <h3 className='text-xl font-semibold text-center text-primary sm:text-2xl md:text-4xl'>
-                장바구니 추가에 실패했어요.
+              <h3 className='text-lg font-semibold text-center text-primary sm:text-2xl md:text-4xl'>
+                {errMsg || '장바구니 추가 요청 중 오류가 발생했어요.'}
               </h3>
               <div className='flex flex-col items-center w-full gap-4'>
                 <button

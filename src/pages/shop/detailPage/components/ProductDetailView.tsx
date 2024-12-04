@@ -24,7 +24,8 @@ const ProductDetailView = ({ data }: ProductDetailViewProps) => {
     totalPrice,
     totalDeliveryFee,
   };
-  const { handleModalOpen, renderModalContent } = useModalState({ paymentData });
+  console.log(mutation);
+  const { handleModalOpen, renderModalContent } = useModalState({ paymentData, mutation });
   const [selectedOption, setSelectedOption] = useState<OptionState>({
     productCode: data.product.product_code,
     productData: data.product,
