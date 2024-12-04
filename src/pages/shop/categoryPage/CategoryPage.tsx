@@ -6,7 +6,7 @@ import SortDropdown from '../components/SortDropdown';
 import useSort from '@/hooks/useSort';
 import ProductCardSkeleton from '../components/skeletons/ProductCardSkeleton';
 import { productsApi } from '@/api';
-import { ProductData } from '@/api/type';
+import { ProductDatas } from '@/api/type';
 import { handleApiError } from '@/utils/handleApiError';
 import { useParams } from 'react-router-dom';
 import LoadingSpinner from '@/components/LoadingSpinner';
@@ -29,7 +29,7 @@ const CategoryPage = () => {
 
   if (majorCategoryId === null) {
     return (
-      <div className='flex h-screen w-full items-center justify-center'>
+      <div className='flex items-center justify-center w-full h-screen'>
         <span className='text-lg'>유효하지 않은 카테고리입니다. 다시 시도해주세요.</span>
       </div>
     );
@@ -37,7 +37,7 @@ const CategoryPage = () => {
 
   if (middleCategory && middleCategoryId === null) {
     return (
-      <div className='flex h-screen w-full items-center justify-center'>
+      <div className='flex items-center justify-center w-full h-screen'>
         <span className='text-lg'>유효하지 않은 중간 카테고리입니다. 다시 시도해주세요.</span>
       </div>
     );
@@ -45,7 +45,7 @@ const CategoryPage = () => {
 
   if (subCategory && subCategoryId === null) {
     return (
-      <div className='flex h-screen w-full items-center justify-center'>
+      <div className='flex items-center justify-center w-full h-screen'>
         <span className='text-lg'>유효하지 않은 소분류입니다. 다시 시도해주세요.</span>
       </div>
     );
@@ -57,7 +57,7 @@ const CategoryPage = () => {
   const { currentSort, currentOrder, sortResult, setCurrentSort } = useSort();
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending, isError, error } = useInfiniteQuery<
-    ProductData[]
+    ProductDatas[]
   >({
     queryKey: ['categoryProducts', sortResult, currentOrder, currentCategory],
     queryFn: async ({ pageParam }) => {
@@ -87,11 +87,11 @@ const CategoryPage = () => {
     }
   }, [inView, hasNextPage, isFetchingNextPage]);
 
-  const categoryProductData = data?.pages.flat();
+  const categoryProductData = data?.pages.flat()[0].products;
 
   if (isError) {
     return (
-      <div className='flex h-screen w-full items-center justify-center text-2xl text-primary'>
+      <div className='flex items-center justify-center w-full h-screen text-2xl text-primary'>
         <p>{(error as Error).message}</p>
       </div>
     );
@@ -99,7 +99,7 @@ const CategoryPage = () => {
 
   if (categoryProductData?.length === 0) {
     return (
-      <div className='flex h-screen w-full items-center justify-center'>
+      <div className='flex items-center justify-center w-full h-screen'>
         <span className='text-lg'>상품이 없어요.</span>
       </div>
     );
@@ -109,7 +109,7 @@ const CategoryPage = () => {
     <article className={`container mx-auto h-full px-4 pt-[160px] transition-all duration-300 ease-in-out`}>
       <div className='flex w-full flex-col gap-[24px]'>
         <SortDropdown currentSort={currentSort} setCurrentSort={setCurrentSort} sortResult={sortResult} />
-        <ul className='grid h-full w-full grid-cols-1 gap-6 transition-all duration-300 ease-in-out sm:grid-cols-2 lg:grid-cols-4'>
+        <ul className='grid w-full h-full grid-cols-1 gap-6 transition-all duration-300 ease-in-out sm:grid-cols-2 lg:grid-cols-4'>
           {isPending && <ProductCardSkeleton />}
           {categoryProductData &&
             categoryProductData.map((item) => (
@@ -123,7 +123,7 @@ const CategoryPage = () => {
             ))}
         </ul>
         {isFetchingNextPage && (
-          <div className='grid h-full w-full grid-cols-1 gap-6 transition-all duration-300 ease-in-out sm:grid-cols-2 lg:grid-cols-4'>
+          <div className='grid w-full h-full grid-cols-1 gap-6 transition-all duration-300 ease-in-out sm:grid-cols-2 lg:grid-cols-4'>
             <ProductCardSkeleton />
           </div>
         )}
