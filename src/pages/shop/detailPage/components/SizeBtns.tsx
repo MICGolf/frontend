@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { OptionState } from '../types';
 import { ProductData, ProductSize } from '@/api/type';
 
@@ -9,13 +9,56 @@ interface SizeBtnsProps {
 }
 
 const SizeBtns = ({ data, selectedOption, onSelect }: SizeBtnsProps) => {
+  console.log('사이즈버튼: ', data);
   const [selectedSizeName, setSelectedSizeName] = useState<string>('');
   const isColorSelected = !!selectedOption.selectedColor;
 
+  const sortSizes = useCallback(
+    (sizes: ProductSize[]) => {
+      // 사전 정의된 정렬 우선순위 배열
+      const predefinedOrder = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL', '2XL', '3XL'];
+
+      return sizes.sort((a, b) => {
+        const sizeA = a.size.toUpperCase();
+        const sizeB = b.size.toUpperCase();
+
+        const indexA = predefinedOrder.indexOf(sizeA);
+        const indexB = predefinedOrder.indexOf(sizeB);
+
+        const isANumber = !isNaN(Number(sizeA));
+        const isBNumber = !isNaN(Number(sizeB));
+
+        // 사전 정의된 순서가 있는 경우
+        if (indexA !== -1 && indexB !== -1) {
+          return indexA - indexB;
+        }
+
+        // 숫자 사이즈 처리
+        if (isANumber && isBNumber) {
+          return Number(sizeA) - Number(sizeB);
+        }
+
+        if (isANumber) {
+          return -1; // 숫자가 알파벳보다 앞
+        }
+
+        if (isBNumber) {
+          return 1; // 알파벳이 숫자보다 뒤
+        }
+
+        // 사전 정의된 순서가 없는 경우 알파벳 순서로 정렬
+        return sizeA.localeCompare(sizeB);
+      });
+    },
+    [data, selectedOption]
+  );
+
   // 선택한 컬러에 해당하는 사이즈 데이터 필터링
   const filteredSizes = isColorSelected
-    ? data.options.find((option) => option.color === selectedOption.selectedColor?.color)?.sizes || []
+    ? sortSizes(data.options.find((option) => option.color === selectedOption.selectedColor?.color)?.sizes || [])
     : [];
+
+  console.log(filteredSizes);
 
   const handleSizeChange = (size: ProductSize) => {
     const isSelected = selectedSizeName === size.size;

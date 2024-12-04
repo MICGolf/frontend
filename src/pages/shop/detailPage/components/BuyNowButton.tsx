@@ -8,9 +8,7 @@ interface BuyNowButtonProps {
   productData: ProductDetail2;
   selectedOption: OptionState;
   detailImage: ProductImage[] | null;
-  instanceCartData: CartItemData[];
   handleModalOpen: (type: SignUpModalType) => void;
-  handleBuyNow: (itemId: string) => void;
   setInstanceCartData: React.Dispatch<React.SetStateAction<CartItemData[]>>;
 }
 
@@ -18,13 +16,9 @@ const BuyNowButton = ({
   productData,
   selectedOption,
   detailImage,
-  instanceCartData,
   handleModalOpen,
-  handleBuyNow,
   setInstanceCartData,
 }: BuyNowButtonProps) => {
-  console.log(instanceCartData);
-
   const handleOnClick = () => {
     const instanceCart: CartItemData = {
       id: nanoid(),
@@ -45,7 +39,6 @@ const BuyNowButton = ({
       discountOption: productData.discount_option,
     };
     setInstanceCartData([instanceCart]);
-    handleBuyNow(instanceCartData[0].id);
     handleModalOpen('결제모달');
   };
 

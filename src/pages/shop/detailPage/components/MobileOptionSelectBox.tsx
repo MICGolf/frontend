@@ -20,8 +20,6 @@ interface MobileOptionSelectBoxProps {
   selectedOption: OptionState;
   isOpen: boolean;
   detailImage: ProductImage[] | null;
-  instanceCartData: CartItemData[];
-  handleBuyNow: (itemId: string) => void;
   setInstanceCartData: React.Dispatch<React.SetStateAction<CartItemData[]>>;
   setSelectedOption: (prevOption: OptionState) => void;
   setIsOpen: (isOpen: boolean) => void;
@@ -33,8 +31,6 @@ const MobileOptionSelectBox = ({
   selectedOption,
   isOpen,
   detailImage,
-  instanceCartData,
-  handleBuyNow,
   setInstanceCartData,
   setSelectedOption,
   setIsOpen,
@@ -109,9 +105,7 @@ const MobileOptionSelectBox = ({
                 selectedOption={selectedOption}
                 detailImage={detailImage}
                 handleModalOpen={handleModalOpen}
-                instanceCartData={instanceCartData}
                 setInstanceCartData={setInstanceCartData}
-                handleBuyNow={handleBuyNow}
               />
             </div>
           </div>

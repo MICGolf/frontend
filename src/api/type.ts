@@ -39,10 +39,14 @@ export interface ProductOption {
   sizes: ProductSize[];
 }
 
-// 전체 상품 데이터 타입
 export interface ProductData {
   product: ProductDetail2;
   options: ProductOption[];
+}
+
+// 전체 상품 데이터 타입
+export interface ProductDatas {
+  products: ProductData[];
 }
 
 export interface getAllProductsParams {

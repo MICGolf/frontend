@@ -4,7 +4,7 @@ import useSort from '@/hooks/useSort';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { productsApi } from '@/api';
 import ProductCardSkeleton from '../components/skeletons/ProductCardSkeleton';
-import { ProductData } from '@/api/type';
+import { ProductDatas } from '@/api/type';
 import { useInView } from 'react-intersection-observer';
 import { handleApiError } from '@/utils/handleApiError';
 import { useEffect } from 'react';
@@ -17,7 +17,7 @@ const ShopPage = () => {
   });
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending, isError, error } = useInfiniteQuery<
-    ProductData[]
+    ProductDatas[]
   >({
     queryKey: ['allProducts', sortResult, currentOrder],
     queryFn: async ({ pageParam }) => {
@@ -46,11 +46,12 @@ const ShopPage = () => {
     }
   }, [inView, hasNextPage]);
 
-  const shopProductData = data?.pages.flat();
+  const shopProductData = data?.pages.flat()[0].products;
+  console.log(shopProductData);
 
   if (isError) {
     return (
-      <div className='flex h-screen w-full items-center justify-center text-2xl text-primary'>
+      <div className='flex items-center justify-center w-full h-screen text-2xl text-primary'>
         <p>{(error as Error).message}</p>
       </div>
     );
@@ -58,7 +59,7 @@ const ShopPage = () => {
 
   if (shopProductData?.length === 0) {
     return (
-      <div className='flex h-screen w-full items-center justify-center'>
+      <div className='flex items-center justify-center w-full h-screen'>
         <span className='text-lg'>상품이 없어요.</span>
       </div>
     );
@@ -82,7 +83,7 @@ const ShopPage = () => {
             ))}
         </ul>
         {isFetchingNextPage && (
-          <div className='grid h-full w-full grid-cols-1 gap-6 transition-all duration-300 ease-in-out sm:grid-cols-2 lg:grid-cols-4'>
+          <div className='grid w-full h-full grid-cols-1 gap-6 transition-all duration-300 ease-in-out sm:grid-cols-2 lg:grid-cols-4'>
             <ProductCardSkeleton />
           </div>
         )}
