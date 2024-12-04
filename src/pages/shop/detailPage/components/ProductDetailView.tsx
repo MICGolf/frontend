@@ -8,11 +8,13 @@ import { ProductImage } from '@/api/type';
 import ProductDetailImage from './ProductDetailImage';
 import { CartItemData } from '@/assets/dummys/types';
 import useCartCalculations from '@/hooks/useCartCalculations';
-let count = 0;
+import LoadingSpinner from '@/components/LoadingSpinner';
+import usePostCartItem from '@/hooks/usePostCartItem';
 
 const ProductDetailView = ({ data }: ProductDetailViewProps) => {
-  console.log('렌더링됨', count++);
+  const mutation = usePostCartItem();
   const shouldResponsive = useMediaQuery({ maxWidth: 767 });
+  const [userCart, setUserCart] = useState({});
   const [detailImage, setDetailImage] = useState<ProductImage[] | []>([]);
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [instanceCartData, setInstanceCartData] = useState<CartItemData[]>([]);
@@ -38,10 +40,13 @@ const ProductDetailView = ({ data }: ProductDetailViewProps) => {
     selectedOption,
     isOpen,
     detailImage,
+    mutation,
+    userCart,
     setInstanceCartData,
     setSelectedOption,
     setIsOpen,
     handleModalOpen,
+    setUserCart,
   };
 
   // 첫 렌더링시 스크롤 최상단으로
@@ -50,7 +55,12 @@ const ProductDetailView = ({ data }: ProductDetailViewProps) => {
   }, []);
 
   return (
-    <section className='flex min-h-screen flex-col transition-all duration-300 ease-in-out md:flex-row'>
+    <section className='flex flex-col min-h-screen transition-all duration-300 ease-in-out md:flex-row'>
+      {mutation.isPending && (
+        <div className='absolute left-0 top-0 z-[999] flex h-screen w-full items-center justify-center bg-transparentBlack backdrop-blur-lg'>
+          <LoadingSpinner />
+        </div>
+      )}
       {/* 디테일 이미지 영역 */}
       <ProductDetailImage
         data={data}

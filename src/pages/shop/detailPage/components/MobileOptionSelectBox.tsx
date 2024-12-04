@@ -20,6 +20,7 @@ interface MobileOptionSelectBoxProps {
   selectedOption: OptionState;
   isOpen: boolean;
   detailImage: ProductImage[] | null;
+  mutation: any;
   setInstanceCartData: React.Dispatch<React.SetStateAction<CartItemData[]>>;
   setSelectedOption: (prevOption: OptionState) => void;
   setIsOpen: (isOpen: boolean) => void;
@@ -31,6 +32,7 @@ const MobileOptionSelectBox = ({
   selectedOption,
   isOpen,
   detailImage,
+  mutation,
   setInstanceCartData,
   setSelectedOption,
   setIsOpen,
@@ -58,7 +60,7 @@ const MobileOptionSelectBox = ({
         <MobileModalToggler isOpen={isOpen} setIsOpen={setIsOpen} />
 
         {/* 메인 컨텐츠 시작 */}
-        <div className='flex h-full flex-col gap-4 p-6'>
+        <div className='flex flex-col h-full gap-4 p-6'>
           <div className='flex flex-col gap-4'>
             <div className='flex gap-2'>
               <div className='flex flex-col gap-3'>
@@ -80,8 +82,8 @@ const MobileOptionSelectBox = ({
           </div>
 
           {/* 옵션 선택 영역 */}
-          <div className='mt-auto flex flex-col gap-4'>
-            <div className='flex w-full flex-col gap-4 md:justify-start'>
+          <div className='flex flex-col gap-4 mt-auto'>
+            <div className='flex flex-col w-full gap-4 md:justify-start'>
               <ColorBtns data={data} selectedOption={selectedOption} onSelect={setSelectedOption} />
               <SizeBtns data={data} selectedOption={selectedOption} onSelect={setSelectedOption} />
               <CounterBtn selectedOption={selectedOption} onSelect={setSelectedOption} isSoldOut={isSoldOut} />
@@ -99,6 +101,7 @@ const MobileOptionSelectBox = ({
                 selectedOption={selectedOption}
                 detailImage={detailImage}
                 handleModalOpen={handleModalOpen}
+                mutation={mutation}
               />
               <BuyNowButton
                 productData={data.product}
@@ -117,7 +120,7 @@ const MobileOptionSelectBox = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className='fixed inset-0 z-10 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm'
+          className='fixed inset-0 z-10 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm'
           onClick={handleOnClose}
         />
       )}

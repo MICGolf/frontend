@@ -5,17 +5,27 @@ import { nanoid } from 'nanoid';
 import { useState } from 'react';
 import { OptionState } from '../types';
 import { CartItemData } from '@/assets/dummys/types';
+import { useAuthStore } from '@/config/store';
 
 interface AddCartBtnProps {
+  mutation: any;
   productData: ProductDetail2;
   selectedOption: OptionState;
   detailImage: ProductImage[] | null;
   handleModalOpen: (type: SignUpModalType) => void;
 }
 
-const AddCartBtn = ({ productData, selectedOption, detailImage, handleModalOpen }: AddCartBtnProps) => {
+export interface UserCartItemParam {
+  productId: number;
+  optionId: number | undefined;
+  amount: number;
+}
+
+const AddCartBtn = ({ productData, selectedOption, detailImage, mutation, handleModalOpen }: AddCartBtnProps) => {
+  const { user } = useAuthStore();
   const [storedValue, setValue] = useLocalStorage<CartItemData[] | []>('cartItems', []);
   const [cartItems, setCartItems] = useState<CartItemData[]>(storedValue);
+
   const isCartButtonEnabled =
     !!selectedOption.selectedColor && !!selectedOption.selectedSize && selectedOption.amount > 0;
 
@@ -33,36 +43,60 @@ const AddCartBtn = ({ productData, selectedOption, detailImage, handleModalOpen 
 
     let updatedCartItems;
 
+    // 비회원 장바구니 항목
+    const newCartItem: CartItemData = {
+      id: nanoid(),
+      productId: productData.id,
+      productCode: productData.product_code,
+      name: productData.name,
+      image: detailImage?.[0].image_url,
+      stock: selectedOption.stock,
+      color: {
+        name: selectedOption.selectedColor?.color,
+        code: selectedOption.selectedColor?.color_code,
+      },
+      size: selectedOption.selectedSize?.size,
+      amount: selectedOption.amount,
+      originPrice: productData.origin_price,
+      price: productData.price,
+      discount: productData.discount,
+      discountOption: productData.discount_option,
+    };
+
+    // 회원 장바구니 항목
+    const newUserCartItem: UserCartItemParam = {
+      productId: productData.id,
+      optionId: selectedOption.optionData?.id,
+      amount: selectedOption.amount,
+    };
+
     if (existingCartItemIndex > -1) {
       updatedCartItems = cartItems.map((item: CartItemData, index: number) =>
         index === existingCartItemIndex ? { ...item, amount: item.amount + selectedOption.amount } : item
       );
     } else {
-      const newCartItem: CartItemData = {
-        id: nanoid(),
-        productId: productData.id,
-        productCode: productData.product_code,
-        name: productData.name,
-        image: detailImage?.[0].image_url,
-        stock: selectedOption.stock,
-        color: {
-          name: selectedOption.selectedColor?.color,
-          code: selectedOption.selectedColor?.color_code,
-        },
-        size: selectedOption.selectedSize?.size,
-        amount: selectedOption.amount,
-        originPrice: productData.origin_price,
-        price: productData.price,
-        discount: productData.discount,
-        discountOption: productData.discount_option,
-      };
-
       updatedCartItems = [...cartItems, newCartItem];
     }
 
     setCartItems(updatedCartItems);
     setValue(updatedCartItems);
-    handleModalOpen('장바구니');
+
+    // 로그인 체크
+    if (!user) {
+      handleModalOpen('장바구니');
+      return;
+    }
+
+    // 회원일 경우 회원 장바구니로 추가
+    console.log('회원 장바구니 항목:', newUserCartItem);
+    mutation.mutate(newUserCartItem, {
+      onSuccess: () => {
+        handleModalOpen('장바구니');
+      },
+      onError: () => {
+        handleModalOpen('장바구니추가실패');
+      },
+    });
   };
 
   return (

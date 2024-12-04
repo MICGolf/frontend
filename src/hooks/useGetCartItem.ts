@@ -18,7 +18,7 @@ const useGetCartItem = () => {
     queryKey: ['cartItems'],
     queryFn: async () => {
       try {
-        const response = await client.get(`/api/v1/cart/${user?.id}`);
+        const response = await client.get(`/api/v1/cart/${user?.user_id}`);
         return response.data.cartItems || guestCartItems;
       } catch (err: unknown) {
         handleApiError(err);

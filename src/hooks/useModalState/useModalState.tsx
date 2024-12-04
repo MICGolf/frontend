@@ -2,8 +2,10 @@ import { useState } from 'react';
 import LoginOrPaymentModal from './LoginOrPaymentModal';
 import { CartItemData } from '@/assets/dummys/types';
 import AddCartModal from './AddCartModal';
+import { UserPrivacyModal } from './UserPrivacyModal';
+import AddUserCartFailedModal from './AddUserCartFailedModal';
 
-export type SignUpModalType = '결제모달' | '장바구니';
+export type SignUpModalType = '개인정보' | '이용약관' | '결제모달' | '장바구니' | '장바구니추가실패';
 
 type useModalStateProps = {
   paymentData?: {
@@ -37,6 +39,9 @@ const useModalState = ({ paymentData }: useModalStateProps = {}) => {
       }
       case '장바구니': {
         return <AddCartModal onClose={handleModalClose} isOpen={isOpen} />;
+      }
+      case '장바구니추가실패': {
+        return <AddUserCartFailedModal onClose={handleModalClose} isOpen={isOpen} />;
       }
     }
   };

@@ -18,6 +18,8 @@ interface OptionSelectBoxProps {
   selectedOption: OptionState;
   isOpen: boolean;
   detailImage: ProductImage[] | null;
+  mutation: any;
+  setUserCart: (cartItems: any) => void;
   setInstanceCartData: React.Dispatch<React.SetStateAction<CartItemData[]>>;
   setSelectedOption: (prevOption: OptionState) => void;
   setIsOpen: (isOpen: boolean) => void;
@@ -28,6 +30,7 @@ const OptionSelectBox = ({
   data,
   selectedOption,
   detailImage,
+  mutation,
   setInstanceCartData,
   setSelectedOption,
   handleModalOpen,
@@ -40,10 +43,10 @@ const OptionSelectBox = ({
 
   return (
     <div className='sticky top-0 flex h-[100vh] w-1/2 flex-col overflow-auto border-l border-primary bg-white px-[50px] pb-[50px] pt-[150px] transition-all duration-300 ease-in-out md:border-l'>
-      <div className='flex h-full flex-col gap-12'>
+      <div className='flex flex-col h-full gap-12'>
         <div className='flex flex-col gap-4'>
           <div className='flex gap-2'>
-            <div className='flex w-full flex-col gap-3'>
+            <div className='flex flex-col w-full gap-3'>
               <h2 className='text-2xl font-bold transition-transform duration-300 ease-in-out md:text-4xl'>
                 {data.product.name}
               </h2>
@@ -61,9 +64,9 @@ const OptionSelectBox = ({
           )}
         </div>
 
-        <div className='mt-auto flex flex-col gap-6'>
+        <div className='flex flex-col gap-6 mt-auto'>
           {/* 옵션 선택 영역 */}
-          <div className='flex w-full flex-col gap-6 md:justify-start'>
+          <div className='flex flex-col w-full gap-6 md:justify-start'>
             <ColorBtns data={data} selectedOption={selectedOption} onSelect={setSelectedOption} />
             <SizeBtns data={data} selectedOption={selectedOption} onSelect={setSelectedOption} />
             <CounterBtn selectedOption={selectedOption} onSelect={setSelectedOption} isSoldOut={isSoldOut} />
@@ -81,6 +84,7 @@ const OptionSelectBox = ({
               selectedOption={selectedOption}
               detailImage={detailImage}
               handleModalOpen={handleModalOpen}
+              mutation={mutation}
             />
             <BuyNowButton
               productData={data.product}
