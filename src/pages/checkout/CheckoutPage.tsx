@@ -1,5 +1,4 @@
 import { CartItemData } from '@/assets/dummys/types';
-import useModalState from '@/hooks/useModalState/useModalState';
 import { useEffect, useState } from 'react';
 import { Address, useDaumPostcodePopup } from 'react-daum-postcode';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -23,7 +22,6 @@ type CheckoutFormData = {
 };
 
 const CheckoutPage = () => {
-  const { handleModalOpen, renderModalContent } = useModalState();
   const [selectedCheckbox, setSelectedCheckbox] = useState<CheckboxType[]>([]);
   const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
   const disabled = selectedCheckbox.includes('개인정보') && selectedCheckbox.includes('이용약관') ? false : true;
@@ -298,7 +296,7 @@ const CheckoutPage = () => {
                 <span
                   onClick={(e) => {
                     e.preventDefault();
-                    handleModalOpen('개인정보');
+                    window.open('https://micgolf.oopy.io/14d83dfe-5356-80fa-b391-d1a121cd1209');
                   }}
                   className='cursor-pointer border-b border-blue700 text-blue700'
                 >
@@ -325,7 +323,7 @@ const CheckoutPage = () => {
                 <span
                   onClick={(e) => {
                     e.preventDefault();
-                    handleModalOpen('이용약관');
+                    window.open('https://micgolf.oopy.io/14d83dfe-5356-805f-9a1c-f2ed84858454');
                   }}
                   className='cursor-pointer border-b border-blue700 text-blue700'
                 >
@@ -452,8 +450,6 @@ const CheckoutPage = () => {
           </div>
         </div>
       )}
-
-      {renderModalContent()}
     </FormProvider>
   );
 };
