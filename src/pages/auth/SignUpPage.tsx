@@ -271,7 +271,7 @@ const SignUpPage = () => {
               </span>
               개인정보 수집약관 동의&nbsp;
               <span
-                onClick={() => handleModalOpen('개인정보')}
+                onClick={() => window.open('https://micgolf.oopy.io/14d83dfe-5356-80fa-b391-d1a121cd1209')}
                 className='cursor-pointer border-b border-blue700 text-blue700'
               >
                 약관 보기 →
@@ -295,7 +295,7 @@ const SignUpPage = () => {
               </span>
               이용약관 동의&nbsp;
               <span
-                onClick={() => handleModalOpen('이용약관')}
+                onClick={() => window.open('https://micgolf.oopy.io/14d83dfe-5356-805f-9a1c-f2ed84858454')}
                 className='cursor-pointer border-b border-blue700 text-blue700'
               >
                 약관 보기 →
