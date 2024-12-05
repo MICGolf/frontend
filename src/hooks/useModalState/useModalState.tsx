@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import TermsOfServiceModal from './TermsOfServiceModal';
 import LoginOrPaymentModal from './LoginOrPaymentModal';
 import { CartItemData } from '@/assets/dummys/types';
 import AddCartModal from './AddCartModal';
-import { UserPrivacyModal } from './UserPrivacyModal';
 
-export type SignUpModalType = '개인정보' | '이용약관' | '결제모달' | '장바구니';
+export type SignUpModalType = '결제모달' | '장바구니';
 
 type useModalStateProps = {
   paymentData?: {
@@ -31,12 +29,6 @@ const useModalState = ({ paymentData }: useModalStateProps = {}) => {
 
   const renderModalContent = (): React.ReactNode => {
     switch (currentModal) {
-      case '개인정보': {
-        return <UserPrivacyModal onClose={handleModalClose} isOpen={isOpen} />;
-      }
-      case '이용약관': {
-        return <TermsOfServiceModal onClose={handleModalClose} isOpen={isOpen} />;
-      }
       case '결제모달': {
         if (paymentData) {
           return <LoginOrPaymentModal onClose={handleModalClose} paymentData={paymentData} isOpen={isOpen} />;

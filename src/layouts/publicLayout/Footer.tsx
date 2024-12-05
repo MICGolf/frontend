@@ -110,10 +110,24 @@ const Footer = () => {
                 </div>
                 <div className='flex flex-col gap-[6px]'>
                   <h3 className='text-base text-secondary'>법적 고지 및 이용약관</h3>
-                  <p className='cursor-pointer'>이용 약관</p>
-                  <p className='cursor-pointer'>개인정보 처리방침</p>
-                  <p className='cursor-pointer'>쿠키 정책</p>
-                  <p className='cursor-pointer'>판매 약관</p>
+                  <p
+                    onClick={() => window.open('https://micgolf.oopy.io/14d83dfe-5356-805f-9a1c-f2ed84858454')}
+                    className='cursor-pointer'
+                  >
+                    이용 약관
+                  </p>
+                  <p
+                    onClick={() => window.open('https://micgolf.oopy.io/14d83dfe-5356-80fa-b391-d1a121cd1209')}
+                    className='cursor-pointer'
+                  >
+                    개인정보 처리방침
+                  </p>
+                  <p
+                    onClick={() => window.open('https://micgolf.oopy.io/14d83dfe-5356-80b1-869b-ff4d1a638a7b')}
+                    className='cursor-pointer'
+                  >
+                    쿠키 정책
+                  </p>
                 </div>
               </div>
             </section>
