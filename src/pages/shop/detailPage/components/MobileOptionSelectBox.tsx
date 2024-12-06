@@ -5,7 +5,6 @@ import ColorBtns from './ColorBtns';
 import SizeBtns from './SizeBtns';
 import CounterBtn from './CounterBtn';
 import AddCartBtn from './AddCartBtn';
-import NaverPayBtn from './NaverPayBtn';
 import { SignUpModalType } from '@/hooks/useModalState/useModalState';
 import MobileModalToggler from './MobileModalToggler';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -13,12 +12,16 @@ import useSaleState from '@/hooks/useSaleState';
 import useSoldOutState from '@/hooks/useSoldoutState';
 import { ProductData, ProductImage } from '@/api/type';
 import { OptionState } from '../types';
+import { CartItemData } from '@/assets/dummys/types';
+import BuyNowButton from './BuyNowButton';
 
 interface MobileOptionSelectBoxProps {
   data: ProductData;
   selectedOption: OptionState;
   isOpen: boolean;
   detailImage: ProductImage[] | null;
+  mutation: any;
+  setInstanceCartData: React.Dispatch<React.SetStateAction<CartItemData[]>>;
   setSelectedOption: (prevOption: OptionState) => void;
   setIsOpen: (isOpen: boolean) => void;
   handleModalOpen: (type: SignUpModalType) => void;
@@ -29,6 +32,8 @@ const MobileOptionSelectBox = ({
   selectedOption,
   isOpen,
   detailImage,
+  mutation,
+  setInstanceCartData,
   setSelectedOption,
   setIsOpen,
   handleModalOpen,
@@ -96,8 +101,15 @@ const MobileOptionSelectBox = ({
                 selectedOption={selectedOption}
                 detailImage={detailImage}
                 handleModalOpen={handleModalOpen}
+                mutation={mutation}
               />
-              <NaverPayBtn />
+              <BuyNowButton
+                productData={data.product}
+                selectedOption={selectedOption}
+                detailImage={detailImage}
+                handleModalOpen={handleModalOpen}
+                setInstanceCartData={setInstanceCartData}
+              />
             </div>
           </div>
         </div>

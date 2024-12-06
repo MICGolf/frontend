@@ -4,7 +4,7 @@ import useSort from '@/hooks/useSort';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { productsApi } from '@/api';
 import ProductCardSkeleton from '../components/skeletons/ProductCardSkeleton';
-import { ProductData } from '@/api/type';
+import { ProductDatas } from '@/api/type';
 import { useInView } from 'react-intersection-observer';
 import { handleApiError } from '@/utils/handleApiError';
 import { useEffect } from 'react';
@@ -16,41 +16,44 @@ const ShopPage = () => {
     threshold: 1,
   });
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending, isError, error } = useInfiniteQuery<
-    ProductData[]
-  >({
-    queryKey: ['allProducts', sortResult, currentOrder],
-    queryFn: async ({ pageParam }) => {
-      try {
-        const response = await productsApi.getProductsData({
-          page: pageParam as number,
-          pageSize: 8,
-          sort: sortResult,
-          order: currentOrder,
-        });
-        return response.data;
-      } catch (err) {
-        handleApiError(err);
-      }
-    },
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages) => {
-      return lastPage.length === 8 ? allPages.length + 1 : undefined;
-    },
-    staleTime: 1000 * 5 * 60,
-  });
+  const pageSize = 8;
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending, isError, error } =
+    useInfiniteQuery<ProductDatas>({
+      queryKey: ['allProducts', sortResult, currentOrder],
+      queryFn: async ({ pageParam }) => {
+        try {
+          const response = await productsApi.getProductsData({
+            page: pageParam as number,
+            pageSize,
+            sort: sortResult,
+            order: currentOrder,
+          });
+          return response.data;
+        } catch (err) {
+          handleApiError(err);
+        }
+      },
+      initialPageParam: 1,
+      getNextPageParam: (lastPage, allPages) => {
+        const currentPage = allPages.length;
+        const totalPages = Math.ceil(lastPage.total_count / pageSize);
+        return currentPage < totalPages ? currentPage + 1 : undefined;
+      },
+      staleTime: 1000 * 5 * 60,
+    });
 
   useEffect(() => {
-    if (inView && hasNextPage) {
+    if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
-  }, [inView, hasNextPage]);
+  }, [inView, hasNextPage, isFetchingNextPage]);
 
-  const shopProductData = data?.pages.flat();
+  const shopProductData = data?.pages.flatMap((page) => page.products);
 
   if (isError) {
     return (
-      <div className='flex h-screen w-full items-center justify-center text-2xl text-primary'>
+      <div className='flex items-center justify-center w-full h-screen text-2xl text-primary'>
         <p>{(error as Error).message}</p>
       </div>
     );
@@ -58,7 +61,7 @@ const ShopPage = () => {
 
   if (shopProductData?.length === 0) {
     return (
-      <div className='flex h-screen w-full items-center justify-center'>
+      <div className='flex items-center justify-center w-full h-screen'>
         <span className='text-lg'>상품이 없어요.</span>
       </div>
     );
@@ -71,18 +74,21 @@ const ShopPage = () => {
         <ul className='grid grid-cols-1 gap-6 transition-all duration-300 ease-in-out sm:grid-cols-2 lg:grid-cols-4'>
           {isPending && <ProductCardSkeleton />}
           {shopProductData &&
-            shopProductData?.map((item) => (
-              <li key={item.product.id}>
-                <ProductCard
-                  productData={item.product}
-                  optionData={item.options[0]}
-                  queryKey={['allProducts', sortResult, currentOrder]}
-                />
-              </li>
-            ))}
+            shopProductData?.map((item, idx) => {
+              console.log(item);
+              return (
+                <li key={idx}>
+                  <ProductCard
+                    productData={item?.product}
+                    optionData={item?.options?.[0]}
+                    queryKey={['allProducts', sortResult, currentOrder]}
+                  />
+                </li>
+              );
+            })}
         </ul>
         {isFetchingNextPage && (
-          <div className='grid h-full w-full grid-cols-1 gap-6 transition-all duration-300 ease-in-out sm:grid-cols-2 lg:grid-cols-4'>
+          <div className='grid w-full h-full grid-cols-1 gap-6 transition-all duration-300 ease-in-out sm:grid-cols-2 lg:grid-cols-4'>
             <ProductCardSkeleton />
           </div>
         )}

@@ -1,6 +1,6 @@
 import useDefaultImage from '@/hooks/useDefaultImage';
 import DefaultImage from './DefaultImage';
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import { ProductData, ProductImage } from '@/api/type';
 import { OptionState } from '../types';
 import ImageOnLoadSkeleton from './skeletons/ImageOnLoadSkeleton';
@@ -35,13 +35,15 @@ const ProductDetailImage = ({ data, selectedOption, detailImage, setDetailImage 
           (img, idx) =>
             idx !== 0 /* 첫번째 사진은 썸네일용이므로 렌더링하지 않음 */ && (
               <div
-                key={img.id}
-                className={`${isImageError && 'flex flex-col items-center justify-center gap-2 bg-gray-200'} h-screen w-full transition-transform duration-500 ease-in-out md:h-full`}
+                key={idx}
+                className={`${isImageError && 'flex flex-col items-center justify-center gap-2 bg-gray-200'} h-screen w-full transition-transform duration-500 ease-in-out`}
               >
                 <img
                   src={img.image_url}
                   alt={isImageError ? '이미지 로드 실패시 디폴트 이미지' : `${data.product.name}이미지${img.id++}`}
-                  className={isImageError ? 'object-contain' : 'h-full w-full object-cover'}
+                  className={
+                    isImageError ? 'animate-fade-in object-contain' : 'h-full w-full animate-fade-in object-cover'
+                  }
                   onError={handleOnError}
                   onLoad={handleOnLoad}
                 />
@@ -58,4 +60,4 @@ const ProductDetailImage = ({ data, selectedOption, detailImage, setDetailImage 
   );
 };
 
-export default ProductDetailImage;
+export default memo(ProductDetailImage);

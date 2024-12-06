@@ -1,14 +1,14 @@
 import DefaultImg from '@/assets/imgs/logoWhite.svg';
 import { X } from 'lucide-react';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { HistoryType } from './types';
 import { Link } from 'react-router-dom';
-import { useMediaQuery } from 'react-responsive';
+import useLocalStorage from '@/hooks/useLocalStorage';
 
 const HistoryFab = () => {
+  const [historyData] = useLocalStorage<HistoryType[]>('history', []);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [clickedType, setClickedType] = useState('최근');
-  const showHistoryFabViewMinWidth = useMediaQuery({ minWidth: 768 });
 
   const toggleModal = () => {
     setIsModalOpen((prev) => !prev);
@@ -18,98 +18,103 @@ const HistoryFab = () => {
     if (text.length > maxLength) {
       return `${text.slice(0, maxLength)}...`;
     }
-
     return text;
   };
 
-  const history = localStorage.getItem('history');
-  const historyData: HistoryType[] = history ? JSON.parse(history) : [];
+  console.log('히스토리 리렌더링');
 
   return (
-    showHistoryFabViewMinWidth && (
-      <>
-        <button
-          type='button'
-          onClick={toggleModal}
-          className='fixed bottom-10 right-10 z-[11] h-[50px] w-[50px] rounded-full bg-primary'
-          style={{ boxShadow: '0 0 10px #7000FF' }}
-        >
-          <img src={DefaultImg} alt='' className='h-[50px] w-[50px] cursor-pointer' />
-        </button>
+    <>
+      {/* 화면 크기가 md 이상일 때만 Fab 버튼과 히스토리 모달 표시 */}
+      <button
+        type='button'
+        onClick={toggleModal}
+        className='fixed bottom-10 right-10 z-[11] hidden h-[50px] w-[50px] rounded-full bg-primary shadow-md md:block'
+        style={{ boxShadow: '0 0 10px #7000FF' }}
+      >
+        <img src={DefaultImg} alt='' className='h-[50px] w-[50px] cursor-pointer' />
+      </button>
 
+      <div
+        onClick={toggleModal}
+        className={`fixed inset-0 z-[100] flex justify-end bg-black bg-opacity-50 transition-opacity duration-300 ${
+          isModalOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
+        }`}
+      >
         <div
-          onClick={toggleModal}
-          className={`fixed inset-0 z-[100] flex transform justify-end bg-black bg-opacity-50 transition-opacity duration-300 ${isModalOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'} bg-black`}
+          onClick={(e) => e.stopPropagation()}
+          className={`h-full w-[395px] transform overflow-auto bg-white px-8 py-10 transition-transform duration-300 ${
+            isModalOpen ? 'translate-x-0' : 'translate-x-[400px]'
+          }`}
         >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className={`h-full w-[395px] transform overflow-auto bg-white px-8 py-10 transition-transform duration-300 ${isModalOpen ? 'translate-x-0' : 'translate-x-[400px]'}`}
-          >
-            <div className='flex justify-between'>
-              <h2>히스토리</h2>
-              <button type='button' onClick={toggleModal}>
-                <X />
-              </button>
+          <div className='flex justify-between'>
+            <h2>히스토리</h2>
+            <button type='button' onClick={toggleModal}>
+              <X />
+            </button>
+          </div>
+          <div className='flex w-full'>
+            <div
+              className={`flex-1 transform border-b transition-colors ${
+                clickedType === '최근' ? 'border-b-2 border-primary' : 'border-neutral-300'
+              } py-4 text-center`}
+            >
+              <button onClick={() => setClickedType('최근')}>최근 본</button>
             </div>
-            <div className='flex w-full'>
-              <div
-                className={`flex-1 transform border-b transition-colors ${clickedType === '최근' ? 'border-b-2 border-primary' : 'border-neutral-300'} py-4 text-center`}
-              >
-                <button onClick={() => setClickedType('최근')}>최근 본</button>
-              </div>
-              <div
-                className={`flex-1 transform border-b transition-colors ${clickedType === '관심' ? 'border-b-2 border-primary' : 'border-neutral-300'} py-4 text-center`}
-              >
-                <button onClick={() => setClickedType('관심')}>관심상품</button>
-              </div>
-            </div>
-            <div className='flex w-full justify-end pt-4'>
-              <button className='transform rounded-full px-2 py-1 text-sky-900 transition-colors duration-300 hover:bg-primary hover:text-secondary'>
-                전체삭제
-              </button>
-            </div>
-            <div className='relative py-8'>
-              {historyData &&
-                historyData.map((item) => (
-                  <div key={item.date} className='relative z-50'>
-                    <div className='flex pb-4 font-light'>
-                      <div className='rounded-full border border-neutral-200 bg-white px-2 py-1 text-neutral-600'>
-                        {item.date}
-                      </div>
-                    </div>
-                    <div>
-                      {item.products.map((product) => (
-                        <Link
-                          to={`/product/detail/${product.id}`}
-                          key={product.id}
-                          className='mb-6 ml-8 flex items-center gap-2 font-light hover:bg-neutral-300'
-                        >
-                          <div className='h-[66px] w-[66px]'>
-                            <img src={product.image} alt={product.name} className='h-full w-full' />
-                          </div>
-                          <div>
-                            <div className='mb-[10px] text-[10px] text-primary'>MIC GOLF</div>
-                            <div className='text-[16px]'>[MIC GOLF] {validateTextLength(product.name, 10)}</div>
-                            <div className='text-[16px]'>{product.price.toLocaleString()}원</div>
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              <div className='absolute left-[64px] top-0 h-full w-[1px] bg-neutral-200'></div>
-            </div>
-            <div className='flex justify-center py-8 font-light'>
-              <p>
-                쇼핑 히스토리는 최근 30일간, <br />
-                최대 100개까지 보관됩니다.
-              </p>
+            <div
+              className={`flex-1 transform border-b transition-colors ${
+                clickedType === '관심' ? 'border-b-2 border-primary' : 'border-neutral-300'
+              } py-4 text-center`}
+            >
+              <button onClick={() => setClickedType('관심')}>관심상품</button>
             </div>
           </div>
+          <div className='flex justify-end w-full pt-4'>
+            <button className='px-2 py-1 transition-colors duration-300 transform rounded-full text-sky-900 hover:bg-primary hover:text-secondary'>
+              전체삭제
+            </button>
+          </div>
+          <div className='relative py-8'>
+            {historyData &&
+              historyData.map((item) => (
+                <div key={item.date} className='relative z-50'>
+                  <div className='flex pb-4 font-light'>
+                    <div className='px-2 py-1 bg-white border rounded-full border-neutral-200 text-neutral-600'>
+                      {item.date}
+                    </div>
+                  </div>
+                  <div>
+                    {item.products.map((product) => (
+                      <Link
+                        to={`/product/detail/${product.id}`}
+                        key={product.id}
+                        className='flex items-center gap-2 mb-6 ml-8 font-light hover:bg-neutral-300'
+                      >
+                        <div className='h-[66px] w-[66px]'>
+                          <img src={product.image} alt={product.name} className='w-full h-full' />
+                        </div>
+                        <div>
+                          <div className='mb-[10px] text-[10px] text-primary'>MIC GOLF</div>
+                          <div className='text-[16px]'>[MIC GOLF] {validateTextLength(product.name, 10)}</div>
+                          <div className='text-[16px]'>{product.price.toLocaleString()}원</div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            <div className='absolute left-[64px] top-0 h-full w-[1px] bg-neutral-200'></div>
+          </div>
+          <div className='flex justify-center py-8 font-light'>
+            <p>
+              쇼핑 히스토리는 최근 30일간, <br />
+              최대 100개까지 보관됩니다.
+            </p>
+          </div>
         </div>
-      </>
-    )
+      </div>
+    </>
   );
 };
 
-export default HistoryFab;
+export default memo(HistoryFab);

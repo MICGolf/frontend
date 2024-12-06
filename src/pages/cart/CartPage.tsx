@@ -7,17 +7,17 @@ import { useMediaQuery } from 'react-responsive';
 import PaymentModal from './components/PaymentModal';
 import PaymentStickyBox from './components/PaymentStickyBox';
 import CartItem from './components/CartItem';
-import useLocalStorage from '@/hooks/useLocalStorage';
 import SelectAllCheckBox from './components/SelectAllCheckBox';
 import CartItemSkeleton from './components/skeletons/CartItemSkeleton';
 import { useAuthStore } from '@/config/store';
-// import { useCart } from '@/hooks/useCart';
-
+import useGetCartItem from '@/hooks/useGetCartItem';
+import { deleteCartItem } from '@/hooks/useDeleteCartItem';
+import { useQueryClient } from '@tanstack/react-query';
 const CartPage = () => {
   const { user } = useAuthStore();
-  // const { cartItems, syncGuestCartToUser } = useCart();
-  const [cartItems] = useLocalStorage('cartItems', []);
-  const [isLoading, setIsLoading] = useState(true);
+  const accessToken = localStorage.getItem('accessToken') || '';
+  const { cartItems, isPending, isError, error } = useGetCartItem();
+  const queryClient = useQueryClient();
   const {
     cartItemArr,
     selectedItems,
@@ -51,39 +51,57 @@ const CartPage = () => {
     }
   };
 
+  const handleAsyncDeleteSelectedItems = async () => {
+    try {
+      await Promise.all(selectedProducts.map((item) => deleteCartItem(item.productId, item.optionId, accessToken)));
+    } catch (err) {
+      throw err;
+    } finally {
+      queryClient.invalidateQueries({ queryKey: ['cartItems'] });
+    }
+  };
+
   useEffect(() => {
     setGlobalSelectCount(selectedProducts.length);
   }, [selectedProducts, cartItemArr]);
-
-  useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      setIsLoading(false);
-    })();
-  }, []);
 
   return (
     <article className='mx-auto w-full max-w-[1660px] px-[24px] py-[160px] transition-all duration-300 ease-in-out xl:px-[130px]'>
       {/* 타이틀 */}
       <h2 className='mb-[24px] w-full text-3xl font-semibold'>장바구니</h2>
-      <section className='flex-2 flex h-full w-full gap-12'>
-        <div className='flex w-full flex-col'>
+      <section className='flex w-full h-full gap-12 flex-2'>
+        <div className='flex flex-col w-full'>
           {/* 장바구니 헤더 영역 */}
-          <div className='flex w-full justify-between border-y border-gray300 py-4 text-sm'>
-            <div className='flex w-full items-center gap-3'>
+          <div className='flex justify-between w-full py-4 text-sm border-y border-gray300'>
+            <div className='flex items-center w-full gap-3'>
               <SelectAllCheckBox isChecked={selectAll} cartItemArr={cartItemArr} handleSelectAll={handleSelectAll} />
               <span>전체선택 ({globalSelectCount})</span>
             </div>
-            <div className='flex w-full justify-end'>
-              <button onClick={handleRemoveSelectedItems}>선택삭제</button>
+            <div className='flex justify-end w-full'>
+              <button
+                onClick={
+                  user
+                    ? () => {
+                        handleAsyncDeleteSelectedItems();
+                        handleRemoveSelectedItems();
+                      }
+                    : handleRemoveSelectedItems
+                }
+              >
+                선택삭제
+              </button>
             </div>
           </div>
           {/* 장바구니 리스트 영역 */}
-          <ul className='my-6 flex w-full flex-col gap-8'>
-            {isLoading ? (
-              <CartItemSkeleton />
-            ) : (
+          <ul className='flex flex-col w-full gap-8 my-6'>
+            {isError && (
+              <div className='flex justify-center'>
+                <span>{error?.message}</span>
+              </div>
+            )}
+            {isPending && <CartItemSkeleton />}
+            {!isError &&
+              cartItems &&
               cartItemArr.map((item, idx) => (
                 <CartItem
                   key={idx}
@@ -95,15 +113,14 @@ const CartPage = () => {
                   handleUpdateCount={handleUpdateCount}
                   handleRemoveSingleItem={handleRemoveSingleItem}
                 />
-              ))
-            )}
+              ))}
           </ul>
         </div>
 
         {/* 결제 창 : 모달타입 OR 배너타입 */}
         {shouldResponsive ? (
           <PaymentModal
-            isLoading={isLoading}
+            isLoading={isPending}
             selectedItems={selectedItems}
             totalPrice={totalPrice}
             totalDeliveryFee={totalDeliveryFee}
@@ -113,7 +130,7 @@ const CartPage = () => {
           />
         ) : (
           <PaymentStickyBox
-            isLoading={isLoading}
+            isLoading={isPending}
             selectedItems={selectedItems}
             totalPrice={totalPrice}
             totalDeliveryFee={totalDeliveryFee}

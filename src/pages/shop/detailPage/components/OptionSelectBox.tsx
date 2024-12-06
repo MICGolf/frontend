@@ -5,18 +5,22 @@ import ColorBtns from './ColorBtns';
 import SizeBtns from './SizeBtns';
 import CounterBtn from './CounterBtn';
 import AddCartBtn from './AddCartBtn';
-import NaverPayBtn from './NaverPayBtn';
 import { SignUpModalType } from '@/hooks/useModalState/useModalState';
 import { ProductData, ProductImage } from '@/api/type';
 import { OptionState } from '../types';
 import useSaleState from '@/hooks/useSaleState';
 import useSoldOutState from '@/hooks/useSoldoutState';
+import BuyNowButton from './BuyNowButton';
+import { CartItemData } from '@/assets/dummys/types';
 
 interface OptionSelectBoxProps {
   data: ProductData;
   selectedOption: OptionState;
   isOpen: boolean;
   detailImage: ProductImage[] | null;
+  mutation: any;
+  setUserCart: (cartItems: any) => void;
+  setInstanceCartData: React.Dispatch<React.SetStateAction<CartItemData[]>>;
   setSelectedOption: (prevOption: OptionState) => void;
   setIsOpen: (isOpen: boolean) => void;
   handleModalOpen: (type: SignUpModalType) => void;
@@ -26,6 +30,8 @@ const OptionSelectBox = ({
   data,
   selectedOption,
   detailImage,
+  mutation,
+  setInstanceCartData,
   setSelectedOption,
   handleModalOpen,
 }: OptionSelectBoxProps) => {
@@ -34,6 +40,7 @@ const OptionSelectBox = ({
     discountOption: data.product.discount_option,
   });
   const { isSoldOut } = useSoldOutState(selectedOption?.optionData);
+
   return (
     <div className='sticky top-0 flex h-[100vh] w-1/2 flex-col overflow-auto border-l border-primary bg-white px-[50px] pb-[50px] pt-[150px] transition-all duration-300 ease-in-out md:border-l'>
       <div className='flex flex-col h-full gap-12'>
@@ -77,8 +84,15 @@ const OptionSelectBox = ({
               selectedOption={selectedOption}
               detailImage={detailImage}
               handleModalOpen={handleModalOpen}
+              mutation={mutation}
             />
-            <NaverPayBtn />
+            <BuyNowButton
+              productData={data.product}
+              selectedOption={selectedOption}
+              detailImage={detailImage}
+              handleModalOpen={handleModalOpen}
+              setInstanceCartData={setInstanceCartData}
+            />
           </div>
         </div>
       </div>

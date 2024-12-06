@@ -10,7 +10,7 @@ interface CounterBtnProps {
   isMobile: boolean;
   stock: number | undefined;
   size?: 's' | 'm' | 'l';
-  handleUpdateCount: (id: string, newCount: number) => void;
+  handleUpdateCount: (id: number, newCount: number) => void;
 }
 
 const GlobalCounterBtn = ({ data, isMobile, stock, size = 'l', handleUpdateCount }: CounterBtnProps) => {

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 interface PaymentStickyBoxProps {
   isLoading: boolean;
-  selectedItems: string[];
+  selectedItems: number[];
   totalPrice: number;
   totalDeliveryFee: number;
   globalSelectCount: number;
@@ -49,7 +49,7 @@ const PaymentStickyBox = ({
         ) : (
           <>
             <h3 className='mb-4 text-lg font-semibold'>총 상품 {globalSelectCount}개</h3>
-            <div className='mb-4 flex flex-col gap-2'>
+            <div className='flex flex-col gap-2 mb-4'>
               <div className='flex justify-between text-sm'>
                 <span>상품금액</span>
                 <span>₩{totalPrice.toLocaleString()}</span>
@@ -60,7 +60,7 @@ const PaymentStickyBox = ({
               </div>
             </div>
 
-            <div className='flex flex-col items-end border-y border-gray300 py-4 text-xl font-semibold'>
+            <div className='flex flex-col items-end py-4 text-xl font-semibold border-y border-gray300'>
               <span>결제 예상 금액</span>
               <span>₩{calculateTotal().toLocaleString()}</span>
             </div>

@@ -12,15 +12,17 @@ import { SignUpModalType } from '@/hooks/useModalState/useModalState';
 import useDefaultImage from '@/hooks/useDefaultImage';
 import ImageOnLoadSkeleton from '@/pages/shop/detailPage/components/skeletons/ImageOnLoadSkeleton';
 import DefaultImage from '@/pages/shop/detailPage/components/DefaultImage';
+import { useAuthStore } from '@/config/store';
+import useDeleteCartItem from '@/hooks/useDeleteCartItem';
 
 interface CartItemProps {
   data: CartItemData;
-  selectedItems: string[];
-  handleBuyNow: (itemId: string) => void;
+  selectedItems: number[];
+  handleBuyNow: (itemId: number) => void;
   handleModalOpen: (type: SignUpModalType) => void;
-  handleCartSelectToggle: (itemId: string) => void;
-  handleUpdateCount: (id: string, newCount: number) => void;
-  handleRemoveSingleItem: (itemId: string) => void;
+  handleCartSelectToggle: (itemId: number) => void;
+  handleUpdateCount: (id: number, newCount: number) => void;
+  handleRemoveSingleItem: (itemId: number) => void;
 }
 
 const CartItem = ({
@@ -32,7 +34,10 @@ const CartItem = ({
   handleRemoveSingleItem,
   handleModalOpen,
 }: CartItemProps) => {
-  const isChecked = selectedItems.includes(data.id);
+  const accessToken = localStorage.getItem('accessToken') || '';
+  const { user } = useAuthStore();
+  const mutation = useDeleteCartItem(data.productId, data.optionId, accessToken);
+  const isChecked = selectedItems.map(Number).includes(data.id);
   const isMobile = useMediaQuery({ maxWidth: 468 });
   const { discount, discountOption, price, originPrice, productId, name, id, image, size, color, stock } = data;
   const isThumbnailExist = !!image;
@@ -71,14 +76,14 @@ const CartItem = ({
 
       {!isMobile && (
         <>
-          <div className='flex h-full w-full flex-col justify-between'>
+          <div className='flex flex-col justify-between w-full h-full'>
             <div className='flex flex-col'>
               <Link to={`/product/detail/${productId}`}>
-                <h3 className='mb-1 cursor-pointer text-sm font-semibold md:text-lg'>{name}</h3>
+                <h3 className='mb-1 text-sm font-semibold cursor-pointer md:text-lg'>{name}</h3>
               </Link>
 
               <p className='text-xs text-gray700'>
-                [옵션: {color.name} / {size}]
+                [옵션: {color} / {size}]
               </p>
             </div>
 
@@ -88,7 +93,7 @@ const CartItem = ({
 
             <SalePrice price={price} originPrice={originPrice} originalSize='sm' saleSize='md' />
           </div>
-          <div className='flex h-full w-full flex-col items-end justify-center gap-2'>
+          <div className='flex flex-col items-end justify-center w-full h-full gap-2'>
             <GlobalCounterBtn
               data={data}
               stock={stock}
@@ -98,28 +103,33 @@ const CartItem = ({
             />
             <BuyNowButton size='m' handleModalOpen={handleModalOpen} handleBuyNow={handleBuyNow} data={data} />
           </div>
-          <button className='hidden h-full cursor-pointer xl:block' onClick={() => handleRemoveSingleItem(id)}>
+          <button
+            className='hidden h-full cursor-pointer xl:block'
+            onClick={() => {
+              user ? mutation.mutate() : handleRemoveSingleItem(id);
+            }}
+          >
             <CloseIco />
           </button>
         </>
       )}
       {isMobile && (
-        <div className='flex h-full w-full flex-col justify-between'>
-          <div className='flex h-full w-full flex-col gap-2'>
+        <div className='flex flex-col justify-between w-full h-full'>
+          <div className='flex flex-col w-full h-full gap-2'>
             <div className='flex justify-between'>
               <div className='flex flex-col'>
                 <Link to={`/product/detail/${productId}`}>
-                  <h3 className='mb-1 cursor-pointer text-sm font-semibold md:text-lg'>{name}</h3>
+                  <h3 className='mb-1 text-sm font-semibold cursor-pointer md:text-lg'>{name}</h3>
                 </Link>
                 <p className='text-xs text-gray700'>
-                  [옵션: {color.name} / {size}]
+                  [옵션: {color} / {size}]
                 </p>
               </div>
             </div>
 
             <SalePrice price={price} originPrice={originPrice} originalSize='xs' saleSize='md' flex='col' />
           </div>
-          <div className='flex h-full w-full items-end justify-between gap-2'>
+          <div className='flex items-end justify-between w-full h-full gap-2'>
             <GlobalCounterBtn
               data={data}
               stock={stock}
