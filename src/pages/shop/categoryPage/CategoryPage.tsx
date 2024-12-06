@@ -56,38 +56,41 @@ const CategoryPage = () => {
 
   const { currentSort, currentOrder, sortResult, setCurrentSort } = useSort();
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending, isError, error } = useInfiniteQuery<
-    ProductDatas[]
-  >({
-    queryKey: ['categoryProducts', sortResult, currentOrder, currentCategory],
-    queryFn: async ({ pageParam }) => {
-      try {
-        const response = await productsApi.getProductsData({
-          page: pageParam as number,
-          pageSize: 8,
-          sort: sortResult,
-          order: currentOrder,
-          categoryId: currentCategory,
-        });
-        return response.data;
-      } catch (err) {
-        handleApiError(err);
-      }
-    },
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages) => {
-      return lastPage.length === 8 ? allPages.length + 1 : undefined;
-    },
-    staleTime: 1000 * 5 * 60,
-  });
+  const pageSize = 8;
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending, isError, error } =
+    useInfiniteQuery<ProductDatas>({
+      queryKey: ['categoryProducts', sortResult, currentOrder, currentCategory],
+      queryFn: async ({ pageParam }) => {
+        try {
+          const response = await productsApi.getProductsData({
+            page: pageParam as number,
+            pageSize,
+            sort: sortResult,
+            order: currentOrder,
+            categoryId: currentCategory,
+          });
+          return response.data;
+        } catch (err) {
+          handleApiError(err);
+        }
+      },
+      initialPageParam: 1,
+      getNextPageParam: (lastPage, allPages) => {
+        const currentPage = allPages.length;
+        const totalPages = Math.ceil(lastPage.total_count / pageSize);
+        return currentPage < totalPages ? currentPage + 1 : undefined;
+      },
+      staleTime: 1000 * 5 * 60,
+    });
 
   useEffect(() => {
-    if (inView && hasNextPage) {
+    if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
   }, [inView, hasNextPage, isFetchingNextPage]);
 
-  const categoryProductData = data?.pages.flat()[0].products;
+  const categoryProductData = data?.pages.flatMap((page) => page.products);
 
   if (isError) {
     return (

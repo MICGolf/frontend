@@ -47,6 +47,7 @@ export interface ProductData {
 // 전체 상품 데이터 타입
 export interface ProductDatas {
   products: ProductData[];
+  total_count: number;
 }
 
 export interface getAllProductsParams {
