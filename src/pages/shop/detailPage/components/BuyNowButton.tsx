@@ -2,7 +2,6 @@ import { ProductDetail2, ProductImage } from '@/api/type';
 import { OptionState } from '../types';
 import { SignUpModalType } from '@/hooks/useModalState/useModalState';
 import { CartItemData } from '@/assets/dummys/types';
-import { nanoid } from 'nanoid';
 
 interface BuyNowButtonProps {
   productData: ProductDetail2;
@@ -21,16 +20,14 @@ const BuyNowButton = ({
 }: BuyNowButtonProps) => {
   const handleOnClick = () => {
     const instanceCart: CartItemData = {
-      id: nanoid(),
+      id: new Date().getTime(),
       productId: productData.id,
+      optionId: selectedOption.optionData?.id,
       productCode: productData.product_code,
       name: productData.name,
       image: detailImage?.[0].image_url,
       stock: selectedOption.stock,
-      color: {
-        name: selectedOption.selectedColor?.color,
-        code: selectedOption.selectedColor?.color_code,
-      },
+      color: selectedOption.selectedColor?.color,
       size: selectedOption.selectedSize?.size,
       amount: selectedOption.amount,
       originPrice: productData.origin_price,

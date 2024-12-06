@@ -2,7 +2,6 @@ import { useState } from 'react';
 import LoginOrPaymentModal from './LoginOrPaymentModal';
 import { CartItemData } from '@/assets/dummys/types';
 import AddCartModal from './AddCartModal';
-import { UserPrivacyModal } from './UserPrivacyModal';
 import AddUserCartFailedModal from './AddUserCartFailedModal';
 import { UseMutationResult } from '@tanstack/react-query';
 
