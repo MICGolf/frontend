@@ -14,7 +14,7 @@ type useModalStateProps = {
     totalPrice: number;
     totalDeliveryFee: number;
   };
-  mutation: UseMutationResult<any, Error, any>; // mutation 추가
+  mutation?: UseMutationResult<any, Error, any>; // mutation 추가
 };
 
 const useModalState = ({ paymentData, mutation }: useModalStateProps) => {
@@ -43,7 +43,7 @@ const useModalState = ({ paymentData, mutation }: useModalStateProps) => {
         return <AddCartModal onClose={handleModalClose} isOpen={isOpen} />;
       }
       case '장바구니추가실패': {
-        return <AddUserCartFailedModal onClose={handleModalClose} isOpen={isOpen} errMsg={mutation.error?.message} />;
+        return <AddUserCartFailedModal onClose={handleModalClose} isOpen={isOpen} errMsg={mutation?.error?.message} />;
       }
     }
   };

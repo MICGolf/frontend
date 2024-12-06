@@ -1,20 +1,25 @@
 import { CartItemData } from '@/assets/dummys/types';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import useLocalStorage from './useLocalStorage';
 
 export const useCartSelection = (cartItems: CartItemData[]) => {
   const [_, setValue] = useLocalStorage('cartItems', []);
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [cartItemArr, setCartItemArr] = useState<CartItemData[]>(cartItems); // 상태로 cartItems 배열을 관리
   const [selectAll, setSelectAll] = useState(false); // 전체 선택 상태 추적
 
+  // 전달된 cartItems의 변화를 감지하여 상태 업데이트
+  useEffect(() => {
+    setCartItemArr(cartItems);
+  }, [cartItems]);
+
   // 바로구매 기능
-  const handleBuyNow = (itemId: string) => {
+  const handleBuyNow = (itemId: number) => {
     setSelectedItems([itemId]);
   };
 
   // 장바구니 아이템 리스트 선택(체크박스) 토글
-  const handleCartSelectToggle = (itemId: string) => {
+  const handleCartSelectToggle = (itemId: number) => {
     setSelectedItems(
       (prev) =>
         prev.includes(itemId)
@@ -24,15 +29,12 @@ export const useCartSelection = (cartItems: CartItemData[]) => {
   };
 
   // 수량 변경 함수
-  const handleUpdateCount = (itemId: string, newCount: number) => {
+  const handleUpdateCount = (itemId: number, newCount: number) => {
     setCartItemArr((prevCart) => prevCart.map((item) => (item.id === itemId ? { ...item, amount: newCount } : item)));
   };
 
   // 선택된 제품 필터링
-  const selectedProducts = useMemo(
-    () => cartItemArr.filter((item) => selectedItems.includes(item.id)),
-    [cartItemArr, selectedItems]
-  );
+  const selectedProducts = cartItemArr.filter((item) => selectedItems.includes(item.id));
 
   // 전체 선택/해제 처리
   const handleSelectAll = () => {
@@ -46,16 +48,13 @@ export const useCartSelection = (cartItems: CartItemData[]) => {
 
   // 선택된 아이템 삭제
   const handleRemoveSelectedItems = () => {
-    // 로컬 스토리지에서 삭제된 아이템을 반영
     const updatedCart = cartItemArr.filter((item) => !selectedItems.includes(item.id)); // 선택된 아이템 삭제
     setCartItemArr(updatedCart); // 상태에서 장바구니 업데이트
     setSelectedItems([]); // 선택된 아이템 상태 초기화
-
-    // 삭제된 아이템을 로컬 스토리지에도 반영
     setValue(updatedCart); // 로컬 스토리지에 새로운 장바구니 배열 저장
   };
 
-  const handleRemoveSingleItem = (itemId: string) => {
+  const handleRemoveSingleItem = (itemId: number) => {
     const updatedCart = cartItemArr.filter((item) => item.id !== itemId);
     setCartItemArr(updatedCart);
     setSelectedItems([]);
@@ -65,7 +64,7 @@ export const useCartSelection = (cartItems: CartItemData[]) => {
   useEffect(() => {
     // 전체 선택 상태 업데이트 (장바구니의 아이템 모두가 선택되면 전체 선택 상태 true)
     setSelectAll(selectedItems.length === cartItemArr.length);
-  }, [selectedItems, cartItemArr.length]);
+  }, [selectedItems, cartItemArr, cartItemArr.length]);
 
   return {
     cartItemArr,

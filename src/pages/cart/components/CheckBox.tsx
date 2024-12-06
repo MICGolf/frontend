@@ -1,8 +1,8 @@
 import CheckIco from '@/assets/icons/CheckIco';
 
 interface CheckBoxProps {
-  handleCartSelectToggle: (itemId: string) => void;
-  itemId: string;
+  handleCartSelectToggle: (itemId: number) => void;
+  itemId: number;
   isChecked: boolean;
 }
 
@@ -15,7 +15,7 @@ const CheckBox = ({ handleCartSelectToggle, itemId, isChecked }: CheckBoxProps) 
     <div className='relative inline-block'>
       <input
         type='checkbox'
-        className='peer sr-only'
+        className='sr-only peer'
         name={`cartItem-${itemId}`}
         id={`cartItem-${itemId}`}
         checked={isChecked}

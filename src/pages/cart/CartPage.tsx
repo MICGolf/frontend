@@ -11,11 +11,13 @@ import SelectAllCheckBox from './components/SelectAllCheckBox';
 import CartItemSkeleton from './components/skeletons/CartItemSkeleton';
 import { useAuthStore } from '@/config/store';
 import useGetCartItem from '@/hooks/useGetCartItem';
-// import { useCart } from '@/hooks/useCart';
-
+import { deleteCartItem } from '@/hooks/useDeleteCartItem';
+import { useQueryClient } from '@tanstack/react-query';
 const CartPage = () => {
   const { user } = useAuthStore();
+  const accessToken = localStorage.getItem('accessToken') || '';
   const { cartItems, isPending, isError, error } = useGetCartItem();
+  const queryClient = useQueryClient();
   const {
     cartItemArr,
     selectedItems,
@@ -49,17 +51,19 @@ const CartPage = () => {
     }
   };
 
+  const handleAsyncDeleteSelectedItems = async () => {
+    try {
+      await Promise.all(selectedProducts.map((item) => deleteCartItem(item.productId, item.optionId, accessToken)));
+    } catch (err) {
+      throw err;
+    } finally {
+      queryClient.invalidateQueries({ queryKey: ['cartItems'] });
+    }
+  };
+
   useEffect(() => {
     setGlobalSelectCount(selectedProducts.length);
   }, [selectedProducts, cartItemArr]);
-
-  if (isError) {
-    return (
-      <div>
-        <span>{error?.message}</span>
-      </div>
-    );
-  }
 
   return (
     <article className='mx-auto w-full max-w-[1660px] px-[24px] py-[160px] transition-all duration-300 ease-in-out xl:px-[130px]'>
@@ -74,14 +78,30 @@ const CartPage = () => {
               <span>전체선택 ({globalSelectCount})</span>
             </div>
             <div className='flex justify-end w-full'>
-              <button onClick={handleRemoveSelectedItems}>선택삭제</button>
+              <button
+                onClick={
+                  user
+                    ? () => {
+                        handleAsyncDeleteSelectedItems();
+                        handleRemoveSelectedItems();
+                      }
+                    : handleRemoveSelectedItems
+                }
+              >
+                선택삭제
+              </button>
             </div>
           </div>
           {/* 장바구니 리스트 영역 */}
           <ul className='flex flex-col w-full gap-8 my-6'>
-            {isPending ? (
-              <CartItemSkeleton />
-            ) : (
+            {isError && (
+              <div className='flex justify-center'>
+                <span>{error?.message}</span>
+              </div>
+            )}
+            {isPending && <CartItemSkeleton />}
+            {!isError &&
+              cartItems &&
               cartItemArr.map((item, idx) => (
                 <CartItem
                   key={idx}
@@ -93,8 +113,7 @@ const CartPage = () => {
                   handleUpdateCount={handleUpdateCount}
                   handleRemoveSingleItem={handleRemoveSingleItem}
                 />
-              ))
-            )}
+              ))}
           </ul>
         </div>
 

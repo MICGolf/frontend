@@ -4,7 +4,7 @@ import { SignUpModalType } from '@/hooks/useModalState/useModalState';
 interface BuyNowButtonProps {
   data: CartItemData;
   size?: 's' | 'm' | 'l';
-  handleBuyNow: (itemId: string) => void;
+  handleBuyNow: (itemId: number) => void;
   handleModalOpen: (type: SignUpModalType) => void;
 }
 

@@ -9,7 +9,6 @@ interface SizeBtnsProps {
 }
 
 const SizeBtns = ({ data, selectedOption, onSelect }: SizeBtnsProps) => {
-  console.log('사이즈버튼: ', data);
   const [selectedSizeName, setSelectedSizeName] = useState<string>('');
   const isColorSelected = !!selectedOption.selectedColor;
 
@@ -57,8 +56,6 @@ const SizeBtns = ({ data, selectedOption, onSelect }: SizeBtnsProps) => {
   const filteredSizes = isColorSelected
     ? sortSizes(data.options.find((option) => option.color === selectedOption.selectedColor?.color)?.sizes || [])
     : [];
-
-  console.log(filteredSizes);
 
   const handleSizeChange = (size: ProductSize) => {
     const isSelected = selectedSizeName === size.size;

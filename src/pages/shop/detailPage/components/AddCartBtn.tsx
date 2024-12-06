@@ -1,7 +1,6 @@
 import { ProductDetail2, ProductImage } from '@/api/type';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import { SignUpModalType } from '@/hooks/useModalState/useModalState';
-import { nanoid } from 'nanoid';
 import { useState } from 'react';
 import { OptionState } from '../types';
 import { CartItemData } from '@/assets/dummys/types';
@@ -33,7 +32,7 @@ const AddCartBtn = ({ productData, selectedOption, detailImage, mutation, handle
     const existingCartItemIndex = cartItems.findIndex((item: CartItemData) => {
       const isProductIdMatch = item.productId === selectedOption.productData?.id;
       const isColorMatch =
-        item.color.name?.trim().toLowerCase() === selectedOption.selectedColor?.color.trim().toLowerCase();
+        item.color?.trim().toLowerCase() === selectedOption.selectedColor?.color.trim().toLowerCase();
       const isProductCodeMatch =
         item.productCode.trim().toLowerCase() === selectedOption.productCode.trim().toLowerCase();
       const isSizeMatch = item.size?.trim().toLowerCase() === selectedOption.selectedSize?.size.trim().toLowerCase();
@@ -45,16 +44,14 @@ const AddCartBtn = ({ productData, selectedOption, detailImage, mutation, handle
 
     // 비회원 장바구니 항목
     const newCartItem: CartItemData = {
-      id: nanoid(),
+      id: new Date().getTime(),
       productId: productData.id,
       productCode: productData.product_code,
+      optionId: selectedOption.optionData?.id,
       name: productData.name,
       image: detailImage?.[0].image_url,
       stock: selectedOption.stock,
-      color: {
-        name: selectedOption.selectedColor?.color,
-        code: selectedOption.selectedColor?.color_code,
-      },
+      color: selectedOption.selectedColor?.color,
       size: selectedOption.selectedSize?.size,
       amount: selectedOption.amount,
       originPrice: productData.origin_price,
@@ -69,6 +66,8 @@ const AddCartBtn = ({ productData, selectedOption, detailImage, mutation, handle
       optionId: selectedOption.optionData?.id,
       amount: selectedOption.amount,
     };
+
+    console.log('옵션아이디: ', selectedOption.optionData?.id, selectedOption.optionData);
 
     if (existingCartItemIndex > -1) {
       updatedCartItems = cartItems.map((item: CartItemData, index: number) =>
@@ -91,6 +90,7 @@ const AddCartBtn = ({ productData, selectedOption, detailImage, mutation, handle
     console.log('회원 장바구니 항목:', newUserCartItem);
     mutation.mutate(newUserCartItem, {
       onSuccess: () => {
+        localStorage.removeItem('cartItems');
         handleModalOpen('장바구니');
       },
       onError: () => {

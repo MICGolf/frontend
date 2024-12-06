@@ -10,6 +10,7 @@ import { client } from './client';
  * @param id
  * @returns
  */
-export const 예시 = async (id: number) => {
-  return client.get(`/API 주소 적으세요/${id}`);
+
+export const deleteCartItem = async (productId: number, optionId: number, accessToken: string) => {
+  return;
 };
