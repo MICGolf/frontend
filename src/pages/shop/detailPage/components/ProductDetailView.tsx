@@ -35,8 +35,6 @@ const ProductDetailView = ({ data }: ProductDetailViewProps) => {
     stock: 0,
   });
 
-  console.log(selectedOption.optionData);
-
   const optionSelectBoxProps = {
     data,
     selectedOption,
