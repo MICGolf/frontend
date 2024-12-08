@@ -5,7 +5,8 @@ import axios from 'axios';
 
 export interface UserCartItemParam {
   productId: number;
-  optionId: number | undefined;
+  color: string | undefined;
+  size: string | undefined;
   amount: number;
 }
 
@@ -21,7 +22,8 @@ const usePostCartItem = () => {
         `/cart`,
         {
           product_id: userCartItem.productId,
-          option_id: userCartItem.optionId,
+          color: userCartItem.color,
+          size: userCartItem.size,
           product_count: userCartItem.amount,
         },
         {
