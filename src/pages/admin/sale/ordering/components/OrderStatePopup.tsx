@@ -3,16 +3,15 @@ import { OrderingListType } from '../type';
 import { useForm, FormProvider } from 'react-hook-form';
 
 const OrderStatePopup = ({ onClose, checkedList }: { onClose: () => void; checkedList: OrderingListType[] }) => {
-  const orderNumber = [...new Set(checkedList.map((item) => item.orderNumber))];
+  const orderNumber = [...new Set(checkedList.map((item) => item.order_number))];
   const methods = useForm();
   const { handleSubmit } = methods;
   const handlerSubmit = (data: any) => console.log(data);
 
   return (
-    <FormProvider {...methods}>
-      <form className='overflow-hidden' onSubmit={handleSubmit(handlerSubmit)}>
-        <div onClick={onClose} className='absolute left-0 top-0 flex h-full w-full bg-black/50' />
-        <div className='absolute left-1/2 top-1/2 m-auto w-2/3 translate-x-[-50%] translate-y-[-50%] rounded-lg bg-white p-4'>
+    <div className='fixed left-0 top-0 flex h-full w-full items-center justify-center'>
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(handlerSubmit)} className='z-10 w-2/3 overflow-hidden rounded-lg bg-white p-4'>
           <h4 className='text-xl font-semibold'>주문번호 : {orderNumber.join(', ')}</h4>
           {orderNumber.length > 1 ? <p>주문번호가 2건 이상입니다. 확인해주세요.</p> : ''}
           <div className='mt-4 rounded-lg border border-neutral-200 p-4'>
@@ -32,7 +31,7 @@ const OrderStatePopup = ({ onClose, checkedList }: { onClose: () => void; checke
                 <tbody className='text-center text-base'>
                   {checkedList.map((item) => (
                     <tr key={item.id} className='border-b border-neutral-200'>
-                      <td className='py-2'>{item.orderNumber}</td>
+                      <td className='py-2'>{item.order_number}</td>
                       <td className='py-2'>{item.productOrderNumber}</td>
                       <td className='py-2'>{item.orderDate}</td>
                     </tr>
@@ -56,9 +55,10 @@ const OrderStatePopup = ({ onClose, checkedList }: { onClose: () => void; checke
               등록
             </button>
           </div>
-        </div>
-      </form>
-    </FormProvider>
+        </form>
+        <div onClick={onClose} className='absolute h-full w-full bg-black/50' />
+      </FormProvider>
+    </div>
   );
 };
 

@@ -147,6 +147,7 @@ export const Category = ({ onClose }: { onClose: () => void }) => {
   const onSubmit = (data: any) => {
     postCategoryMutation.mutate({ parent_id, name: data.addCategoryName });
   };
+  //같은카테고리 요청할때 셍긱하기, 키를 동적으로 받기|  대분류 중분류 소분류 api 같은걸로 할 수 있기
   return (
     <div className='fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center'>
       <div onClick={onClose} className='absolute h-full w-full bg-black/50' />

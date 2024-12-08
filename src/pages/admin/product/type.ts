@@ -32,7 +32,7 @@ export interface ProductListType {
 }
 
 export interface ProductListProps {
-  productListArray: ProductListType[];
+  productListArray: { products: ProductListType[]; total_count: number };
   isPending: boolean;
   error: any;
   pageLimit: number;
@@ -47,6 +47,7 @@ export interface ProductFilterProps {
   pageLimit: number;
   setSearchParams: (params: any) => void;
   onSubmit: () => void;
+  searchParams?: URLSearchParams;
 }
 
 export interface ProductFilterFormData {

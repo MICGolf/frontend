@@ -1,6 +1,11 @@
 import { SectionBox } from '@/pages/admin/components/SectionBox';
 import ListHeader from '@/pages/admin/components/ListHeader';
 import { OrderingListType } from '../type';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { orderApi } from '@/api';
+import Pagination from '@/pages/admin/components/Pagination';
+import { useSearchParams } from 'react-router-dom';
 
 const ListHeaderArray = [
   { className: 'w-1/12', title: '체크박스' },
@@ -9,32 +14,6 @@ const ListHeaderArray = [
   { className: 'basis-full', title: '발주상태' },
   { className: 'basis-full', title: '택배사' },
   { className: 'basis-full', title: '송장번호' },
-];
-const productListArray: OrderingListType[] = [
-  {
-    id: 1,
-    orderNumber: '주문번호1',
-    productOrderNumber: '상품주문번호1',
-    orderDate: '발주상태1',
-    orderStatus: '택배사1',
-    depositDueDate: '송장번호1',
-  },
-  {
-    id: 2,
-    orderNumber: '주문번호2',
-    productOrderNumber: '상품주문번호2',
-    orderDate: '발주상태2',
-    orderStatus: '택배사2',
-    depositDueDate: '송장번호2',
-  },
-  {
-    id: 3,
-    orderNumber: '주문번호1',
-    productOrderNumber: '상품주문번호3',
-    orderDate: '발주상태1',
-    orderStatus: '택배사1',
-    depositDueDate: '송장번호1',
-  },
 ];
 const OrderingList = ({
   handleShowPopup,
@@ -45,64 +24,108 @@ const OrderingList = ({
   checkedList: OrderingListType[];
   setCheckedList: React.Dispatch<React.SetStateAction<OrderingListType[]>>;
 }) => {
+  const [page, setPage] = useState(1);
+  const [pageLimit, setPageLimit] = useState<number>(10);
+  const [searchParams] = useSearchParams();
+
+  const { data: orderSearchData, refetch } = useQuery({
+    queryKey: ['orderSearch', pageLimit, searchParams.toString()],
+    queryFn: async () => {
+      const response = await orderApi.getOrderSearch(searchParams);
+      if (!response) return null;
+      return response.data;
+    },
+  });
+  useEffect(() => {
+    refetch();
+  }, [pageLimit, refetch]);
+  const formatDate = (isoString: string) => {
+    const date = new Date(isoString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    return `${year}:${month}:${day} ${hours}:${minutes}:${seconds}`;
+  };
+  const orderSearchOrders = orderSearchData?.orders ? orderSearchData?.orders : undefined;
+  useEffect(() => console.log(checkedList));
   return (
-    <SectionBox title={`상품목록 총(${productListArray.length}개)`}>
+    <SectionBox
+      title={`상품목록 총(${orderSearchData?.total}개)`}
+      selectOptions={true}
+      pageLimit={pageLimit}
+      setPageLimit={setPageLimit}
+    >
       <div className='px-5'>
         <ListHeader
           HeaderListArray={ListHeaderArray}
           checkedList={checkedList}
           setCheckedList={setCheckedList}
-          listArray={productListArray}
+          listArray={orderSearchOrders}
         />
         <div>
-          {productListArray.map((item, index) => (
-            <div
-              key={index}
-              className='flex items-center justify-stretch justify-items-center self-stretch border-b border-neutral-200 py-3 text-center'
-            >
-              <div className='flex w-1/12 items-center justify-center'>
-                <input
-                  type='checkbox'
-                  checked={checkedList.some((checkedItem) => checkedItem.id === item.id)}
-                  onChange={() => {
-                    if (checkedList.some((checkedItem) => checkedItem.id === item.id)) {
-                      setCheckedList(checkedList.filter((checkedItem) => checkedItem.id !== item.id));
-                    } else {
-                      setCheckedList([...checkedList, item]);
-                    }
-                  }}
-                  disabled={false}
-                />
-              </div>
+          {orderSearchOrders &&
+            orderSearchOrders.map((order: any) => {
+              if (orderSearchOrders.length === 0 || orderSearchOrders == undefined) return <p>주문이 없습니다.</p>;
+              if (order.products.length === 0) return console.log('주문상태에 상품이 포함되어있지 않음');
+              order.products.map((order: any) => {
+                return (
+                  <div
+                    key={order.id}
+                    className='flex items-center justify-stretch justify-items-center self-stretch border-b border-neutral-200 py-3 text-center'
+                  >
+                    <div className='flex w-1/12 items-center justify-center'>
+                      <input
+                        type='checkbox'
+                        checked={checkedList.some((checkedItem) => checkedItem.id === order.id)}
+                        onChange={() => {
+                          if (checkedList.some((checkedItem) => checkedItem.id === order.id)) {
+                            setCheckedList(checkedList.filter((checkedItem) => checkedItem.id !== order.id));
+                          } else {
+                            setCheckedList([...checkedList, order]);
+                          }
+                        }}
+                        disabled={false}
+                      />
+                    </div>
 
-              <div className='basis-full'>{item.orderNumber}</div>
-              <div className='basis-full'>{item.productOrderNumber}</div>
-              <div className='basis-full'>{item.orderDate}</div>
-              <div className='basis-full'>{item.orderStatus}</div>
-              <div className='basis-full'>{item.depositDueDate}</div>
-            </div>
-          ))}
+                    <div className='basis-full'>{order.order_number}</div>
+                    <div className='basis-full'>{order.products.id}</div>
+                    <div className='basis-full'>{formatDate(order.created_at)}</div>
+                    <div className='basis-full'>{order.shipping.courier}</div>
+                    <div className='basis-full'>{order.shipping.tracking_number}</div>
+                  </div>
+                );
+              });
+            })}
         </div>
         <div className='mt-5 flex justify-center gap-5'>
           <button
+            type='button'
             onClick={() => {}}
             className='block w-2/4 rounded-md border-[1px] border-neutral-200 bg-white px-4 py-2 text-base text-black duration-300 ease-in-out hover:scale-105 hover:bg-black hover:text-white'
           >
             발주확인
           </button>
           <button
+            type='button'
             onClick={() => {}}
             className='block w-2/4 rounded-md border-[1px] border-neutral-200 bg-white px-4 py-2 text-base text-black duration-300 ease-in-out hover:scale-105 hover:bg-black hover:text-white'
           >
             발송처리
           </button>
           <button
+            type='button'
             onClick={() => {}}
             className='block w-2/4 rounded-md border-[1px] border-neutral-200 bg-white px-4 py-2 text-base text-black duration-300 ease-in-out hover:scale-105 hover:bg-black hover:text-white'
           >
             발송지연처리
           </button>
           <button
+            type='button'
             onClick={() => {}}
             className='block w-2/4 rounded-md border-[1px] border-neutral-200 bg-white px-4 py-2 text-base text-black duration-300 ease-in-out hover:scale-105 hover:bg-black hover:text-white'
           >
@@ -110,6 +133,7 @@ const OrderingList = ({
           </button>
 
           <button
+            type='button'
             onClick={handleShowPopup}
             className={`${checkedList.length === 0 ? 'cursor-not-allowed opacity-50' : ''} block w-2/4 rounded-md border-[1px] border-neutral-200 bg-white px-4 py-2 text-base text-black duration-300 ease-in-out hover:scale-105 hover:bg-black hover:text-white`}
             disabled={checkedList.length === 0}
@@ -118,6 +142,7 @@ const OrderingList = ({
             송장입력
           </button>
           <button
+            type='button'
             onClick={handleShowPopup}
             className={`${checkedList.length === 0 ? 'cursor-not-allowed opacity-50' : ''} block w-2/4 rounded-md border-[1px] border-neutral-200 bg-white px-4 py-2 text-base text-black duration-300 ease-in-out hover:scale-105 hover:bg-black hover:text-white`}
             disabled={checkedList.length === 0}
@@ -126,6 +151,7 @@ const OrderingList = ({
             송장수정
           </button>
         </div>
+        <Pagination total={orderSearchData && orderSearchData.total} page={page} setPage={setPage} />
       </div>
     </SectionBox>
   );

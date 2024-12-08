@@ -33,6 +33,7 @@ const ProductList = ({
   setQuantitPopupData,
   setSearchParams,
 }: ProductListProps) => {
+  const productList = productListArray?.products;
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [checkedList, setCheckedList] = useState<ProductListType[]>([]);
@@ -74,7 +75,7 @@ const ProductList = ({
 
   return (
     <SectionBox
-      title={`상품목록 총(${productListArray?.length}개)`}
+      title={`상품목록 총(${productListArray && productListArray.total_count}개)`}
       selectOptions={true}
       pageLimit={pageLimit}
       setPageLimit={setPageLimit}
@@ -85,14 +86,14 @@ const ProductList = ({
           HeaderListArray={ListHeaderArray}
           checkedList={checkedList}
           setCheckedList={setCheckedList}
-          listArray={productListArray}
+          listArray={productList}
         />
         <div>
-          {!productListArray && <div className='mt-5 text-center text-base text-neutral-500'>상품이 없습니다.</div>}
+          {!productList && <div className='mt-5 text-center text-base text-neutral-500'>상품이 없습니다.</div>}
           {isPending && <div>Loading...</div>}
           {error && <div>An error has occurred: {error.message}</div>}
-          {productListArray &&
-            productListArray.map((item, index) => (
+          {productList &&
+            productList.map((item, index) => (
               <div
                 key={index}
                 className='flex items-center justify-stretch justify-items-center self-stretch border-b border-neutral-200 py-3 text-center'
@@ -194,7 +195,7 @@ const ProductList = ({
             판매중
           </button>
         </div>
-        <Pagination total={10} page={page} setPage={setPage} />
+        <Pagination total={productListArray && productListArray.total_count} page={page} setPage={setPage} />
       </div>
     </SectionBox>
   );

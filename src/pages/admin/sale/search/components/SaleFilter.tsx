@@ -3,12 +3,29 @@ import { useForm, FormProvider } from 'react-hook-form';
 import arrowDropDown from '@/assets/icons/arrowDropDown.svg';
 import arrowDropUp from '@/assets/icons/arrowDropUp.svg';
 import DatePickInputs from '@/pages/admin/components/DatePickInputs';
+import { ProductFilterProps } from '@/pages/admin/product/type';
 
-const SaleFilter = () => {
+const SaleFilter = ({ setSearchParams, onSubmit, pageLimit }: ProductFilterProps) => {
+  const searchParamsData = new URLSearchParams();
   const methods = useForm();
   const { handleSubmit, register, reset } = methods;
+  const handlerSubmit = (data: any) => {
+    console.log(searchParamsData);
+    switch (data.searchType) {
+      case 'orderNumber':
+        searchParamsData.append('order_number', data.searchKeyword);
+        break;
+    }
+    if (data.startDate) searchParamsData.append('start_date', data.startDate);
+    if (data.endDate) searchParamsData.append('end_date', data.endDate);
 
-  const handlerSubmit = (data: any) => console.log(data);
+    searchParamsData.append('page', '1');
+    searchParamsData.append('page_size', String(pageLimit));
+    searchParamsData.append('sort', 'created_at');
+    setSearchParams(searchParamsData);
+    onSubmit();
+    console.log(data);
+  };
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -30,14 +47,9 @@ const SaleFilter = () => {
             defaultValue='all'
           >
             <option value='all'>전체</option>
-            <option value='recipientName'>수취인명</option>
-            <option value='buyerName'>구매자명</option>
-            <option value='buyerContact'>구매자연락처</option>
-            <option value='buyerId'>구매자ID</option>
             <option value='orderNumber'>주문번호</option>
             <option value='productOrderNumber'>상품주문번호</option>
             <option value='productNumber'>상품 번호</option>
-            <option value='invoiceNumber'>송장번호</option>
           </select>
           <input
             type='text'
