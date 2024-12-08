@@ -25,11 +25,9 @@ export const SectionBox = ({
                 className='mr-4 w-20 rounded-md border border-neutral-200 px-1 py-1 text-sm'
                 onChange={(e) => {
                   const value = e.target.value;
-
                   if (setPageLimit) {
                     setPageLimit(Number(value));
                     localStorage.setItem('pageListLimit', value);
-
                     const currentParams = new URLSearchParams(searchParams);
                     currentParams.set('page_size', value);
                     setSearchParams(currentParams);

@@ -37,13 +37,16 @@ const ProductSearch = () => {
     error,
     refetch,
   } = useQuery({
-    queryKey: ['productFilter', searchParams.toString(), pageLimit],
+    queryKey: ['productFilter', searchParams.toString(), pageLimit, page],
     queryFn: async () => {
       const response = await adminApi.getAdminProducts(searchParams);
       if (!response) return null;
+      console.log(response.data);
       return response.data;
     },
   });
+  console.log(productFilterData);
+
   useEffect(() => {
     refetch();
   }, [pageLimit, refetch]);
