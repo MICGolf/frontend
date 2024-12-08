@@ -47,6 +47,7 @@ export interface ProductFilterProps {
   pageLimit: number;
   setSearchParams: (params: any) => void;
   onSubmit: () => void;
+  searchParams?: URLSearchParams;
 }
 
 export interface ProductFilterFormData {

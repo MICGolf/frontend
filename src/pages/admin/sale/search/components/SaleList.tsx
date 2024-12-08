@@ -14,16 +14,7 @@ const ListHeaderArray = [
   { className: 'basis-full', title: '옵션정보' },
 ];
 
-const SaleList = ({
-  orderSearchData,
-  page,
-  setPage,
-  pageLimit,
-  setPageLimit,
-  isPending,
-  error,
-  setSearchParams,
-}: any) => {
+const SaleList = ({ orderSearchData, page, setPage, pageLimit, setPageLimit, setSearchParams }: any) => {
   const formatDate = (isoString: string) => {
     const date = new Date(isoString);
     const year = date.getFullYear();
@@ -36,9 +27,10 @@ const SaleList = ({
     return `${year}:${month}:${day} ${hours}:${minutes}:${seconds}`;
   };
   const orderSearchOrders = orderSearchData?.orders ? orderSearchData?.orders : undefined;
+  console.log(orderSearchOrders);
   return (
     <SectionBox
-      title={`상품목록 총(${orderSearchOrders?.length}개)`}
+      title={`상품목록 총(${orderSearchData?.total}개)`}
       selectOptions={true}
       pageLimit={pageLimit}
       setPageLimit={setPageLimit}
@@ -50,22 +42,27 @@ const SaleList = ({
           {orderSearchOrders &&
             orderSearchOrders.map((order: any) => {
               if (orderSearchOrders.length === 0 || orderSearchOrders == undefined) return <p>주문이 없습니다.</p>;
-              return (
-                <div
-                  key={order.id}
-                  className='flex items-center justify-stretch justify-items-center self-stretch border-b border-neutral-200 py-3 text-center'
-                >
-                  <div className='basis-full'>{order.order_number}</div>
-                  <div className='basis-full'>{order.productOrderNumber}</div>
-                  <div className='basis-full'>{formatDate(order.created_at)}</div>
-                  <div className='basis-full'>{order.order_status}</div>
-                  <div className='basis-full'>{order.deliveryAttributes}</div>
-                  <div className='basis-full'>{order.claimStatus ? order.claimStatus : '-'}</div>
-                  <div className='basis-full'>{order.productNumber}</div>
-                  <div className='basis-full'>{order.productName}</div>
-                  <div className='basis-full'>{order.optionInfo}</div>
-                </div>
-              );
+              if (order.products.length === 0) return console.log('주문상태에 상품이 포함되어있지 않음');
+              order.products.map((item: any) => {
+                return (
+                  <div
+                    key={order.id}
+                    className='flex items-center justify-stretch justify-items-center self-stretch border-b border-neutral-200 py-3 text-center'
+                  >
+                    <div className='basis-full'>{order.order_number}</div>
+                    <div className='basis-full'>{item.id}</div>
+                    <div className='basis-full'>{formatDate(order.created_at)}</div>
+                    <div className='basis-full'>{order.order_status}</div>
+                    <div className='basis-full'>{item.shipping_status}</div>
+                    <div className='basis-full'>{order.claimStatus ? order.claimStatus : '-'}</div>
+                    <div className='basis-full'>{order.productNumber}</div>
+                    <div className='basis-full'>{item.product_name}</div>
+                    <div className='basis-full'>
+                      {item.option.size}, {item.option.color}
+                    </div>
+                  </div>
+                );
+              });
             })}
         </div>
         <Pagination total={orderSearchData && orderSearchData.total} page={page} setPage={setPage} />

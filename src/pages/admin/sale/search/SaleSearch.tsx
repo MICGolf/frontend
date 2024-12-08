@@ -39,6 +39,7 @@ export const SaleSearch = () => {
         pageLimit={pageLimit}
         setPageLimit={setPageLimit}
         setSearchParams={setSearchParams}
+        searchParams={searchParams}
       />
     </>
   );

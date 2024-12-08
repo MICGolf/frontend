@@ -5,12 +5,12 @@ import arrowDropUp from '@/assets/icons/arrowDropUp.svg';
 import DatePickInputs from '@/pages/admin/components/DatePickInputs';
 import { ProductFilterProps } from '@/pages/admin/product/type';
 
-const SaleFilter = ({ setSearchParams, onSubmit, pageLimit }: ProductFilterProps) => {
+const SaleFilter = ({ setSearchParams, onSubmit, pageLimit, searchParams }: ProductFilterProps) => {
+  const searchParamsData = new URLSearchParams();
   const methods = useForm();
   const { handleSubmit, register, reset } = methods;
-
   const handlerSubmit = (data: any) => {
-    const searchParamsData = new URLSearchParams();
+    console.log(searchParamsData);
     switch (data.searchType) {
       case 'orderNumber':
         searchParamsData.append('order_number', data.searchKeyword);
@@ -47,10 +47,6 @@ const SaleFilter = ({ setSearchParams, onSubmit, pageLimit }: ProductFilterProps
             defaultValue='all'
           >
             <option value='all'>전체</option>
-            {/* <option value='recipientName'>수취인명</option>
-            <option value='order_status'>구매자명</option>
-            <option value='order_number'>구매자연락처</option>
-            <option value='buyerId'>구매자ID</option> */}
             <option value='orderNumber'>주문번호</option>
             <option value='productOrderNumber'>상품주문번호</option>
             <option value='productNumber'>상품 번호</option>

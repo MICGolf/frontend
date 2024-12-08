@@ -5,9 +5,7 @@ import { useSearchParams } from 'react-router-dom';
 const Pagination = ({ total = 200, page, setPage }: PaginationProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const limit = Number(localStorage.getItem('pageListLimit') || '10');
-
   const numPages = Math.ceil(total / limit);
-  console.log(numPages);
   const showedLecture = new Array(numPages).fill(0);
   useEffect(() => {
     const currentParams = new URLSearchParams(searchParams);

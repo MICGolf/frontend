@@ -75,7 +75,7 @@ const ProductList = ({
 
   return (
     <SectionBox
-      title={`상품목록 총(${productList?.length}개)`}
+      title={`상품목록 총(${productListArray && productListArray.total_count}개)`}
       selectOptions={true}
       pageLimit={pageLimit}
       setPageLimit={setPageLimit}
@@ -195,7 +195,7 @@ const ProductList = ({
             판매중
           </button>
         </div>
-        <Pagination total={10} page={page} setPage={setPage} />
+        <Pagination total={productListArray && productListArray.total_count} page={page} setPage={setPage} />
       </div>
     </SectionBox>
   );

@@ -6,15 +6,9 @@ import { OrderingListType } from './type';
 import { useQuery } from '@tanstack/react-query';
 import { orderApi } from '@/api';
 
-const productStatusArray = [
-  { title: '발주 전', count: 0 },
-  { title: '발주 후', count: 0 },
-];
-
 const SaleOrdering = () => {
   const [checkedList, setCheckedList] = useState<OrderingListType[]>([]);
-  const [page, setPage] = useState(1);
-  const [pageLimit, setPageLimit] = useState<number>(10);
+
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
     if (isOpen) {
@@ -26,26 +20,19 @@ const SaleOrdering = () => {
       document.body.style.overflow = 'auto';
     };
   }, [isOpen]);
-
-  const {
-    data: orderSearchData,
-    isPending,
-    error,
-    refetch,
-  } = useQuery({
-    queryKey: ['orderSearch', pageLimit],
+  const { data: orderStatisticsData } = useQuery({
+    queryKey: ['orderStatisiecs'],
     queryFn: async () => {
-      const response = await orderApi.getOrderSearch();
+      const response = await orderApi.getOrderStatistics();
       if (!response) return null;
-      console.log(response.data);
       return response.data;
     },
+    staleTime: 1000 * 60,
   });
-  console.log('orderSearchData', orderSearchData);
-
-  useEffect(() => {
-    refetch();
-  }, [pageLimit, refetch]);
+  const productStatusArray = [
+    { title: '신규주문(발주확인 처리 전)', count: orderStatisticsData?.pending_orders },
+    { title: '신규주문(발주확인 처리 후)', count: orderStatisticsData?.shipping_orders },
+  ];
   return (
     <>
       <ProductStatusDashboard productStatusArray={productStatusArray} />
