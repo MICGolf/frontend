@@ -5,7 +5,7 @@ import arrowDropUp from '@/assets/icons/arrowDropUp.svg';
 import DatePickInputs from '@/pages/admin/components/DatePickInputs';
 import { ProductFilterProps } from '@/pages/admin/product/type';
 
-const SaleFilter = ({ setSearchParams, onSubmit, pageLimit, searchParams }: ProductFilterProps) => {
+const SaleFilter = ({ setSearchParams, onSubmit, pageLimit }: ProductFilterProps) => {
   const searchParamsData = new URLSearchParams();
   const methods = useForm();
   const { handleSubmit, register, reset } = methods;
