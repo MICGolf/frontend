@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { OptionState } from '../types';
 import { CartItemData } from '@/assets/dummys/types';
 import { useAuthStore } from '@/config/store';
+import { UserCartItemParam } from '@/hooks/usePostCartItem';
 
 interface AddCartBtnProps {
   mutation: any;
@@ -12,12 +13,6 @@ interface AddCartBtnProps {
   selectedOption: OptionState;
   detailImage: ProductImage[] | null;
   handleModalOpen: (type: SignUpModalType) => void;
-}
-
-export interface UserCartItemParam {
-  productId: number;
-  optionId: number | undefined;
-  amount: number;
 }
 
 const AddCartBtn = ({ productData, selectedOption, detailImage, mutation, handleModalOpen }: AddCartBtnProps) => {
@@ -63,7 +58,8 @@ const AddCartBtn = ({ productData, selectedOption, detailImage, mutation, handle
     // 회원 장바구니 항목
     const newUserCartItem: UserCartItemParam = {
       productId: productData.id,
-      optionId: selectedOption.optionData?.id,
+      color: selectedOption.selectedColor?.color,
+      size: selectedOption.selectedSize?.size,
       amount: selectedOption.amount,
     };
 
