@@ -21,6 +21,7 @@ type CheckoutFormData = {
   phoneNumber: string;
   senderName: string;
   zoneCode: string;
+  email: string;
 };
 
 const CheckoutPage = () => {
@@ -102,8 +103,13 @@ const CheckoutPage = () => {
     totalPrice: number;
   };
 
+  const 서버결제요청 = async () => {};
+  const 결제영수처리 = async () => {};
+
   // INFO: PortOne 결제 로직
   const handlePaymentClick = async (data: CheckoutFormData) => {
+    const response = await 서버결제요청();
+
     const paymentId = `payment-${nanoid()}`; // DB쪽에서 사용하는 결제id 양식이 있는지 확인해야함.
     const paymentData: PortOne.PaymentRequest = {
       storeId,
@@ -119,7 +125,7 @@ const CheckoutPage = () => {
         lastName: data.senderName[0], // 사용자 성
         fullName: data.senderName,
         phoneNumber: data.phoneNumber,
-        email: 'example@naver.com', // 사용자 이메일 받아와야함
+        email: data.email, // 사용자 이메일 받아와야함
         address: {
           addressLine1: data.fullAddress,
           addressLine2: data.detailAddress,
@@ -127,6 +133,7 @@ const CheckoutPage = () => {
         zipcode: data.zoneCode,
       },
     };
+
     if (data) {
       setLoadingFlag(true);
       try {
@@ -139,6 +146,8 @@ const CheckoutPage = () => {
         setLoadingFlag(false);
       }
     }
+
+    const responseData = await 결제영수처리();
   };
 
   return (
@@ -176,6 +185,16 @@ const CheckoutPage = () => {
                     const value = e.target.value.replace(/[^0-9]/g, ''); // 숫자만 입력
                     setValue('phoneNumber', value, { shouldValidate: true }); // 검증 실행
                   }}
+                />
+                <Input
+                  type='email'
+                  label='이메일'
+                  name='email'
+                  register={register}
+                  registerOptions={{
+                    required: '이메일을 입력해주세요',
+                  }}
+                  error={errors.email?.message}
                 />
               </div>
 
