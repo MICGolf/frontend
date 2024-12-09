@@ -33,6 +33,9 @@ jobs:
           VITE_KAKAO_REDIRECT_URI: ${{secrets.VITE_KAKAO_REDIRECT_URI}}
           VITE_NAVER_CLIENT_ID: ${{secrets.VITE_NAVER_CLIENT_ID}}
           VITE_NAVER_REDIRECT_URI: ${{secrets.VITE_NAVER_REDIRECT_URI}}
+          VITE_PORTONE_SECRET_KEY: ${{secrets.VITE_PORTONE_SECRET_KEY}}
+          VITE_PORTONE_STORE_ID: ${{secrets.VITE_PORTONE_STORE_ID}}
+          VITE_PORTONE_CHANNEL_KEY: ${{secrets.VITE_PORTONE_CHANNEL_KEY}}
         run: npm run build
 
       - name: 빌드 파일 디버깅

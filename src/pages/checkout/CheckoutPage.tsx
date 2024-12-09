@@ -256,20 +256,20 @@ const CheckoutPage = () => {
               {/* step 4 */}
               <div className='flex flex-col gap-[10px]'>
                 <h2 className='text-2xl'>개인정보 수집/제공</h2>
-                <label className='flex items-center gap-2 cursor-pointer'>
+                <label className='flex cursor-pointer items-center gap-2'>
                   <input type='checkbox' hidden checked={isAllChecked} onChange={handleToggleAll} />
                   <span
                     className={`flex h-5 w-5 items-center justify-center rounded-sm border-2 ${isAllChecked ? 'bg-black' : 'bg-white'}`}
                   >
                     {isAllChecked && (
-                      <svg className='w-5 h-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+                      <svg className='h-5 w-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
                         <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
                       </svg>
                     )}
                   </span>
                   전체 동의
                 </label>
-                <label className='flex items-center gap-2 cursor-pointer'>
+                <label className='flex cursor-pointer items-center gap-2'>
                   <input
                     type='checkbox'
                     hidden
@@ -280,7 +280,7 @@ const CheckoutPage = () => {
                     className={`flex h-5 w-5 items-center justify-center rounded-sm border-2 ${selectedCheckbox.includes('개인정보') ? 'bg-black' : 'bg-white'}`}
                   >
                     {selectedCheckbox.includes('개인정보') && (
-                      <svg className='w-5 h-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+                      <svg className='h-5 w-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
                         <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
                       </svg>
                     )}
@@ -291,12 +291,12 @@ const CheckoutPage = () => {
                       e.preventDefault();
                       window.open('https://micgolf.oopy.io/14d83dfe-5356-80fa-b391-d1a121cd1209');
                     }}
-                    className='border-b cursor-pointer border-blue700 text-blue700'
+                    className='cursor-pointer border-b border-blue700 text-blue700'
                   >
                     약관 보기 →
                   </span>
                 </label>
-                <label className='flex items-center gap-2 cursor-pointer'>
+                <label className='flex cursor-pointer items-center gap-2'>
                   <input
                     type='checkbox'
                     hidden
@@ -307,7 +307,7 @@ const CheckoutPage = () => {
                     className={`flex h-5 w-5 items-center justify-center rounded-sm border-2 ${selectedCheckbox.includes('이용약관') ? 'bg-black' : 'bg-white'}`}
                   >
                     {selectedCheckbox.includes('이용약관') && (
-                      <svg className='w-5 h-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+                      <svg className='h-5 w-5 text-white' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
                         <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
                       </svg>
                     )}
@@ -318,7 +318,7 @@ const CheckoutPage = () => {
                       e.preventDefault();
                       window.open('https://micgolf.oopy.io/14d83dfe-5356-805f-9a1c-f2ed84858454');
                     }}
-                    className='border-b cursor-pointer border-blue700 text-blue700'
+                    className='cursor-pointer border-b border-blue700 text-blue700'
                   >
                     약관 보기 →
                   </span>
@@ -329,9 +329,9 @@ const CheckoutPage = () => {
             {/* 웹 뷰 결제 */}
             <div className='hidden lg:block lg:min-w-[500px]'>
               <div className='bg-white lg:sticky xl:top-[260px]'>
-                <div className='flex flex-col gap-2 p-4 border border-gray200'>
-                  <div className='flex flex-col gap-6 p-6 border-b border-gray200'>
-                    <div className='text-2xl text-left'>총 상품 {items.length || 0}개</div>
+                <div className='flex flex-col gap-2 border border-gray200 p-4'>
+                  <div className='flex flex-col gap-6 border-b border-gray200 p-6'>
+                    <div className='text-left text-2xl'>총 상품 {items.length || 0}개</div>
                     {items.map((item) => {
                       const isThumbnailExist = !!item.image;
                       return <PaymentItem key={item.id} data={item} isThumbnailExist={isThumbnailExist} />;
@@ -348,7 +348,7 @@ const CheckoutPage = () => {
                       </div>
                     </div>
                   </div>
-                  <div className='flex flex-col gap-2 p-6 text-xl text-right'>
+                  <div className='flex flex-col gap-2 p-6 text-right text-xl'>
                     <div>결제예상금액</div>
                     <strong>₩{(totalPrice + totalDeliveryFee).toLocaleString()}</strong>
                   </div>
@@ -372,9 +372,9 @@ const CheckoutPage = () => {
                 className='fixed bottom-0 left-0 right-0 z-[100] min-w-[300px] overflow-auto bg-white shadow-top'
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className='flex flex-col h-full gap-2 p-4 overflow-auto border-gray200 lg:border'>
+                <div className='flex h-full flex-col gap-2 overflow-auto border-gray200 p-4 lg:border'>
                   <div className='flex justify-between px-4'>
-                    <div className='text-xl text-left'>총 상품 {items.length || 0}개</div>
+                    <div className='text-left text-xl'>총 상품 {items.length || 0}개</div>
                     <button
                       type='button'
                       onClick={handleTogglePayment}
@@ -391,7 +391,7 @@ const CheckoutPage = () => {
                   <div
                     className={`overflow-auto transition-all duration-300 ${isVisible ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}
                   >
-                    <div className='flex flex-col gap-2 p-4 border-b border-gray200'>
+                    <div className='flex flex-col gap-2 border-b border-gray200 p-4'>
                       {items.map((item) => {
                         const isThumbnailExist = !!item.image;
                         return <PaymentItemMobile key={item.id} data={item} isThumbnailExist={isThumbnailExist} />;
@@ -408,7 +408,7 @@ const CheckoutPage = () => {
                         </div>
                       </div>
                     </div>
-                    <div className='flex flex-col gap-2 p-4 text-xl text-right'>
+                    <div className='flex flex-col gap-2 p-4 text-right text-xl'>
                       <div>결제예상금액</div>
                       <strong>₩{(totalPrice + totalDeliveryFee).toLocaleString()}</strong>
                     </div>
@@ -428,14 +428,14 @@ const CheckoutPage = () => {
         {/* 결제중 loading 모달 */}
         {loadingflag && (
           <div className='fixed inset-0 z-[100] flex items-center justify-center bg-black/50'>
-            <div className='w-full max-w-md p-8 mx-4 bg-white shadow-xl'>
-              <div className='flex items-center justify-center mb-6'>
-                <div className='relative w-16 h-16'>
-                  <div className='absolute inset-0 border-4 border-gray-200 rounded-full'></div>
-                  <div className='absolute inset-0 border-4 rounded-full animate-spin border-primary border-t-transparent'></div>
+            <div className='mx-4 w-full max-w-md bg-white p-8 shadow-xl'>
+              <div className='mb-6 flex items-center justify-center'>
+                <div className='relative h-16 w-16'>
+                  <div className='absolute inset-0 rounded-full border-4 border-gray-200'></div>
+                  <div className='absolute inset-0 animate-spin rounded-full border-4 border-primary border-t-transparent'></div>
                 </div>
               </div>
-              <h2 className='mb-4 text-2xl font-bold text-center text-gray-800'>결제 중입니다</h2>
+              <h2 className='mb-4 text-center text-2xl font-bold text-gray-800'>결제 중입니다</h2>
               <p className='text-center text-gray-600'>
                 결제 처리에는 약간의 시간이 소요될 수 있습니다. <br />
                 잠시만 기다려 주세요.
