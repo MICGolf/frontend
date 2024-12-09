@@ -75,7 +75,7 @@ const ProductList = ({
 
   return (
     <SectionBox
-      title={`상품목록 총(${productListArray && productListArray.total_count}개)`}
+      title={`주문목록 총(${productList?.length}개)`}
       selectOptions={true}
       pageLimit={pageLimit}
       setPageLimit={setPageLimit}
@@ -89,16 +89,16 @@ const ProductList = ({
           listArray={productList}
         />
         <div>
-          {!productList && <div className='mt-5 text-center text-base text-neutral-500'>상품이 없습니다.</div>}
+          {!productList && <div className='mt-5 text-base text-center text-neutral-500'>상품이 없습니다.</div>}
           {isPending && <div>Loading...</div>}
           {error && <div>An error has occurred: {error.message}</div>}
           {productList &&
             productList.map((item, index) => (
               <div
                 key={index}
-                className='flex items-center justify-stretch justify-items-center self-stretch border-b border-neutral-200 py-3 text-center'
+                className='flex items-center self-stretch py-3 text-center border-b justify-stretch justify-items-center border-neutral-200'
               >
-                <div className='flex w-1/12 items-center justify-center'>
+                <div className='flex items-center justify-center w-1/12'>
                   <input
                     type='checkbox'
                     checked={checkedList.some((checkedItem) => checkedItem.product.id === item.product.id)}
@@ -111,20 +111,20 @@ const ProductList = ({
                     }}
                   />
                 </div>
-                <div className='flex w-2/12 items-center justify-center'>
+                <div className='flex items-center justify-center w-2/12'>
                   <button
                     type='button'
                     onClick={() => handleChangeClick(item)}
-                    className='block w-3/4 rounded-md bg-blue-500 px-4 py-2 text-base text-white duration-300 ease-in-out hover:scale-105'
+                    className='block w-3/4 px-4 py-2 text-base text-white duration-300 ease-in-out bg-blue-500 rounded-md hover:scale-105'
                   >
                     수정
                   </button>
                 </div>
-                <div className='flex w-2/12 items-center justify-center'>
+                <div className='flex items-center justify-center w-2/12'>
                   <button
                     type='button'
                     onClick={() => handleDelete(item.product.id)}
-                    className='block w-3/4 rounded-md bg-red-500 px-4 py-2 text-base text-white duration-300 ease-in-out hover:scale-105'
+                    className='block w-3/4 px-4 py-2 text-base text-white duration-300 ease-in-out bg-red-500 rounded-md hover:scale-105'
                   >
                     삭제
                   </button>
@@ -161,7 +161,7 @@ const ProductList = ({
               </div>
             ))}
         </div>
-        <div className='mt-5 flex justify-start gap-2'>
+        <div className='flex justify-start gap-2 mt-5'>
           <button
             type='button'
             onClick={() => {

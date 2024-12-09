@@ -4,8 +4,8 @@ import { OrderingListType } from '../type';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { orderApi } from '@/api';
-import Pagination from '@/pages/admin/components/Pagination';
-import { useSearchParams } from 'react-router-dom';
+// import Pagination from '@/pages/admin/components/Pagination';
+// import { useSearchParams } from 'react-router-dom';
 
 const ListHeaderArray = [
   { className: 'w-1/12', title: '체크박스' },
@@ -24,14 +24,13 @@ const OrderingList = ({
   checkedList: OrderingListType[];
   setCheckedList: React.Dispatch<React.SetStateAction<OrderingListType[]>>;
 }) => {
-  const [page, setPage] = useState(1);
-  const [pageLimit, setPageLimit] = useState<number>(10);
-  const [searchParams] = useSearchParams();
+  // const [page, setPage] = useState(1);
+  const [pageLimit] = useState<number>(10);
 
   const { data: orderSearchData, refetch } = useQuery({
-    queryKey: ['orderSearch', pageLimit, searchParams.toString()],
+    queryKey: ['orderSearch'],
     queryFn: async () => {
-      const response = await orderApi.getOrderSearch(searchParams);
+      const response = await orderApi.getPageType('UNPAID');
       if (!response) return null;
       return response.data;
     },
@@ -50,34 +49,36 @@ const OrderingList = ({
 
     return `${year}:${month}:${day} ${hours}:${minutes}:${seconds}`;
   };
-  const orderSearchOrders = orderSearchData?.orders ? orderSearchData?.orders : undefined;
-  useEffect(() => console.log(checkedList));
   return (
     <SectionBox
-      title={`상품목록 총(${orderSearchData?.total}개)`}
-      selectOptions={true}
-      pageLimit={pageLimit}
-      setPageLimit={setPageLimit}
+      title={`주문목록 총(${orderSearchData?.length}개)`}
+      // selectOptions={true}
+      // pageLimit={pageLimit}
+      // setPageLimit={setPageLimit}
     >
       <div className='px-5'>
         <ListHeader
           HeaderListArray={ListHeaderArray}
           checkedList={checkedList}
           setCheckedList={setCheckedList}
-          listArray={orderSearchOrders}
+          listArray={orderSearchData}
         />
+
         <div>
-          {orderSearchOrders &&
-            orderSearchOrders.map((order: any) => {
-              if (orderSearchOrders.length === 0 || orderSearchOrders == undefined) return <p>주문이 없습니다.</p>;
+          {orderSearchData && orderSearchData.length === 0 ? (
+            <p>주문이 없습니다.</p>
+          ) : (
+            orderSearchData &&
+            orderSearchData.map((order: any) => {
+              if (orderSearchData.length === 0) return <p>주문이 없습니다.</p>;
               if (order.products.length === 0) return console.log('주문상태에 상품이 포함되어있지 않음');
               order.products.map((order: any) => {
                 return (
                   <div
                     key={order.id}
-                    className='flex items-center justify-stretch justify-items-center self-stretch border-b border-neutral-200 py-3 text-center'
+                    className='flex items-center self-stretch py-3 text-center border-b justify-stretch justify-items-center border-neutral-200'
                   >
-                    <div className='flex w-1/12 items-center justify-center'>
+                    <div className='flex items-center justify-center w-1/12'>
                       <input
                         type='checkbox'
                         checked={checkedList.some((checkedItem) => checkedItem.id === order.id)}
@@ -100,9 +101,10 @@ const OrderingList = ({
                   </div>
                 );
               });
-            })}
+            })
+          )}
         </div>
-        <div className='mt-5 flex justify-center gap-5'>
+        <div className='flex justify-center gap-5 mt-5'>
           <button
             type='button'
             onClick={() => {}}
@@ -151,7 +153,7 @@ const OrderingList = ({
             송장수정
           </button>
         </div>
-        <Pagination total={orderSearchData && orderSearchData.total} page={page} setPage={setPage} />
+        {/* <Pagination total={orderSearchData && orderSearchData.total} page={page} setPage={setPage} /> */}
       </div>
     </SectionBox>
   );

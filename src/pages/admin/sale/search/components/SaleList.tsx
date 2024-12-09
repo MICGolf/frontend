@@ -47,7 +47,7 @@ const SaleList = ({ orderSearchData, page, setPage, pageLimit, setPageLimit, set
                 return (
                   <div
                     key={order.id}
-                    className='flex items-center justify-stretch justify-items-center self-stretch border-b border-neutral-200 py-3 text-center'
+                    className='flex items-center self-stretch py-3 text-center border-b justify-stretch justify-items-center border-neutral-200'
                   >
                     <div className='basis-full'>{order.order_number}</div>
                     <div className='basis-full'>{item.id}</div>

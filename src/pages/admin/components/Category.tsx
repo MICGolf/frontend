@@ -109,6 +109,7 @@ export const Category = ({ onClose }: { onClose: () => void }) => {
     },
     enabled: !!mainCategoryId,
   });
+
   const { data: productSubSubCategoryData, refetch: productSubSubCategoryrefetch } = useQuery({
     queryKey: ['productSubSubCategory', subCategoryId],
     queryFn: async () => {
