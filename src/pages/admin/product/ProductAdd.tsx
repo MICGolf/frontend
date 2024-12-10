@@ -9,7 +9,7 @@ import { categoryApi, productsApi } from '@/api';
 import { CategoryData } from '../components/type';
 import { ColorOption } from './components/ColorOption';
 import SizeArray from './components/SizeArray';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface Size {
   sizeName: string;
@@ -50,6 +50,7 @@ const ProductAdd = () => {
     },
   });
   const location = useLocation();
+  const navigate = useNavigate();
   const editingData = location.state?.editingData;
 
   const {
@@ -206,8 +207,6 @@ const ProductAdd = () => {
     }
   }, [editingData, setValue]);
 
-  console.log(Object.entries(editingData));
-
   const handlePostProducts = async (data: ProductFormData) => {
     // 가장 하위 카테고리 ID를 추출
     const selectedCategoryId = data.subSubCategory // 소분류 ID가 존재하면 사용
@@ -272,6 +271,11 @@ const ProductAdd = () => {
     try {
       const response = await productsApi.createProduct(formData);
       console.log('등록 성공:', response.data);
+
+      if (response.status === 201) {
+        alert('상품이 등록되었습니다.');
+        navigate('/admin/product/search?page=1');
+      }
     } catch (error) {
       console.error('등록 실패:', error);
     }

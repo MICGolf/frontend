@@ -8,8 +8,8 @@ import { Banner } from '../type';
 
 type BannerFormData = {
   title: string;
-  sub_title: string;
-  event_url: string;
+  eventUrl: string;
+  subTitle: string;
   image: File[];
 };
 
@@ -35,6 +35,8 @@ const AddBannerOrPromotion = ({ location, isEditing, editingData, onEditSubmit }
 
   const mutation = useMutation<FormData, unknown, FormData>({
     mutationFn: async (formData) => {
+      console.log(formData);
+
       const url = isEditing ? `banners/${editingData?.id}` : 'banners';
       const method = isEditing ? 'patch' : 'post';
       const { data } = await client({
@@ -59,10 +61,11 @@ const AddBannerOrPromotion = ({ location, isEditing, editingData, onEditSubmit }
   });
 
   const handlerSubmit = (data: BannerFormData) => {
+    console.log('data', data);
     const formData = new FormData();
     formData.append('title', data.title);
-    formData.append('sub_title', data.sub_title);
-    formData.append('event_url', data.event_url);
+    formData.append('sub_title', data.subTitle);
+    formData.append('event_url', data.eventUrl);
     formData.append('category_type', location);
 
     if (data.image && data.image.length > 0) {
@@ -81,8 +84,8 @@ const AddBannerOrPromotion = ({ location, isEditing, editingData, onEditSubmit }
     if (isEditing && editingData) {
       const { title, sub_title, event_url, image_url } = editingData;
       setValue('title', title);
-      setValue('sub_title', sub_title);
-      setValue('event_url', event_url);
+      setValue('subTitle', sub_title);
+      setValue('eventUrl', event_url);
       setImagePreview(image_url);
     }
   }, [isEditing, editingData, setValue]);
@@ -137,7 +140,7 @@ const AddBannerOrPromotion = ({ location, isEditing, editingData, onEditSubmit }
               name='subTitle'
               register={register}
               registerOptions={{ required: '최대 20자, 메인 노출 텍스트를 작성하세요', maxLength: 20 }}
-              error={errors.sub_title?.message}
+              error={errors.subTitle?.message}
             />
             <Input
               type='text'
@@ -145,7 +148,7 @@ const AddBannerOrPromotion = ({ location, isEditing, editingData, onEditSubmit }
               name='eventUrl'
               register={register}
               registerOptions={{ required: '이벤트 프로모션 게시글이 작성된 URL을 작성하세요' }}
-              error={errors.event_url?.message}
+              error={errors.eventUrl?.message}
             />
             <p className='text-right text-sm text-neutral-500'>권장 해상도 : 1920 x 1080px / JPG 권장</p>
 

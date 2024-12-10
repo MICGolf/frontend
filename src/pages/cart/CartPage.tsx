@@ -40,8 +40,9 @@ const CartPage = () => {
   const { handleModalOpen, renderModalContent } = useModalState({ paymentData });
   const [globalSelectCount, setGlobalSelectCount] = useState(0);
   const shouldResponsive = useMediaQuery({ maxWidth: '1280px' });
+  console.log(selectedProducts);
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
     if (user) {
       navigate('/checkout', {
         state: paymentData,
@@ -69,15 +70,15 @@ const CartPage = () => {
     <article className='mx-auto w-full max-w-[1660px] px-[24px] py-[160px] transition-all duration-300 ease-in-out xl:px-[130px]'>
       {/* 타이틀 */}
       <h2 className='mb-[24px] w-full text-3xl font-semibold'>장바구니</h2>
-      <section className='flex w-full h-full gap-12 flex-2'>
-        <div className='flex flex-col w-full'>
+      <section className='flex-2 flex h-full w-full gap-12'>
+        <div className='flex w-full flex-col'>
           {/* 장바구니 헤더 영역 */}
-          <div className='flex justify-between w-full py-4 text-sm border-y border-gray300'>
-            <div className='flex items-center w-full gap-3'>
+          <div className='flex w-full justify-between border-y border-gray300 py-4 text-sm'>
+            <div className='flex w-full items-center gap-3'>
               <SelectAllCheckBox isChecked={selectAll} cartItemArr={cartItemArr} handleSelectAll={handleSelectAll} />
               <span>전체선택 ({globalSelectCount})</span>
             </div>
-            <div className='flex justify-end w-full'>
+            <div className='flex w-full justify-end'>
               <button
                 onClick={
                   user
@@ -93,7 +94,7 @@ const CartPage = () => {
             </div>
           </div>
           {/* 장바구니 리스트 영역 */}
-          <ul className='flex flex-col w-full gap-8 my-6'>
+          <ul className='my-6 flex w-full flex-col gap-8'>
             {isError && (
               <div className='flex justify-center'>
                 <span>{error?.message}</span>

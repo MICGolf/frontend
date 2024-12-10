@@ -88,12 +88,6 @@ const Footer = () => {
                   </p>
                 </div>
                 <div className='flex flex-col gap-[6px]'>
-                  <h3 className='text-base text-secondary'>Customer Service</h3>
-                  <p className='cursor-pointer'>문의하기</p>
-                  <p className='cursor-pointer'>자주 물어보는 질문</p>
-                  <p className='cursor-pointer'>FAQ</p>
-                </div>
-                <div className='flex flex-col gap-[6px]'>
                   <h3 className='text-base text-secondary'>회사</h3>
                   <p onClick={() => handleFooterLinkClick('papatalabs')} className='cursor-pointer'>
                     PAPATALABS

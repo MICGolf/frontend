@@ -11,7 +11,7 @@ interface PaymentModalProps {
   totalDeliveryFee: number;
   globalSelectCount: number;
   cartItemArr: CartItemData[];
-  handlePayment: () => void | React.ReactNode;
+  handlePayment: () => void;
 }
 
 const PaymentModal = ({
@@ -54,13 +54,13 @@ const PaymentModal = ({
           className='fixed bottom-0 left-0 z-50 w-full'
         >
           <PaymentModalToggler isOpen={isOpen} setIsOpen={setIsOpen} />
-          <div className='w-full h-full px-4 py-10 bg-white border border-gray300'>
+          <div className='h-full w-full border border-gray300 bg-white px-4 py-10'>
             {isLoading ? (
               <LoadingSpinner size='s' />
             ) : (
               <>
                 <h3 className='mb-4 text-lg font-semibold'>총 상품 {globalSelectCount}개</h3>
-                <div className='flex flex-col gap-2 mb-4'>
+                <div className='mb-4 flex flex-col gap-2'>
                   <div className='flex justify-between text-sm'>
                     <span>상품금액</span>
                     <span>₩{totalPrice.toLocaleString()}</span>
@@ -71,7 +71,7 @@ const PaymentModal = ({
                   </div>
                 </div>
 
-                <div className='flex flex-col items-end py-4 text-xl font-semibold border-y border-gray300'>
+                <div className='flex flex-col items-end border-y border-gray300 py-4 text-xl font-semibold'>
                   <span>결제 예상 금액</span>
                   <span>₩{calculateTotal().toLocaleString()}</span>
                 </div>
@@ -97,7 +97,7 @@ const PaymentModal = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className='fixed inset-0 z-0 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm'
+            className='fixed inset-0 z-0 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm'
             onClick={() => setIsOpen(false)}
           />
         )}

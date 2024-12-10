@@ -22,7 +22,7 @@ const MyPage = () => {
           </div>
           <p className='mb-4 text-gray-600'>
             추후 업데이트를 통해 마이페이지를 추가 할 예정이니, <br />
-            기대해 주세요.
+            많은 관심 부탁드립니다.
           </p>
           <div className='flex items-center space-x-2 text-sm text-blue-500'>
             <span>곧 더 많은 기능이 추가될 예정입니다</span>
