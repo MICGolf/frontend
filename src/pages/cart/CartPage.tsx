@@ -44,32 +44,12 @@ const CartPage = () => {
   console.log(selectedProducts);
 
   const handlePayment = async () => {
-    try {
-      const { data } = await client.post('/order', {
-        name: '0',
-        phone: '01000000000',
-        shipping_address: '0',
-        detail_address: '0',
-        request: '0',
-        products: selectedProducts.map((item) => ({
-          product_id: item.productId,
-          option_id: item.optionId,
-          quantity: item.amount,
-          price: item.price,
-        })),
+    if (user) {
+      navigate('/checkout', {
+        state: paymentData,
       });
-
-      console.log(data);
-
-      if (user) {
-        navigate('/checkout', {
-          state: paymentData,
-        });
-      } else {
-        handleModalOpen('결제모달');
-      }
-    } catch (err) {
-      console.error(err);
+    } else {
+      handleModalOpen('결제모달');
     }
   };
 

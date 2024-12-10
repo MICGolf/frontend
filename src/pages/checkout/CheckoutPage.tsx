@@ -103,13 +103,8 @@ const CheckoutPage = () => {
     totalPrice: number;
   };
 
-  const 서버결제요청 = async () => {};
-  const 결제영수처리 = async () => {};
-
   // INFO: PortOne 결제 로직
   const handlePaymentClick = async (data: CheckoutFormData) => {
-    const response = await 서버결제요청();
-
     const paymentId = `payment-${nanoid()}`; // DB쪽에서 사용하는 결제id 양식이 있는지 확인해야함.
     const paymentData: PortOne.PaymentRequest = {
       storeId,
@@ -146,8 +141,6 @@ const CheckoutPage = () => {
         setLoadingFlag(false);
       }
     }
-
-    const responseData = await 결제영수처리();
   };
 
   return (
