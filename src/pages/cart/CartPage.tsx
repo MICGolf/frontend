@@ -13,7 +13,6 @@ import { useAuthStore } from '@/config/store';
 import useGetCartItem from '@/hooks/useGetCartItem';
 import { deleteCartItem } from '@/hooks/useDeleteCartItem';
 import { useQueryClient } from '@tanstack/react-query';
-import { client } from '@/api/client';
 const CartPage = () => {
   const { user } = useAuthStore();
   const accessToken = localStorage.getItem('accessToken') || '';
