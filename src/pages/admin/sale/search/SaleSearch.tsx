@@ -22,7 +22,6 @@ export const SaleSearch = () => {
       return response.data;
     },
   });
-  console.log('orderSearchData', orderSearchData);
 
   useEffect(() => {
     refetch();
