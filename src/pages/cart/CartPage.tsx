@@ -40,7 +40,6 @@ const CartPage = () => {
   const { handleModalOpen, renderModalContent } = useModalState({ paymentData });
   const [globalSelectCount, setGlobalSelectCount] = useState(0);
   const shouldResponsive = useMediaQuery({ maxWidth: '1280px' });
-  console.log(selectedProducts);
 
   const handlePayment = async () => {
     if (user) {

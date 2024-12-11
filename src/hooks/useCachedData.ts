@@ -17,8 +17,6 @@ export const useCachedData = (): UseCachedDataResult => {
   const location = useLocation();
   const queryClient = useQueryClient();
 
-  console.log(location.state);
-
   const getQueryData = () => {
     const state = location.state as LocationState;
 
@@ -28,12 +26,10 @@ export const useCachedData = (): UseCachedDataResult => {
     }
 
     const queryKey = state.queryKey;
-    console.log('쿼리키: ', queryKey);
     const cachedProducts = queryClient.getQueryData<ProductDatas>(queryKey)?.products;
-    console.log('캐싱된 데이터: ', cachedProducts);
 
     if (!Array.isArray(cachedProducts)) {
-      // console.log('캐싱된 데이터가 Array가 아니므로 find 메서드가 작동하지 않습니다.');
+      console.log('캐싱된 데이터가 Array가 아니므로 find 메서드가 작동하지 않습니다.');
       return null;
     }
 

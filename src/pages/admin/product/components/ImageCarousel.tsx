@@ -24,7 +24,6 @@ export const ImageCarousel = ({ images = [], onAddImage, onRemoveImage, maxImage
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    console.log('event.target.files', event.target.files);
     if (file) {
       onAddImage(file);
     }

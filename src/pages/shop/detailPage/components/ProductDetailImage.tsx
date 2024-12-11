@@ -16,8 +16,6 @@ const ProductDetailImage = ({ data, selectedOption, detailImage, setDetailImage 
   const isDetailImagesExist = detailImage.length > 0 && detailImage[1] !== undefined;
   const { isImageError, handleOnError, isImageLoading, handleOnLoad } = useDefaultImage(isDetailImagesExist);
 
-  console.log(data);
-
   // 컬러 옵션이 바뀔때마다 이미지 배열을 동적으로 안전하게 셋팅
   useEffect(() => {
     if (selectedOption.optionData) {

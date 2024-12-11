@@ -63,8 +63,6 @@ const PromotionDataList = ({ onEdit }: Props) => {
   if (isLoading) return null;
   if (isError) return null;
 
-  console.log(promotionList.items);
-
   return (
     <div className='rounded-lg bg-secondary px-5 py-6 text-base'>
       <p className='mb-4 border-black text-xl font-bold'>프로모션 목록 총({promotionList.items.length}개)</p>

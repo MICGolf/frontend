@@ -167,8 +167,6 @@ const ProductAdd = () => {
     fetchCategories();
   }, []);
 
-  console.log();
-
   useEffect(() => {
     if (editingData) {
       setValue('productName', editingData.product.name);
@@ -249,8 +247,6 @@ const ProductAdd = () => {
       image_mapping,
     };
 
-    console.log('request', requestPayload);
-
     // `files`만 담을 FormData 생성
     const formData = new FormData();
 
@@ -270,7 +266,6 @@ const ProductAdd = () => {
     // 서버에 POST 요청
     try {
       const response = await productsApi.createProduct(formData);
-      console.log('등록 성공:', response.data);
 
       if (response.status === 201) {
         alert('상품이 등록되었습니다.');

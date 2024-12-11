@@ -63,8 +63,6 @@ const AddCartBtn = ({ productData, selectedOption, detailImage, mutation, handle
       amount: selectedOption.amount,
     };
 
-    console.log('옵션아이디: ', selectedOption.optionData?.id, selectedOption.optionData);
-
     if (existingCartItemIndex > -1) {
       updatedCartItems = cartItems.map((item: CartItemData, index: number) =>
         index === existingCartItemIndex ? { ...item, amount: item.amount + selectedOption.amount } : item
@@ -83,7 +81,6 @@ const AddCartBtn = ({ productData, selectedOption, detailImage, mutation, handle
     }
 
     // 회원일 경우 회원 장바구니로 추가
-    console.log('회원 장바구니 항목:', newUserCartItem);
     mutation.mutate(newUserCartItem, {
       onSuccess: () => {
         localStorage.removeItem('cartItems');

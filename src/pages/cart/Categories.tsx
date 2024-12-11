@@ -16,7 +16,6 @@ const Categories = ({ activeNav, categoryData }: CategoriesProps) => {
     // 대분류 가져오기
     const mainResponse = await categoryApi.getCategory();
     const mainCategories: CategoryData[] = mainResponse.data;
-    console.log('mainCategories', mainCategories);
 
     // 각 대분류에 해당하는 중분류 가져오기
     const categoriesWithSubcategories = await Promise.all(
@@ -28,7 +27,6 @@ const Categories = ({ activeNav, categoryData }: CategoriesProps) => {
       })
     );
 
-    console.log('categoriesWithSubcategories', categoriesWithSubcategories);
     return categoriesWithSubcategories;
   };
 

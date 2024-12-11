@@ -9,7 +9,6 @@ type FindIdData = {
 const FindIdCompletePage = () => {
   const location = useLocation();
   const { data }: { data: FindIdData } = location.state;
-  console.log(location);
 
   return (
     <div className='mx-auto mt-[100px] flex max-w-[700px] flex-col items-center gap-[64px] py-[88px]'>

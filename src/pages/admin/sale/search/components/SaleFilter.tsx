@@ -10,7 +10,6 @@ const SaleFilter = ({ setSearchParams, onSubmit, pageLimit }: ProductFilterProps
   const methods = useForm();
   const { handleSubmit, register, reset } = methods;
   const handlerSubmit = (data: any) => {
-    console.log(searchParamsData);
     switch (data.searchType) {
       case 'orderNumber':
         searchParamsData.append('order_number', data.searchKeyword);
@@ -24,7 +23,6 @@ const SaleFilter = ({ setSearchParams, onSubmit, pageLimit }: ProductFilterProps
     searchParamsData.append('sort', 'created_at');
     setSearchParams(searchParamsData);
     onSubmit();
-    console.log(data);
   };
   const [isOpen, setIsOpen] = useState(false);
 

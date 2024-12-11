@@ -53,7 +53,7 @@ const ShopPage = () => {
 
   if (isError) {
     return (
-      <div className='flex items-center justify-center w-full h-screen text-2xl text-primary'>
+      <div className='flex h-screen w-full items-center justify-center text-2xl text-primary'>
         <p>{(error as Error).message}</p>
       </div>
     );
@@ -61,7 +61,7 @@ const ShopPage = () => {
 
   if (shopProductData?.length === 0) {
     return (
-      <div className='flex items-center justify-center w-full h-screen'>
+      <div className='flex h-screen w-full items-center justify-center'>
         <span className='text-lg'>상품이 없어요.</span>
       </div>
     );
@@ -75,7 +75,6 @@ const ShopPage = () => {
           {isPending && <ProductCardSkeleton />}
           {shopProductData &&
             shopProductData?.map((item, idx) => {
-              console.log(item);
               return (
                 <li key={idx}>
                   <ProductCard
@@ -88,7 +87,7 @@ const ShopPage = () => {
             })}
         </ul>
         {isFetchingNextPage && (
-          <div className='grid w-full h-full grid-cols-1 gap-6 transition-all duration-300 ease-in-out sm:grid-cols-2 lg:grid-cols-4'>
+          <div className='grid h-full w-full grid-cols-1 gap-6 transition-all duration-300 ease-in-out sm:grid-cols-2 lg:grid-cols-4'>
             <ProductCardSkeleton />
           </div>
         )}
