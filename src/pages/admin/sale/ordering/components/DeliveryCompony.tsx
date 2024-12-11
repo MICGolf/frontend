@@ -28,9 +28,7 @@ const DeliveryCompony = () => {
       .then((data) => {
         setDeliveryCompanyList(data.data.Company);
       })
-      .catch(() => {
-        console.log('실패함');
-      });
+      .catch(() => {});
   }, []);
   const filteredDeliveryCompanyList = deliveryCompanyList.filter((company) => company.Name.includes(deliveryCompany));
   return (

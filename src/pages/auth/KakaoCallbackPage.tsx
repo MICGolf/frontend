@@ -23,7 +23,6 @@ const KakaoCallbackPage = () => {
             },
           }
         );
-        console.log('인가코드 전송성공: ', response.data);
         localStorage.setItem('accessToken', response.data.access_token);
 
         navigate('/');

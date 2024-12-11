@@ -36,15 +36,12 @@ export const Category = ({ onClose }: { onClose: () => void }) => {
     mutationFn: ({ id }: { id: number }) => categoryApi.deleteCategory(id),
     onSuccess: (_, variables) => {
       if (variables.id && variables.id === mainCategoryId) {
-        console.log('1');
         queryClient.invalidateQueries({ queryKey: ['productSubCategory'] });
       }
       if (variables.id && variables.id === subCategoryId) {
-        console.log('2');
         queryClient.invalidateQueries({ queryKey: ['productSubSubCategory', mainCategoryId] });
       }
       if (variables.id && variables.id === subSubCategoryId) {
-        console.log('3');
         queryClient.invalidateQueries({ queryKey: ['productSubSubCategory', subCategoryId] });
       }
       alert('카테고리가 삭제되었습니다.');

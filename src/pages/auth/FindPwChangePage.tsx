@@ -12,7 +12,6 @@ type Pw = {
 const FindPwChangePage = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  console.log(searchParams.get('token'));
 
   useEffect(() => {
     if (searchParams.get('token') === null) {

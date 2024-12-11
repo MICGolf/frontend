@@ -35,8 +35,6 @@ const AddBannerOrPromotion = ({ location, isEditing, editingData, onEditSubmit }
 
   const mutation = useMutation<FormData, unknown, FormData>({
     mutationFn: async (formData) => {
-      console.log(formData);
-
       const url = isEditing ? `banners/${editingData?.id}` : 'banners';
       const method = isEditing ? 'patch' : 'post';
       const { data } = await client({
@@ -61,7 +59,6 @@ const AddBannerOrPromotion = ({ location, isEditing, editingData, onEditSubmit }
   });
 
   const handlerSubmit = (data: BannerFormData) => {
-    console.log('data', data);
     const formData = new FormData();
     formData.append('title', data.title);
     formData.append('sub_title', data.subTitle);
@@ -73,9 +70,6 @@ const AddBannerOrPromotion = ({ location, isEditing, editingData, onEditSubmit }
         formData.append('image', file);
       });
     }
-
-    console.log(formData instanceof FormData); // true여야 정상
-    console.log(formData.get('image')); // 이미지 데이터가 제대로 추가되었는지 확인
 
     mutation.mutate(formData);
   };

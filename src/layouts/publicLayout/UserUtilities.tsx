@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 const UserUtilities = () => {
   const { user, clearUser } = useAuthStore();
+  const accessToken = localStorage.getItem('accessToken');
 
   const handleLogoutClick = () => {
     localStorage.removeItem('accessToken');
@@ -23,7 +24,7 @@ const UserUtilities = () => {
           <UserIco />
         </Link>
       </li>
-      {user && (
+      {(user || accessToken) && (
         <li>
           <div className='h-[25px]'>
             <p onClick={handleLogoutClick} className='cursor-pointer whitespace-nowrap'>

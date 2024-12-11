@@ -4,18 +4,17 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 
 import { bannerImage } from '@/assets/dummys/productListDatas';
-import { useQuery } from '@tanstack/react-query';
-import { homeApi } from '@/api';
+// import { useQuery } from '@tanstack/react-query';
+// import { homeApi } from '@/api';
 
 const BannerSection = () => {
-  const { data: bannerData } = useQuery({
-    queryKey: ['banner'],
-    queryFn: async () => {
-      const response = await homeApi.getBannersOrPromotions({ type: 'banner' });
-      return response.data;
-    },
-  });
-  console.log('bannerData', bannerData);
+  // const { data: bannerData } = useQuery({
+  //   queryKey: ['banner'],
+  //   queryFn: async () => {
+  //     const response = await homeApi.getBannersOrPromotions({ type: 'banner' });
+  //     return response.data;
+  //   },
+  // });
 
   return (
     <div className='fixed top-0 z-[-1] h-[100vh] w-full'>

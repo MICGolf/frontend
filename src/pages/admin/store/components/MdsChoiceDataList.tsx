@@ -61,8 +61,6 @@ const MdsChoiceDataList = () => {
 
   if (isLoading || isError) return null;
 
-  console.log(mdsChoiceList);
-
   return (
     <div className='rounded-lg bg-secondary px-5 py-6 text-base'>
       <p className='mb-4 border-black text-xl font-bold'>Md's choice 목록 총({mdsChoiceList.items.length}개)</p>

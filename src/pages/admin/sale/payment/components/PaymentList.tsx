@@ -53,9 +53,7 @@ const ProductList = () => {
   useEffect(() => {
     refetch();
   }, [refetch]);
-  useEffect(() => {
-    console.log(checkedList);
-  }, [checkedList]);
+  useEffect(() => {}, [checkedList]);
   return (
     <SectionBox title={`주문목록 총(${orderSearchData?.length}개)`}>
       <div className='px-5'>
@@ -77,9 +75,9 @@ const ProductList = () => {
                 return (
                   <div
                     key={products.id}
-                    className='flex items-center self-stretch py-3 text-center border-b justify-stretch justify-items-center border-neutral-200'
+                    className='flex items-center justify-stretch justify-items-center self-stretch border-b border-neutral-200 py-3 text-center'
                   >
-                    <div className='flex items-center justify-center w-1/12'>
+                    <div className='flex w-1/12 items-center justify-center'>
                       <input
                         type='checkbox'
                         checked={checkedList.some((checkedItem) => checkedItem.id === products.id)}
@@ -108,7 +106,7 @@ const ProductList = () => {
             })
           )}
         </div>
-        <div className='flex justify-center gap-5 mt-5'>
+        <div className='mt-5 flex justify-center gap-5'>
           <button
             type='button'
             onClick={() => {}}
