@@ -22,6 +22,7 @@ const HomePage = () => {
   //     return response.data;
   //   },
   // });
+  console.log('메인 페이지 입장');
 
   return (
     <div className='relative'>

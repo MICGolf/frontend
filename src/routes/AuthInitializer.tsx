@@ -1,12 +1,13 @@
 import { client } from '@/api/client';
 import { useAuthStore } from '@/config/store';
 import { useEffect, useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 const AuthInitializer = () => {
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
   const { setUser, clearUser } = useAuthStore();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const initializeAuth = async () => {
@@ -31,12 +32,17 @@ const AuthInitializer = () => {
           setUser(response.data);
         } else {
           clearUser();
-          navigate('/auth/signin', { replace: true });
+
+          if (location.state === '/mypage') {
+            navigate('/auth/signin', { replace: true });
+          }
         }
       } catch (error) {
         console.error(error);
         clearUser();
-        navigate('/auth/signin', { replace: true });
+        if (location.state === '/mypage') {
+          navigate('/auth/signin', { replace: true });
+        }
       } finally {
         setIsInitialized(true);
       }
