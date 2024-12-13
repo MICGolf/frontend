@@ -24,55 +24,20 @@ const sideBarMenu = [
       { title: '교환관리', link: '/admin/sale/exchange' },
     ],
   },
-  // {
-  //   title: '문의리뷰관리',
-  //   sibTitle: [
-  //     { title: '문의관리', link: '/admin/inquiry' },
-  //     { title: '리뷰관리', link: '/admin/review' },
-  //   ],
-  // },
+
   {
     title: '스토어관리',
     sibTitle: [
-      // { title: '로고관리', link: '/admin/store/logo' },
       { title: '배너관리', link: '/admin/store/banner' },
       { title: 'Best Item', link: '/admin/store/bestitem' },
       { title: 'Promotion', link: '/admin/store/promotion' },
       { title: 'MD’s Choice', link: '/admin/store/mdschoice' },
     ],
   },
-  // {
-  //   title: '이벤트관리',
-  //   sibTitle: [
-  //     { title: '이벤트 조회/수정', link: '/admin/event/edit' },
-  //     { title: '이벤트 등록', link: '/admin/event/add' },
-  //   ],
-  // },
-  // {
-  //   title: '회원관리',
-  //   link: '/admin/user',
-  // },
-  // {
-  //   title: '통계',
-  //   link: '/admin/statistics',
-  // },
-  // {
-  //   title: '공지사항',
-  //   link: '/admin/notification',
-  // },
 ];
 export const SideBar = () => {
-  // const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  // const {
-  //   handleSubmit,
-  //   register,
-  //   formState: { errors },
-  // } = useForm();
-  // const handlerSubmit = (data: any) => {
-  //   console.log(data);
-  //   navigate('/admin/sale/search');
-  // };
+
   const { selectMenu, toggleMenu } = useSidebarStorage();
   const location = useLocation();
 
@@ -81,37 +46,6 @@ export const SideBar = () => {
       <div className='mb-11 flex content-center justify-center' onClick={() => navigate('/admin')}>
         <img src={logoWhite} alt='믹골프 로고' />
       </div>
-      <div>
-        {/* <p className='text-center'>믹골프</p>
-        <p className='text-center'>계정 : ddd </p> */}
-      </div>
-      {/* FIX
-      <form onSubmit={handleSubmit(handlerSubmit)} className='px-8'>
-        <select
-          {...register('productStatus', { required: '검색옵션을 선택해주세요' })}
-          className={`mt-4 w-full appearance-none rounded-lg border border-neutral-300 bg-[length:36px_36px] bg-[center_right_1rem] bg-no-repeat px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300`}
-          style={{
-            backgroundImage: `url(${isOpen ? arrowDropUp : arrowDropDown})`,
-          }}
-          onClick={(prev) => setIsOpen(!prev)}
-          defaultValue=''
-        >
-          <option value='' disabled>
-            판매정보 검색
-          </option>
-          <option value='recipientName'>수취인명</option>
-          <option value='recipientPhone'>수취인 연락처</option>
-          <option value='trackingNumber'>송장번호</option>
-          <option value='productCode'>상품코드</option>
-        </select>
-        {errors && <p className='ml-1 text-sm text-red-700'>{errors.productStatus?.message as string}</p>}
-        <input
-          type='text'
-          placeholder='입력 후 엔터로 검색'
-          {...register('searchText_input')}
-          className='w-full px-3 py-2 mt-4 rounded-lg text-neutral-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
-        />
-      </form> */}
       <ul className='mt-8 bg-neutral-800 py-3'>
         {sideBarMenu.map((menuItem, index) => {
           const isLastItem = index === sideBarMenu.length - 1;
