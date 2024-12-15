@@ -56,7 +56,7 @@ const EventPopup = ({ images }: EventPopupProps) => {
           slidesPerGroup={1}
           navigation
           autoplay={{
-            delay: 2000, // 3초 간격으로 자동 전환
+            delay: 2000,
           }}
         >
           {images.map((image, index) => (
