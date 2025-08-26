@@ -1,0 +1,86 @@
+import { useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
+import arrowDropDown from '@/assets/icons/arrowDropDown.svg';
+import arrowDropUp from '@/assets/icons/arrowDropUp.svg';
+
+const DatePickInputs = () => {
+  const { watch, setValue, register } = useFormContext();
+  const [isOpen, setIsOpen] = useState(false);
+  const dateWatch = watch('date');
+  const startDateWatch = watch('startDate');
+
+  useEffect(() => {
+    if (dateWatch && startDateWatch) {
+      const startDate = new Date(startDateWatch);
+      switch (dateWatch) {
+        case 'year': {
+          const endDateYear = new Date(startDate.getFullYear() - 1, startDate.getMonth(), startDate.getDate());
+          setValue('endDate', endDateYear.toISOString().split('T')[0]);
+          break;
+        }
+        case 'month': {
+          const endDateMonth = new Date(startDate.getFullYear(), startDate.getMonth() - 1, startDate.getDate());
+          setValue('endDate', endDateMonth.toISOString().split('T')[0]);
+          break;
+        }
+        case 'week': {
+          const endDateWeek = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() - 7);
+          setValue('endDate', endDateWeek.toISOString().split('T')[0]);
+          break;
+        }
+        default:
+          break;
+      }
+    }
+  }, [dateWatch, startDateWatch, setValue]);
+
+  return (
+    <div className='flex w-full items-center gap-4'>
+      <select
+        {...register('date')}
+        className='mt-4 w-full appearance-none rounded-md border border-neutral-300 bg-[length:36px_36px] bg-[center_right_1rem] bg-no-repeat px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
+        style={{
+          backgroundImage: `url(${isOpen ? arrowDropUp : arrowDropDown})`,
+        }}
+        onClick={() => setIsOpen((prev) => !prev)}
+        defaultValue='custom'
+      >
+        <option value='custom'>직접선택</option>
+        <option value='year' disabled={!startDateWatch}>
+          1년
+        </option>
+        <option value='month' disabled={!startDateWatch}>
+          1달
+        </option>
+        <option value='week' disabled={!startDateWatch}>
+          1주
+        </option>
+      </select>
+
+      <input
+        type='date'
+        {...register('startDate', {
+          onChange: (e) => {
+            const newStartDate = new Date(e.target.value);
+            setValue('startDate', newStartDate.toISOString().split('T')[0]);
+          },
+        })}
+        className='mt-4 w-full rounded-md border border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
+      />
+
+      <input
+        type='date'
+        {...register('endDate', {
+          onChange: (e) => {
+            const newEndDate = new Date(e.target.value);
+            setValue('date', 'custom');
+            setValue('endDate', newEndDate.toISOString().split('T')[0]);
+          },
+        })}
+        className='mt-4 w-full rounded-md border border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300'
+      />
+    </div>
+  );
+};
+
+export default DatePickInputs;

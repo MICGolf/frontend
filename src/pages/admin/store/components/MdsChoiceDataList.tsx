@@ -1,0 +1,115 @@
+import { Link } from 'react-router-dom';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { homeApi } from '@/api';
+import { client } from '@/api/client';
+
+const TableHeadArray = [
+  { className: 'w-2/12', title: '이름' },
+  { className: 'w-2/12', title: '가격' },
+  { className: 'w-2/12', title: '링크' },
+  { className: 'w-full', title: '이미지' },
+  { className: 'w-2/12', title: '비노출/노출' },
+  { className: 'w-2/12', title: '삭제/수정' },
+];
+
+export type SectionDataType = {
+  id: number;
+  is_active: boolean;
+  price: number;
+  product_id: number;
+  product_name: string;
+  promotion_type: 'best' | 'md_pick';
+  image_url: string;
+  product_code: string;
+};
+
+const MdsChoiceDataList = () => {
+  const queryClient = useQueryClient();
+
+  const {
+    data: mdsChoiceList,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['mdsChoiceList'],
+    queryFn: async () => {
+      const response = await homeApi.getBestProductOrMdsChoice({ type: 'md_pick' });
+      return response.data;
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async (product_code: string) => {
+      const response = await client.delete(`/promotion-products/delete`, {
+        params: {
+          product_code,
+          promotion_type: 'md_pick',
+        },
+      });
+      return response.data;
+    },
+    onSuccess: (data) => {
+      console.log('data:', data);
+      alert('성공적으로 삭제되었습니다.');
+      queryClient.invalidateQueries({ queryKey: ['mdsChoiceList'] });
+    },
+    onError: (error) => {
+      console.log(error);
+      alert('삭제에 실패했습니다.');
+    },
+  });
+
+  if (isLoading || isError) return null;
+
+  return (
+    <div className='rounded-lg bg-secondary px-5 py-6 text-base'>
+      <p className='mb-4 border-black text-xl font-bold'>Md's choice 목록 총({mdsChoiceList.items.length}개)</p>
+      <div>
+        <table className='w-full table-fixed border border-neutral-200 px-5 text-center'>
+          <thead>
+            <tr className='bg-gray-100 font-bold'>
+              {TableHeadArray.map((th, i) => (
+                <th key={i} className={`${th.className} border border-neutral-200 py-2`}>
+                  {th.title}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {mdsChoiceList.items.map((item: SectionDataType) => (
+              <tr key={item.id}>
+                <td className='w-2/12 border border-neutral-200 py-2'>{item.product_name}</td>
+                <td className='w-2/12 border border-neutral-200 py-2'>{item.price}</td>
+                <td className='w-2/12 border border-neutral-200 py-2'>
+                  <Link to={''} className='break-words border-b border-blue-700 text-blue-700'>
+                    {item.product_id}
+                  </Link>
+                </td>
+                <td className='w-full border border-neutral-200 py-2'>
+                  <img src={item.image_url} alt={String(item.id)} />
+                </td>
+                <td className='w-2/12 border border-neutral-200 py-2'>
+                  <label className='flex justify-center'>
+                    <input className='peer sr-only' value='' type='checkbox' />
+                    <div className="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700"></div>
+                  </label>
+                </td>
+                <td className='w-2/12 border border-neutral-200 py-2'>
+                  <button
+                    type='button'
+                    onClick={() => deleteMutation.mutate(item.product_code)}
+                    className='w-3/4 rounded-md bg-red-500 px-4 py-1 text-white'
+                  >
+                    삭제
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
+export default MdsChoiceDataList;

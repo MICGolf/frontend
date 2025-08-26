@@ -1,0 +1,144 @@
+import facebook from '@/assets/icons/facebook.svg';
+import instagram from '@/assets/icons/instagram.svg';
+import youtube from '@/assets/icons/youTube.svg';
+import logoWhite from '@/assets/imgs/logoWhite.svg';
+import { useMediaQuery } from 'react-responsive';
+import MobileFooter from './MobileFooter';
+
+const Footer = () => {
+  const isMobile = useMediaQuery({ maxWidth: 1280 });
+
+  // INFO: 소셜 미디어 클릭 이벤트 링크 이동 핸들러
+  const handleFooterLinkClick = (link: string) => {
+    switch (link) {
+      case 'facebook':
+        window.open('https://www.facebook.com/', '_blank');
+        break;
+      case 'instagram':
+        window.open('https://www.instagram.com/', '_blank');
+        break;
+      case 'youtube':
+        window.open('https://www.youtube.com/', '_blank');
+        break;
+      case 'naver':
+        window.open('https://www.naver.com/', '_blank');
+        break;
+      case 'papatalabs':
+        window.open('https://papatalabs.com/', '_blank');
+        break;
+      case 'factory':
+        window.open('https://www.papatafactory.com/', '_blank');
+        break;
+      case 'micgolf':
+        window.open('https://www.thecartgolf.com/MICGOLF', '_blank');
+        break;
+      default:
+        break;
+    }
+  };
+
+  return (
+    <>
+      {isMobile ? (
+        <MobileFooter />
+      ) : (
+        <footer className='bg-black'>
+          <div className='mx-auto flex max-w-[1920px] flex-col gap-20 bg-black px-[130px] py-[50px] text-gray700'>
+            <section className='flex justify-between'>
+              <div>
+                <div className='w-[220px] border-b border-white'>
+                  <img className='mb-6' src={logoWhite} alt='믹골프 로고' />
+                </div>
+                <div className='flex'>
+                  <img
+                    className='cursor-pointer'
+                    onClick={() => handleFooterLinkClick('facebook')}
+                    src={facebook}
+                    alt='믹골프 페이스북'
+                  />
+                  <img
+                    className='cursor-pointer'
+                    onClick={() => handleFooterLinkClick('instagram')}
+                    src={instagram}
+                    alt='믹골프 인스타그램'
+                  />
+                  <img
+                    className='cursor-pointer'
+                    onClick={() => handleFooterLinkClick('youtube')}
+                    src={youtube}
+                    alt='믹골프 유튜브'
+                  />
+                </div>
+                <div className='text-xs text-secondary'>www.micgolf.com</div>
+              </div>
+              <div className='flex gap-[60px] text-sm'>
+                <div className='flex flex-col gap-[6px]'>
+                  <h3 className='text-base text-secondary'>Social Media</h3>
+                  <p onClick={() => handleFooterLinkClick('facebook')} className='cursor-pointer'>
+                    Facebook
+                  </p>
+                  <p onClick={() => handleFooterLinkClick('instagram')} className='cursor-pointer'>
+                    Instagram
+                  </p>
+                  <p onClick={() => handleFooterLinkClick('naver')} className='cursor-pointer'>
+                    Naver
+                  </p>
+                  <p onClick={() => handleFooterLinkClick('google')} className='cursor-pointer'>
+                    Google
+                  </p>
+                </div>
+                <div className='flex flex-col gap-[6px]'>
+                  <h3 className='text-base text-secondary'>회사</h3>
+                  <p onClick={() => handleFooterLinkClick('papatalabs')} className='cursor-pointer'>
+                    PAPATALABS
+                  </p>
+                  <p onClick={() => handleFooterLinkClick('factory')} className='cursor-pointer'>
+                    FACTORY
+                  </p>
+                  <p onClick={() => handleFooterLinkClick('micgolf')} className='cursor-pointer'>
+                    MIC GOLF
+                  </p>
+                  <p onClick={() => handleFooterLinkClick('papatalabs')} className='cursor-pointer'>
+                    채용정보
+                  </p>
+                </div>
+                <div className='flex flex-col gap-[6px]'>
+                  <h3 className='text-base text-secondary'>법적 고지 및 이용약관</h3>
+                  <p
+                    onClick={() => window.open('https://micgolf.oopy.io/14d83dfe-5356-805f-9a1c-f2ed84858454')}
+                    className='cursor-pointer'
+                  >
+                    이용 약관
+                  </p>
+                  <p
+                    onClick={() => window.open('https://micgolf.oopy.io/14d83dfe-5356-80fa-b391-d1a121cd1209')}
+                    className='cursor-pointer'
+                  >
+                    개인정보 처리방침
+                  </p>
+                  <p
+                    onClick={() => window.open('https://micgolf.oopy.io/14d83dfe-5356-80b1-869b-ff4d1a638a7b')}
+                    className='cursor-pointer'
+                  >
+                    쿠키 정책
+                  </p>
+                </div>
+              </div>
+            </section>
+            <section className='w-full'>
+              <p className='w-full whitespace-nowrap border-y border-gray300 px-3 py-4 text-center text-sm text-gray700'>
+                &copy;MICGOLF 2024
+              </p>
+              <p className='mt-4 text-center text-[14px]'>
+                상호: 믹골프 MICGOLF | 대표: 신강식 | 주소: 서울시 강서구 양천로30길 67 3층 | 통신판매업신고증:
+                2021-서울강서-4168호 | 사업자등록증: 173-27-01298 | 개인정보책임자: 신강식 | 고객센터: 070-8827-6220
+              </p>
+            </section>
+          </div>
+        </footer>
+      )}
+    </>
+  );
+};
+
+export default Footer;
